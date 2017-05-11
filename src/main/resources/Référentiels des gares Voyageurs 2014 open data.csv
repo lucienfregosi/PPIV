@@ -1,0 +1,3035 @@
+Nom de la gare;UIC;Code postal;Segmentation marketing;Segmentation décret;Agence;Voyageurs 2014
+Colmar;182014;68000;2;a;Est-Européen;3 597 957
+Mulhouse;182063;68053;2;a;Est-Européen;5 068 890
+Strasbourg;212027;67000;1;a;Est-Européen;18 415 416
+Agen;586008;47000;2;a;Sud-Ouest;1 273 393
+Arcachon;582668;33120;3;b;Sud-Ouest;776 930
+Bayonne;673004;64100;2;a;Sud-Ouest;859 476
+Biarritz;673400;64200;2;a;Sud-Ouest;420 332
+Bordeaux Saint-Jean;581009;33800;1;a;Sud-Ouest;12 018 728
+Dax;673202;40100;2;a;Sud-Ouest;888 573
+Biganos-Facture;582478;33380;3;b;Sud-Ouest;785 844
+Hendaye;677005;64700;2;a;Sud-Ouest;366 633
+Langon;582775;33210;4;b;Sud-Ouest;621 598
+Libourne;584052;33500;2;a;Sud-Ouest;1 309 174
+Mont de Marsan;671016;40000;3;b;Sud-Ouest;280 627
+Orthez;672253;64300;3;b;Sud-Ouest;162 643
+Pau;672006;64000;2;a;Sud-Ouest;830 747
+Périgueux ;595009;24000;3;b;Sud-Ouest;933 026
+Saint-Jean de Luz Ciboure;677120;64500;3;b;Sud-Ouest;308 898
+Clermont Ferrand;734004;63000;2;a;Centre Est Rhône Alpes;3 845 745
+Le Puy en Velay;734699;43000;4;b;Centre Est Rhône Alpes;202 442
+Montluçon;641001;3100;3;b;Centre Est Rhône Alpes;382 782
+Moulins sur Allier;696328;3000;3;a;Centre Est Rhône Alpes;732 929
+Vichy;732008;3200;3;a;Centre Est Rhône Alpes;1 246 106
+Caen;444000;14000;2;a;Manche-Nord;3 290 788
+Cherbourg;444877;50100;2;a;Manche-Nord;580 369
+Granville;447680;50400;3;b;Manche-Nord;208 972
+Lisieux;444265;14100;3;a;Manche-Nord;1 078 445
+Trouville-Deauville;444372;14360;3;a;Manche-Nord;726 890
+Chalon sur Saône;725002;71100;2;a;Centre Est Rhône Alpes;1 423 504
+Dijon ;713040;21000;1;a;Centre Est Rhône Alpes;6 227 103
+Laroches Migennes;683268;89400;3;b;Centre Est Rhône Alpes;401 315
+Le Creusot TGV (Monceau Montchanin);694109;71210;2;a;Centre Est Rhône Alpes;712 984
+Mâcon Loché TGV;725705;71000;2;a;Centre Est Rhône Alpes;420 150
+Mâcon;725689;71000;3;b;Centre Est Rhône Alpes;1 225 911
+Nevers;696005;58000;3;a;Centre Est Rhône Alpes;875 104
+Auray;476200;56400;2;a;Centre-Ouest;778 680
+Brest;474007;29200;2;a;Centre-Ouest;1 653 953
+Guingamp;473207;22200;3;a;Centre-Ouest;602 862
+Lorient;476002;56100;2;a;Centre-Ouest;1 221 703
+Morlaix;474338;29600;2;a;Centre-Ouest;531 390
+Quimper;474098;29000;2;a;Centre-Ouest;932 777
+Redon;471300;35600;3;b;Centre-Ouest;853 798
+Rennes;471003;35005;1;a;Centre-Ouest;9 439 120
+Saint-Brieuc;473009;22000;2;a;Centre-Ouest;1 258 829
+Vannes;476606;56000;2;a;Centre-Ouest;1 350 555
+Blois;574004;41000;2;a;Centre-Ouest;1 530 279
+Bourges;576207;18000;2;a;Centre-Ouest;959 613
+Chartres;394007;28000;2;b;Centre-Ouest;2 796 744
+Châteauroux;597005;36000;3;a;Centre-Ouest;784 798
+Dreux;393488;28100;3;b;Centre-Ouest;723 411
+Les Aubrais Orléans;543017;45400;2;a;Centre-Ouest;1 702 713
+Montargis;684001;45200;3;b;Centre-Ouest;641 684
+Orléans;543009;45000;2;a;Centre-Ouest;3 538 009
+Saint-Pierre des Corps;571240;37700;1;a;Centre-Ouest;3 081 685
+Tours;571000;37000;1;a;Centre-Ouest;4 732 298
+Vendôme Villiers sur Loir;571216;41100;3;a;Centre-Ouest;397 363
+Vierzon Ville;576009;18100;3;a;Centre-Ouest;864 558
+Châlons en Champagne;174003;51000;3;b;Est-Européen;838 339
+Champagne Ardenne TGV;171926;51430;3;a;Est-Européen;778 979
+Charlevilles Mézières;172007;8000;3;a;Est-Européen;1 167 308
+Epernay;171553;51200;3;b;Est-Européen;834 284
+Reims;171009;51100;2;a;Est-Européen;3 975 869
+Troyes;118000;10014;2;a;Est-Européen;1 019 834
+Belfort;184002;90000;2;a;Centre Est Rhône Alpes;1 196 867
+Besançon-Viotte;718007;25000;2;a;Centre Est Rhône Alpes;2 108 287
+Dole;713412;39100;3;b;Centre Est Rhône Alpes;785 099
+Lons Le Saunier;718239;39000;3;b;Centre Est Rhône Alpes;343 870
+Vesoul;185009;70000;3;b;Centre Est Rhône Alpes;350 130
+Evreux Normandie;387001;27000;3;a;Manche-Nord;1 143 163
+Le Havre;413013;76600;2;a;Manche-Nord;1 852 113
+Rouen Rive Droite;411017;76000;2;a;Manche-Nord;6 458 577
+Val de Reuil;415877;27100;4;b;Manche-Nord;547 938
+Vernon;415604;27200;3;b;Manche-Nord;1 720 642
+Aéroport Charles de Gaulle 2 TGV;271494;95716;;;Ile-de-France;10 771 660
+Marne la Vallée Chessy;111849;77111;1;a;Ile-de-France;5 110 489
+Massy TGV;393702;91300;2;a;Ile-de-France;1 641 999
+Paris Austerlitz;547026;75013;;;Ile-de-France;23 111 140
+Paris Est;113001;75010;;;Ile-de-France;30 780 850
+Paris Gare de Lyon;686006;75012;;;Ile-de-France;96 829 784
+Paris Montparnasse 1 et 2+Vaugirard;391003;75015;;;Ile-de-France;53 767 484
+Paris Nord;271007;75010;;;Ile-de-France;207 468 294
+Paris St Lazare;384008;75008;;;Ile-de-France;105 487 816
+Versailles Chantiers;393009;78000;;;Ile-de-France;25 193 256
+Béziers;781005;34500;2;a;Méditerranée;2 952 957
+Carcassonne;615286;11000;2;a;Méditerranée;839 733
+Montpellier Saint-Roch;773002;34011;1;a;Méditerranée;8 289 542
+Narbonne;781104;11100;2;a;Méditerranée;1 446 814
+Nîmes;775007;30000;1;a;Méditerranée;3 880 906
+Sète;773200;34200;2;a;Méditerranée;1 001 035
+Brive la Gaillarde;594002;19100;2;a;Sud-Ouest;878 422
+Limoges Bénédictins;592006;87000;2;a;Sud-Ouest;1 717 567
+Bar le Duc;175042;55000;3;b;Est-Européen;422 066
+Epinal;144006;88000;3;b;Est-Européen;1 167 468
+Forbach;193003;57600;3;b;Est-Européen;369 714
+Lorraine TGV;142109;57420;3;a;Est-Européen;580 237
+Metz ;192039;57000;1;a;Est-Européen;7 446 429
+Meuse TGV;147322;55220;4;a;Est-Européen;169 479
+Nancy ;141002;54000;1;a;Est-Européen;8 097 242
+Thionville;191007;57100;2;a;Est-Européen;2 656 201
+Albi;615005;81000;3;b;Sud-Ouest;401 713
+Cahors;613000;46000;3;b;Sud-Ouest;344 663
+Lourdes;671339;65100;2;a;Sud-Ouest;687 291
+Montauban Ville Bourbon;611244;82000;2;a;Sud-Ouest;1 099 786
+Tarbes;671008;65000;2;a;Sud-Ouest;519 647
+Toulouse Matabiau;611004;31500;1;a;Sud-Ouest;10 133 953
+Arras;342014;62000;2;a;Manche-Nord;3 906 176
+Béthune;342006;62400;3;b;Manche-Nord;1 785 380
+Boulogne ;317586;62200;3;b;Manche-Nord;925 017
+Calais-Fréthun;281071;62185;3;a;Manche-Nord;640 999
+Calais ;317263;62100;3;b;Manche-Nord;999 441
+Douai;345009;59500;2;a;Manche-Nord;2 821 051
+Dunkerque;281006;59140;2;a;Manche-Nord;1 616 492
+Lens;345025;62300;3;a;Manche-Nord;1 646 575
+Lille Europe;223263;59777;1;a;Manche-Nord;7 070 203
+Lille Flandres;286005;59000;1;a;Manche-Nord;18 502 164
+Roubaix;286732;59100;4;b;Manche-Nord;92 434
+Tourcoing;286542;59200;4;b;Manche-Nord;119 463
+Valenciennes;343004;59300;2;a;Manche-Nord;3 206 931
+Angers Saint Laud;484006;49100;2;a;Centre-Ouest;5 314 886
+La Baule Escoublac;481754;44500;2;a;Centre-Ouest;407 831
+La Roche sur Yon;486019;85000;3;a;Centre-Ouest;881 229
+Laval;478404;53000;2;a;Centre-Ouest;1 208 661
+Le Mans;396002;72000;2;a;Centre-Ouest;5 040 540
+Nantes;481002;44041;1;a;Centre-Ouest;10 326 626
+Saint-Nazaire;481705;44600;2;a;Centre-Ouest;811 008
+Abbeville;317362;80100;3;b;Manche-Nord;781 919
+Amiens;313874;80017;2;a;Manche-Nord;5 446 868
+Château Thierry;116582;2400;3;b;Manche-Nord;751 890
+Compiègne;276691;60200;2;a;Manche-Nord;2 362 018
+Creil;276006;60100;2;b;Manche-Nord;4 096 854
+Longueau;313049;80330;3;b;Manche-Nord;476 376
+Saint-Quentin;296004;2100;3;b;Manche-Nord;1 182 817
+TGV Haute-Picardie;313882;80200;2;a;Manche-Nord;323 826
+Angoulême;583005;16000;2;a;Sud-Ouest;1 666 725
+Châtellerault;575142;86100;3;a;Sud-Ouest;518 114
+Futuroscope;324095;86360;3;a;Sud-Ouest;105 411
+La Rochelle ;485003;17000;2;a;Sud-Ouest;1 912 395
+NIORT;485300;79000;2;a;Sud-Ouest;1 233 165
+Poitiers;575001;86000;2;a;Sud-Ouest;3 064 120
+Rochefort;485144;17300;3;b;Sud-Ouest;383 433
+Royan;491803;17200;3;b;Sud-Ouest;237 859
+Saintes;491001;17100;3;b;Sud-Ouest;518 540
+Saint-Maixent Deux Sèvres;485490;79400;4;b;Sud-Ouest;195 713
+Surgères;485227;17700;3;b;Sud-Ouest;366 551
+Aix en Provence;751404;13100;3;b;Méditerranée;623 993
+Aix en Provence-TGV;319012;13592;1;a;Méditerranée;3 415 705
+Antibes;757674;6600;2;a;Méditerranée;1 713 093
+Arles;753657;13200;3;b;Méditerranée;565 036
+Avignon Centre;765008;84000;2;b;Méditerranée;1 777 947
+Avignon TGV;318964;84000;1;a;Méditerranée;3 495 516
+Cannes;757625;6400;2;a;Méditerranée;3 351 596
+Les Arcs Draguignan;755447;83460;2;a;Méditerranée;641 991
+Marseille Saint-Charles;751008;13232;1;a;Méditerranée;12 379 110
+Nice;756056;6008;1;a;Méditerranée;7 257 730
+Saint-Raphaël Valescure;757526;83700;2;a;Méditerranée;1 162 145
+Toulon;755009;83000;1;a;Méditerranée;3 471 273
+Aix les Bains le Revard;741132;73100;2;a;Centre Est Rhône Alpes;1 229 940
+Albertville;741645;73200;3;b;Centre Est Rhône Alpes;345 959
+Annecy;746008;74000;2;a;Centre Est Rhône Alpes;2 291 010
+Bellegarde;745000;1200;2;a;Centre Est Rhône Alpes;1 168 295
+Bourg en Bresse;743005;1000;2;a;Centre Est Rhône Alpes;1 765 941
+Bourg Saint Maurice;741793;73700;2;a;Centre Est Rhône Alpes;316 379
+Chambéry Challes les Eaux;741009;73010;2;a;Centre Est Rhône Alpes;3 929 651
+Echirolles;725895;38130;5;b;Centre Est Rhône Alpes;433 587
+Grenoble;747006;38000;1;a;Centre Est Rhône Alpes;7 677 527
+Grenoble Universités Gières;747402;38610;4;b;Centre Est Rhône Alpes;597 495
+Jarrie-Vizille;747535;38560;4;c;Centre Est Rhône Alpes;35 028
+Lancey;417501;38190;5;c;Centre Est Rhône Alpes;114 878
+Lyon Part Dieu;723197;69003;1;a;Centre Est Rhône Alpes;31 683 087
+Lyon Perrache;722025;69286;1;a;Centre Est Rhône Alpes;5 881 998
+Lyon Saint-Exupéry TGV;762906;69125;2;a;Centre Est Rhône Alpes;1 185 738
+Montélimar;764001;26200;2;a;Centre Est Rhône Alpes;928 758
+Moutiers Salins Brides les Bains;741728;73600;2;a;Centre Est Rhône Alpes;373 934
+Pont de Claix;747519;38800;4;c;Centre Est Rhône Alpes;13 156
+Saint-Egrève-Saint-Robert;747352;38120;4;c;Centre Est Rhône Alpes;55 912
+Saint-Étienne Châteaucreux;726000;42000;2;a;Centre Est Rhône Alpes;3 453 197
+Saint-Georges de Commiers;747568;38450;5;c;Centre Est Rhône Alpes;9 758
+Saint-Jean de Maurienne Arvan;742320;73300;3;b;Centre Est Rhône Alpes;314 057
+Valence TGV Rhône-Alpes Sud;763029;26958;2;a;Centre Est Rhône Alpes;2 501 056
+Valence;761007;26000;2;b;Centre Est Rhône Alpes;2 050 368
+Vif;747576;38450;4;c;Centre Est Rhône Alpes;8 408
+Voreppe;747337;38340;4;b;Centre Est Rhône Alpes;313 494
+Aiserey;713636;21110;5;c;Centre Est Rhône Alpes;28 070
+Auxonne;713347;21130;4;b;Centre Est Rhône Alpes;254 629
+Beaune;713545;21200;3;b;Centre Est Rhône Alpes;960 802
+Blaisy-Bas;713073;21540;5;c;Centre Est Rhône Alpes;42 509
+Brazey en Plaine;713644;21470;5;c;Centre Est Rhône Alpes;43 748
+Brétigny-Norges;712265;21490;5;c;Centre Est Rhône Alpes;10 100
+Chaugey;712679;21290;5;c;Centre Est Rhône Alpes;14 832
+Collonges;713321;21110;5;c;Centre Est Rhône Alpes;24 444
+Corgoloin;713537;21700;5;c;Centre Est Rhône Alpes;14 599
+Dijon Porte Neuve;713008;21000;5;b;Centre Est Rhône Alpes;162 781
+Gemeaux;713842;21120;5;c;Centre Est Rhône Alpes;21 408
+Genlis;713313;21110;4;b;Centre Est Rhône Alpes;244 701
+Gevrey Chambertin;713503;21220;5;c;Centre Est Rhône Alpes;93 765
+Is sur Tille;713859;21120;4;b;Centre Est Rhône Alpes;184 099
+La Roche en Brénil;694448;21530;4;c;Centre Est Rhône Alpes;72
+Lantenay;712323;21370;5;c;Centre Est Rhône Alpes;15 667
+Les Laumes Alésia;713115;21150;4;b;Centre Est Rhône Alpes;163 315
+Liernais;694497;24430;5;c;Centre Est Rhône Alpes;730
+Longecourt;712620;21230;5;c;Centre Est Rhône Alpes;8 610
+Malain;713065;21410;5;c;Centre Est Rhône Alpes;38 735
+Meursault;713560;21190;5;c;Centre Est Rhône Alpes;17 019
+Montbard;713131;21500;3;b;Centre Est Rhône Alpes;406 188
+Neuilly lès Dijon;712182;21800;5;c;Centre Est Rhône Alpes;8 753
+Nuits Saint-Georges;713529;21700;4;b;Centre Est Rhône Alpes;250 202
+Ouges;712604;21600;5;c;Centre Est Rhône Alpes;5 462
+Pagny;713669;21250;5;c;Centre Est Rhône Alpes;9 192
+Ruffey;713826;21200;5;c;Centre Est Rhône Alpes;21 984
+Saulieu;694471;21210;4;c;Centre Est Rhône Alpes;463
+Saulon;713628;21910;4;c;Centre Est Rhône Alpes;11 539
+Seurre;713677;21250;4;c;Centre Est Rhône Alpes;64 652
+Sincey-les-Rouvray;694430;21530;5;c;Centre Est Rhône Alpes;0
+Saint-Jean de Losne;713651;21170;4;c;Centre Est Rhône Alpes;44 959
+Saint-Julien Clenay;713834;21490;5;c;Centre Est Rhône Alpes;32 670
+Thenissey;713099;21150;5;c;Centre Est Rhône Alpes;8 595
+Velars;712331;21370;5;c;Centre Est Rhône Alpes;4 751
+Verrey;713081;21540;5;c;Centre Est Rhône Alpes;31 388
+Villers les Pots;713339;21130;5;c;Centre Est Rhône Alpes;6 751
+Vougeot Gilly les Citeaux;713511;21640;5;c;Centre Est Rhône Alpes;35 455
+Béard;696468;58160;5;c;Centre Est Rhône Alpes;2 768
+Cercy la Tour;696492;58340;4;c;Centre Est Rhône Alpes;34 512
+Chantenay Saint-Imbert;696302;58240;5;c;Centre Est Rhône Alpes;7 475
+Clamecy;696807;58500;4;c;Centre Est Rhône Alpes;24 238
+Corbigny;696617;58800;4;c;Centre Est Rhône Alpes;4 297
+Cosne sur Loire;696146;58200;4;b;Centre Est Rhône Alpes;194 792
+Coulanges sur Yonne;696831;89480;5;c;Centre Est Rhône Alpes;2 836
+Decize;696484;58300;4;b;Centre Est Rhône Alpes;104 185
+Flez Cuzy Tannay;696633;58190;5;c;Centre Est Rhône Alpes;682
+Fourchambault;696229;58600;5;c;Centre Est Rhône Alpes;21 298
+Garchizy;691436;58600;5;c;Centre Est Rhône Alpes;0
+Imphy;696450;58160;4;c;Centre Est Rhône Alpes;44 560
+La Charité;696195;58400;4;b;Centre Est Rhône Alpes;161 839
+La Marche;691394;58400;5;c;Centre Est Rhône Alpes;1 452
+Les Perrières;691600;58330;5;c;Centre Est Rhône Alpes;2 388
+Luzy;696534;58170;4;c;Centre Est Rhône Alpes;24 151
+Mesves-Bulcy;696187;58400;5;c;Centre Est Rhône Alpes;6 544
+Nevers Le Banlay;559070;58000;5;c;Centre Est Rhône Alpes;46 541
+Pougues les Eaux;696211;58320;5;c;Centre Est Rhône Alpes;16 028
+Pouilly sur Loire;696179;58150;5;c;Centre Est Rhône Alpes;13 194
+Saincaize;696260;58470;4;c;Centre Est Rhône Alpes;2 924
+Saint-Pierre le Moutier;696294;58240;5;c;Centre Est Rhône Alpes;10 187
+Tracy-Sancerre;696161;58150;5;c;Centre Est Rhône Alpes;11 524
+Tronsanges;696203;58400;5;c;Centre Est Rhône Alpes;5 209
+Vauzelles;691469;58640;5;c;Centre Est Rhône Alpes;3 321
+Autun;694570;71400;4;c;Centre Est Rhône Alpes;72 025
+Blanzy;694612;71450;5;c;Centre Est Rhône Alpes;7 842
+Brion-Laizy;694596;71190;5;c;Centre Est Rhône Alpes;5 241
+Broye;694166;71190;5;c;Centre Est Rhône Alpes;5 693
+Chagny;713578;71150;4;b;Centre Est Rhône Alpes;366 559
+Chauffailles;694778;71170;5;c;Centre Est Rhône Alpes;32 222
+Cheilly les Maranges;694398;71150;5;c;Centre Est Rhône Alpes;5 347
+Ciry le Noble;694646;71420;5;c;Centre Est Rhône Alpes;1 597
+Cordesse Igornay;694547;71540;5;c;Centre Est Rhône Alpes;0
+Crêches sur Saône;725713;71680;5;c;Centre Est Rhône Alpes;17 936
+Digoin;694695;71160;4;c;Centre Est Rhône Alpes;16 966
+Etang;694141;71190;4;c;Centre Est Rhône Alpes;79 666
+Fleurville Pont de Vaux;725663;71260;4;c;Centre Est Rhône Alpes;18 222
+Fontaines Mercurey;713586;71150;5;c;Centre Est Rhône Alpes;33 955
+Galuzot;694638;71307;5;c;Centre Est Rhône Alpes;2 588
+Génelard;694653;71420;4;c;Centre Est Rhône Alpes;5 679
+Gilly sur Loire;694869;71160;4;c;Centre Est Rhône Alpes;4 470
+La Clayette-Baudemont;694737;71800;4;c;Centre Est Rhône Alpes;25 040
+Le Creusot;694000;71200;4;b;Centre Est Rhône Alpes;136 980
+Louhans;713735;71500;4;c;Centre Est Rhône Alpes;26 873
+Marmagne sous Creusot;694182;71710;5;c;Centre Est Rhône Alpes;12 884
+Mervans;713701;71310;5;c;Centre Est Rhône Alpes;7 953
+Mesvres;694158;71190;5;c;Centre Est Rhône Alpes;3 466
+Montceau les Mines;694620;71300;4;c;Centre Est Rhône Alpes;52 096
+Montchanin;694307;71210;4;c;Centre Est Rhône Alpes;80 846
+Paray le Monial;694687;71600;4;b;Centre Est Rhône Alpes;129 419
+Pontanevaux;725721;71570;5;c;Centre Est Rhône Alpes;34 256
+Romanèche Thorins;725739;71570;5;c;Centre Est Rhône Alpes;37 304
+Rully;712026;71150;5;c;Centre Est Rhône Alpes;22 223
+Santenay les Bains;713594;21950;5;c;Centre Est Rhône Alpes;6 755
+Sennecey le Grand;725614;71240;4;c;Centre Est Rhône Alpes;31 260
+Senozan;725671;71260;5;c;Centre Est Rhône Alpes;3 967
+Saint-Agnan;694851;71160;5;c;Centre Est Rhône Alpes;665
+Saint-Léger sur Dheune;694364;71510;5;c;Centre Est Rhône Alpes;6 208
+Saint-Symphorien-de-Marmagne;694174;71710;5;c;Centre Est Rhône Alpes;8 432
+Tournus;725622;71700;4;b;Centre Est Rhône Alpes;280 900
+Accolay;683656;89460;5;c;Centre Est Rhône Alpes;0
+Arcy sur Cure;683680;89270;5;c;Centre Est Rhône Alpes;2 658
+Augy Vaux;683607;89290;5;c;Centre Est Rhône Alpes;1 614
+Auxerre Saint-Gervais;683573;89000;3;b;Centre Est Rhône Alpes;431 218
+Avallon;683789;89200;4;c;Centre Est Rhône Alpes;39 835
+Champigny sur Yonne;683128;89340;5;c;Centre Est Rhône Alpes;67 893
+Champs Saint-Bris;683615;89290;5;c;Centre Est Rhône Alpes;7 593
+Châtel Censoir;696856;89660;4;c;Centre Est Rhône Alpes;3 867
+Chemilly-Appoigny;683532;89250;4;c;Centre Est Rhône Alpes;1 694
+Cravant-Bazarnes;683649;89460;4;c;Centre Est Rhône Alpes;13 575
+Etigny-Véron;683201;89510;5;c;Centre Est Rhône Alpes;7 263
+Joigny;683243;89300;4;b;Centre Est Rhône Alpes;330 365
+Lucy sur Cure Bessy;683672;89270;5;c;Centre Est Rhône Alpes;456
+Mailly la Ville;683847;89270;5;c;Centre Est Rhône Alpes;2 804
+Moneteau-Gurgy;683557;89470;4;c;Centre Est Rhône Alpes;17 533
+Nuits sous Ravières;713156;89390;4;c;Centre Est Rhône Alpes;29 524
+Pont sur Yonne;683136;89140;4;b;Centre Est Rhône Alpes;123 941
+Sens;683003;89100;3;b;Centre Est Rhône Alpes;1 210 743
+Sermizelles-Vézelay;683722;89200;4;c;Centre Est Rhône Alpes;9 502
+Saint-Florentin-Vergigny;683318;89600;4;c;Centre Est Rhône Alpes;63 897
+Saint-Julien du Sault;683227;89330;5;c;Centre Est Rhône Alpes;23 670
+Tonnerre;713198;89700;4;b;Centre Est Rhône Alpes;132 922
+Vermenton;683664;89270;5;c;Centre Est Rhône Alpes;6 416
+Villeneuve la Guyard;683102;89340;4;b;Centre Est Rhône Alpes;161 329
+Villeneuve sur Yonne;683219;89500;4;c;Centre Est Rhône Alpes;55 074
+Vincelles;683631;89290;5;c;Centre Est Rhône Alpes;5 343
+Voutenay;683706;89270;5;c;Centre Est Rhône Alpes;816
+Arc-et-Senans;718841;25610;5;c;Centre Est Rhône Alpes;41 398
+Avoudrey;718551;25690;5;c;Centre Est Rhône Alpes;20 525
+Baume les Dames;718460;25110;4;b;Centre Est Rhône Alpes;178 189
+Besançon Franche-Comté TGV;300863;25870;2;a;Centre Est Rhône Alpes;612 111
+Besançon-Mouillère;718015;25000;4;b;Centre Est Rhône Alpes;104 447
+Byans;718122;25320;5;c;Centre Est Rhône Alpes;12 889
+Clerval;184622;25340;5;c;Centre Est Rhône Alpes;50 601
+Colombier Fontaine;184556;25260;5;c;Centre Est Rhône Alpes;12 691
+Dannemarie-Velesme;718312;25410;5;c;Centre Est Rhône Alpes;23 420
+Deluz;718429;25960;5;c;Centre Est Rhône Alpes;2 327
+Etalans;718536;25580;5;c;Centre Est Rhône Alpes;42 085
+Franois;718304;25770;5;c;Centre Est Rhône Alpes;27 454
+Frasne;715136;25560;4;b;Centre Est Rhône Alpes;152 161
+Gilley;718577;25650;5;c;Centre Est Rhône Alpes;18 846
+La Rivière;715144;25560;5;c;Centre Est Rhône Alpes;16 781
+Laissey;718437;25820;5;c;Centre Est Rhône Alpes;14 848
+Le Valdahon;718544;25800;4;b;Centre Est Rhône Alpes;148 667
+Le Valdahon Camp militaire;718601;25800;5;c;Centre Est Rhône Alpes;2 120
+L'Hôpital du Gros Bois;718528;25620;4;c;Centre Est Rhône Alpes;15 459
+Liesle;718130;25440;5;c;Centre Est Rhône Alpes;9 975
+L'Isle sur le Doubs;184572;25250;5;b;Centre Est Rhône Alpes;98 669
+Mamirolle;718510;25620;5;c;Centre Est Rhône Alpes;17 778
+Montbéliard;184523;25200;3;b;Centre Est Rhône Alpes;552 101
+Montferrand Thoraise;718106;25320;5;c;Centre Est Rhône Alpes;2 651
+Morre;391300;25660;5;c;Centre Est Rhône Alpes;13 167
+Morteau;718619;25500;4;b;Centre Est Rhône Alpes;159 624
+Novillars;718411;25220;5;c;Centre Est Rhône Alpes;6 777
+Pontarlier;715003;25300;4;b;Centre Est Rhône Alpes;177 470
+Roche lez Beaupré;718403;25220;5;c;Centre Est Rhône Alpes;8 455
+Saône;718502;25660;4;c;Centre Est Rhône Alpes;34 845
+Sainte-Colombe;715151;25300;5;c;Centre Est Rhône Alpes;14 577
+Saint-Vit;718320;25410;4;b;Centre Est Rhône Alpes;198 240
+Torpes Boussières;718114;25320;5;c;Centre Est Rhône Alpes;2 619
+Voujeaucourt;184531;25420;5;c;Centre Est Rhône Alpes;10 275
+Aillevillers;185629;70320;4;c;Centre Est Rhône Alpes;6 280
+Champagney;185348;70290;5;c;Centre Est Rhône Alpes;42 566
+Héricourt;184507;70400;5;b;Centre Est Rhône Alpes;159 419
+Lure;185249;70200;4;b;Centre Est Rhône Alpes;211 471
+Luxeuil les Bains;185595;70300;4;c;Centre Est Rhône Alpes;29 415
+Ronchamp;185314;70250;5;c;Centre Est Rhône Alpes;35 603
+Andelot;715102;39320;4;c;Centre Est Rhône Alpes;4 603
+Arbois;718155;39600;5;c;Centre Est Rhône Alpes;47 135
+Bas Evette;184200;90350;5;c;Centre Est Rhône Alpes;6 770
+Champagnole;715326;39300;4;c;Centre Est Rhône Alpes;30 449
+Champagnole Paul Emile Victor;352047;39300;5;c;Centre Est Rhône Alpes;6 659
+Cousance;718270;39190;5;c;Centre Est Rhône Alpes;5 785
+Domblans-Voiteur;718213;39210;5;c;Centre Est Rhône Alpes;45 580
+La Chaux des Crotenay;715383;39230;5;c;Centre Est Rhône Alpes;1 199
+La Chaumusse Fort du Plasne;715391;39150;5;c;Centre Est Rhône Alpes;2 950
+Molinges;743591;39360;5;c;Centre Est Rhône Alpes;1 011
+Montbarrey;718866;39380;5;c;Centre Est Rhône Alpes;447
+Morbier;715433;39400;5;c;Centre Est Rhône Alpes;2 628
+Morez;715441;39400;4;c;Centre Est Rhône Alpes;29 040
+Mouchard;718833;39330;4;b;Centre Est Rhône Alpes;129 969
+Orchamps;718361;39700;5;c;Centre Est Rhône Alpes;53 018
+Poligny;718189;39800;4;c;Centre Est Rhône Alpes;76 355
+Ranchot;718338;39700;5;c;Centre Est Rhône Alpes;62 438
+Saint-Amour;718296;39160;4;c;Centre Est Rhône Alpes;37 908
+Saint-Claude;743633;39200;4;c;Centre Est Rhône Alpes;31 301
+Saint-Laurent en Grandvaux;715417;39150;5;c;Centre Est Rhône Alpes;16 261
+Saint-Lothain;718197;39230;5;c;Centre Est Rhône Alpes;3 807
+Trois Chênes;184242;90000;5;c;Centre Est Rhône Alpes;26 896
+Belfort Montbéliard TGV;300822;90400;2;a;Centre Est Rhône Alpes;644 346
+Chèvremont;184259;90340;5;c;Centre Est Rhône Alpes;1 263
+Petit Croix;184267;90130;5;c;Centre Est Rhône Alpes;34 387
+Belle-Isle-Bégard;473165;22810;5;c;Centre-Ouest;2 695
+Brélidy-Plouec;473827;22140;5;c;Centre-Ouest;1 930
+Broons;473074;22250;5;c;Centre-Ouest;23 374
+Callac;473546;22160;4;c;Centre-Ouest;24 568
+Carnoet-Locarn;473561;22160;5;c;Centre-Ouest;2 711
+Caulnes;473066;22350;5;c;Centre-Ouest;28 962
+Châtelaudren Plouagat;473140;22170;5;c;Centre-Ouest;8 040
+Coat Guégan;473579;22160;5;c;Centre-Ouest;2 669
+Corseul Languenan;478180;22130;5;c;Centre-Ouest;1 875
+Dinan;478164;22100;4;c;Centre-Ouest;89 164
+Frynaudour;473876;22860;5;c;Centre-Ouest;918
+Gourland;473801;22200;5;c;Centre-Ouest;3 023
+La Hisse;478156;22100;5;c;Centre-Ouest;1 426
+La Méaugon;473124;22440;5;c;Centre-Ouest;38
+Lamballe;473108;22400;3;b;Centre-Ouest;419 588
+Landébia;473264;22130;5;c;Centre-Ouest;5 814
+Lancerf;473850;22860;5;c;Centre-Ouest;16
+Lannion;473223;22300;3;b;Centre-Ouest;159 437
+Le Pénity;473553;22850;5;c;Centre-Ouest;2 665
+Les Mais;473587;22160;5;c;Centre-Ouest;847
+Moustéru;473512;22200;5;c;Centre-Ouest;0
+Paimpol;473868;22500;4;c;Centre-Ouest;57 735
+Plancoët;473272;22130;5;c;Centre-Ouest;20 600
+Plénée Jugon;473082;22640;5;c;Centre-Ouest;11 467
+Plestan;473090;22640;5;c;Centre-Ouest;4 699
+Pleudihen;478149;22690;5;c;Centre-Ouest;519
+Plouaret-Trégor;473181;22420;4;c;Centre-Ouest;122 328
+Plougonver;473538;22810;5;c;Centre-Ouest;5 643
+Plounérin;473199;22780;5;c;Centre-Ouest;496
+Plouvara-Plerneuf;473132;22170;5;c;Centre-Ouest;1 100
+Pont Melvez;473520;22390;5;c;Centre-Ouest;2 871
+Pontrieux;473843;22260;5;c;Centre-Ouest;7 671
+Pontrieux Halte;473835;22260;5;c;Centre-Ouest;6 705
+Traou Nez;322347;22860;5;c;Centre-Ouest;105
+Trégonneau-Squiffiec;473819;22200;5;c;Centre-Ouest;3 266
+Yffiniac;473116;22120;5;c;Centre-Ouest;33 211
+Bannalec;474189;29380;5;c;Centre-Ouest;21 594
+Carhaix;473504;29270;4;c;Centre-Ouest;65 508
+Châteaulin Embranchement;474064;29150;4;c;Centre-Ouest;43 845
+Dirinon;474015;29460;5;c;Centre-Ouest;3 114
+Guimiliau;474296;29400;5;c;Centre-Ouest;5 929
+Kerhuon;474213;29480;5;c;Centre-Ouest;42 649
+La Forest;474221;29800;5;c;Centre-Ouest;57 765
+La Roche (Finistère);474262;29800;5;c;Centre-Ouest;11 382
+Landerneau;474239;29800;4;b;Centre-Ouest;609 087
+Landivisiau;474270;29400;4;b;Centre-Ouest;138 322
+Pleyber Christ;474320;29410;5;c;Centre-Ouest;2 957
+Plouigneau;474411;29610;5;c;Centre-Ouest;1 178
+Pont de Buis;474056;29590;5;c;Centre-Ouest;11 001
+Quimperlé;476317;29300;4;b;Centre-Ouest;269 277
+Roscoff;474635;29680;4;c;Centre-Ouest;26 591
+Rosporden;474155;29140;4;b;Centre-Ouest;148 251
+Saint-Pol de Léon;474569;29250;5;c;Centre-Ouest;1 116
+Saint-Thégonnec;474312;29410;5;c;Centre-Ouest;1 153
+Betton;471045;35830;4;c;Centre-Ouest;57 097
+Bonnemain;478065;35270;5;c;Centre-Ouest;5 369
+Breteil;471102;35160;5;c;Centre-Ouest;80 089
+Bruz;471037;35170;4;c;Centre-Ouest;114 970
+Cesson Sévigné;334490;35510;5;b;Centre-Ouest;130 668
+Châteaubourg;471524;35220;4;b;Centre-Ouest;392 567
+Chevaigné;471458;35250;5;c;Centre-Ouest;29 826
+Combourg;478057;35270;4;b;Centre-Ouest;256 350
+Corps Nuds;471326;35150;5;c;Centre-Ouest;62 076
+Dingé;478040;35440;5;c;Centre-Ouest;11 163
+Dol;478073;35120;4;b;Centre-Ouest;392 969
+Fougeray-Langon;471201;35390;5;c;Centre-Ouest;15 286
+Guichen Bourg des Comptes;471151;35580;5;b;Centre-Ouest;138 089
+Janze;471334;35150;4;b;Centre-Ouest;282 830
+Ker Lann;159947;35170;5;c;Centre-Ouest;64 611
+La Brohinière;471094;35360;5;c;Centre-Ouest;19 651
+La Fresnais;478081;35111;5;c;Centre-Ouest;14 028
+La Gouesnière-Cancale;478099;35350;5;c;Centre-Ouest;28 661
+La Poterie;334508;35500;5;c;Centre-Ouest;36 868
+Laillé;471144;35890;5;c;Centre-Ouest;27 703
+Le Theil de Bretagne;471342;35240;5;c;Centre-Ouest;29 663
+Les Lacs;471516;35500;5;c;Centre-Ouest;13 423
+L'Hermitage Mordelles;471060;35590;4;c;Centre-Ouest;42 959
+Martigné Ferchaud;471367;35640;5;c;Centre-Ouest;18 747
+Messac-Guipry;471185;35480;4;b;Centre-Ouest;270 989
+Miniac;478131;35540;5;c;Centre-Ouest;1 293
+Montauban de Bretagne;471086;35360;4;b;Centre-Ouest;165 221
+Montfort sur Meu;471078;35160;4;b;Centre-Ouest;325 564
+Montreuil sur Ille;478032;35440;4;b;Centre-Ouest;240 823
+Noyal Acigne;471540;35530;5;c;Centre-Ouest;145 517
+Pléchâtel;471177;35470;5;c;Centre-Ouest;26 434
+Plerguer;478123;35540;5;c;Centre-Ouest;2 560
+Pontchaillou;471391;35033;5;b;Centre-Ouest;220 667
+Quédillac;473058;35290;5;c;Centre-Ouest;9 285
+Retiers;471359;35240;4;c;Centre-Ouest;88 333
+Servon;471532;35530;5;c;Centre-Ouest;110 574
+Saint-Armel;471318;35230;5;c;Centre-Ouest;13 400
+Saint-Germain sur Ille;478016;35250;5;c;Centre-Ouest;41 879
+Saint-Jacques de la Lande;471052;35136;5;c;Centre-Ouest;13 607
+Saint-Malo;478107;35400;2;a;Centre-Ouest;1 086 259
+Saint-Médard sur Ille;478024;35250;5;c;Centre-Ouest;46 166
+Saint-Senoux-Pléchâtel;471169;35580;5;c;Centre-Ouest;22 840
+Vern;471029;35770;5;c;Centre-Ouest;9 646
+Vitré;471508;35500;4;b;Centre-Ouest;708 975
+Belz Ploêmel;476408;56550;5;c;Centre-Ouest;1 084
+Branderion;476242;56700;5;c;Centre-Ouest;2 597
+Gestel;476309;56530;5;c;Centre-Ouest;9 719
+Hennebont;476259;56700;4;c;Centre-Ouest;113 177
+Kerhostin;476432;56170;5;c;Centre-Ouest;836
+Landaul-Mendon;476226;56690;5;c;Centre-Ouest;18 743
+Landevant;476234;56690;5;c;Centre-Ouest;41 333
+Les Sables Blancs;476267;56340;5;c;Centre-Ouest;214
+L'Isthme;476275;56170;5;c;Centre-Ouest;2 784
+Malansac;476689;56220;5;c;Centre-Ouest;25 939
+Penthièvre;476424;56170;5;c;Centre-Ouest;723
+Plouharnel-Carnac;476416;56340;5;c;Centre-Ouest;2 866
+Questembert;476671;56230;4;c;Centre-Ouest;108 798
+Quiberon;476457;56170;4;c;Centre-Ouest;92 571
+Sainte-Anne;476648;56400;5;c;Centre-Ouest;7 714
+Saint-Pierre Quiberon;476440;56510;5;c;Centre-Ouest;3 174
+Avord;576439;18520;4;c;Centre-Ouest;21 096
+Bengy;576447;18520;5;c;Centre-Ouest;7 552
+Bigny;576306;18190;5;c;Centre-Ouest;1 684
+Châteauneuf sur Cher;576298;18190;4;c;Centre-Ouest;1 112
+Foëcy;576108;18500;5;c;Centre-Ouest;24 176
+La Guerche sur l'Aubois;576470;18150;5;c;Centre-Ouest;26 229
+Lunery;576280;18400;5;c;Centre-Ouest;498
+Marmagne;576132;18500;5;c;Centre-Ouest;9 205
+Mehun sur Yèvre;576116;18500;4;c;Centre-Ouest;59 878
+Nérondes;576454;18350;5;c;Centre-Ouest;22 613
+Saint-Amand Montrond Orval;576322;18200;4;c;Centre-Ouest;58 732
+Saint-Florent sur Cher;576272;18400;4;c;Centre-Ouest;16 404
+Saint-Germain du Puy;576405;18390;5;c;Centre-Ouest;7 360
+Vierzon Forges;576090;18100;5;c;Centre-Ouest;3 573
+Amilly Ouerray;394205;28300;5;c;Centre-Ouest;17 264
+Arrou;394486;28290;5;c;Centre-Ouest;6 953
+Auneau;545657;28700;4;c;Centre-Ouest;33 039
+Bailleau le pin;394411;28120;4;c;Centre-Ouest;75 551
+Bonneval;545731;28800;4;c;Centre-Ouest;39 126
+Brou;394452;28160;4;c;Centre-Ouest;69 801
+Châteaudun;545756;28200;4;b;Centre-Ouest;106 513
+Château Gaillard;543066;28210;5;c;Centre-Ouest;4 010
+Cloyes;574509;28220;5;c;Centre-Ouest;13 115
+Courtalain Saint-Pellerin;394494;28290;5;c;Centre-Ouest;6 016
+Courville sur Eure;394221;28190;4;b;Centre-Ouest;307 817
+Epernon;394114;28230;4;b;Centre-Ouest;1 446 210
+Illiers Combray;394437;28120;4;b;Centre-Ouest;144 410
+Jouy;394155;28300;4;b;Centre-Ouest;107 777
+La Loupe;394254;28240;4;b;Centre-Ouest;355 493
+La Taye;394403;28110;5;c;Centre-Ouest;13 185
+La Villette Saint-Prest;394171;28300;4;b;Centre-Ouest;108 875
+Luce;394015;28110;5;c;Centre-Ouest;26 892
+Magny-Blandainville;394429;28120;5;c;Centre-Ouest;1 299
+Maintenon;394130;28130;4;b;Centre-Ouest;1 191 268
+Marchezais Broué;393470;28410;5;b;Centre-Ouest;141 139
+Nogent le Rotrou;394296;28400;4;b;Centre-Ouest;432 256
+Pontgouin;394247;28190;5;c;Centre-Ouest;15 872
+Saint-Aubin-Saint-Luperce;394213;28300;5;c;Centre-Ouest;15 333
+Saint-Piat;394148;28130;4;b;Centre-Ouest;177 856
+Toury;543074;28310;4;b;Centre-Ouest;110 438
+Voves;545707;28150;4;c;Centre-Ouest;28 089
+Argenton sur Creuse;597120;36200;4;b;Centre-Ouest;135 960
+Chabenet;597112;36800;5;c;Centre-Ouest;0
+Chabris;576223;36210;5;c;Centre-Ouest;16 010
+Eguzon;597153;36270;5;c;Centre-Ouest;5 399
+Issoudun;597062;36100;4;b;Centre-Ouest;171 377
+La Gauterie;576355;37600;5;c;Centre-Ouest;0
+Lothiers;597104;36350;5;c;Centre-Ouest;637
+Luant;597096;36350;5;c;Centre-Ouest;758
+Luçay le Mâle;576363;36360;5;c;Centre-Ouest;11 584
+Neuvy Pailloux;597070;36100;5;c;Centre-Ouest;6 909
+Reuilly;597039;36260;5;c;Centre-Ouest;19 807
+Sainte-Lizaigne;597054;36260;5;c;Centre-Ouest;1 727
+Valençay;576215;36600;5;c;Centre-Ouest;16 640
+Varennes sur Fouzon;576231;36210;5;c;Centre-Ouest;3 668
+Amboise;574343;37400;4;b;Centre-Ouest;483 003
+Azay le Rideau;571638;37190;5;c;Centre-Ouest;70 044
+Azay sur Cher;574442;37270;5;c;Centre-Ouest;14 773
+Ballan;571604;37510;5;c;Centre-Ouest;37 033
+Bléré la Croix;574475;37150;4;b;Centre-Ouest;113 484
+Chambourg;571463;37310;5;c;Centre-Ouest;15 315
+Château Renault;574665;37110;4;c;Centre-Ouest;66 305
+Chenonceaux;574491;37150;5;c;Centre-Ouest;44 649
+Chinon;571687;37500;4;b;Centre-Ouest;117 126
+Cinq Mars;571836;37130;5;c;Centre-Ouest;79 623
+Cormery;571430;37320;5;b;Centre-Ouest;117 982
+Courcay Tauxigny;571448;37310;5;c;Centre-Ouest;19 081
+Druye;571612;37190;5;c;Centre-Ouest;15 389
+Esvres sur Indre;571422;37320;5;c;Centre-Ouest;27 747
+Joué lès Tours;571885;37300;4;c;Centre-Ouest;60 702
+La Chapelle sur Loire;571802;37140;5;c;Centre-Ouest;2 709
+La Douzillère;9696;37300;5;c;Centre-Ouest;21 673
+La Membrolle sur Choisille;571513;37390;5;c;Centre-Ouest;1 360
+Langeais;571828;37130;4;b;Centre-Ouest;193 019
+Limeray;574335;37530;5;c;Centre-Ouest;7 659
+Loches;571471;37600;4;b;Centre-Ouest;216 105
+Maille;575068;37800;5;c;Centre-Ouest;18 813
+Monnaie;574681;37380;5;c;Centre-Ouest;27 736
+Montbazon;571406;37250;5;c;Centre-Ouest;10 620
+Montlouis;571273;37270;5;c;Centre-Ouest;22 473
+Montrichard;574855;41400;4;c;Centre-Ouest;68 517
+Monts (Indre et Loire);575035;37260;5;b;Centre-Ouest;130 710
+Neuillé Pont-Pierre;571547;37360;5;c;Centre-Ouest;18 246
+Noizay;574368;37210;5;c;Centre-Ouest;2 859
+Notre Dame d'Oé;574699;37390;5;c;Centre-Ouest;2 843
+Port Boulet;571794;37800;4;b;Centre-Ouest;119 623
+Port de Piles;575076;37000;4;c;Centre-Ouest;36 099
+Reignac;571455;37310;5;c;Centre-Ouest;50 134
+Rivarennes;571653;37190;5;c;Centre-Ouest;15 713
+Savonnières;571844;37510;5;c;Centre-Ouest;3 194
+Saint-Antoine du Rocher;571539;37360;5;c;Centre-Ouest;22 506
+Sainte-Maure Noyant;575050;37800;4;c;Centre-Ouest;96 279
+Saint-Genouph;571851;37510;5;c;Centre-Ouest;2 710
+Saint-Martin le Beau;574459;37270;5;c;Centre-Ouest;52 068
+Saint-Paterne;571554;37370;5;c;Centre-Ouest;14 708
+Saint-Patrice;571810;37130;5;c;Centre-Ouest;8 506
+Veigné;571414;37250;5;c;Centre-Ouest;23 498
+Veretz Montlouis;574434;37270;5;c;Centre-Ouest;25 110
+Villeperdue;575043;37260;5;c;Centre-Ouest;37 055
+Artenay;543058;45410;5;c;Centre-Ouest;56 502
+Baule;574152;45130;5;c;Centre-Ouest;14 666
+Beaugency;574160;45190;4;b;Centre-Ouest;351 472
+Boisseaux;543082;45480;5;c;Centre-Ouest;4 168
+Briare;696088;15250;4;c;Centre-Ouest;49 338
+Cercottes;543033;45520;5;c;Centre-Ouest;27 512
+Chaingy Fourneaux-Plage;574111;45380;5;c;Centre-Ouest;10 628
+Chevilly;543041;45520;5;c;Centre-Ouest;36 313
+Dordives;684233;45680;5;c;Centre-Ouest;5 322
+Ferrières-Fontenay;684241;45210;5;c;Centre-Ouest;5 992
+Gien;684290;45500;4;b;Centre-Ouest;117 725
+La Chapelle Saint-Mesmin;543371;45380;5;c;Centre-Ouest;6 746
+La Ferté Saint-Aubin;543124;45240;4;b;Centre-Ouest;131 282
+Malesherbes;684415;45330;4;c;Centre-Ouest;7 272
+Meung sur Loire;574137;45130;4;b;Centre-Ouest;276 043
+Nogent sur Vernisson;684274;45290;4;c;Centre-Ouest;41 403
+Saint-Ay;574129;45130;5;c;Centre-Ouest;19 991
+Saint-Cyr en Val la Source;543116;45590;4;c;Centre-Ouest;66 757
+Chissay en Touraine;574848;41400;5;c;Centre-Ouest;6 382
+Chouzy;574301;41150;5;c;Centre-Ouest;14 730
+Faubourg d'Orléans;576173;41200;5;b;Centre-Ouest;117 789
+Frétéval Morée;574533;41160;5;c;Centre-Ouest;3 615
+Gièvres;576876;41130;4;c;Centre-Ouest;50 914
+La Chaussée Saint-Victor;574251;41260;5;c;Centre-Ouest;761
+La Ferté Imbault;576082;41300;5;c;Centre-Ouest;13 724
+Lamotte Beuvron;543140;41600;4;b;Centre-Ouest;198 556
+Les Quatre Roues;576181;41200;5;c;Centre-Ouest;1 258
+Loreux;576157;41200;5;c;Centre-Ouest;4 215
+Ménars;574244;41500;5;c;Centre-Ouest;30
+Mennetou sur Cher;576728;41320;5;c;Centre-Ouest;1 771
+Mer (Loir-et-Cher);574194;41500;4;b;Centre-Ouest;208 104
+Nouan le Fuzelier;543157;41600;5;c;Centre-Ouest;38 961
+Onzain;574319;41150;4;b;Centre-Ouest;215 511
+Pézou;574541;41100;5;c;Centre-Ouest;1 633
+Pruniers;576199;41200;5;c;Centre-Ouest;6 438
+Romorantin-Blanc Argent;576025;41200;4;c;Centre-Ouest;96 684
+Salbris;543165;41300;4;b;Centre-Ouest;197 480
+Selles Saint-Denis;576140;41300;5;c;Centre-Ouest;16 808
+Selles sur Cher;576868;41130;4;c;Centre-Ouest;23 714
+Saint-Aignan Noyers;574897;41110;4;c;Centre-Ouest;75 932
+Saint-Amand de Vendôme;574640;41310;5;c;Centre-Ouest;3 579
+Suèvres;574236;41500;5;c;Centre-Ouest;0
+Theillay;543199;41300;5;c;Centre-Ouest;19 869
+Thésée;328195;41140;5;c;Centre-Ouest;3 434
+Vendome;574558;41100;4;c;Centre-Ouest;62 390
+Veuves Monteaux;574327;41150;5;c;Centre-Ouest;7 428
+Villefranche sur Cher;576884;41200;4;c;Centre-Ouest;21 213
+Villeherviers;576165;41200;5;c;Centre-Ouest;6 397
+Abbaretz;481614;44170;5;c;Centre-Ouest;22 697
+Ancenis;481192;44150;4;b;Centre-Ouest;793 107
+Batz sur Mer;481770;44740;5;c;Centre-Ouest;7 608
+Beslé;471219;44290;5;c;Centre-Ouest;19 782
+Bouaye;481200;44830;4;c;Centre-Ouest;12 036
+Bourgneuf en Retz;481242;44580;5;c;Centre-Ouest;12 570
+Chantenay;481051;44000;4;c;Centre-Ouest;23 366
+Châteaubriant;481648;44110;4;c;Centre-Ouest;22 494
+Clisson;481440;44190;4;b;Centre-Ouest;709 620
+Cordemais;481820;44360;5;c;Centre-Ouest;24 508
+Couëron;481804;44220;4;c;Centre-Ouest;30 961
+Donges;481721;44480;5;c;Centre-Ouest;13 314
+Drefféac;476770;44530;5;c;Centre-Ouest;2 927
+Erdre Active;590356;44240;5;c;Centre-Ouest;10 678
+Gorges;481432;44190;5;c;Centre-Ouest;1 020
+Issé;481622;44520;5;c;Centre-Ouest;13 512
+La Babinière;590349;44240;5;c;Centre-Ouest;48 432
+La Basse Indre Saint-Herblain;481069;44610;4;c;Centre-Ouest;25 211
+La Baule les Pins;481697;44500;5;c;Centre-Ouest;12 114
+La Bernerie en Retz;481267;44760;5;c;Centre-Ouest;10 683
+La Chapelle Aulnay;590364;44240;5;c;Centre-Ouest;9 385
+La Chapelle Centre;481564;44240;5;c;Centre-Ouest;14 453
+La Haie Fouassière;481416;44690;5;c;Centre-Ouest;73 747
+La Haluchère;590331;44000;5;c;Centre-Ouest;47 809
+Le Cellier;481168;44850;5;c;Centre-Ouest;28 489
+Le Croisic;481788;44490;4;b;Centre-Ouest;101 479
+Le Pallet;481424;44330;4;b;Centre-Ouest;143 699
+Le Pouliguen;481762;44510;4;c;Centre-Ouest;64 653
+Les Moutiers en Retz;481259;44580;5;c;Centre-Ouest;8 459
+Machecoul;481366;44270;4;c;Centre-Ouest;52 749
+Massérac;471227;44290;5;c;Centre-Ouest;12 640
+Mauves sur Loire;481150;44470;5;c;Centre-Ouest;13 743
+Montoir de Bretagne;481713;44550;5;c;Centre-Ouest;8 280
+Nort sur Erdre;481598;44390;5;c;Centre-Ouest;129 931
+Oudon;481184;44521;5;c;Centre-Ouest;83 603
+Penhoët;321745;44600;5;c;Centre-Ouest;29 252
+Pontchâteau;481846;44160;4;b;Centre-Ouest;214 106
+Pornic;481283;44210;4;c;Centre-Ouest;53 108
+Pornichet;481747;44380;4;c;Centre-Ouest;99 281
+Port Saint-Père St-Mars;481218;44710;5;c;Centre-Ouest;12 644
+Rezé Pont Rousseau;481036;44400;4;c;Centre-Ouest;113 175
+Savenay;481838;44260;4;b;Centre-Ouest;423 355
+Sévérac;476754;44530;5;c;Centre-Ouest;1 494
+Saint-Sébastien Pas Enchantés;354589;44230;5;c;Centre-Ouest;20 172
+Sainte-Pazanne;481226;44680;4;c;Centre-Ouest;166 236
+Saint-Etienne de Montluc;481812;44360;4;c;Centre-Ouest;89 181
+Saint-Gildas des bois;476762;44530;5;c;Centre-Ouest;41 058
+Saint-Hilaire de Chaléons;481234;44680;5;c;Centre-Ouest;9 843
+Saint-Sébastien Frêne Rond;354597;44230;5;c;Centre-Ouest;11 713
+Sucé sur Erdre;590828;44240;5;c;Centre-Ouest;101 070
+Thouaré;481143;44470;5;c;Centre-Ouest;25 007
+Varades Saint-Florent-le-Vieil;484386;44370;5;c;Centre-Ouest;86 068
+Vertou;481408;44120;4;c;Centre-Ouest;84 219
+Angers Maître Ecole;484048;49000;5;c;Centre-Ouest;18 741
+Chalonnes;484204;49290;4;b;Centre-Ouest;211 637
+Champtocé sur Loire;484352;49123;5;c;Centre-Ouest;26 788
+Chemillé;484246;49120;4;b;Centre-Ouest;161 129
+Cholet;484303;49280;3;b;Centre-Ouest;557 584
+Ecouflant;484113;49000;5;c;Centre-Ouest;1 611
+Etriché Châteauneuf;484154;49330;5;c;Centre-Ouest;57 037
+Ingrandes sur Loire;484360;49123;5;c;Centre-Ouest;64 938
+La Bohalle;487843;49800;5;c;Centre-Ouest;20 585
+La Ménitré;487884;49250;5;b;Centre-Ouest;132 242
+La Possonnière;484337;49170;4;c;Centre-Ouest;93 265
+Le Vieux Briollay;484139;49125;5;c;Centre-Ouest;20 885
+Les Rosiers sur Loire;487876;49350;5;c;Centre-Ouest;52 146
+Morannes;484170;49640;5;c;Centre-Ouest;45 317
+Saumur;487603;49400;3;b;Centre-Ouest;680 993
+Savennières Behuard;484329;49170;5;c;Centre-Ouest;52 139
+Saint-Mathurin;487892;49250;5;c;Centre-Ouest;94 356
+Tiercé;484147;49125;5;b;Centre-Ouest;150 476
+Torfou;486894;49660;5;c;Centre-Ouest;7 282
+Evron;478552;53600;4;b;Centre-Ouest;176 313
+Le Genest;478743;53940;5;c;Centre-Ouest;49 572
+Louverné;478511;53950;5;c;Centre-Ouest;1 310
+Montsûrs;478537;53150;5;c;Centre-Ouest;36 605
+Neau;478545;53150;5;c;Centre-Ouest;3 603
+Port Brillet;478750;53410;5;c;Centre-Ouest;58 836
+Saint-Pierre la Cour;478768;53410;5;c;Centre-Ouest;51 635
+Voutré;478560;53600;5;c;Centre-Ouest;6 320
+Arnage;396549;72230;4;c;Centre-Ouest;16 807
+Aubigné-Racan;396572;72800;5;c;Centre-Ouest;16 890
+Champagné;396275;72470;5;c;Centre-Ouest;41 385
+Château du Loir;396606;72500;4;b;Centre-Ouest;153 956
+Conlie;396218;72240;5;c;Centre-Ouest;61 785
+Connerre Beillé;396309;72160;4;b;Centre-Ouest;175 928
+Crissé;396226;72140;5;c;Centre-Ouest;1 375
+Domfront;396200;72240;5;c;Centre-Ouest;11 868
+Ecommoy;396564;72220;4;b;Centre-Ouest;110 760
+La Ferté Bernard;396325;72400;4;b;Centre-Ouest;337 791
+La Guierche;396036;72380;5;c;Centre-Ouest;31 326
+La Hutte Coulombiers;396093;72130;5;c;Centre-Ouest;15 136
+La Suze;396366;72210;4;b;Centre-Ouest;143 718
+Laigné Saint-Gervais;396556;72220;5;c;Centre-Ouest;47 389
+Mayet;396580;72360;5;c;Centre-Ouest;34 262
+Montbizot;396044;72380;5;c;Centre-Ouest;30 626
+Montfort le Gesnois;396291;72450;5;c;Centre-Ouest;53 977
+Neuville;396028;72190;5;c;Centre-Ouest;7 696
+Noyen;396374;72430;5;c;Centre-Ouest;73 806
+Rouessé Vasse;396259;72140;5;c;Centre-Ouest;2 510
+Sablé;396408;72300;4;b;Centre-Ouest;498 743
+Sceaux-Boesse;396317;72160;5;c;Centre-Ouest;4 926
+Sille le Guillaume;396234;72140;4;b;Centre-Ouest;110 363
+Saint-Mars la Brière;396283;72470;5;c;Centre-Ouest;17 238
+Teillé;396051;72290;5;c;Centre-Ouest;3 052
+Vaas;396598;72500;5;c;Centre-Ouest;6 860
+Vivoin Beaumont;396077;72170;5;c;Centre-Ouest;41 305
+Voivres;396358;72210;5;c;Centre-Ouest;20 341
+Belleville (Vendée);486142;85170;5;c;Centre-Ouest;39 999
+Bournezeau;486324;85480;5;c;Centre-Ouest;1 093
+Boussay la Bruffière;481176;85530;5;c;Centre-Ouest;15 082
+Challans;481390;85300;4;b;Centre-Ouest;126 238
+Chantonnay;486332;85110;4;c;Centre-Ouest;19 206
+Cugand;481457;85610;5;c;Centre-Ouest;4 691
+Fougeré;486316;85480;5;c;Centre-Ouest;2 622
+La Chaize le Vicomte;486308;85310;5;c;Centre-Ouest;4 783
+La Croix de Méan;481689;44600;5;c;Centre-Ouest;2 350
+La Mothe Achard;486423;85150;5;c;Centre-Ouest;44 492
+Les Clouzeaux;486407;85430;5;;Centre-Ouest;0
+Les Sables d'Olonne;486449;85100;3;b;Centre-Ouest;365 308
+L'Herbergement les Brouzils;486126;85260;5;c;Centre-Ouest;66 790
+Luçon;486258;85400;4;c;Centre-Ouest;59 304
+Montaigu (Vendée);481465;85600;4;b;Centre-Ouest;303 389
+Montreuil Bellay;487637;49260;5;c;Centre-Ouest;5 417
+Olonne sur Mer;486431;85340;5;c;Centre-Ouest;2 040
+Pouzauges;487314;85700;5;c;Centre-Ouest;228
+Saint-Gilles Croix de Vie;486571;85800;4;b;Centre-Ouest;76 456
+Saint-Hilaire de Riez;486563;85270;5;c;Centre-Ouest;24 514
+Barr;214247;67140;4;b;Est-Européen;294 654
+Benfeld;214122;67230;5;b;Est-Européen;438 746
+Bischheim;212308;67800;5;c;Est-Européen;47 082
+Bischoffsheim;214296;67830;5;b;Est-Européen;128 914
+Bischwiller;213611;67240;4;b;Est-Européen;533 332
+Bourg Bruche;214775;67420;5;c;Est-Européen;9 641
+Brumath;212134;67170;5;b;Est-Européen;466 606
+Dachstein;214551;67120;5;c;Est-Européen;67 596
+Dambach la Ville;214213;67650;5;c;Est-Européen;34 872
+Dettwiller;212183;67490;5;b;Est-Européen;119 177
+Diemeringen;215665;67430;4;b;Est-Européen;107 308
+Dorlisheim;214338;67120;5;c;Est-Européen;90 971
+Drusenheim;212357;67410;5;c;Est-Européen;110 503
+Duppigheim;214536;67120;5;c;Est-Européen;104 140
+Duttlenheim;214544;67120;5;b;Est-Européen;159 995
+Ebersheim;214106;67600;5;c;Est-Européen;14 865
+Eichhoffen;214239;67140;5;c;Est-Européen;15 779
+Entzheim;214528;67960;5;b;Est-Européen;321 899
+Epfig;214221;67680;5;c;Est-Européen;32 887
+Erstein;214148;67150;4;b;Est-Européen;476 924
+Fegersheim-Lipsheim;212266;67640;5;b;Est-Européen;156 850
+Fouday;214734;67130;5;c;Est-Européen;11 642
+Gambsheim;212332;67760;5;b;Est-Européen;161 434
+Geispolsheim;212258;67118;5;c;Est-Européen;82 891
+Gertwiller;214254;67140;5;c;Est-Européen;26 783
+Goxwiller;214270;67210;5;c;Est-Européen;30 172
+Graffenstaden;212241;67400;5;c;Est-Européen;33 471
+Gresswiller;214593;67190;5;b;Est-Européen;137 257
+Gundershoffen;213223;67110;5;c;Est-Européen;73 187
+Haguenau;213058;67500;4;b;Est-Européen;1 533 931
+Heiligenberg-Mollkirch;214627;67190;5;c;Est-Européen;27 057
+Herbitzheim;193672;67260;5;c;Est-Européen;55 222
+Herrlisheim;212340;67850;5;b;Est-Européen;155 861
+Hochfelden;212167;67270;5;b;Est-Européen;203 099
+Hoelschloch;213413;67250;5;c;Est-Européen;20 311
+Hoenheim-Tram;338517;67800;5;c;Est-Européen;82 373
+Hoerdt;213686;67720;5;b;Est-Européen;181 405
+Hoffen;213447;67250;5;c;Est-Européen;6 288
+Holtzheim;214510;67810;5;c;Est-Européen;4 512
+Hunspach;213454;67250;5;c;Est-Européen;5 385
+Ingwiller;213785;67340;5;b;Est-Européen;219 893
+Keskastel;215491;67260;5;c;Est-Européen;50 070
+Kilstett;212324;67840;5;c;Est-Européen;94 309
+Kogenheim;214114;67230;5;c;Est-Européen;27 991
+Krimmeri Meinau;338525;67100;5;b;Est-Européen;138 992
+Kurtzenhouse;213660;67240;5;c;Est-Européen;94 340
+La Wantzenau;212316;67610;5;c;Est-Européen;47 096
+Lauterbourg;212464;67630;5;c;Est-Européen;22 502
+Limersheim;212274;37150;5;c;Est-Européen;77 748
+Lingolsheim;214502;67380;5;c;Est-Européen;71 319
+Lutzelhouse;214650;67130;5;b;Est-Européen;150 789
+Marienthal;213603;67500;5;c;Est-Européen;60 836
+Matzenheim;214130;67150;5;c;Est-Européen;29 808
+Mertzwiller;213207;67580;5;c;Est-Européen;68 164
+Molsheim;214577;67120;4;b;Est-Européen;1 515 844
+Mommenheim;212142;67670;5;b;Est-Européen;193 209
+Mothern;212456;67470;5;c;Est-Européen;5 684
+Mullerhof;214643;67280;5;c;Est-Européen;8 295
+Munchhausen;212449;67470;5;c;Est-Européen;4 843
+Mundolsheim;212100;67450;5;c;Est-Européen;62 284
+Mutzig;214585;67190;5;b;Est-Européen;241 417
+Niederbronn;213256;67110;5;b;Est-Européen;124 434
+Obermodern;213165;67330;4;b;Est-Européen;187 634
+Obernai;214288;67210;4;b;Est-Européen;637 117
+Oermingen;215632;67970;5;c;Est-Européen;32 906
+Reichshoffen ;213249;67110;4;b;Est-Européen;146 445
+Riedseltz;213462;67120;5;c;Est-Européen;7 303
+Roeschwoog;212407;67480;4;c;Est-Européen;61 442
+Roppenheim;212415;67480;5;c;Est-Européen;17 216
+Rosheim;214320;67560;5;b;Est-Européen;185 330
+Rothau;214726;67570;4;b;Est-Européen;154 190
+Rountzenheim;212373;67480;5;c;Est-Européen;32 406
+Russ-Hersbach;214684;67130;5;c;Est-Européen;67 804
+Saales;214783;67420;4;c;Est-Européen;29 686
+Sarre Union;215459;67260;5;c;Est-Européen;133 703
+Saulxures (Bas-Rhin);214759;67420;5;c;Est-Européen;2 840
+Saverne;212225;67700;3;b;Est-Européen;1 137 493
+Scherwiller;214205;67750;5;c;Est-Européen;5 286
+Schirmeck la Broque;214692;67130;4;b;Est-Européen;317 549
+Schopperten;215483;67260;5;c;Est-Européen;21 469
+Schweighouse sur Moder (Bas-Rhin);213108;67590;4;c;Est-Européen;18 921
+Schwindratzheim;212159;67270;5;c;Est-Européen;65 411
+Sélestat;214056;67600;3;b;Est-Européen;2 049 330
+Seltz;212431;67470;5;c;Est-Européen;37 132
+Sessenheim;212365;67770;5;c;Est-Européen;81 761
+Soultz sous Forets;213421;67250;4;b;Est-Européen;179 107
+Saint-Amarin;182600;67550;5;c;Est-Européen;56 826
+Saint-Blaise Roche-Poutay;214742;67420;4;c;Est-Européen;47 176
+Steinbourg;212209;67790;5;c;Est-Européen;80 937
+Stephansfeld;212126;67170;5;c;Est-Européen;37 803
+Saint-Louis la Chaussée;181016;67300;5;c;Est-Européen;45 189
+Strasbourg Roethig;212191;67100;5;c;Est-Européen;55 298
+Tieffenbach-Struth;215699;67290;5;c;Est-Européen;52 537
+Urmatt;214635;67280;4;b;Est-Européen;133 419
+Vendenheim;212118;67550;5;c;Est-Européen;107 423
+Voellerdingen;215640;67430;5;;Est-Européen;0
+Walbourg;213405;67360;5;c;Est-Européen;33 415
+Weyersheim;213678;67720;5;b;Est-Européen;149 018
+Wilwisheim;212175;67270;5;c;Est-Européen;33 926
+Wingen sur Moder;213744;67290;5;b;Est-Européen;122 550
+Wisches;214676;67130;5;b;Est-Européen;118 520
+Wissembourg;213470;67160;4;b;Est-Européen;189 801
+Zornhoff-Monswiller;212217;67700;5;;Est-Européen;0
+Altkirch;182238;68130;4;b;Est-Européen;287 502
+Ballersdorf;181073;68210;5;;Est-Européen;0
+Bartenheim;182113;68870;5;c;Est-Européen;130 792
+Bitschwiller;182576;68620;5;c;Est-Européen;39 056
+Bollwiller;182709;68540;5;b;Est-Européen;239 926
+Breitenbach ;182659;68380;5;c;Est-Européen;32 774
+Brunstatt;181032;68350;5;;Est-Européen;0
+Cernay (Haut-Rhin);182410;68700;5;b;Est-Européen;421 616
+Colmar-Mésanges;402297;68000;5;c;Est-Européen;3 074
+Colmar-Saint-Joseph;181222;68000;5;c;Est-Européen;83 826
+Dannemarie;182253;68210;5;c;Est-Européen;88 923
+Fellering;182626;68470;5;c;Est-Européen;26 820
+Flaxlanden;181040;68720;5;c;Est-Européen;11 628
+Graffenwald;181131;68700;5;c;Est-Européen;80 008
+Gunsbach-Griesbach;182386;68140;5;c;Est-Européen;21 395
+Habsheim;182089;68440;5;b;Est-Européen;212 462
+Hasenrain;181024;68100;5;c;Est-Européen;26
+Herrlisheim-près-Colmar;182329;68420;5;c;Est-Européen;41 785
+Illfurth;182204;68720;5;c;Est-Européen;48 880
+Ingersheim;303875;68040;5;c;Est-Européen;31 253
+Kruth;182642;68820;5;c;Est-Européen;21 151
+Logelbach;182345;68124;5;c;Est-Européen;44 652
+Luttenbach près Munster;182543;68140;5;c;Est-Européen;5 416
+Lutterbach;182667;68460;5;c;Est-Européen;74 807
+Merxheim;182725;68500;5;c;Est-Européen;46 145
+Metzeral;182816;68380;5;c;Est-Européen;68 644
+Montreux Vieux;184275;68210;5;c;Est-Européen;63 983
+Moosch;182592;68690;5;c;Est-Européen;34 190
+Muhlbach sur Munster;182733;68380;5;c;Est-Européen;32 427
+Mulhouse-Dornach;182055;68200;5;b;Est-Européen;152 804
+Munster;182394;68140;4;b;Est-Européen;292 735
+Munster-Badischhof;386540;68140;5;c;Est-Européen;29 569
+Oderen;182634;68830;5;c;Est-Européen;22 342
+Raedersheim;182717;68190;5;c;Est-Européen;37 738
+Ranspach;182402;68470;5;c;Est-Européen;21 782
+Richwiller;182675;68120;5;;Est-Européen;0
+Rixheim;182071;68170;5;b;Est-Européen;188 581
+Rouffach;182337;68250;5;b;Est-Européen;163 010
+Sierentz;182105;68510;5;b;Est-Européen;234 387
+Staffelfelden;182691;68850;5;c;Est-Européen;65 004
+Saint-Gilles;181552;68920;5;c;Est-Européen;73 516
+Saint-Louis Haut-Rhin;182139;68300;4;b;Est-Européen;1 026 442
+Tagolsheim;181057;68720;5;c;Est-Européen;2 241
+Thann;182568;68800;4;b;Est-Européen;167 688
+Thann Centre;472605;68800;5;c;Est-Européen;24 864
+Thann-Saint-Jacques;182881;68800;5;b;Est-Européen;160 423
+Turckheim;182352;68230;5;c;Est-Européen;51 972
+Valdieu;181081;68210;5;;Est-Européen;0
+Vieux Thann ZI;181289;68800;5;c;Est-Européen;20 970
+Vieux Thann;182550;68800;5;b;Est-Européen;147 619
+Walbach;182360;68230;5;c;Est-Européen;8 838
+Walheim;181065;68130;5;c;Est-Européen;4 448
+Wesserling;182618;68470;5;c;Est-Européen;40 666
+Wihr au Val Soultzbach;182378;68230;5;c;Est-Européen;44 594
+Willer sur Thur;182584;68760;5;c;Est-Européen;32 416
+Wittelsheim;182683;68310;5;;Est-Européen;0
+Zillisheim;182196;68720;5;c;Est-Européen;28 921
+Amagne-Lucquy;172262;8300;5;c;Est-Européen;42 918
+Anchamps;172858;8500;5;c;Est-Européen;7 936
+Aubrives;172122;8320;5;c;Est-Européen;9 534
+Bogny sur Meuse;172049;8120;5;c;Est-Européen;72 462
+Carignan Gare;172353;8110;4;c;Est-Européen;27 918
+Deville;172064;8800;5;c;Est-Européen;31 413
+Donchery;172239;8350;5;c;Est-Européen;15 857
+Fépin;172874;8170;5;c;Est-Européen;7 194
+Fumay;172098;8170;4;b;Est-Européen;93 822
+Givet;172130;8600;4;b;Est-Européen;101 703
+Haybes;172106;8170;5;c;Est-Européen;43 220
+Joigny sur Meuse;172031;8700;5;c;Est-Européen;18 936
+Laifour;172072;8800;5;c;Est-Européen;18 665
+Liart;172544;8290;5;c;Est-Européen;0
+Lumes;172189;8440;5;c;Est-Européen;21 607
+Mohon;172155;8000;5;c;Est-Européen;17 502
+Monthermé;172056;8800;4;b;Est-Européen;133 298
+Nouvion sur Meuse;172213;8160;5;c;Est-Européen;60 048
+Nouzonville;172023;8700;4;c;Est-Européen;37 338
+Rethel;172270;8300;4;b;Est-Européen;355 909
+Revin;172080;8500;4;b;Est-Européen;240 951
+Sedan;172254;8200;4;b;Est-Européen;325 733
+Vireux Molhain;172114;8320;4;c;Est-Européen;62 842
+Vrigne sur Meuse;172221;8350;5;c;Est-Européen;4 860
+Bar sur Aube;118299;10200;4;c;Est-Européen;86 107
+Nogent sur Seine;118190;10400;4;b;Est-Européen;195 287
+Romilly sur Seine;118158;10100;4;b;Est-Européen;323 136
+Vendeuvre;118257;10140;4;c;Est-Européen;45 293
+Bayard;175133;52170;5;c;Est-Européen;1 887
+Bologne;142224;52310;5;c;Est-Européen;2 164
+Chaumont;142000;52000;3;b;Est-Européen;404 874
+Chevillon;175117;52170;5;c;Est-Européen;2 791
+Culmont-Chalindrey;142125;52600;4;c;Est-Européen;91 414
+Donjeux;142273;52300;5;c;Est-Européen;4 928
+Eurville;175141;52410;5;c;Est-Européen;944
+Froncles;142240;52320;5;c;Est-Européen;31 387
+Fronville;175075;52300;5;c;Est-Européen;922
+Gudmont;142265;52320;5;c;Est-Européen;1 803
+Joinville;175091;52300;4;c;Est-Européen;62 904
+Langres;142091;52200;4;c;Est-Européen;80 324
+Merrey;142406;52240;4;c;Est-Européen;0
+Saint-Dizier;175000;52100;4;b;Est-Européen;216 510
+Vignory;142232;52320;5;c;Est-Européen;4 516
+Vraincourt;143024;52310;5;c;Est-Européen;5 941
+Avenay;171579;51160;5;c;Est-Européen;29 788
+Ay;171561;51160;5;c;Est-Européen;64 764
+Bazancourt;171462;51110;5;b;Est-Européen;170 592
+Blesme-Haussignemont;174326;51340;5;;Est-Européen;0
+Bouy;174433;51400;5;c;Est-Européen;1 602
+Breuil-Romain;171322;51140;5;c;Est-Européen;29 185
+Courcy-Brimont;171710;51220;5;c;Est-Européen;23 243
+Dormans;171512;51700;4;c;Est-Européen;104 317
+Fismes;171330;51170;4;b;Est-Européen;207 321
+Franchet d'Esperey;417444;51100;5;c;Est-Européen;52 359
+Germaine;171587;51160;5;c;Est-Européen;21 796
+Jonchery sur Vesle;171314;51140;5;b;Est-Européen;104 214
+Loivre;171728;51220;5;c;Est-Européen;32 334
+Magneux Courlandon;400986;51170;5;c;Est-Européen;16 428
+Montbré;171256;51500;5;c;Est-Européen;3 883
+Mourmelon le Petit;174409;51400;4;c;Est-Européen;74 668
+Muizon;171298;51140;5;c;Est-Européen;84 254
+Poix Terron;172171;51460;5;c;Est-Européen;53 712
+Prunay;171629;51360;5;c;Est-Européen;21 696
+Reims Maison Blanche;171272;51300;5;c;Est-Européen;41 628
+Rilly la Montagne;171595;51500;5;c;Est-Européen;76 040
+Sept Saulx;171645;51400;5;c;Est-Européen;5 574
+Sillery;171637;51500;5;c;Est-Européen;2 082
+Sainte-Ménéhould;174870;51800;4;c;Est-Européen;4 011
+Saint-Hilaire au Temple;174441;51400;5;c;Est-Européen;825
+Suippes;174821;51600;4;c;Est-Européen;5 025
+Trois Puits;171264;51500;5;c;Est-Européen;549
+Val de Vesle;171611;51360;5;c;Est-Européen;11 742
+Vitry le François;174276;51300;4;b;Est-Européen;236 893
+Auboue;191684;54580;5;c;Est-Européen;5 912
+Audun le Roman;194357;54560;5;c;Est-Européen;8 558
+Azerailles;141408;54122;5;c;Est-Européen;15 915
+Baccarat;141416;54120;4;b;Est-Européen;150 952
+Bainville;141531;54550;5;c;Est-Européen;7 597
+Bayon;141218;54290;5;b;Est-Européen;148 497
+Belleville (Lorraine);141804;54940;5;c;Est-Européen;33 010
+Blainville-Damelevières;141135;54360;4;b;Est-Européen;303 698
+Champigneulles;141085;54250;5;c;Est-Européen;19 817
+Chenevieres;141382;54122;5;c;Est-Européen;3 548
+Conflans Jarny;192666;54800;4;b;Est-Européen;137 956
+Diarville;141648;54930;5;c;Est-Européen;2 889
+Dieulouard;141812;54380;4;b;Est-Européen;118 682
+Dombasle sur Meurthe;141119;54110;5;b;Est-Européen;311 343
+Fontenoy sur Moselle;141051;54840;5;c;Est-Européen;4 081
+Foug;141036;54570;5;c;Est-Européen;8 297
+Frouard;141077;54390;4;c;Est-Européen;44 257
+Hatrize;192724;54800;5;c;Est-Européen;2 022
+Homecourt;191692;54310;5;c;Est-Européen;29 820
+Houdemont;141473;54180;5;c;Est-Européen;5 047
+Igney Avricourt;215103;54450;5;c;Est-Européen;24 624
+Jarville la Malgrange;141010;54140;5;c;Est-Européen;35 851
+Joeuf;191700;54240;4;c;Est-Européen;38 639
+Laneuveville devant Nancy;141093;54410;5;c;Est-Européen;12 193
+Liverdun;141069;54460;5;c;Est-Européen;20 411
+Longuyon;194274;54260;4;c;Est-Européen;76 700
+Longwy;194001;54400;3;b;Est-Européen;452 072
+Ludres;141481;54710;5;c;Est-Européen;20 715
+Lunéville;141150;54300;3;b;Est-Européen;946 546
+Marbache;141796;54820;5;c;Est-Européen;18 798
+Menil Flin;141390;54200;5;c;Est-Européen;2 043
+Messein;141499;54850;5;c;Est-Européen;18 328
+Mont sur Meurthe;141143;54360;5;c;Est-Européen;11 273
+Neuves Maisons;141507;54230;5;c;Est-Européen;36 359
+Onville;192435;54890;5;c;Est-Européen;12 895
+Pagny sur Moselle;192468;54530;4;b;Est-Européen;348 998
+Pierreville;141556;54160;5;c;Est-Européen;1 866
+Pompey;141788;54340;5;c;Est-Européen;66 762
+Pont à Mousson;141820;54700;4;b;Est-Européen;1 021 713
+Pont Saint-Vincent;141523;54550;4;c;Est-Européen;57 880
+Praye sous Vaudemont;141622;54116;5;c;Est-Européen;3 262
+Pulligny Autrey;141564;54160;5;c;Est-Européen;854
+Rosieres aux Salines;141127;54110;5;b;Est-Européen;136 834
+Saint-Clement Laronxe;141374;54950;5;c;Est-Européen;32 361
+Tantonville;141598;54116;5;c;Est-Européen;383
+Toul;141044;54200;4;b;Est-Européen;225 583
+Valleroy Moineville;192732;54910;5;c;Est-Européen;13 543
+Vandieres;192476;54121;5;c;Est-Européen;9 854
+Varangeville Saint-Nicolas;141101;54110;4;b;Est-Européen;264 845
+Vézelise;141606;54330;4;c;Est-Européen;21 391
+Xeuilley;141549;54990;5;c;Est-Européen;7 442
+Baroncourt;192658;55240;4;c;Est-Européen;12 417
+Clermont en Argonne;175737;55120;5;c;Est-Européen;154
+Commercy;175257;55200;4;b;Est-Européen;176 709
+Etain;175794;55400;5;c;Est-Européen;84 543
+Les Islettes;175711;55120;5;c;Est-Européen;71
+Montmédy;194209;55600;4;c;Est-Européen;9 368
+Nançois-Tronville;175067;55500;5;c;Est-Européen;1 244
+Pagny sur Meuse;175828;55190;5;c;Est-Européen;5 500
+Revigny;175018;55800;4;c;Est-Européen;100 807
+Verdun;175778;55100;4;b;Est-Européen;142 823
+Ancy sur Moselle;192419;57130;5;c;Est-Européen;58 736
+Anzeling;191387;57320;5;c;Est-Européen;1 668
+Apach Moselle;191643;57480;5;c;Est-Européen;1 326
+Ars sur Moselle;192401;57130;4;b;Est-Européen;141 659
+Basse Ham;191601;57110;5;c;Est-Européen;1 393
+Benestroff;192302;57670;5;c;Est-Européen;6 540
+Bening;193250;57800;4;b;Est-Européen;125 446
+Berthelming;215335;57930;5;c;Est-Européen;19 411
+Bitche;193821;57230;4;c;Est-Européen;27 488
+Bouzonville;193177;57320;4;c;Est-Européen;32 331
+Courcelles sur Nied;192211;57530;5;c;Est-Européen;31 225
+Distroff;191320;57134;5;c;Est-Européen;24 046
+Ebersviller;191379;57320;5;c;Est-Européen;6 698
+Enchenberg;193805;57415;5;c;Est-Européen;10 757
+Farebersviller;193516;57450;5;c;Est-Européen;2 169
+Farschviller;193524;57450;5;c;Est-Européen;18 415
+Faulquemont;193359;57380;4;b;Est-Européen;193 418
+Freistroff;191395;57320;5;c;Est-Européen;2 471
+Gandrange Amneville;191742;57175;5;c;Est-Européen;9 280
+Hagondange;191114;57300;4;b;Est-Européen;1 156 160
+Hayange;191239;57700;4;c;Est-Européen;23 500
+Herny;193383;57580;5;c;Est-Européen;14 233
+Hettange Grande;191163;57330;5;b;Est-Européen;468 452
+Hombourg Budange;191353;57920;5;c;Est-Européen;1 993
+Hombourg Haut;193276;57470;5;c;Est-Européen;5 156
+Hundling;193540;57990;5;c;Est-Européen;35 787
+Kalhausen;193664;57412;4;c;Est-Européen;12 794
+Kedange;191346;57920;5;c;Est-Européen;8 916
+Koenigsmacker;191619;57110;5;c;Est-Européen;1 391
+Kuntzig;191312;57110;5;c;Est-Européen;1 118
+Lemberg;193813;57620;5;c;Est-Européen;5 870
+Lutzelbourg;215160;57820;5;c;Est-Européen;57 752
+Maizières les Metz;191106;57210;4;b;Est-Européen;229 325
+Malling;191627;57480;5;c;Est-Européen;451
+Metz Nord;192070;57000;5;c;Est-Européen;12 822
+Metzervisse;191338;57940;5;c;Est-Européen;7 590
+Morhange;192286;57340;4;b;Est-Européen;90 920
+Moyeuvre Grande;191718;57250;5;c;Est-Européen;31 315
+Noveant;192427;57680;5;b;Est-Européen;130 286
+Peltre;192203;57245;5;c;Est-Européen;51 635
+Petit Rederching;193797;57410;5;c;Est-Européen;5 497
+Réding;215079;57444;5;c;Est-Européen;34 899
+Rémelfing;193623;57200;5;c;Est-Européen;9 620
+Remilly;192237;57580;4;b;Est-Européen;225 712
+Rohrbach les Bitche;193789;57410;5;c;Est-Européen;1 793
+Rombas-Clouange;191734;57120;4;c;Est-Européen;77 606
+Sanry sur Nied;192229;57530;5;c;Est-Européen;13 451
+Sarralbe;193714;57430;4;c;Est-Européen;5 563
+Sarrebourg;215012;57400;3;b;Est-Européen;705 818
+Sarreguemines;193615;57200;4;b;Est-Européen;420 384
+Sarreinsming;193631;57115;5;c;Est-Européen;3 195
+Sierck les Bains;191635;57480;5;c;Est-Européen;4 246
+Saint-Avold;193318;57500;4;b;Est-Européen;269 765
+Teting;193342;57114;5;c;Est-Européen;2 297
+Uckange;191130;57270;5;b;Est-Européen;178 752
+Walygator parc;191098;57433;5;c;Est-Européen;5 769
+Wittring;193656;57137;5;c;Est-Européen;14 808
+Woelfling les Sarreguemines;193771;57200;5;c;Est-Européen;228
+Woippy;192088;57140;5;c;Est-Européen;88 907
+Yutz;191304;57110;5;c;Est-Européen;685
+Zetting;193649;57115;5;c;Est-Européen;15 781
+Arches;144410;88380;4;c;Est-Européen;61 483
+Bains les Bains;144147;88240;5;c;Est-Européen;3 208
+Bertrichamps;141424;54120;5;c;Est-Européen;7 055
+Biffontaine;144188;88430;5;c;Est-Européen;3 597
+Bruyeres;144154;88600;4;c;Est-Européen;61 333
+Ceintrey;141572;54109;5;c;Est-Européen;6 225
+Charmes Vosges;144055;88130;4;b;Est-Européen;283 757
+Chatel Nomexy;144071;88330;5;b;Est-Européen;119 068
+Colroy Lubine;144386;88490;5;c;Est-Européen;426
+Contrexéville;144287;88140;4;c;Est-Européen;45 871
+Corcieux Vanemont;144196;88430;5;c;Est-Européen;6 098
+Damblain;142497;88320;5;c;Est-Européen;414
+Docelles-Cheniménil;144030;88460;5;c;Est-Européen;5 362
+Einvaux;141200;54360;5;c;Est-Européen;8 133
+Eloyes;144436;88510;5;c;Est-Européen;30 877
+Etival Clairefontaine;144642;88480;4;c;Est-Européen;60 157
+Hymont Mattaincourt;144220;88500;5;c;Est-Européen;1 316
+Igney;144089;88150;5;c;Est-Européen;12 125
+Lamarche;144303;88320;5;c;Est-Européen;1 196
+Laveline devant Bruyeres;144162;88600;5;c;Est-Européen;10 506
+Lepanges;144048;88600;5;c;Est-Européen;4 787
+Lesseux-Frapelle;144329;88490;5;c;Est-Européen;664
+Martigny les Bains;144295;88320;5;c;Est-Européen;13 570
+Mirecourt;144212;88500;4;b;Est-Européen;151 858
+Neufchâteau;141291;88300;4;c;Est-Européen;73 344
+Pouxeux;144428;88550;5;c;Est-Européen;6 809
+Provencheres sur Fave;144345;88490;5;c;Est-Européen;5 139
+Raon l'Etape;144626;88110;4;b;Est-Européen;111 722
+Raves Ban de Laveline;144105;88520;5;c;Est-Européen;2 632
+Remiremont;144451;88200;4;b;Est-Européen;269 118
+Rozieres sur Mouzon;144311;88320;5;c;Est-Européen;0
+Saint-Leonard;144477;88650;5;c;Est-Européen;12 086
+Saint-Michel sur Meurthe;144683;88470;5;c;Est-Européen;1 732
+Saint-Nabord;146217;88200;5;c;Est-Européen;3 389
+Saint-Dié des Vosges;144014;88100;4;b;Est-Européen;410 213
+Thaon;144097;88150;4;b;Est-Européen;281 450
+Thiaville;141432;54519;5;c;Est-Européen;2 994
+Vincey;144063;88450;5;c;Est-Européen;25 064
+Vittel;144279;88800;4;c;Est-Européen;61 819
+Xertigny;144121;88220;5;c;Est-Européen;1 018
+Angerville;543090;91670;4,1;c;Ile-de-France;129 600
+Arpajon;545467;91290;4,1;b;Ile-de-France;1 407 941
+Athis Mons;545251;91200;4,1;b;Ile-de-France;1 414 800
+Ballancourt;681437;91610;4,1;b;Ile-de-France;534 600
+Bièvres;393546;91570;4,1;b;Ile-de-France;523 800
+Boigneville;684407;91720;5,1;c;Ile-de-France;27 000
+Bouray;545178;91850;4,1;b;Ile-de-France;1 366 200
+Boussy Saint-Antoine;682138;91800;3,1;b;Ile-de-France;2 964 600
+Boutigny;681478;91820;4,1;b;Ile-de-France;248 400
+Le Bras de Fer ;681395;91000;4,1;b;Ile-de-France;2 284 200
+Brétigny;545194;91220;3,1;b;Ile-de-France;5 761 782
+Breuillet-Bruyères le Châtel;545483;91650;4,1;b;Ile-de-France;486 000
+Breuillet Village;545491;91650;4,1;b;Ile-de-France;545 400
+Brunoy;682120;91800;3,1;b;Ile-de-France;5 085 286
+Buno Gironville;681510;91720;5,1;c;Ile-de-France;64 800
+Chamarande;545152;91730;4,1;b;Ile-de-France;237 600
+Chilly Mazarin;393637;91380;4,1;b;Ile-de-France;918 000
+Corbeil Essonnes;681007;91100;3,1;b;Ile-de-France;5 524 200
+Le Coudray-Montceaux ;681635;91830;5,1;c;Ile-de-France;59 400
+Dourdan;545525;91410;4,1;b;Ile-de-France;723 600
+Dourdan la Forêt;540179;91410;5,1;b;Ile-de-France;205 200
+Egly;545475;91520;4,1;b;Ile-de-France;442 800
+Epinay sur Orge;545228;91360;3,1;b;Ile-de-France;2 781 000
+Essonnes Robinson;681601;91100;4,1;b;Ile-de-France;237 600
+Etampes;545137;91150;4,1;b;Ile-de-France;2 409 274
+Etréchy;545145;91580;4,1;b;Ile-de-France;810 000
+Evry;681361;91000;4,1;b;Ile-de-France;977 400
+Evry-Courcouronnes;681387;91000;3,1;b;Ile-de-France;8 741 664
+La Ferté Alais ;681452;91590;4,1;b;Ile-de-France;550 800
+Grand-Bourg;681353;91000;4,1;b;Ile-de-France;372 600
+Gravigny Balizy;393645;91160;4,1;b;Ile-de-France;588 600
+Grigny Centre ;681379;91350;3,1;b;Ile-de-France;5 135 400
+Guillerval;545129;91690;5,1;c;Ile-de-France;21 600
+Igny;393561;91430;4,1;b;Ile-de-France;442 800
+Juvisy;545244;91260;3,1;b;Ile-de-France;32 383 800
+Lardy;545160;91510;4,1;b;Ile-de-France;421 200
+Longjumeau;393611;91160;4,1;b;Ile-de-France;615 600
+Maisse;681486;91720;4,1;b;Ile-de-France;172 800
+Marolles en Hurepoix;545186;91630;4,1;b;Ile-de-France;1 171 800
+Massy-Palaiseau;393579;91300;3,1;b;Ile-de-France;4 026 927
+Massy-Verrières;383281;91300;4,1;b;Ile-de-France;248 400
+Mennecy;681411;91540;4,1;b;Ile-de-France;928 800
+Monnerville;545111;91930;5,1;c;Ile-de-France;21 600
+Montgeron-Crosne;682104;91230;3,1;b;Ile-de-France;3 526 200
+Moulin Galant;681403;91100;4,1;b;Ile-de-France;772 200
+La Norville Saint-Germain les Arpajon;545459;91290;4,1;b;Ile-de-France;572 400
+Orangis Bois de l'Epine;681346;91130;4,1;b;Ile-de-France;2 489 400
+Petit Vaux;393652;91360;4,1;b;Ile-de-France;329 400
+Le Plessis Chenet;681627;91830;5,1;c;Ile-de-France;48 600
+Ris Orangis;681338;91130;4,1;b;Ile-de-France;1 031 400
+Saint-Chéron;545509;91530;4,1;b;Ile-de-France;507 600
+Sainte-Geneviève des Bois;545210;91700;3,1;b;Ile-de-France;3 742 200
+Saint-Martin d'Etampes;545350;91150;4,1;b;Ile-de-France;594 000
+Saint-Michel sur Orge;545202;91240;3,1;b;Ile-de-France;2 802 600
+Savigny sur Orge;545236;91600;3,1;b;Ile-de-France;6 409 800
+Sermaise;545517;91530;4,1;b;Ile-de-France;97 200
+Vigneux sur Seine;681304;91270;3,1;b;Ile-de-France;5 518 800
+Villabé;681619;91100;4,1;b;Ile-de-France;205 200
+Viry Châtillon;681312;91170;4,1;b;Ile-de-France;1 398 600
+Yerres;682112;91330;3,1;b;Ile-de-France;3 615 332
+Asnières sur Seine;381137;92600;3,1;b;Ile-de-France;10 474 288
+Bécon les Bruyères;382002;92400;3,1;b;Ile-de-France;11 792 647
+Bellevue ;393116;92360;4,1;b;Ile-de-France;1 258 200
+Bois Colombes;381079;92270;3,1;b;Ile-de-France;4 519 800
+Chaville Rive Droite;382333;92370;4,1;b;Ile-de-France;2 138 400
+Chaville Rive Gauche;393207;92370;4,1;b;Ile-de-France;1 203 354
+Chemin d'Antony;546317;92160;4,1;b;Ile-de-France;334 800
+Clamart;391565;92140;4,1;b;Ile-de-France;3 109 646
+Clichy-Levallois;381129;92110;3,1;b;Ile-de-France;8 569 800
+Colombes;381087;92700;3,1;b;Ile-de-France;5 248 800
+Courbevoie;382200;92400;3,1;b;Ile-de-France;3 712 718
+La Défense ;382218;92800;3,1;b;Ile-de-France;27 457 435
+Garches-Marnes la Coquette;382259;92380;4,1;b;Ile-de-France;1 738 800
+La Garenne-Colombes ;386003;92250;3,1;b;Ile-de-France;3 742 200
+Gennevilliers;271205;92230;4,1;b;Ile-de-France;2 256 309
+Les Grésillons ;272146;92230;4,1;b;Ile-de-France;2 208 600
+Issy;393074;92130;4,1;b;Ile-de-France;2 289 600
+Issy Val de Seine;393306;92130;3,1;b;Ile-de-France;6 539 400
+Meudon;393108;92190;4,1;b;Ile-de-France;1 193 083
+Meudon Val Fleury;393082;92190;4,1;b;Ile-de-France;2 775 600
+Nanterre Université;386318;92000;3,1;b;Ile-de-France;5 556 600
+Puteaux;382382;92800;4,1;b;Ile-de-France;2 785 338
+Saint-Cloud;382358;92210;3,1;b;Ile-de-France;8 553 600
+Sèvres Rive Gauche;393124;92310;4,1;b;Ile-de-France;2 827 550
+Sèvres Ville d'Avray;382341;92310;3,1;b;Ile-de-France;2 254 855
+Le Stade;381095;92700;3,1;b;Ile-de-France;2 786 400
+Suresnes Mont Valérien;382374;92150;4,1;b;Ile-de-France;2 526 978
+Le Val d'Or ;382366;92210;4,1;b;Ile-de-France;1 630 704
+Les Vallées ;386300;92250;3,1;b;Ile-de-France;3 596 400
+Vanves-Malakoff;391532;92170;4,1;b;Ile-de-France;1 347 453
+Vaucresson;382267;92420;4,1;b;Ile-de-France;1 447 200
+"Avenue du Président Kennedy
+ (Maison de Radio France) ";543207;75016;4,1;b;Ile-de-France;1 798 200
+Avenue Foch;381038;75016;4,1;b;Ile-de-France;982 800
+Avenue Henri Martin;381046;75016;4,1;b;Ile-de-France;901 800
+Bibliothèque François Mitterrand;328328;75013;3,1;b;Ile-de-France;25 860 600
+Boulainvilliers;543181;75016;3,1;b;Ile-de-France;4 017 600
+Pont du Garigliano (Boulevard Victor);393322;75015;3,1;b;Ile-de-France;3 331 800
+Champ de Mars -Tour Eiffel;393058;75015;3,1;b;Ile-de-France;11 815 200
+Haussmann-Saint-Lazare;281899;75009;3,1;b;Ile-de-France;42 314 400
+Invalides;393033;75007;3,1;b;Ile-de-France;11 280 600
+Javel;393066;75015;3,1;b;Ile-de-France;3 348 000
+Magenta;281873;75010;3,1;b;Ile-de-France;42 233 400
+Musée d'Orsay;547307;75007;3,1;b;Ile-de-France;5 292 000
+Neuilly Porte Maillot;381020;75017;3,1;b;Ile-de-France;6 436 800
+Péreire Levallois;381012;75017;3,1;b;Ile-de-France;5 248 800
+Pont de l'Alma ;393041;75007;3,1;b;Ile-de-France;4 163 400
+Pont Cardinet;381111;75017;3,1;b;Ile-de-France;3 407 400
+Porte de Clichy;111278;75017;3,1;b;Ile-de-France;4 390 200
+Saint-Michel Notre-Dame;547315;75005;3,1;b;Ile-de-France;32 119 200
+Bagneaux sur Loing;684191;77167;5,1;c;Ile-de-France;64 800
+Bois le Roi;682203;77590;4,1;b;Ile-de-France;1 187 169
+Boissise le Roi;682518;77310;5,1;b;Ile-de-France;113 400
+Bourron Marlotte Grez;684118;77780;5,1;c;Ile-de-France;59 400
+Cesson;682161;77240;4,1;b;Ile-de-France;1 733 400
+Champagne sur Seine;682450;77430;4,1;b;Ile-de-France;414 120
+Champbenoist-Poigny;115873;77160;5,1;b;Ile-de-France;108 000
+Changis-Saint-Jean;116509;77660;4,1;b;Ile-de-France;232 200
+Chartrettes;682419;77590;5,1;c;Ile-de-France;37 800
+Chelles-Gournay;116111;77500;3,1;b;Ile-de-France;8 839 800
+Combs la Ville-Quincy;682146;77380;3,1;b;Ile-de-France;3 866 400
+Compans;272047;77290;5,1;c;Ile-de-France;43 148
+Couilly-Saint-Germain-Quincy;116731;77860;4,1;c;Ile-de-France;64 800
+Coulommiers;116301;77120;4,1;b;Ile-de-France;1 013 679
+Crécy la Chapelle;116772;77580;4,1;b;Ile-de-France;167 400
+Crouy sur Ourcq;116640;77840;4,1;b;Ile-de-France;140 400
+Dammartin-Juilly-Saint-Mard;271536;77230;4,1;b;Ile-de-France;1 415 661
+Emerainville-Pontault Combault;116046;77184;3,1;b;Ile-de-France;4 464 762
+Esbly;116327;77450;4,1;b;Ile-de-France;1 787 400
+Faremoutiers-Pommeuse;116277;77515;4,1;b;Ile-de-France;270 000
+La Ferté sous Jouarre;116517;77260;4,1;b;Ile-de-France;1 301 400
+Fontainebleau-Avon;682211;77210;4,1;b;Ile-de-France;3 766 838
+Fontaine le Port;682427;77590;5,1;c;Ile-de-France;64 800
+La Grande Paroisse ;682476;77130;5,1;c;Ile-de-France;54 000
+Gretz Armainvilliers;116012;77220;4,1;b;Ile-de-France;907 200
+Guérard La Celle sur Morin;116269;77580;5,1;b;Ile-de-France;118 800
+Héricy;682435;77850;5,1;c;Ile-de-France;54 000
+Isles-Armentières -Congis;116616;77440;4,1;c;Ile-de-France;81 000
+Lagny-Thorigny;116319;77400;3,1;b;Ile-de-France;2 877 583
+Lieusaint-Moissy;682153;77127;3,1;b;Ile-de-France;4 822 200
+Livry sur Seine;682401;77000;5,1;c;Ile-de-France;75 600
+Lizy sur Ourcq;116632;77440;4,1;b;Ile-de-France;237 600
+Longueville;116137;77650;4,1;b;Ile-de-France;787 447
+Marles en Brie;116228;77610;4,1;b;Ile-de-France;280 800
+Meaux;116103;77100;3,1;b;Ile-de-France;5 853 600
+Le Mée ;682179;77350;4,1;b;Ile-de-France;2 003 400
+Melun;682005;77000;3,1;b;Ile-de-France;12 580 445
+Mitry-Claye;271528;77290;4,1;b;Ile-de-France;2 872 800
+Montereau;682302;77130;4,1;b;Ile-de-France;2 678 567
+Montigny sur Loing;684100;77690;4,1;b;Ile-de-France;183 600
+Montry-Condé;116400;77450;5,1;c;Ile-de-France;27 000
+Moret-Veneux les Sablons;682278;77250;4,1;b;Ile-de-France;1 657 800
+Mormant;116087;77720;4,1;b;Ile-de-France;302 400
+Mortcerf;116244;77163;5,1;c;Ile-de-France;97 200
+Mouroux;116285;77120;5,1;c;Ile-de-France;81 000
+Nangis;116095;77370;4,1;b;Ile-de-France;577 800
+Nanteuil-Saâcy;116558;77730;4,1;b;Ile-de-France;545 400
+Nemours Saint-Pierre;684126;77140;4,1;b;Ile-de-France;1 436 756
+Ozoir la Ferrière;116020;77330;4,1;b;Ile-de-France;2 143 800
+Ponthierry-Pringy;682526;77310;4,1;b;Ile-de-France;351 000
+Provins;116160;77160;4,1;b;Ile-de-France;480 169
+Roissy en Brie;116038;77680;3,1;b;Ile-de-France;2 835 000
+Sainte-Colombe-Septveilles;116178;77650;5,1;b;Ile-de-France;102 600
+Saint-Fargeau;682542;77310;4,1;b;Ile-de-France;102 600
+Saint-Mammès;682294;77670;5,1;b;Ile-de-France;297 000
+Savigny le Temple-Nandy;682187;77176;3,1;b;Ile-de-France;3 515 400
+Souppes-Château Landon;684217;77460;4,1;b;Ile-de-France;534 512
+Thieux-Nantouillet;272054;77230;5,1;c;Ile-de-France;16 200
+Thomery;682252;77300;5,1;b;Ile-de-France;102 600
+Tournan;116210;77220;4,1;b;Ile-de-France;2 068 200
+Trilport;116491;77470;4,1;b;Ile-de-France;810 000
+Vaires-Torcy;116293;77360;4,1;b;Ile-de-France;2 111 400
+Verneuil l'Etang;116079;77390;4,1;b;Ile-de-France;448 200
+Vernou sur Seine;682468;77670;5,1;c;Ile-de-France;54 000
+Villeparisis-Mitry le Neuf;271510;77270;3,1;b;Ile-de-France;3 531 600
+Villiers Montbarbin;116749;77580;5,1;c;Ile-de-France;27 000
+Vosves;682500;77190;5,1;c;Ile-de-France;21 600
+Vulaines sur Seine Samoreau;682443;77870;5,1;c;Ile-de-France;54 000
+Aéroport Charles de Gaulle 1;271460;93290;3,1;b;Ile-de-France;4 768 200
+Aulnay sous Bois;271411;93600;3,1;b;Ile-de-France;20 205 521
+Le Blanc Mesnil;271478;93150;4,1;b;Ile-de-France;2 910 600
+Bondy;113407;93140;3,1;b;Ile-de-France;11 390 171
+Le Bourget ;271395;93350;3,1;b;Ile-de-France;10 047 910
+Le Chénay Gagny ;113522;93220;3,1;b;Ile-de-France;2 770 200
+La Courneuve Aubervilliers ;271304;93120;3,1;b;Ile-de-France;10 508 400
+Drancy;271403;93700;3,1;b;Ile-de-France;6 787 800
+Epinay sur Seine;271148;93800;4,1;b;Ile-de-France;2 781 000
+Epinay-Villetaneuse;271122;93800;3,1;b;Ile-de-France;11 696 283
+Gagny;113514;93220;3,1;b;Ile-de-France;4 617 000
+La Plaine Stade de France;164798;93200;3,1;b;Ile-de-France;12 813 858
+Noisy le Sec;113217;93130;3,1;b;Ile-de-France;13 359 600
+Pantin;113209;93500;3,1;b;Ile-de-France;8 121 600
+Parc des Expositions;271486;93420;4,1;b;Ile-de-France;2 364 387
+Pierrefitte-Stains;271163;93380;3,1;b;Ile-de-France;7 198 200
+Le Raincy-Villemomble-Montfermeil ;113472;93250;3,1;b;Ile-de-France;7 738 200
+Rosny Bois Perrier;113696;93110;3,1;b;Ile-de-France;5 119 200
+Rosny sous Bois;113704;93110;3,1;b;Ile-de-France;4 255 200
+Saint-Denis;271015;93200;3,1;b;Ile-de-France;23 518 706
+Saint-Ouen;271247;93400;3,1;b;Ile-de-France;4 028 400
+Sevran-Beaudottes;271445;93270;3,1;b;Ile-de-France;7 727 400
+Sevran-Livry;271429;93270;3,1;b;Ile-de-France;5 227 200
+Stade de France Saint-Denis;164780;93200;3,1;b;Ile-de-France;7 531 656
+Vert Galant;271437;93420;3,1;b;Ile-de-France;7 511 400
+Villepinte;271452;93420;4,1;b;Ile-de-France;1 783 543
+Les Yvris Noisy le Grand ;113803;93160;4,1;b;Ile-de-France;831 600
+Ablon;545269;94480;4,1;b;Ile-de-France;1 247 400
+Les Ardoines;492108;94400;4,1;b;Ile-de-France;2 062 800
+Les Boullereaux-Champigny ;113779;94500;4,1;b;Ile-de-France;2 219 400
+Choisy le Roi;545285;94600;3,1;b;Ile-de-France;13 284 000
+Ivry sur Seine;545301;94200;3,1;b;Ile-de-France;4 259 568
+Maisons Alfort Alfortville;681155;94700;3,1;b;Ile-de-France;9 783 264
+Nogent le Perreux;113746;94130;3,1;b;Ile-de-France;4 201 200
+Orly Ville;546200;94310;4,1;b;Ile-de-France;1 576 800
+Pont de Rungis - Aéroport d'Orly;546192;94150;4,1;b;Ile-de-France;839 713
+Rungis la Fraternelle;546291;94150;4,1;b;Ile-de-France;878 496
+Les Saules ;546226;94310;4,1;b;Ile-de-France;1 139 400
+Val de Fontenay;113712;94120;3,1;b;Ile-de-France;15 687 000
+Le Vert de Maisons;681247;94700;3,1;b;Ile-de-France;3 531 600
+Villeneuve le Roi;545277;94290;4,1;b;Ile-de-France;1 490 400
+Villeneuve Prairie;681858;94600;5,1;b;Ile-de-France;475 200
+Villeneuve Saint-Georges;681825;94190;3,1;b;Ile-de-France;14 277 600
+Villeneuve Triage;681809;94190;4,1;b;Ile-de-France;1 130 063
+Villiers sur Marne Le Plessis Trévise;113795;94350;3,1;b;Ile-de-France;7 543 800
+Vitry sur Seine;545293;94400;3,1;b;Ile-de-France;3 996 000
+Argenteuil;381848;95100;3,1;b;Ile-de-France;13 268 609
+Auvers sur Oise;276543;95430;4,1;b;Ile-de-France;108 000
+La Barre Ormesson ;271171;95170;4,1;b;Ile-de-France;2 791 800
+Belloy-Saint-Martin;276550;95270;4,1;b;Ile-de-France;167 400
+Bessancourt;276642;95550;4,1;b;Ile-de-France;545 400
+Boissy l'Aillerie;381152;95650;4,1;b;Ile-de-France;178 200
+Bouffémont-Moisselles;276485;95570;4,1;b;Ile-de-France;842 400
+Bruyères sur Oise;276451;95820;5,1;c;Ile-de-France;81 000
+Cergy le Haut;382655;95800;3,1;b;Ile-de-France;6 193 800
+Cergy Préfecture;381905;95800;3,1;b;Ile-de-France;11 070 000
+Cergy Saint-Christophe;382499;95800;3,1;b;Ile-de-France;5 416 200
+Cernay (Val d'Oise);276063;95120;3,1;b;Ile-de-France;2 716 200
+Champ de Courses d'Enghien;276030;95230;4,1;b;Ile-de-France;2 165 400
+Champagne sur Oise;276519;95660;4,1;b;Ile-de-France;237 600
+Chaponval;276162;95430;5,1;c;Ile-de-France;48 600
+Chars;381194;95750;4,1;b;Ile-de-France;189 000
+Cormeilles en Parisis;381863;95240;3,1;b;Ile-de-France;2 952 957
+Deuil-Montmagny;276345;95170;4,1;b;Ile-de-France;3 321 000
+Domont;276436;95330;4,1;b;Ile-de-France;2 727 000
+Ecouen-Ezanville;276394;95440;4,1;b;Ile-de-France;1 690 200
+Enghien les Bains;276022;95880;3,1;b;Ile-de-France;6 727 559
+Epluches;276147;95310;5,1;c;Ile-de-France;64 800
+Eragny-Neuville;381418;95610;4,1;b;Ile-de-France;663 894
+Ermont-Eaubonne;276055;95120;3,1;b;Ile-de-France;18 586 800
+Ermont Halte;276584;95120;4,1;b;Ile-de-France;837 000
+Franconville-Le Plessis Bouchard;276071;95130;3,1;b;Ile-de-France;4 787 933
+Frépillon;276659;95740;5,1;b;Ile-de-France;264 600
+La Frette Montigny ;381871;95530;4,1;b;Ile-de-France;869 400
+Garges-Sarcelles;276196;95140;3,1;b;Ile-de-France;13 412 986
+Goussainville;276246;95190;3,1;b;Ile-de-France;3 391 200
+Groslay;276360;95410;4,1;b;Ile-de-France;1 376 124
+Gros Noyer-Saint-Prix;276592;95120;4,1;b;Ile-de-France;1 490 400
+Herblay;381889;95220;4,1;b;Ile-de-France;2 752 479
+L' Isle Adam-Parmain ;276527;95290;4,1;b;Ile-de-France;729 000
+Louvres;276253;95380;4,1;b;Ile-de-France;2 084 400
+Luzarches;276576;95270;4,1;b;Ile-de-France;216 000
+Mériel;276675;95630;4,1;b;Ile-de-France;297 000
+Méry sur Oise;276667;95540;4,1;b;Ile-de-France;594 000
+Montgeroult-Courcelles;381160;95650;5,1;c;Ile-de-France;27 000
+Montigny-Beauchamp;276089;95250;3,1;b;Ile-de-France;4 464 512
+Montsoult-Maffliers;276493;95560;4,1;b;Ile-de-France;1 501 911
+Neuville Université;334482;95000;4,1;b;Ile-de-France;2 451 600
+Nointel-Mours;276758;95590;4,1;b;Ile-de-France;394 200
+Les Noues ;276238;95190;4,1;b;Ile-de-France;1 657 800
+Osny;381145;95520;4,1;b;Ile-de-France;459 000
+Persan-Beaumont;276469;95340;4,1;b;Ile-de-France;3 728 723
+Pierrelaye;276097;95480;4,1;b;Ile-de-France;1 053 000
+Pontoise;276139;95300;3,1;b;Ile-de-France;5 805 000
+Pont Petit;276154;95310;5,1;b;Ile-de-France;232 200
+Presles-Courcelles;276501;95590;4,1;b;Ile-de-France;275 400
+Saint-Gratien;276170;95210;3,1;b;Ile-de-France;2 856 600
+Saint-Leu-la-Forêt;276600;95320;4,1;b;Ile-de-France;2 019 600
+Saint-Ouen l'Aumône;276105;95310;4,1;b;Ile-de-France;1 452 600
+Saint-Ouen l'Aumône Eglise;381426;95310;4,1;b;Ile-de-France;437 400
+Saint-Ouen l'Aumône Liesse;337980;95310;4,1;b;Ile-de-France;1 274 400
+Sannois;276188;95110;4,1;b;Ile-de-France;2 718 000
+Santeuil le Perchay;381186;95640;5,1;c;Ile-de-France;37 800
+Sarcelles-Saint-Brice;276386;95200;3,1;b;Ile-de-France;5 249 654
+Seugy;272039;95270;5,1;c;Ile-de-France;48 600
+Survilliers-Fosses;276261;95470;4,1;b;Ile-de-France;2 046 599
+Taverny;276634;95150;4,1;b;Ile-de-France;1 338 686
+Us;381178;95450;4,1;b;Ile-de-France;102 600
+Val d'Argenteuil;381798;95100;3,1;b;Ile-de-France;4 576 020
+Valmondois;276535;95760;4,1;b;Ile-de-France;853 200
+Vaucelles;276626;95150;4,1;b;Ile-de-France;556 200
+Viarmes;276568;95270;4,1;b;Ile-de-France;259 200
+Villaines;272021;95570;5,1;c;Ile-de-France;54 000
+Villiers le Bel Gonesse Arnouville;276220;95400;3,1;b;Ile-de-France;9 347 400
+Achères-Grand-Cormier;386052;78100;5,1;b;Ile-de-France;221 400
+Achères;381657;78260;3,1;b;Ile-de-France;3 142 800
+Andrésy;381491;78570;4,1;b;Ile-de-France;464 400
+Aubergenville-Elisabethville;386730;78410;4,1;b;Ile-de-France;1 279 060
+Beynes;393363;78650;4,1;b;Ile-de-France;140 400
+Bonnières;415893;78270;4,1;b;Ile-de-France;968 239
+Bougival;382440;78170;4,1;b;Ile-de-France;745 200
+Bréval;381624;78980;4,1;b;Ile-de-France;573 823
+La Celle Saint-Cloud ;382432;78170;4,1;b;Ile-de-France;1 890 000
+Chanteloup les Vignes;381475;78570;4,1;b;Ile-de-France;788 025
+Chaville-Vélizy;393173;78140;4,1;b;Ile-de-France;2 203 200
+Les Clairières de Verneuil;386664;78480;4,1;b;Ile-de-France;394 200
+Coignières;393272;78310;4,1;b;Ile-de-France;518 400
+Conflans fin d'Oise;381459;78700;3,1;b;Ile-de-France;5 194 800
+Conflans Sainte-Honorine;381897;78700;3,1;b;Ile-de-France;3 823 200
+Epône-Mézières;386763;78680;4,1;b;Ile-de-France;1 631 889
+Les Essarts le Roi ;393280;78690;4,1;b;Ile-de-France;912 600
+L' Etang la Ville;382473;78620;4,1;b;Ile-de-France;448 200
+Fontenay le Fleury;393405;78330;4,1;b;Ile-de-France;1 360 800
+Garancières la Queue;393439;78890;4,1;b;Ile-de-France;302 337
+Gargenville;381566;78440;4,1;b;Ile-de-France;297 000
+Gazeran;393348;78125;4,1;b;Ile-de-France;259 199
+Houdan;393462;78550;4,1;b;Ile-de-France;1 004 400
+Houilles-Carrières sur Seine;386409;78800;3,1;b;Ile-de-France;12 490 200
+Issou-Porcheville;381574;78440;4,1;b;Ile-de-France;183 369
+Jouy en Josas;393512;78350;4,1;b;Ile-de-France;777 600
+Juziers;381558;78820;4,1;b;Ile-de-France;232 200
+Limay;381582;78520;4,1;b;Ile-de-France;432 000
+Louveciennes;382457;78430;4,1;b;Ile-de-France;878 466
+Maisons Laffitte;386425;78600;3,1;b;Ile-de-France;6 674 211
+Mantes la Jolie;381509;78200;3,1;b;Ile-de-France;7 466 638
+Mantes Station;381590;78200;4,1;b;Ile-de-France;831 600
+Mareil Marly;382812;78750;5,1;c;Ile-de-France;91 800
+Mareil sur Mauldre;381715;78124;5,1;c;Ile-de-France;59 400
+Marly le Roi;382465;78160;4,1;b;Ile-de-France;2 127 600
+Maule;381723;78580;4,1;b;Ile-de-France;264 600
+Maurecourt;381483;78570;4,1;b;Ile-de-France;556 200
+Meulan-Hardricourt;381830;78250;4,1;b;Ile-de-France;459 000
+Montfort l'Amaury Méré;393892;78490;4,1;b;Ile-de-France;602 717
+Montreuil;382879;78000;4,1;b;Ile-de-France;2 207 322
+Les Mureaux ;386680;78130;3,1;b;Ile-de-France;3 316 085
+Nézel-Aulnay;381731;78410;5,1;c;Ile-de-France;70 200
+Noisy le Roi;393876;78590;4,1;b;Ile-de-France;259 200
+Orgerus Béhoust;393447;78910;4,1;b;Ile-de-France;205 200
+Le Perray ;393298;78610;4,1;b;Ile-de-France;745 200
+Petit Jouy les Loges;393504;78350;4,1;b;Ile-de-France;178 200
+Plaisir-Grignon;393421;78370;4,1;b;Ile-de-France;2 943 000
+Plaisir les Clayes;393629;78370;4,1;b;Ile-de-France;1 117 800
+Poissy;386573;78300;3,1;b;Ile-de-France;9 958 317
+Porchefontaine;393165;78000;4,1;b;Ile-de-France;885 600
+Port Villez;415679;78270;5,1;;Ile-de-France;0
+Rambouillet;393314;78120;4,1;b;Ile-de-France;6 275 096
+Rosny sur Seine;415885;78710;4,1;b;Ile-de-France;275 400
+Saint-Cyr;393223;78210;3,1;b;Ile-de-France;5 016 600
+Saint-Germain Bel Air Fourqueux;366922;78100;4,1;b;Ile-de-France;270 000
+Saint-Germain Grande Ceinture;382804;78100;4,1;b;Ile-de-France;97 200
+Saint-Nom la Bretèche Forêt de Marly;382481;78620;4,1;b;Ile-de-France;1 344 600
+Saint-Quentin en Yvelines;393843;78180;3,1;b;Ile-de-France;14 924 566
+Sartrouville;386417;78500;3,1;b;Ile-de-France;10 908 000
+Tacoignières-Richebourg;393454;78910;4,1;b;Ile-de-France;172 750
+Thun le Paradis;381822;78250;4,1;b;Ile-de-France;318 600
+Trappes;393835;78190;3,1;b;Ile-de-France;4 200 911
+Triel sur Seine;381806;78510;4,1;b;Ile-de-France;534 600
+Vauboyen;393538;91570;4,1;b;Ile-de-France;189 000
+Vaux sur Seine;381814;78740;4,1;b;Ile-de-France;302 400
+Vernouillet Verneuil;386656;78480;4,1;b;Ile-de-France;2 433 145
+La Verrière ;393256;78320;3,1;b;Ile-de-France;5 761 800
+Versailles Rive Droite;382861;78000;3,1;b;Ile-de-France;4 882 667
+"Versailles Rive Gauche
+ - Château de Versailles";393157;78000;3,1;b;Ile-de-France;7 887 587
+Villennes sur Seine;386649;78670;4,1;b;Ile-de-France;761 031
+Villepreux les Clayes;393413;78340;4,1;b;Ile-de-France;2 024 786
+Villiers Neauphles Pontchartrain;393884;78640;4,1;b;Ile-de-France;712 800
+Viroflay Rive Droite;382887;78220;4,1;b;Ile-de-France;1 446 062
+Viroflay Rive Gauche;393215;78220;3,1;b;Ile-de-France;3 515 400
+Audrieu;444059;14250;5;c;Manche-Nord;15 557
+Bayeux;444067;14400;3;b;Manche-Nord;545 808
+Blonville sur Mer Bénerville;444380;14910;5;c;Manche-Nord;2 471
+Bretteville Norrey;444042;14740;5;c;Manche-Nord;19 053
+Couliboeuf;444232;14620;5;c;Manche-Nord;888
+Dives-Cabourg;444414;14390;4;c;Manche-Nord;24 869
+Dives sur Mer Port Guillaume;337378;14160;5;c;Manche-Nord;3 066
+Frénouville-Cagny;444182;14630;5;c;Manche-Nord;7 829
+Houlgate;444406;14510;5;c;Manche-Nord;14 815
+Le Grand-Jardin;444323;14190;5;c;Manche-Nord;22 793
+Le Molay Littry;444083;14330;5;c;Manche-Nord;26 699
+Lison;447219;14330;4;b;Manche-Nord;185 468
+Mézidon;444208;14270;4;b;Manche-Nord;314 421
+Moult-Argences;444190;14370;5;c;Manche-Nord;46 871
+Pont l'Évèque;444349;14130;4;c;Manche-Nord;108 915
+Saint-Pierre sur Dives;444216;14170;5;c;Manche-Nord;39 592
+Saint-Sever;447714;14380;5;c;Manche-Nord;0
+Villers sur Mer;444398;14640;5;c;Manche-Nord;6 412
+Vire;448159;14500;4;c;Manche-Nord;79 903
+Avranches;448514;50300;4;c;Manche-Nord;18 857
+Carantilly Marigny;447144;50570;5;c;Manche-Nord;903
+Carentan;447243;50500;4;b;Manche-Nord;199 014
+Coutances;447110;50200;4;b;Manche-Nord;143 933
+Folligny;447649;50320;5;c;Manche-Nord;6 540
+Pont Hébert;447185;50880;5;c;Manche-Nord;16
+Pontorson-Mont Saint-Michel;478263;50170;4;c;Manche-Nord;15 352
+Saint-Lô;447003;50000;4;b;Manche-Nord;213 862
+Valognes;447284;50700;4;b;Manche-Nord;240 874
+Villedieu les Poêles;447698;50800;4;c;Manche-Nord;78 125
+Alençon;444711;61000;3;b;Manche-Nord;434 722
+Argentan;444539;61200;4;b;Manche-Nord;314 465
+Bretoncelles;394270;61110;5;c;Manche-Nord;21 473
+Briouze;448084;61220;4;c;Manche-Nord;33 153
+Condé sur Huisne;394288;61110;4;c;Manche-Nord;18 692
+Ecouché ;444547;61150;5;c;Manche-Nord;824
+Flers;448001;61100;4;b;Manche-Nord;134 450
+L'Aigle;444638;61300;4;b;Manche-Nord;152 353
+Le Merlerault;444588;61240;5;c;Manche-Nord;798
+Le Theil la Rouge;396333;61260;5;c;Manche-Nord;16 805
+Nonant le Pin;444570;61240;5;c;Manche-Nord;0
+Rai-Aube;444620;61270;5;c;Manche-Nord;0
+Sées;444695;61500;4;c;Manche-Nord;94 756
+Sainte-Gauburge;444604;61370;5;c;Manche-Nord;4 095
+Surdon;444562;61570;4;c;Manche-Nord;47 161
+Beaumont le Roger;387183;27170;5;c;Manche-Nord;11 609
+Bernay;444299;27300;3;b;Manche-Nord;472 015
+Bourgtheroulde Thuit Hébert;415323;27520;5;c;Manche-Nord;3 761
+Bourth;393603;27580;5;c;Manche-Nord;17
+Brionne;415364;27800;5;c;Manche-Nord;9 250
+Bueil;387092;27730;4;b;Manche-Nord;130 061
+Conches;387159;27190;4;b;Manche-Nord;101 336
+Gaillon-Aubevoye;415620;27600;4;b;Manche-Nord;466 232
+Glos-Montfort;415349;27290;5;c;Manche-Nord;3 288
+La Bonneville sur Iton;387142;27190;5;c;Manche-Nord;9 175
+Nonancourt;393553;27320;4;c;Manche-Nord;20 314
+Pont de l'Arche;415661;27340;5;c;Manche-Nord;11 897
+Romilly la Puthenaye;387175;27170;5;c;Manche-Nord;11 263
+Serquigny;444315;27470;4;c;Manche-Nord;26 908
+Saint-Germain-Saint-Rémy;393520;27320;5;c;Manche-Nord;484
+Saint-Pierre du Vauvray;415646;27430;5;c;Manche-Nord;3 363
+Tillières sur Avre;393587;27570;5;c;Manche-Nord;15
+Tourville;411181;27370;5;c;Manche-Nord;2 110
+Verneuil sur Avre;393595;27130;4;b;Manche-Nord;118 668
+Auffay;415158;76720;4;b;Manche-Nord;205 527
+Aumale;313767;76390;5;c;Manche-Nord;1 789
+Barentin Embranchement;411264;76360;4;b;Manche-Nord;306 895
+Blangy sur Bresle;313809;76340;5;c;Manche-Nord;37 799
+Bolbec Nointot;413351;76210;5;c;Manche-Nord;10 779
+Bréauté-Beuzeville;413344;76110;4;b;Manche-Nord;508 051
+Clères;411819;76690;5;b;Manche-Nord;140 873
+Dieppe;415018;76200;3;b;Manche-Nord;516 368
+Elbeuf Saint-Aubin;411173;76500;4;b;Manche-Nord;291 090
+Epouville;413732;76133;5;c;Manche-Nord;2 551
+Etainhus Saint-Romain;413328;76430;5;c;Manche-Nord;65 806
+Eu;317537;76260;5;c;Manche-Nord;39 702
+Fécamp;413542;76400;4;b;Manche-Nord;131 931
+Forges les Eaux;411389;76440;5;c;Manche-Nord;1 573
+Foucart-Alvimare;413377;76640;5;c;Manche-Nord;13 468
+Gisors Embranchement;381244;27140;4;b;Manche-Nord;359 479
+Gournay Ferrières;381293;76220;5;c;Manche-Nord;19 096
+Harfleur;413302;76700;5;c;Manche-Nord;6 583
+Harfleur Halte;413708;76700;5;c;Manche-Nord;4 801
+Jacques Monod la Demi Lieue;413716;76290;5;c;Manche-Nord;12 848
+Le Havre-Graville;413203;76600;5;c;Manche-Nord;1 898
+Le Tréport Mers les Bains;317529;76470;4;c;Manche-Nord;52 078
+Longroy-Gamaches;313817;76260;5;c;Manche-Nord;4 333
+Longuerue Vieux Manoir;411447;76750;5;c;Manche-Nord;14 288
+Longueville sur Scie;415141;76590;5;c;Manche-Nord;23 632
+Malaunay le Houlme;411256;76770;4;c;Manche-Nord;96 635
+Maromme;411249;76150;4;b;Manche-Nord;128 223
+Montérolier-Buchy;411454;76680;5;c;Manche-Nord;36 787
+Montivilliers;413724;76290;5;c;Manche-Nord;37 968
+Montville;411801;76710;5;b;Manche-Nord;149 701
+Morgny;411439;76750;5;c;Manche-Nord;38 429
+Motteville;411280;76970;5;c;Manche-Nord;97 636
+Oissel;411207;76350;4;b;Manche-Nord;358 953
+Pavilly Station;411272;76570;5;b;Manche-Nord;183 783
+Rolleville;413740;76133;5;c;Manche-Nord;793
+Serqueux;411470;76440;4;c;Manche-Nord;81 492
+Sommery;411462;76440;5;c;Manche-Nord;4 805
+Sotteville;411223;76300;5;c;Manche-Nord;17 033
+Saint-Aubin sur Scie;415125;76550;5;c;Manche-Nord;17 097
+Saint-Etienne du Rouvray;411215;76800;5;c;Manche-Nord;31 246
+Saint-Laurent Gainneville;413310;76700;5;c;Manche-Nord;40 290
+Saint-Martin du Vivier;411413;76160;5;c;Manche-Nord;7 747
+Saint-Victor;415166;76890;5;c;Manche-Nord;13 954
+Virville Manneville;413336;76110;5;c;Manche-Nord;5 121
+Yvetot;413385;76190;3;b;Manche-Nord;914 607
+Annappes;286856;59650;5;c;Manche-Nord;844
+Anor;295055;59186;5;c;Manche-Nord;23 402
+Anstaing;287219;59152;5;c;Manche-Nord;0
+Arleux;345421;59151;5;c;Manche-Nord;46 819
+Armentières;286146;59280;4;b;Manche-Nord;822 053
+Arnèke;281121;59285;5;c;Manche-Nord;116 994
+Ascq;286864;59650;4;c;Manche-Nord;10 195
+Aubigny au Bac;345447;59265;5;c;Manche-Nord;51 490
+Aulnoye Aymeries;295600;59620;4;b;Manche-Nord;638 946
+Avesnelles;295725;59440;5;c;Manche-Nord;6 562
+Avesnes;295733;59440;4;b;Manche-Nord;200 159
+Bailleul;286179;59270;4;b;Manche-Nord;958 200
+Baisieux;286872;59780;4;c;Manche-Nord;31 506
+Bauvin Provin;345280;59221;5;b;Manche-Nord;181 924
+Bergues;281105;59380;4;b;Manche-Nord;172 782
+Berlaimont;295808;59145;5;c;Manche-Nord;26 199
+Bertry;345553;59980;5;c;Manche-Nord;7 700
+Beuvrages;343160;59192;5;c;Manche-Nord;2 520
+Bouchain;345389;59111;5;c;Manche-Nord;36 978
+Bourbourg;281279;59630;5;c;Manche-Nord;7 583
+Bouvines;287235;59830;5;c;Manche-Nord;0
+Brunémont;345439;59151;5;c;Manche-Nord;4 244
+Busigny;296244;59137;4;c;Manche-Nord;49 667
+Cambrai ;345520;59400;4;b;Manche-Nord;655 452
+Cantin;345413;59169;5;c;Manche-Nord;48 985
+Cassel;281139;59970;5;c;Manche-Nord;90 605
+Cattenières;345587;59217;5;c;Manche-Nord;0
+Caudry;345561;59540;4;b;Manche-Nord;104 306
+Cobrieux;287243;59830;5;c;Manche-Nord;0
+Comines France;286260;59560;4;c;Manche-Nord;4 895
+Coudekerque Branche;281402;59210;5;c;Manche-Nord;5 761
+Courghain;281337;59760;5;c;Manche-Nord;0
+Croix l'Allumette;281055;59170;5;c;Manche-Nord;1 351
+Croix Wasquehal;286716;59170;4;c;Manche-Nord;8 863
+Cysoing;286781;59830;5;c;Manche-Nord;2 846
+Denain;343459;59220;4;c;Manche-Nord;31 173
+Deulémont;287185;59890;5;c;Manche-Nord;581
+Dompierre;295774;59440;5;c;Manche-Nord;4 904
+Don Sainghin;286435;59272;4;b;Manche-Nord;244 927
+Ebblinghem;281469;59173;5;c;Manche-Nord;27 038
+Ennevelin;287276;59710;5;c;Manche-Nord;1 438
+Escaudoeuvres;345496;59161;5;c;Manche-Nord;0
+Esquelbecq;281113;59470;5;c;Manche-Nord;102 000
+Fourmies;295048;59610;4;b;Manche-Nord;214 151
+Fretin;286641;59273;5;c;Manche-Nord;82 669
+Genech;286807;59242;5;c;Manche-Nord;863
+Grande-Synthe;281311;59760;5;c;Manche-Nord;818
+Gravelines;281246;59820;4;c;Manche-Nord;5 420
+Hachette;297523;59530;5;c;Manche-Nord;0
+Haubourdin;286096;59320;4;c;Manche-Nord;66 642
+Hautmont;295568;59330;4;b;Manche-Nord;76 386
+Hazebrouck;286302;59190;3;b;Manche-Nord;1 697 083
+Hellemmes;286062;59260;5;c;Manche-Nord;5 586
+Iwuy;345397;59141;5;c;Manche-Nord;7 933
+Jeumont;295014;59460;4;b;Manche-Nord;80 592
+La Bassée;342436;59480;4;b;Manche-Nord;247 600
+La Fontaine;286427;59136;5;c;Manche-Nord;5 440
+La Madeleine Nord;286187;59110;4;c;Manche-Nord;12 891
+Landas;286575;59310;5;c;Manche-Nord;45 813
+Landrecies;295642;59550;4;c;Manche-Nord;17 808
+Le Cateau;295220;59360;4;c;Manche-Nord;24 513
+Le Poirier Université;343210;59125;5;b;Manche-Nord;152 993
+Le Quesnoy;295857;59530;4;b;Manche-Nord;421 309
+Les Bons-Pères;297515;59131;5;c;Manche-Nord;900
+Lesquin;286849;59810;4;b;Manche-Nord;173 318
+Leval;295790;59620;5;c;Manche-Nord;2 063
+Lezennes;287102;59260;5;c;Manche-Nord;1 687
+Lille CHR;109306;59000;5;b;Manche-Nord;225 171
+Lille Porte de Douai;287250;59000;5;c;Manche-Nord;16 020
+Loos lez Lille;286112;59120;4;c;Manche-Nord;29 468
+Lourches;343475;59156;5;c;Manche-Nord;12 780
+Louvroil;295535;59720;5;c;Manche-Nord;4 341
+Marquette;287169;59252;5;c;Manche-Nord;0
+Marquillies;342469;59274;5;c;Manche-Nord;21 096
+Maubeuge;295006;59600;3;b;Manche-Nord;491 554
+Maurois;345546;59980;5;c;Manche-Nord;754
+Mont de Terre;287128;59000;5;c;Manche-Nord;2 657
+Montigny en Ostrevent;345306;59182;4;b;Manche-Nord;185 613
+Nieppe;287151;59850;5;c;Manche-Nord;74 551
+Nomain;286609;59310;5;c;Manche-Nord;5 787
+Nomain-Ouvignies;286815;59310;5;c;Manche-Nord;0
+Orchies;286583;59310;4;b;Manche-Nord;936 955
+Ors;295667;59360;5;c;Manche-Nord;128
+Ostricourt;345249;59162;5;b;Manche-Nord;148 564
+Pérenchies;286278;59840;4;b;Manche-Nord;66 132
+Phalempin;286500;59133;4;b;Manche-Nord;274 848
+Pont de bois;286831;59650;5;b;Manche-Nord;14 000
+Pont de la Deûle;345207;59128;5;c;Manche-Nord;19 890
+Prouvy-Thiant;343418;59121;5;c;Manche-Nord;447
+Quesnoy sur Deûle;286245;59890;5;c;Manche-Nord;1 860
+Raismes;343319;59590;4;c;Manche-Nord;35 442
+Recquignies;295022;59245;5;c;Manche-Nord;8 202
+Renescure;281451;59173;5;c;Manche-Nord;18 527
+Ronchin;286534;59790;4;c;Manche-Nord;45 388
+Rosult;286567;59230;5;c;Manche-Nord;65 938
+Sains du nord;295709;59177;5;c;Manche-Nord;69 133
+Salomé;342451;59496;5;c;Manche-Nord;14 855
+Santes;286401;59211;4;c;Manche-Nord;53 556
+Seclin;286518;59113;4;b;Manche-Nord;230 323
+Sin-le-Noble;345405;59450;5;c;Manche-Nord;56 274
+Somain;345314;59490;4;b;Manche-Nord;380 672
+Sous le Bois;295543;59600;5;c;Manche-Nord;497
+Saint-Amand les Eaux;343103;59230;4;b;Manche-Nord;673 307
+Saint-André Nord;286195;59350;4;c;Manche-Nord;17 366
+Steenbecque;342295;59189;5;c;Manche-Nord;572
+Steenwerck;286161;59181;5;c;Manche-Nord;44 371
+Sainte-Marguerite;287193;59660;5;c;Manche-Nord;0
+Saint-Hilaire;297531;59292;5;c;Manche-Nord;245
+Strazeele;286203;59270;5;c;Manche-Nord;48 893
+Templeuve;286625;59242;4;b;Manche-Nord;552 315
+Thiennes;342287;59189;5;c;Manche-Nord;1 315
+Tressin;286740;59152;5;c;Manche-Nord;1 098
+Trith Saint Léger;343400;59125;5;c;Manche-Nord;9 059
+Wallers;343301;59135;5;c;Manche-Nord;19 908
+Wambaix;345595;59400;5;c;Manche-Nord;0
+Wambrechies;286229;59118;5;c;Manche-Nord;2 054
+Wattignies-Templemars;286526;59680;5;c;Manche-Nord;62 555
+Wavrin;286419;59136;4;b;Manche-Nord;109 794
+Achiet;342048;62121;4;c;Manche-Nord;92 028
+Anvin;317255;62134;5;c;Manche-Nord;20 250
+Aubigny en Artois;342246;62690;5;c;Manche-Nord;58 536
+Aubin Saint-Vaast;316604;62140;5;c;Manche-Nord;0
+Auchy lès Hesdin;317230;62770;5;c;Manche-Nord;9 769
+Audruicq;281428;62370;4;b;Manche-Nord;221 329
+Avion;342584;62210;4;b;Manche-Nord;83 947
+Bailleul Sire Berthoult;342592;62580;5;c;Manche-Nord;552
+Beau Marais;317610;62100;5;c;Manche-Nord;332
+Beaurainville;317198;62990;5;c;Manche-Nord;27 277
+Beuvry lès Béthune;342402;62660;5;c;Manche-Nord;14 770
+Biache Saint-Vaast;342097;62118;4;c;Manche-Nord;62 183
+Billy Montigny;345140;62420;4;b;Manche-Nord;217 817
+Blangy sur Ternoise;317248;62770;5;c;Manche-Nord;1 634
+Boisleux;342071;62175;5;c;Manche-Nord;1 990
+Boulogne Tintelleries;317016;62200;4;b;Manche-Nord;313 783
+Brebières Sud;345108;62117;5;c;Manche-Nord;74 200
+Brimeux;317180;62170;5;c;Manche-Nord;1 561
+Bully Grenay;342105;62160;4;b;Manche-Nord;203 421
+Caffiers;317321;62132;5;c;Manche-Nord;6 433
+Calonne-Ricouart;342543;62470;4;c;Manche-Nord;70 542
+Chocques;342220;62920;5;c;Manche-Nord;5 115
+Corbehem;345116;62112;5;c;Manche-Nord;34 208
+Coron de Méricourt;345132;62680;5;c;Manche-Nord;30 095
+Courcelles le Comte;342063;62121;5;c;Manche-Nord;852
+Cuinchy;342410;62149;5;c;Manche-Nord;44 096
+Dannes-Camiers;317081;62187;5;c;Manche-Nord;9 677
+Dourges;345165;62119;4;b;Manche-Nord;244 770
+Etaples-le Touquet;317065;62630;4;b;Manche-Nord;380 101
+Farbus;342527;62580;5;c;Manche-Nord;2 923
+Fouquereuil;342204;62232;5;c;Manche-Nord;1 309
+Frévin Capelle;342212;62690;5;c;Manche-Nord;6 206
+Ham en Artois;342261;62190;5;c;Manche-Nord;4 591
+Hénin Beaumont;345157;62110;4;b;Manche-Nord;493 344
+Hesdigneul;317107;62196;5;c;Manche-Nord;29 491
+Hesdin;317222;62140;4;c;Manche-Nord;61 331
+Isbergues;342279;62330;4;b;Manche-Nord;203 104
+Le Haut Banc;316687;62250;5;c;Manche-Nord;9 706
+Leforest;345223;62790;4;b;Manche-Nord;218 283
+Les Fontinettes;317305;62100;5;c;Manche-Nord;19 138
+Libercourt;345256;62820;4;b;Manche-Nord;784 826
+Lièvin;345041;62800;5;c;Manche-Nord;37 564
+Lillers;342238;62190;4;b;Manche-Nord;254 693
+Loison sous Lens;345231;62218;5;c;Manche-Nord;18 399
+Loos en Gohelle;345033;65750;5;c;Manche-Nord;9 386
+Maresquel;317206;62990;5;c;Manche-Nord;190
+Maroeuil;342188;62161;5;c;Manche-Nord;20 844
+Marquise-Rinxent;317339;62250;4;b;Manche-Nord;177 841
+Mazingarbe;342121;62670;5;c;Manche-Nord;2 000
+Meurchin;345272;62410;5;c;Manche-Nord;70 149
+Montreuil sur Mer;317164;62170;4;c;Manche-Nord;58 551
+Neufchâtel Hardelot;317099;62152;5;c;Manche-Nord;8 598
+Noeux;342139;62390;4;b;Manche-Nord;104 989
+Nortkerque;287292;62370;5;c;Manche-Nord;2 866
+Pernes-Camblain;342550;62550;5;c;Manche-Nord;20 089
+Pihen;316679;62340;5;c;Manche-Nord;2 462
+Pont à Vendin;345264;62880;5;c;Manche-Nord;68 005
+Pont d'Ardres;281410;62610;5;c;Manche-Nord;2 266
+Pont de Briques;317115;62360;5;c;Manche-Nord;3 976
+Pont de Sallaumines;345124;62430;5;c;Manche-Nord;11 026
+Rang du Fliers Verton;317057;62180;4;b;Manche-Nord;235 265
+Roeux;342089;62118;5;c;Manche-Nord;25 030
+Ruminghem;287300;62370;5;c;Manche-Nord;22 529
+Sallaumines;345215;62430;5;c;Manche-Nord;19 031
+Savy Berlette;342253;62690;5;c;Manche-Nord;34 107
+Saint-Omer;281444;62500;3;b;Manche-Nord;842 472
+Saint-Pol sur Ternoise;342337;62130;4;b;Manche-Nord;219 926
+Tincques;342303;62127;5;c;Manche-Nord;19 227
+Vimy;342576;62580;5;c;Manche-Nord;15 332
+Vis à Marles;342535;62156;5;c;Manche-Nord;33 911
+Vitry en Artois;342113;62490;5;c;Manche-Nord;93 915
+Watten-Eperlecques;281436;62910;4;c;Manche-Nord;92 831
+Wimille-Wimereux;317123;62126;5;c;Manche-Nord;49 563
+Aguilcourt-Variscourt;171702;2190;5;c;Manche-Nord;8 920
+Amifontaine;171744;2190;5;c;Manche-Nord;12 152
+Anizy-Pinon;296566;2320;4;c;Manche-Nord;89 723
+Appilly;296459;60400;5;c;Manche-Nord;3 967
+Barenton Bugny;297291;2000;5;c;Manche-Nord;9 539
+Bazoches;171348;2220;5;c;Manche-Nord;11 197
+Bohain;296269;2110;4;b;Manche-Nord;158 436
+Chauny;296616;2300;4;b;Manche-Nord;457 056
+Chézy sur Marne;116574;2570;5;c;Manche-Nord;13 961
+Clacy Mons;296178;2000;5;c;Manche-Nord;1 505
+Corcy;272286;2600;5;c;Manche-Nord;389
+Coucy les Eppes;171769;2840;5;c;Manche-Nord;7 434
+Crépy-Couvron;296152;2870;5;c;Manche-Nord;4 914
+Crouy;271874;2880;5;c;Manche-Nord;102
+Dercy-Froidmont;297143;2270;5;c;Manche-Nord;12 293
+Fère en Tardenois;171371;2130;5;c;Manche-Nord;13 870
+Flavy le Martel ;296871;2520;5;c;Manche-Nord;12 778
+Fresnoy le Grand;296293;2230;5;c;Manche-Nord;15 606
+Guignicourt;171736;2190;4;b;Manche-Nord;130 462
+Hirson;295063;2500;4;b;Manche-Nord;142 239
+Hirson Ecoles;324335;2500;5;c;Manche-Nord;59 555
+La Bouteille;297085;2140;5;c;Manche-Nord;7 041
+La Fère;296632;2800;4;b;Manche-Nord;142 416
+La Ferté Milon;116673;2460;4;c;Manche-Nord;49 567
+Laon;296012;2000;3;b;Manche-Nord;842 067
+Longpont;271775;2600;5;c;Manche-Nord;901
+Margival;271882;2880;5;c;Manche-Nord;104
+Marle sur Serre;296095;2250;4;c;Manche-Nord;63 053
+Mennessis;296434;2700;5;c;Manche-Nord;11 541
+Montescourt;296418;2440;5;c;Manche-Nord;17 270
+Mont Notre Dame;171355;2220;5;c;Manche-Nord;7 396
+Neuilly Saint Front;116681;2470;5;c;Manche-Nord;3 365
+Nogent l'Artaud-Charly;116566;2310;4;c;Manche-Nord;93 297
+Origny en Thiérache;296145;2550;5;c;Manche-Nord;14 117
+Oulchy-Brény;116699;2210;5;c;Manche-Nord;2 636
+Soissons;271817;2200;4;b;Manche-Nord;634 765
+Saint-Erme;171751;2820;4;c;Manche-Nord;78 642
+Tergnier;296442;2700;4;b;Manche-Nord;453 279
+Vaumoise;271601;60117;5;c;Manche-Nord;769
+Vauxaillon;297283;2320;5;c;Manche-Nord;4 675
+Verneuil sur Serre;297119;2000;5;c;Manche-Nord;6 648
+Versigny;296608;2800;5;c;Manche-Nord;6 016
+Vervins;296129;2140;5;c;Manche-Nord;64 915
+Vierzy;271783;2210;5;c;Manche-Nord;1 293
+Villers Cotterêts;271734;2600;4;b;Manche-Nord;413 270
+Viry Noureuil;297051;2300;5;c;Manche-Nord;618
+Voyenne;297150;2250;5;c;Manche-Nord;5 472
+Abancourt;313759;60220;4;c;Manche-Nord;37 559
+Avrechy;313296;60130;5;c;Manche-Nord;8 112
+Balagny Saint-Epin;313569;60250;5;c;Manche-Nord;15 509
+Beauvais;313510;60000;3;b;Manche-Nord;1 296 647
+Boran sur Oise;276444;60820;5;c;Manche-Nord;15 527
+Bornel-Belle Eglise;276717;60540;4;b;Manche-Nord;271 488
+Breteuil Embranchement;313247;60120;4;c;Manche-Nord;41 264
+Chambly;276725;60230;4;b;Manche-Nord;606 574
+Chantilly-Gouvieux;276113;60500;3;b;Manche-Nord;2 256 374
+Chaumont en Vexin;381228;60240;4;b;Manche-Nord;151 443
+Chevrières;276311;60710;5;c;Manche-Nord;31 370
+Choisy au Bac;272062;60750;5;;Manche-Nord;0
+Cires lès Mello;313551;60660;4;c;Manche-Nord;103 354
+Clermont de l'Oise;313304;60600;4;b;Manche-Nord;957 369
+Cramoisy;313544;60660;5;c;Manche-Nord;1 739
+Crépy en Valois;271593;60800;4;b;Manche-Nord;920 832
+Esches;272096;60110;5;c;Manche-Nord;28 748
+Estrées Saint-Denis;313387;60190;4;c;Manche-Nord;48 776
+Feuquières-Broquiers;313742;60960;5;c;Manche-Nord;21 921
+Formerie;313833;60220;5;c;Manche-Nord;6 374
+Fouilloy;313841;60220;5;c;Manche-Nord;42
+Gannes;313262;60120;5;c;Manche-Nord;3 133
+Grandvilliers;313734;60210;4;c;Manche-Nord;60 749
+Heilles-Mouchy;316398;60250;5;c;Manche-Nord;5 449
+Herchies;313692;60112;5;c;Manche-Nord;5 954
+Hermes Berthecourt;313585;60370;4;c;Manche-Nord;95 059
+Jaux;272013;60880;5;c;Manche-Nord;18 133
+La Borne Blanche;276287;60560;5;c;Manche-Nord;20 561
+La Villetertre;381202;60240;5;c;Manche-Nord;5 776
+Laboissières le Déluge;313676;60570;5;c;Manche-Nord;13 460
+Laigneville;276204;60290;5;b;Manche-Nord;137 538
+Le Plessis Belleville;271551;60330;4;b;Manche-Nord;144 660
+Le Meux la Croix St-Ouen;276733;60880;5;c;Manche-Nord;34 855
+Liancourt-Rantigny;276212;60140;4;b;Manche-Nord;274 625
+Liancourt-Saint-Pierre;381210;60240;5;c;Manche-Nord;8 722
+Longueil-Sainte-Marie;276303;60126;4;c;Manche-Nord;40 249
+Longueil-Annel;272195;60150;5;c;Manche-Nord;21 244
+Mareuil sur Ourcq;116665;60890;5;c;Manche-Nord;22 195
+Marseille en Beauvaisis;313726;60860;5;c;Manche-Nord;34 848
+Meru;313668;60110;4;b;Manche-Nord;726 403
+Milly sur Thérain;313700;60112;4;c;Manche-Nord;10 538
+Montataire;276618;60160;4;c;Manche-Nord;29 889
+Montreuil sur Thérain;316406;60134;5;c;Manche-Nord;4 985
+Mouy Bury;313577;60250;4;b;Manche-Nord;177 712
+Nanteuil le Haudouin;271577;60440;4;b;Manche-Nord;126 827
+Noyon;276782;60400;4;b;Manche-Nord;582 020
+Ormoy Villers;271585;60800;5;c;Manche-Nord;2 800
+Orry la Ville Coye;276279;60560;4;b;Manche-Nord;1 076 881
+Ourscamps;276774;60138;5;c;Manche-Nord;2 828
+Pont Sainte-Maxence;276329;60700;4;b;Manche-Nord;879 607
+Précy sur Oise;276410;60460;4;c;Manche-Nord;36 066
+Rémy;313403;60190;5;c;Manche-Nord;8 997
+Ribecourt;276766;60170;4;b;Manche-Nord;110 347
+Rieux-Angicourt;276352;60870;4;b;Manche-Nord;162 283
+Rochy Condé;313601;60510;4;c;Manche-Nord;2 669
+Saint-Just en Chaussée;313270;60130;4;b;Manche-Nord;541 500
+Saint-Leu d'Esserent;276402;60340;4;c;Manche-Nord;64 735
+Saint-Omer en Chaussée;313718;60860;5;c;Manche-Nord;7 144
+Saint-Rémy en l'Eau;313288;60130;5;c;Manche-Nord;1 595
+Saint-Sulpice Auteuil;313684;60430;4;b;Manche-Nord;126 314
+Thourotte;276741;60150;4;c;Manche-Nord;62 334
+Tricot;313353;60420;5;c;Manche-Nord;61 377
+Trie Château;381236;60590;5;c;Manche-Nord;18 401
+Villers Saint-Paul;276378;60870;5;c;Manche-Nord;77 705
+Villers Saint-Sépulcre;313593;60134;5;c;Manche-Nord;9 816
+Villers sur Thère;316422;60000;5;c;Manche-Nord;877
+Wacquemoulin;316208;60420;5;c;Manche-Nord;6 386
+Acheux-Franleu;316745;80560;5;c;Manche-Nord;719
+Ailly sur Noye;313221;80250;4;b;Manche-Nord;122 200
+Ailly sur Somme;313098;80470;4;b;Manche-Nord;126 651
+Albert;313072;80300;4;b;Manche-Nord;447 563
+Boves;313213;80440;5;c;Manche-Nord;18 796
+Buire sur l'Ancre;316067;80300;5;c;Manche-Nord;2 412
+Chaulnes;313478;80320;4;c;Manche-Nord;99 097
+Chépy-Valines;317495;80210;5;c;Manche-Nord;7 192
+Corbie;313056;80800;4;b;Manche-Nord;347 059
+Daours;315044;80800;5;c;Manche-Nord;24 439
+Dommartin-Remiencourt;316109;80440;5;c;Manche-Nord;7 212
+Dreuil lès Amiens;316075;80730;5;c;Manche-Nord;16 733
+Feuquerolles;316752;80190;5;c;Manche-Nord;618
+Feuquières-Fressenville;317503;80210;5;c;Manche-Nord;19 932
+Ham;313494;80400;4;b;Manche-Nord;133 818
+Hangest sur Somme;313114;80310;5;c;Manche-Nord;52 433
+Hargicourt-Pierrepont;313338;80500;5;c;Manche-Nord;20 446
+Heilly;316059;80113;5;c;Manche-Nord;5 000
+La Faloise;313239;80250;5;c;Manche-Nord;9 779
+Longpré les Corps Saints;313122;80510;4;b;Manche-Nord;142 326
+Marcelcave;313445;80720;5;c;Manche-Nord;39 456
+Méricourt-Ribemont;313064;80340;5;c;Manche-Nord;35 935
+Miraumont;342030;80300;5;c;Manche-Nord;15 642
+Montdidier;313346;80500;4;b;Manche-Nord;164 337
+Moreuil;313320;80110;4;b;Manche-Nord;147 107
+Namps-Quevauvillers;313379;80710;5;c;Manche-Nord;849
+Nesle (Somme);313486;80190;4;c;Manche-Nord;72 439
+Noyelles sur Mer;317396;80133;4;c;Manche-Nord;69 048
+Picquigny;313106;80310;5;c;Manche-Nord;79 873
+Poix de Picardie;313395;80290;5;c;Manche-Nord;90 124
+Pont Rémy;313130;80580;5;c;Manche-Nord;22 766
+Quesnoy le Montant;317487;80132;5;c;Manche-Nord;1 878
+Rosières;313460;80170;4;b;Manche-Nord;124 857
+Rue;317404;80120;4;b;Manche-Nord;112 957
+Saint-Roch;313080;80000;4;c;Manche-Nord;87 473
+Thézy Glimont;316125;80110;5;c;Manche-Nord;19 762
+Villers Bretonneux;313437;80380;5;b;Manche-Nord;141 828
+Woincourt;317511;80520;5;c;Manche-Nord;14 084
+Alet les Bains;615187;11580;5;c;Méditerranée;20
+Bram;615054;11150;4;c;Méditerranée;56 762
+Campagne sur Aude;615229;11260;5;c;Méditerranée;15
+Castelnaudary;615039;11400;4;b;Méditerranée;285 826
+Couffoulens Leuc;615120;11250;5;c;Méditerranée;1 171
+Couiza Montazels;615203;11190;5;c;Méditerranée;569
+Coursan;781161;11110;5;c;Méditerranée;1 712
+Esperaza;615211;11260;5;c;Méditerranée;936
+Leucate la-Franqui;781088;11370;4;c;Méditerranée;59 622
+Lézignan Corbières;615112;11200;4;c;Méditerranée;92 328
+Limoux;615161;11300;4;c;Méditerranée;17 138
+Limoux-Flassian;598755;11300;5;c;Méditerranée;4 426
+Pomas;615146;11250;5;c;Méditerranée;6 738
+Port la Nouvelle;781062;11210;4;c;Méditerranée;70 641
+Quillan;615260;11500;4;c;Méditerranée;29 971
+Verzeille;615138;11250;5;c;Méditerranée;303
+Aigues Mortes;775858;30220;4;c;Méditerranée;2 686
+Aigues Vives;775122;30670;5;;Méditerranée;0
+Aimargues;775833;30470;5;c;Méditerranée;84
+Alès;775288;30100;3;b;Méditerranée;398 792
+Beaucaire;775023;30300;5;c;Méditerranée;8 814
+Beauvoisin;775809;30640;5;c;Méditerranée;564
+Bessèges;775494;30160;4;c;Méditerranée;0
+Boucoiran;775346;30190;5;c;Méditerranée;745
+Chamborigaud;775221;30530;5;c;Méditerranée;4 329
+Fons Saint-Mamert;775379;30730;5;c;Méditerranée;11 224
+Gallargues;775130;30660;5;c;Méditerranée;5 466
+Gammal;775510;30410;5;c;Méditerranée;0
+Générac;775791;30510;5;c;Méditerranée;319
+Génolhac;775213;30450;4;c;Méditerranée;27 577
+Grand Combe la Pise;775254;30110;4;c;Méditerranée;24 787
+Jonquières et Saint-Vincent;775049;30300;5;;Méditerranée;0
+La Levade;775247;30110;5;c;Méditerranée;274
+Le Cailar;775825;30740;5;c;Méditerranée;323
+Le Grau du Roi;775866;30240;4;c;Méditerranée;58 112
+Manduel-Redessan;775064;30129;5;c;Méditerranée;6 374
+Milhaud;775098;30540;5;c;Méditerranée;2 337
+Molières sur Cèze;775528;30410;5;c;Méditerranée;0
+Nozières-Brignon;775353;30190;5;c;Méditerranée;6 211
+Nyer;784736;66123;5;c;Méditerranée;0
+Robiac;775502;30160;5;c;Méditerranée;0
+Salindres;775551;30340;5;c;Méditerranée;0
+Saint-Ambroix;775536;30500;5;c;Méditerranée;0
+Saint-Césaire;775072;30900;5;c;Méditerranée;13 682
+Saint-Geniès de Malgoires;775361;30190;5;c;Méditerranée;63 730
+Saint-Julien les Fumades;775544;30271;5;c;Méditerranée;0
+Saint-Laurent d'Aigouze;775841;30220;5;c;Méditerranée;761
+Uchaud;775106;30620;5;c;Méditerranée;2 049
+Vauvert;775817;30600;4;c;Méditerranée;1 625
+Vergèze Codognan;775114;30310;4;b;Méditerranée;203 402
+Agde;781278;34300;2;a;Méditerranée;637 458
+Baillargues;773457;34670;5;c;Méditerranée;88 900
+Bédarieux;781609;34600;4;c;Méditerranée;15 855
+Ceilhe -Roquèredonde;781542;34260;5;c;Méditerranée;7 174
+Frontignan;773556;34110;4;b;Méditerranée;315 797
+Le Bousquet d'Orb;781583;34260;5;c;Méditerranée;1 100
+Les Cabrils;781559;34233;5;c;Méditerranée;18
+Les Mazes le Crès;773473;34090;5;;Méditerranée;0
+Lunas;781575;34650;5;c;Méditerranée;0
+Lunel;773408;34400;4;b;Méditerranée;751 094
+Lunel Viel;773424;34400;5;c;Méditerranée;8 438
+Magalas;781666;34480;5;c;Méditerranée;1 612
+Marseillan Plage;781294;34340;5;c;Méditerranée;4 220
+Nissan;781179;34440;5;c;Méditerranée;1 116
+Saint-Aunès;773465;34130;5;c;Méditerranée;1 953
+Saint-Brès Mudaison;773440;34670;5;;Méditerranée;456
+Valergues Lansargues;773432;34130;5;c;Méditerranée;9 492
+Vias;781260;34450;5;c;Méditerranée;4 247
+Vic Mireval;773531;34110;5;c;Méditerranée;13 792
+Villeneuve les Maguelonne;773515;34750;5;c;Méditerranée;9 046
+Allenc;783654;48190;5;c;Méditerranée;0
+Aumont Aubrac;783266;48130;4;c;Méditerranée;6 501
+Bagnols-Chadenet;783647;48190;5;c;Méditerranée;167
+Balsièges-Bourg;111864;48000;5;c;Méditerranée;0
+Banassac la Canourgue;783324;48500;4;c;Méditerranée;2 093
+Barjac;783563;48000;5;c;Méditerranée;0
+Belvezet;783670;48170;5;c;Méditerranée;64
+Chanac;783530;48230;5;c;Méditerranée;573
+Chapeauroux;734343;48600;5;c;Méditerranée;245
+Chasserades;775148;48250;5;c;Méditerranée;300
+Chirac;783290;48100;5;c;Méditerranée;33
+La Bastide Saint-Laurent-les-Bains;775171;48250;4;c;Méditerranée;37 772
+Langogne;734350;48300;4;c;Méditerranée;25 161
+Le Bruel;783548;48056;5;c;Méditerranée;0
+Le Monastier;783308;48100;5;c;Méditerranée;230
+Les Salelles;783514;48230;5;c;Méditerranée;0
+Luc;734368;48250;5;c;Méditerranée;140
+Marvejols;783282;48100;4;c;Méditerranée;33 944
+Mende;783605;48000;4;c;Méditerranée;24 940
+Saint-Chély d'Apcher;783241;48200;4;c;Méditerranée;34 328
+Sainte-Cécil -d'Andorge;775239;30239;5;c;Méditerranée;638
+Villefort;775197;48800;4;c;Méditerranée;10 283
+Argelès sur Mer;784231;66700;4;b;Méditerranée;118 331
+Banyuls sur Mer;784298;66650;4;c;Méditerranée;72 164
+Bena Fanès;784892;66760;5;c;Méditerranée;0
+Bolquère-Eyne;784801;66210;5;c;Méditerranée;4 721
+Bourg Madame;784876;66760;4;c;Méditerranée;6 239
+Cerbère;785006;66290;4;c;Méditerranée;58 062
+Collioure;784256;66190;4;c;Méditerranée;82 675
+Elne;784207;66200;4;c;Méditerranée;68 738
+Err;784843;66800;5;c;Méditerranée;148
+Estavar;784827;66800;5;c;Méditerranée;57
+Fontpédrouse-Saint-Thomas les Bains;784769;66360;5;c;Méditerranée;3 940
+Font-Romeu Odeillo Via;784819;66120;4;c;Méditerranée;38 070
+Ille sur Tet;784561;66130;4;c;Méditerranée;1 514
+Joncet;784710;66193;5;c;Méditerranée;0
+Latour de Carol Enveitg;611483;66760;4;c;Méditerranée;45 953
+Le Soler;784512;66270;5;c;Méditerranée;3 005
+Marquixanes;784629;66320;5;c;Méditerranée;1 529
+Millas;784546;66170;5;c;Méditerranée;1 548
+Mont Louis la Cabanasse;784793;66210;4;c;Méditerranée;61 725
+Olette-Canaveilles les Bains;784728;66360;5;c;Méditerranée;1 498
+Osséja;784868;66340;5;c;Méditerranée;222
+Perpignan;784009;66027;2;a;Méditerranée;1 534 080
+Planès;784785;66210;5;c;Méditerranée;383
+Porta;611491;66146;5;;Méditerranée;0
+Porte Puymorens;611509;66760;5;c;Méditerranée;1 594
+Port Vendres;784264;66660;4;c;Méditerranée;27 099
+Prades Molitg les Bains;784637;66500;4;c;Méditerranée;6 313
+Ria;784660;66500;5;c;Méditerranée;1 120
+Rivesaltes;784173;66600;4;c;Méditerranée;85 945
+Saillagouse;784835;66800;5;c;Méditerranée;1 490
+Salses;784157;66600;5;c;Méditerranée;11 008
+Sauto;784777;66210;5;c;Méditerranée;0
+Serdinya;784702;66360;5;c;Méditerranée;33
+Sainte-Léocadie;784850;66800;5;c;Méditerranée;73
+Saint-Féliu d'Avail;784520;66170;5;c;Méditerranée;75
+Thuès Carença;784751;66360;5;c;Méditerranée;2 195
+Thuès les Bains;784744;66360;5;c;Méditerranée;76
+Ur les Escaldes;784884;66760;5;c;Méditerranée;0
+Villefranche Vernet les Bains;784686;66820;4;b;Méditerranée;143 526
+Vinça;784611;66320;5;c;Méditerranée;2 852
+Château Arnoux Saint-Auban;751230;4160;4;c;Méditerranée;14 453
+La Brillanne-Oraison;751271;4700;4;c;Méditerranée;22 924
+Manosque-Gréoux les Bains;751321;4100;4;c;Méditerranée;76 000
+Sisteron;751206;4200;4;c;Méditerranée;26 839
+Beaulieu sur Mer;756379;6310;4;b;Méditerranée;413 601
+Biot;757690;6410;4;b;Méditerranée;238 658
+Breil sur Roya;756833;6540;4;c;Méditerranée;26 479
+Cagnes sur Mer;756320;6800;4;b;Méditerranée;801 561
+Cannes La Bocca;757617;6150;4;b;Méditerranée;181 098
+Cap d'Ail;756395;6320;5;c;Méditerranée;63 914
+Cap Martin Roquebrune;756460;6190;5;c;Méditerranée;38 827
+Carnoles;756478;6180;4;b;Méditerranée;380 478
+Cros de Cagnes;756338;6800;4;b;Méditerranée;151 841
+Drap-Cantaron;756775;6340;5;c;Méditerranée;13 153
+Eze;756387;6360;5;c;Méditerranée;83 963
+Fontan-Saorge;756858;6540;5;c;Méditerranée;1 453
+Golfe Juan Vallauris;757641;6220;4;b;Méditerranée;252 408
+Grasse;757724;6520;4;b;Méditerranée;201 822
+Juan les Pins;757666;6160;4;b;Méditerranée;580 531
+La Brigue;756874;6430;5;c;Méditerranée;1 330
+La Frayère;757740;6400;5;c;Méditerranée;24 775
+La Trinité Victor;756767;6340;4;c;Méditerranée;15 040
+L'Ariane la Trinité;751529;6340;5;c;Méditerranée;5 143
+Le Bosquet;757757;6400;5;c;Méditerranée;38 678
+L'Escarène;756809;6440;5;c;Méditerranée;7 939
+Mandelieu la Napoule;757591;6210;4;b;Méditerranée;102 532
+Menton;756486;6500;3;b;Méditerranée;1 361 104
+Menton-Garavan;756494;6500;4;b;Méditerranée;170 625
+Mouans Sartoux;401323;6370;4;b;Méditerranée;94 396
+Nice Riquier;756353;6300;4;b;Méditerranée;1 573 743
+Nice Saint-Augustin;756254;6200;4;b;Méditerranée;929 082
+Nice Saint-Roch;756007;6300;5;c;Méditerranée;3 835
+Peille;756791;6440;5;c;Méditerranée;3 084
+Peillon Sainte-Thècle;756783;6440;5;c;Méditerranée;1 935
+Ranguin;757732;6400;5;c;Méditerranée;32 682
+Sospel;756825;6380;4;c;Méditerranée;22 473
+Saint-Dalmas de Tende;756866;6430;5;c;Méditerranée;2 657
+Saint-Laurent du Var;756346;6700;4;b;Méditerranée;524 630
+Tende;756882;6430;4;c;Méditerranée;10 108
+Théoule sur Mer;757583;6590;5;c;Méditerranée;13 258
+Touët de l'Escarène;756817;6440;5;c;Méditerranée;640
+Vievola;756890;6430;5;c;Méditerranée;0
+Villefranche sur Mer;756361;6230;4;b;Méditerranée;456 752
+Villeneuve Loubet Plage;756304;6270;4;b;Méditerranée;240 258
+Aubagne;751750;13400;3;b;Méditerranée;575 632
+Berre;753228;13130;5;c;Méditerranée;171
+Carry le Rouet;753566;13620;4;b;Méditerranée;76 571
+Cassis;751776;13260;4;b;Méditerranée;189 753
+Croix-Sainte;753491;13500;5;c;Méditerranée;2 695
+Fos sur Mer;753442;13270;5;c;Méditerranée;7 760
+Gardanne;751420;13120;4;b;Méditerranée;425 835
+Istres;753418;13800;4;c;Méditerranée;53 257
+La Ciotat;751784;13600;3;b;Méditerranée;402 860
+La Couronne-Carro;753541;13500;5;c;Méditerranée;37 802
+La Penne sur Huveaune;751743;13821;5;c;Méditerranée;44 376
+La Pomme;751719;13720;5;c;Méditerranée;45
+La Redonne Ensues;753574;13820;5;c;Méditerranée;41 277
+Lamanon;753731;13113;5;c;Méditerranée;17 265
+L'Estaque;751602;13016;5;c;Méditerranée;57 905
+Marseille-Blancarde;751081;13004;4;b;Méditerranée;269 576
+Martigues;753509;13500;4;c;Méditerranée;44 022
+Meyrargues;751370;13650;5;c;Méditerranée;54 781
+Miramas;753004;13140;3;b;Méditerranée;524 864
+Niolon;753582;13016;5;c;Méditerranée;30 076
+Orgon;753707;13660;5;c;Méditerranée;4 250
+Pas des Lanciers;753285;13730;4;b;Méditerranée;144 610
+Picon Busserine;759290;13014;5;c;Méditerranée;12 925
+Port de Bouc;753459;13110;4;c;Méditerranée;47 317
+Rassuen;753426;13270;5;c;Méditerranée;3 099
+Rognac;753251;13340;4;b;Méditerranée;204 002
+Salon;753764;13300;4;b;Méditerranée;164 226
+Sausset les Pins;753558;13960;4;b;Méditerranée;76 198
+Sénas;753715;13560;5;c;Méditerranée;10 422
+Séon Saint-Henry;751636;13016;5;c;Méditerranée;712
+Septèmes;751800;13240;4;c;Méditerranée;23 841
+Simiane;751438;13109;4;b;Méditerranée;133 583
+Saint-Joseph le Castellas;759316;13015;5;c;Méditerranée;9 106
+Saint-Antoine;751826;13015;5;c;Méditerranée;35 056
+Saint-Chamas;753202;13250;5;c;Méditerranée;51 931
+Sainte-Marthe en Provence;751842;13014;4;c;Méditerranée;59 119
+Saint-Louis les Aygalades;751644;13000;5;c;Méditerranée;574
+Saint-Marcel;751701;13720;5;c;Méditerranée;7 647
+Saint-Martin de Crau;753681;13310;5;c;Méditerranée;68 938
+Tarascon sur Rhône;765354;13150;4;b;Méditerranée;172 348
+Vitrolles Aeroport Marseille Provence;439554;13127;5;b;Méditerranée;592 758
+Aspres sur Buëch;763250;5140;4;c;Méditerranée;6 223
+Briançon;763607;5100;3;b;Méditerranée;128 016
+Chorges;763425;5230;4;c;Méditerranée;19 782
+Embrun;763466;5200;4;b;Méditerranée;76 881
+Gap;763003;5000;3;b;Méditerranée;240 905
+Laragne;763755;5300;4;c;Méditerranée;13 027
+L'Argentière les Ecrins;763557;5120;4;c;Méditerranée;35 577
+Montdauphin-Guillestre;763508;5600;3;c;Méditerranée;67 418
+Serres;763722;5700;4;c;Méditerranée;10 616
+Veynes Devoluy;763300;5400;4;c;Méditerranée;66 839
+Agay;757559;83530;5;c;Méditerranée;18 134
+Anthéor Cap Roux;757567;83530;5;c;Méditerranée;4 275
+Bandol;755223;83150;3;b;Méditerranée;245 667
+Boulouris sur Mer;757534;83700;4;c;Méditerranée;25 276
+Carnoules;755371;83660;4;c;Méditerranée;65 163
+Cuers-Pierrefeu;755355;83390;5;c;Méditerranée;29 350
+Fréjus;757500;83600;4;b;Méditerranée;96 493
+Gonfaron;755397;83590;5;c;Méditerranée;14 536
+Hyères;755629;83400;4;b;Méditerranée;204 935
+La Crau;755611;83260;5;c;Méditerranée;13 802
+La Garde;755306;83130;4;c;Méditerranée;60 562
+La Pauline Hyères;755314;83400;4;c;Méditerranée;64 815
+La Seyne Six Fours;755264;83500;4;b;Méditerranée;224 303
+Le Dramont;757542;83530;5;c;Méditerranée;6 978
+Le Luc et le Cannet;755405;83340;4;c;Méditerranée;21 333
+Le Trayas;757575;83700;5;c;Méditerranée;5 899
+Ollioules-Sanary sur Mer;755231;83190;4;b;Méditerranée;254 934
+Pignans;755389;83790;5;c;Méditerranée;13 983
+Puget;755363;83390;5;c;Méditerranée;10 098
+Solliès Pont;755330;83210;4;c;Méditerranée;42 127
+Saint-Cyr les Lecques la Cadière;755215;83270;4;b;Méditerranée;240 831
+Vidauban;755421;83550;5;c;Méditerranée;2 771
+Bédarrides;765198;84370;5;c;Méditerranée;12 358
+Bollène la Croisière;764357;84500;4;b;Méditerranée;92 751
+Cavaillon;765503;84300;4;b;Méditerranée;121 411
+Courthézon;765180;84350;5;c;Méditerranée;17 641
+Gadagne;765446;84470;5;c;Méditerranée;5 231
+Le Thor;765453;84250;4;c;Méditerranée;33 660
+L'Isle sur Sorgue Fontaine de Vaucluse;765479;84800;4;b;Méditerranée;109 533
+Montfavet;765412;84140;4;c;Méditerranée;12 989
+Morières les Avignon;765420;84310;5;c;Méditerranée;26 342
+Orange;765107;84100;3;b;Méditerranée;279 007
+Pertuis;751362;84120;4;c;Méditerranée;23 675
+Sorgues-Châteauneuf du Pape;765206;84700;4;c;Méditerranée;41 393
+Saint-Saturnin d'Avignon;765438;84450;5;c;Méditerranée;14 309
+Bellenaves;641068;3330;5;c;Centre Est Rhône Alpes;5 927
+Bessay;696336;3340;5;c;Centre Est Rhône Alpes;8 714
+Chamblet;641407;3170;5;;Centre Est Rhône Alpes;0
+Commentry;641415;3600;4;b;Centre Est Rhône Alpes;176 502
+Diou;696435;3490;5;c;Centre Est Rhône Alpes;2 488
+Dompierre Sept Fons;696427;3290;4;c;Centre Est Rhône Alpes;13 908
+Gannat;732404;3800;4;c;Centre Est Rhône Alpes;91 918
+Huriel;641217;3380;5;c;Centre Est Rhône Alpes;50
+La Ville Gozet;641191;3100;5;c;Centre Est Rhône Alpes;545
+Les Trillers;641373;3190;5;c;Centre Est Rhône Alpes;1 744
+Lignerolles;641795;3410;5;c;Centre Est Rhône Alpes;0
+Louroux de Bouble;641050;3330;5;c;Centre Est Rhône Alpes;2 722
+Magnette;641365;3260;5;c;Centre Est Rhône Alpes;754
+Montluçon-Rimard;323675;3100;5;c;Centre Est Rhône Alpes;7 548
+Saint-Bonnet de Rochefort;641076;3800;5;c;Centre Est Rhône Alpes;3 120
+Saint-Germain des Fossés;732206;3260;4;b;Centre Est Rhône Alpes;140 088
+Thiel sur Acolin;696419;3230;5;c;Centre Est Rhône Alpes;1 153
+Urçay;576348;3360;5;c;Centre Est Rhône Alpes;6 967
+Vallon en Sully;641357;3190;4;c;Centre Est Rhône Alpes;31 437
+Varennes sur Allier;696351;3150;5;c;Centre Est Rhône Alpes;80 970
+Villeneuve sur Allier;696310;3460;5;c;Centre Est Rhône Alpes;169
+Aurillac;645002;15000;3;b;Centre Est Rhône Alpes;151 851
+Boisset (Cantal);645184;15600;5;c;Centre Est Rhône Alpes;0
+La Capelle Viescamp;645150;15150;5;c;Centre Est Rhône Alpes;0
+Laroquebrou;645135;15150;4;c;Centre Est Rhône Alpes;5 490
+Le Lioran;645473;15300;4;c;Centre Est Rhône Alpes;21 690
+Le Rouget;645192;15290;5;c;Centre Est Rhône Alpes;13 332
+Massiac-Blesle;734871;15500;4;c;Centre Est Rhône Alpes;34 618
+Maurs;645168;15400;4;c;Centre Est Rhône Alpes;10 570
+Murat;645481;15300;4;c;Centre Est Rhône Alpes;18 956
+Neussargues;645507;15170;4;c;Centre Est Rhône Alpes;15 898
+Pers;645176;15290;5;c;Centre Est Rhône Alpes;386
+Saint-Flour Chaudes Aigues;783175;15100;4;c;Centre Est Rhône Alpes;28 771
+Vic sur Cère;645440;15800;4;c;Centre Est Rhône Alpes;10 015
+Visecamp sous Jallès;645119;15150;5;;Centre Est Rhône Alpes;0
+Ytrac;645101;15130;5;c;Centre Est Rhône Alpes;0
+Alleyras;731885;43580;5;c;Centre Est Rhône Alpes;309
+Arvant;734251;43360;4;c;Centre Est Rhône Alpes;43 505
+Aurec;726760;43110;4;c;Centre Est Rhône Alpes;47 102
+Bas Monistrol;726778;43120;4;b;Centre Est Rhône Alpes;62 020
+Brioude;734269;43100;4;c;Centre Est Rhône Alpes;83 133
+Chamalières sur Loire;734731;43800;5;c;Centre Est Rhône Alpes;2 083
+Darsac;734673;43270;5;c;Centre Est Rhône Alpes;5 719
+Lachaud Curmilhac;731828;43013;5;c;Centre Est Rhône Alpes;774
+Langeac;734319;43300;4;c;Centre Est Rhône Alpes;22 124
+Lavoute sur Loire;734707;43800;5;c;Centre Est Rhône Alpes;9 592
+Monistrol d'Allier;734335;43580;5;c;Centre Est Rhône Alpes;704
+Paulhaguet;734293;43230;5;c;Centre Est Rhône Alpes;1 617
+Pont de Lignon;726786;43430;5;c;Centre Est Rhône Alpes;556
+Retournac;734749;43130;4;c;Centre Est Rhône Alpes;26 053
+Saint-Georges d'Aurac;734301;43230;5;c;Centre Est Rhône Alpes;4 379
+Saint-Vincent le Château;734715;43800;5;c;Centre Est Rhône Alpes;10 238
+Vorey;734723;43800;5;c;Centre Est Rhône Alpes;28 556
+Aigueperse;734129;63260;5;c;Centre Est Rhône Alpes;69 893
+Aubiat;734111;63260;5;c;Centre Est Rhône Alpes;4 869
+Brassac les Mines Sainte-Florine;734244;63570;4;b;Centre Est Rhône Alpes;108 157
+Clermont la Pardieu;782607;63000;5;b;Centre Est Rhône Alpes;299 547
+Clermont la Rotonde;396895;63000;5;c;Centre Est Rhône Alpes;18 092
+Durtol-Nohanent;641449;63830;5;c;Centre Est Rhône Alpes;1 030
+Gerzat;734046;63360;5;c;Centre Est Rhône Alpes;26 288
+Issoire;734202;63500;4;b;Centre Est Rhône Alpes;456 049
+La Bourboule;641464;63150;4;c;Centre Est Rhône Alpes;9 925
+La Miouze-Rochefort;641290;63310;5;c;Centre Est Rhône Alpes;698
+Lapeyrouse;641043;63700;5;c;Centre Est Rhône Alpes;4 879
+Laqueuille;641274;63760;5;c;Centre Est Rhône Alpes;6 291
+Le Breuil sur Couze;734228;63340;5;c;Centre Est Rhône Alpes;19 365
+Le Cendre Orcet;734160;63670;4;b;Centre Est Rhône Alpes;150 445
+Le Mont Dore;641472;63240;4;c;Centre Est Rhône Alpes;9 936
+Le Vauriat;641399;63230;5;c;Centre Est Rhône Alpes;1 082
+Les Martres de Veyre;734178;63730;5;b;Centre Est Rhône Alpes;170 995
+Lezoux;734442;63190;4;c;Centre Est Rhône Alpes;82 755
+Parent Coudes Champeix;734194;63270;5;c;Centre Est Rhône Alpes;55 592
+Pont de Dore;734459;63920;5;c;Centre Est Rhône Alpes;76 047
+Pont du Château;734087;63430;5;c;Centre Est Rhône Alpes;51 352
+Pontgibaud;641316;63230;5;c;Centre Est Rhône Alpes;390
+Pontmort;734103;63200;5;c;Centre Est Rhône Alpes;22 914
+Riom-Châtel Guyon;734053;63140;3;b;Centre Est Rhône Alpes;857 411
+Royat-Chamalières;734038;63130;4;c;Centre Est Rhône Alpes;3 771
+Sarliève Cournon;734152;63800;5;c;Centre Est Rhône Alpes;37 294
+Thiers;734475;63300;4;c;Centre Est Rhône Alpes;66 091
+Vertaizon;734426;63910;4;b;Centre Est Rhône Alpes;132 460
+Vic le Comte;734186;63270;4;b;Centre Est Rhône Alpes;215 726
+Volvic;641423;63530;5;c;Centre Est Rhône Alpes;6 153
+Ambérieu en Bugey;743716;1500;3;b;Centre Est Rhône Alpes;1 161 623
+Bellignat;743526;1810;5;c;Centre Est Rhône Alpes;6 627
+Beynost;723544;1700;5;b;Centre Est Rhône Alpes;171 068
+Brion Montreal la Cluse;131961;1460;5;c;Centre Est Rhône Alpes;42 434
+Ceyzeriat;743302;1250;5;c;Centre Est Rhône Alpes;4 624
+Cize Boloson;743344;1250;5;c;Centre Est Rhône Alpes;3 648
+Culoz;741074;1350;4;b;Centre Est Rhône Alpes;192 556
+La Valbonne;723577;1360;4;b;Centre Est Rhône Alpes;176 227
+Les Echets;723718;1700;5;c;Centre Est Rhône Alpes;127 445
+Marlieux Chatillon;723767;1240;5;c;Centre Est Rhône Alpes;91 566
+Meximieux-Pérouges;723585;1800;4;b;Centre Est Rhône Alpes;666 333
+Mezeriat;725838;1660;5;c;Centre Est Rhône Alpes;42 913
+Mionnay;723726;1390;5;c;Centre Est Rhône Alpes;92 990
+Miribel;723528;1700;4;b;Centre Est Rhône Alpes;271 536
+Montluel;723569;1120;4;b;Centre Est Rhône Alpes;477 438
+Nurieux;743351;1760;5;c;Centre Est Rhône Alpes;20 377
+Oyonnax;743534;1100;4;b;Centre Est Rhône Alpes;98 707
+Polliat;725846;1310;5;c;Centre Est Rhône Alpes;5 500
+Pont de Veyle;725804;1290;4;c;Centre Est Rhône Alpes;46 586
+Pougny Chancy;745380;1550;5;c;Centre Est Rhône Alpes;1 555
+Servas Lent;723791;1960;5;c;Centre Est Rhône Alpes;68 685
+Seyssel-Corbonod;745828;1420;4;c;Centre Est Rhône Alpes;52 627
+Simandre sur Suran;743336;1250;5;c;Centre Est Rhône Alpes;14 707
+Saint Marcel en Dombes;723742;1390;5;c;Centre Est Rhône Alpes;62 291
+Saint-Maurice de Beynost;723536;1700;5;b;Centre Est Rhône Alpes;139 993
+Saint-Paul de Varax;723783;1240;5;c;Centre Est Rhône Alpes;75 183
+Saint-Rambert en Bugey;743740;1230;5;c;Centre Est Rhône Alpes;13 077
+Saint-André de Corcy;723734;1390;4;b;Centre Est Rhône Alpes;227 546
+Tenay-Hauteville;743757;1970;4;c;Centre Est Rhône Alpes;29 970
+Villars les Dombes;723759;1330;4;b;Centre Est Rhône Alpes;466 824
+Villereversure;743328;1250;5;c;Centre Est Rhône Alpes;5 557
+Virieu le Grand-Belley;741504;1510;4;c;Centre Est Rhône Alpes;54 942
+Vonnas;725820;1540;4;c;Centre Est Rhône Alpes;85 545
+Crest;761783;26400;4;c;Centre Est Rhône Alpes;40 030
+Die;761841;26150;4;c;Centre Est Rhône Alpes;39 112
+Donzere;764290;26290;5;c;Centre Est Rhône Alpes;18 391
+Livron;761247;26250;4;c;Centre Est Rhône Alpes;46 229
+Loriol;761262;26270;4;c;Centre Est Rhône Alpes;51 650
+Luc en Diois;761874;26310;5;c;Centre Est Rhône Alpes;3 854
+Lus la Croix Haute;747667;26620;5;c;Centre Est Rhône Alpes;4 549
+Pierrelatte;764308;26700;4;b;Centre Est Rhône Alpes;263 220
+Romans Bourg de Peage;761650;26300;4;b;Centre Est Rhône Alpes;319 336
+Saillans;761817;26340;5;c;Centre Est Rhône Alpes;6 068
+Saint-Vallier sur Rhône;761130;26240;4;b;Centre Est Rhône Alpes;269 630
+Tain l'Hermitage Tournon;761163;26600;4;b;Centre Est Rhône Alpes;425 936
+Ambilly;742031;74100;5;c;Centre Est Rhône Alpes;1 339
+Annemasse;745497;74100;3;b;Centre Est Rhône Alpes;830 093
+Argentière (Haute-Savoie);746859;74400;4;c;Centre Est Rhône Alpes;16 460
+Bonneville;746339;74130;4;b;Centre Est Rhône Alpes;184 553
+Bons en Chablais;745596;74890;4;b;Centre Est Rhône Alpes;105 406
+Chamonix-Mont-Blanc;746784;74400;4;b;Centre Est Rhône Alpes;155 292
+Chedde;746701;74190;5;c;Centre Est Rhône Alpes;24 452
+Cluses;746370;74300;3;b;Centre Est Rhône Alpes;380 518
+Evian les Bains;745679;74500;3;b;Centre Est Rhône Alpes;180 719
+Groisy-Thorens la Caille;746248;74570;4;c;Centre Est Rhône Alpes;58 073
+La Joux;746842;74400;5;c;Centre Est Rhône Alpes;132
+La Roche sur Foron;746305;74800;4;b;Centre Est Rhône Alpes;367 373
+Le Buet;746883;74660;5;c;Centre Est Rhône Alpes;1 129
+Les Bossons;746768;74400;5;c;Centre Est Rhône Alpes;7 702
+Les Houches;746743;74310;5;c;Centre Est Rhône Alpes;20 624
+Les Moussoux;746818;74400;5;c;Centre Est Rhône Alpes;2 355
+Les Pelerins;746776;74400;5;c;Centre Est Rhône Alpes;4 665
+Les Praz de Chamonix;746826;74400;5;c;Centre Est Rhône Alpes;7 704
+Les Tines;746834;74400;5;c;Centre Est Rhône Alpes;1 791
+Machilly;745588;74140;5;c;Centre Est Rhône Alpes;15 154
+Magland;746412;74300;5;c;Centre Est Rhône Alpes;20 037
+Marignier;746347;74970;5;c;Centre Est Rhône Alpes;86 953
+Montroc le Planet;746867;74660;5;c;Centre Est Rhône Alpes;3 228
+Perrignier;745620;74550;5;c;Centre Est Rhône Alpes;54 665
+Pringy Haute Savoie;746206;74370;5;c;Centre Est Rhône Alpes;22 926
+Reignier;746511;74930;5;c;Centre Est Rhône Alpes;40 428
+Rumilly;746149;74150;4;b;Centre Est Rhône Alpes;547 821
+Sallanches Combloux Megève;746438;74700;3;b;Centre Est Rhône Alpes;281 485
+Servoz;746719;74310;5;c;Centre Est Rhône Alpes;15 485
+Saint-Pierre en Faucigny;746313;74800;5;c;Centre Est Rhône Alpes;42 512
+Saint-Gervais les Bains Le Fayet;746479;74170;3;b;Centre Est Rhône Alpes;385 241
+Saint-Julien en Genevois;745430;74160;4;c;Centre Est Rhône Alpes;164 540
+Saint-Martin Bellevue;746222;74370;5;;Centre Est Rhône Alpes;773
+Taconnaz;746750;74310;5;c;Centre Est Rhône Alpes;3 317
+Thonon les Bains;745646;74200;3;b;Centre Est Rhône Alpes;493 465
+Valleiry;745414;74520;5;c;Centre Est Rhône Alpes;17 133
+Vallorcine;746875;74660;5;c;Centre Est Rhône Alpes;8 420
+Viaduc sainte-Marie;746735;74310;5;c;Centre Est Rhône Alpes;698
+Bourgoin Jallieu;723429;38300;3;b;Centre Est Rhône Alpes;1 663 913
+Brignoud;747451;38190;4;b;Centre Est Rhône Alpes;261 796
+Cessieu;723452;38110;5;c;Centre Est Rhône Alpes;29 790
+Chabons;747212;38690;5;c;Centre Est Rhône Alpes;52 569
+Chasse sur Rhône;722561;38670;4;b;Centre Est Rhône Alpes;158 068
+Clelles Mens;747626;38930;5;c;Centre Est Rhône Alpes;20 811
+Estressin;722579;38200;5;c;Centre Est Rhône Alpes;95 136
+Goncelin;747477;38570;4;b;Centre Est Rhône Alpes;343 477
+La Tour du Pin;723478;38110;4;b;Centre Est Rhône Alpes;800 440
+La Verpilliere;723395;38290;4;b;Centre Est Rhône Alpes;752 246
+Le Grand Lemps;747220;38690;5;c;Centre Est Rhône Alpes;96 754
+Le Péage de Roussillon;722678;38550;4;b;Centre Est Rhône Alpes;759 269
+Les Abrets Fitilieu;741496;38490;5;c;Centre Est Rhône Alpes;5 869
+L'Isle d'Abeau;761239;38080;4;b;Centre Est Rhône Alpes;243 322
+Moirans;747329;38430;4;b;Centre Est Rhône Alpes;741 989
+Moirans la Galifette;747691;38430;5;b;Centre Est Rhône Alpes;95 691
+Monestier de Clermont;747592;38650;4;c;Centre Est Rhône Alpes;24 043
+Polienas;761742;38210;5;c;Centre Est Rhône Alpes;18 551
+Pontcharra sur Breda Allevard;747493;38530;4;b;Centre Est Rhône Alpes;568 713
+Pont de Beauvoisin;741470;38480;4;b;Centre Est Rhône Alpes;213 447
+Reaumont Saint-Cassien;747279;38140;5;c;Centre Est Rhône Alpes;121 453
+Rives;747246;38140;4;b;Centre Est Rhône Alpes;378 746
+Saint-André le Gaz;723494;38490;4;b;Centre Est Rhône Alpes;143 861
+Saint-Clair les Roches;722652;38370;4;b;Centre Est Rhône Alpes;397 105
+Saint-Hilaire-Saint-Nazaire;761684;38330;4;c;Centre Est Rhône Alpes;45 179
+Saint-Marcellin (Isère);761718;38160;4;b;Centre Est Rhône Alpes;445 831
+Saint-Quentin Fallavier;723387;38070;4;b;Centre Est Rhône Alpes;201 608
+Saint-Rambert d'Albon;761106;26140;4;b;Centre Est Rhône Alpes;274 921
+Tullins-Fures;761759;38210;4;b;Centre Est Rhône Alpes;271 354
+Vienne;722587;38200;3;b;Centre Est Rhône Alpes;1 455 929
+Vinay;761726;38470;5;b;Centre Est Rhône Alpes;114 017
+Virieu sur Bourbre;747204;38730;5;c;Centre Est Rhône Alpes;21 775
+Voiron;747287;38500;3;b;Centre Est Rhône Alpes;1 256 966
+Andrezieux;726406;42160;5;c;Centre Est Rhône Alpes;27 579
+Balbigny;726869;42510;4;b;Centre Est Rhône Alpes;115 358
+Boën;726471;42130;4;c;Centre Est Rhône Alpes;32 690
+Bonson;726414;42160;4;c;Centre Est Rhône Alpes;74 303
+Boutheon;726216;42160;5;c;Centre Est Rhône Alpes;46 263
+Feurs;726877;42110;4;b;Centre Est Rhône Alpes;200 826
+Firminy;726729;42700;4;b;Centre Est Rhône Alpes;285 780
+Fraisse Unieux;726737;42490;5;c;Centre Est Rhône Alpes;231
+La Fouillouse;726232;42480;5;c;Centre Est Rhône Alpes;7 404
+La Ricamarie;726703;42150;5;c;Centre Est Rhône Alpes;13 879
+Le Chambon Feugerolles;726711;42500;5;c;Centre Est Rhône Alpes;33 729
+Le Coteau;726828;42120;4;b;Centre Est Rhône Alpes;113 741
+Montbrison;726448;42600;4;b;Centre Est Rhône Alpes;173 229
+Montrond les Bains;726885;42210;4;b;Centre Est Rhône Alpes;114 069
+Noiretable;734509;42440;5;c;Centre Est Rhône Alpes;8 633
+Regny;721050;42630;5;c;Centre Est Rhône Alpes;31 334
+Rive de Gier;726331;42800;4;b;Centre Est Rhône Alpes;653 713
+Roanne;726802;42300;3;b;Centre Est Rhône Alpes;974 754
+Saint-Etienne le Clapier;726174;42000;5;c;Centre Est Rhône Alpes;76 509
+Saint-Jodard;726851;42590;5;c;Centre Est Rhône Alpes;14 939
+Saint-Romain le Puy;726430;42610;5;c;Centre Est Rhône Alpes;49 074
+Saint-Chamond;726307;42400;4;b;Centre Est Rhône Alpes;696 206
+Saint-Etienne Bellevue;726190;42000;4;b;Centre Est Rhône Alpes;130 272
+Saint-Etienne Carnot;726901;42000;4;b;Centre Est Rhône Alpes;148 400
+Saint-Etienne la Terrasse;726158;42000;4;b;Centre Est Rhône Alpes;164 208
+Sury le Comtal;726422;42450;5;c;Centre Est Rhône Alpes;19 671
+Veauche-Saint-Galmier;726208;42340;4;b;Centre Est Rhône Alpes;138 082
+Alai;722744;69340;5;c;Centre Est Rhône Alpes;17 814
+Ambronay Priay;743146;1500;5;c;Centre Est Rhône Alpes;7 209
+Amplepuis;721035;69550;4;b;Centre Est Rhône Alpes;283 804
+Anse;721324;69480;5;b;Centre Est Rhône Alpes;347 199
+Belleville sur Sâone;721357;69220;4;b;Centre Est Rhône Alpes;829 683
+Bois d'Oingt Legny;721787;69620;5;c;Centre Est Rhône Alpes;52 312
+Brignais;722728;69530;4;c;Centre Est Rhône Alpes;139 639
+Casino Lacroix Laval;208553;69260;5;c;Centre Est Rhône Alpes;15 820
+Chamelet;721829;69620;5;c;Centre Est Rhône Alpes;12 792
+Chaponost;722710;89460;5;c;Centre Est Rhône Alpes;48 445
+Charbonnières les Bains;721530;69260;4;b;Centre Est Rhône Alpes;199 067
+Chatillon d'Azergues;721753;69380;5;c;Centre Est Rhône Alpes;25 301
+Chazay-Marcilly;721415;69380;5;c;Centre Est Rhône Alpes;11 308
+Chessy;721761;69380;5;c;Centre Est Rhône Alpes;28 293
+Civrieux d'Azergues;721746;69380;5;c;Centre Est Rhône Alpes;4 371
+Collonges Fontaines;721225;69660;4;c;Centre Est Rhône Alpes;77 546
+Couzon au Mont d'Or;721241;69270;5;c;Centre Est Rhône Alpes;36 909
+Crepieux la Pape;723502;69140;5;c;Centre Est Rhône Alpes;6 686
+Dardilly le Jubin;721449;69570;5;c;Centre Est Rhône Alpes;54 039
+Dardilly les Mouilles;721480;69570;5;c;Centre Est Rhône Alpes;13 115
+Dommartin Lissieu;721738;69380;5;c;Centre Est Rhône Alpes;11 154
+Ecully la Demi Lune;721506;69130;4;c;Centre Est Rhône Alpes;133 230
+Feyzin;722538;69320;5;c;Centre Est Rhône Alpes;127 508
+Fleurieux sur l'Arbresle;721563;69210;5;c;Centre Est Rhône Alpes;79 520
+Francheville;722702;69340;5;c;Centre Est Rhône Alpes;47 046
+Givors Canal;722439;69700;5;c;Centre Est Rhône Alpes;26 733
+Givors ;722405;69700;4;b;Centre Est Rhône Alpes;829 978
+Grigny le Sablon;722298;69520;5;c;Centre Est Rhône Alpes;58 404
+Lyon Jean Macé;282624;69007;4;b;Centre Est Rhône Alpes;568 179
+La Tour de Salvagny;721548;69890;5;c;Centre Est Rhône Alpes;82 139
+Lamure sur Azergues;721860;69870;4;c;Centre Est Rhône Alpes;34 782
+L'Arbresle;721431;69210;4;b;Centre Est Rhône Alpes;739 750
+Le Meridien la Ferrière;721522;69260;5;c;Centre Est Rhône Alpes;134 424
+Lentilly ;721555;69210;5;b;Centre Est Rhône Alpes;250 202
+Les Flacheres;721704;69260;5;c;Centre Est Rhône Alpes;3 113
+Lozanne;721423;69380;4;b;Centre Est Rhône Alpes;291 542
+Lyon Gorge de Loup;721175;6009;4;b;Centre Est Rhône Alpes;455 348
+Lyon Saint-Paul;721159;6005;4;b;Centre Est Rhône Alpes;1 055 317
+Lyon Vaise;721001;6009;4;b;Centre Est Rhône Alpes;558 019
+Oullins;722207;69600;4;c;Centre Est Rhône Alpes;109 905
+Pierre Benite;722231;69310;5;c;Centre Est Rhône Alpes;37 225
+Pontcharra Saint-Forgeux;721464;69490;5;c;Centre Est Rhône Alpes;23 292
+Pont d'Ain;743120;1160;4;c;Centre Est Rhône Alpes;22 849
+Quincieux;721290;69650;5;c;Centre Est Rhône Alpes;76 028
+Sain Bel;721605;69210;5;c;Centre Est Rhône Alpes;147 657
+Sathonay-Rillieux;723700;69580;4;b;Centre Est Rhône Alpes;227 143
+Serezin;722546;69360;5;b;Centre Est Rhône Alpes;198 691
+Saint-Georges de Reneins;721340;69830;5;c;Centre Est Rhône Alpes;62 580
+Saint-Martin du Mont;743112;1160;5;c;Centre Est Rhône Alpes;2 669
+Saint-Romain de Popey;721456;69490;5;c;Centre Est Rhône Alpes;22 901
+Saint-Victor Thizy;721043;69240;5;c;Centre Est Rhône Alpes;13 755
+Saint-Fons;728501;69190;4;c;Centre Est Rhône Alpes;66 350
+Saint-Germain au Mont d'Or;721282;69650;4;b;Centre Est Rhône Alpes;330 651
+Saint-Priest;723353;69800;4;b;Centre Est Rhône Alpes;138 865
+Tarare;721472;69170;4;b;Centre Est Rhône Alpes;489 391
+Tassin;721514;69160;4;b;Centre Est Rhône Alpes;222 707
+Vénissieux;723320;69200;4;b;Centre Est Rhône Alpes;209 771
+Vernaison;722264;69390;5;c;Centre Est Rhône Alpes;78 152
+Villefranche sur Saône;721332;69400;3;b;Centre Est Rhône Alpes;2 004 941
+Albigny-Neuville;721266;69250;4;b;Centre Est Rhône Alpes;230 837
+Aiguebelette le Lac;741421;73610;5;c;Centre Est Rhône Alpes;4 196
+Aiguebelle;741256;73220;5;c;Centre Est Rhône Alpes;57 929
+Aime la Plagne;741769;73210;3;b;Centre Est Rhône Alpes;100 415
+Albens;746115;73410;5;c;Centre Est Rhône Alpes;88 256
+Chamousset;741231;73390;5;c;Centre Est Rhône Alpes;26 023
+Chindrieux;741116;73310;5;c;Centre Est Rhône Alpes;16 963
+Epierre Saint-Leger;741280;73220;5;c;Centre Est Rhône Alpes;31 296
+Frontenex;741629;73460;5;c;Centre Est Rhône Alpes;29 038
+Gresy sur Aix;746107;73100;5;c;Centre Est Rhône Alpes;60 174
+Gresy sur Isere;741611;73460;5;c;Centre Est Rhône Alpes;16 253
+Landry;741777;73210;4;c;Centre Est Rhône Alpes;31 766
+Lepin le Lac la Bauche;741439;73610;5;c;Centre Est Rhône Alpes;50 791
+Modane;742007;73500;3;b;Centre Est Rhône Alpes;175 712
+Montmelian;741181;73800;4;b;Centre Est Rhône Alpes;496 645
+Notre Dame de Briancon;741694;73260;5;c;Centre Est Rhône Alpes;6 539
+Petit Coeur la Lechere les Bains;741702;73260;5;;Centre Est Rhône Alpes;901
+Saint-Beron la Bridoire;741454;73520;5;c;Centre Est Rhône Alpes;15 992
+Saint-Avre la Chambre;741306;73130;4;c;Centre Est Rhône Alpes;68 601
+Saint-Michel Valloire;742361;73450;4;c;Centre Est Rhône Alpes;89 876
+Saint-Pierre d'Albigny;741223;73250;4;b;Centre Est Rhône Alpes;127 451
+Vions Chanaz;741108;73310;5;c;Centre Est Rhône Alpes;9 522
+Viviers du Lac;741140;73420;5;c;Centre Est Rhône Alpes;8 635
+Agonac;595157;24460;5;c;Sud-Ouest;939
+Belves;595876;24170;4;c;Sud-Ouest;8 981
+Bergerac;584268;24100;3;b;Sud-Ouest;283 493
+Château l'Evêque;595165;24460;5;c;Sud-Ouest;378
+Condat le Lardin;594382;24570;4;c;Sud-Ouest;32 443
+Couze;584425;24150;5;c;Sud-Ouest;1 754
+Douzillac;595280;24190;5;c;Sud-Ouest;1 794
+Gardonne;584235;24680;5;c;Sud-Ouest;31 165
+La Bachellerie;595595;24210;5;c;Sud-Ouest;1 527
+La Cave;595215;24200;5;c;Sud-Ouest;449
+La Coquille;592501;24450;4;c;Sud-Ouest;19 292
+Lalinde;584441;24150;4;c;Sud-Ouest;21 352
+Lamonzie Saint-Martin;584243;24680;5;c;Sud-Ouest;798
+Lamothe Montravel;584151;24230;5;c;Sud-Ouest;4 755
+Le Bugue;595744;24260;5;c;Sud-Ouest;11 975
+Le Buisson;595751;24480;4;c;Sud-Ouest;52 801
+Les Eyzies;595736;24620;4;c;Sud-Ouest;21 896
+Les Versannes;595702;24330;5;c;Sud-Ouest;958
+Limeyrat;595553;24210;5;c;Sud-Ouest;109
+Marsac (Dordogne);595207;24430;5;c;Sud-Ouest;0
+Mauzac;584466;24150;5;c;Sud-Ouest;1 940
+Mauzens Miremont;595728;24260;5;c;Sud-Ouest;1 527
+Milhac d'Auberoche;595538;24330;5;c;Sud-Ouest;17
+Montpon Ménestérol;595322;24700;4;b;Sud-Ouest;132 382
+Mussidan;595298;24400;4;b;Sud-Ouest;146 917
+Négrondes;595132;24460;5;c;Sud-Ouest;1 683
+Neuvic;595272;24190;5;c;Sud-Ouest;33 653
+Niversac;595512;24330;5;c;Sud-Ouest;6 830
+Périgueux Saint Georges;595504;24019;5;c;Sud-Ouest;1 066
+Razac;595223;24430;5;c;Sud-Ouest;6 647
+Sarlat;595827;24200;4;c;Sud-Ouest;48 831
+Siorac en Périgord;595769;24170;5;c;Sud-Ouest;6 098
+Saint-Antoine de Breuilh;584201;24230;5;c;Sud-Ouest;16 611
+Saint-Astier;595249;24110;4;b;Sud-Ouest;143 117
+Saint-Cyprien en Dordogne;595777;24220;5;c;Sud-Ouest;9 366
+Saint-Léon sur l'Isle;595264;24110;5;c;Sud-Ouest;15 827
+Saint-Pierre de Chignac;595520;24330;5;c;Sud-Ouest;0
+Terrasson;594408;24120;4;c;Sud-Ouest;25 809
+Thenon;595579;24210;5;c;Sud-Ouest;8 106
+Thiviers;595124;24800;4;b;Sud-Ouest;111 457
+Trémolat;584474;24510;5;c;Sud-Ouest;4 268
+Vélines;584177;24230;5;c;Sud-Ouest;49 600
+Villefranche du Périgord;595892;24550;5;c;Sud-Ouest;3 530
+Alouette France;581793;33600;5;b;Sud-Ouest;184 043
+Arbanats;582726;33640;5;c;Sud-Ouest;39 813
+Aubie Saint-Antoine;491233;33240;5;c;Sud-Ouest;21 493
+Barsac;582759;33720;5;c;Sud-Ouest;21 791
+Bassens ;581850;33530;4;c;Sud-Ouest;16 857
+Beautiran;582700;33640;4;b;Sud-Ouest;160 644
+Bègles;581801;33130;4;c;Sud-Ouest;24 206
+Blanquefort;581728;33290;4;b;Sud-Ouest;124 166
+Bruges (Gironde);581736;33520;5;c;Sud-Ouest;30 466
+Cadaujac;582684;33140;5;c;Sud-Ouest;41 103
+Castillon;584136;33350;4;b;Sud-Ouest;148 326
+Cauderan-Mérignac;581538;33700;4;c;Sud-Ouest;45 765
+Caudrot;582841;33490;5;c;Sud-Ouest;9 187
+Cavignac;491217;33620;5;c;Sud-Ouest;32 885
+Cenon;581595;33150;5;c;Sud-Ouest;0
+Cérons;582742;33720;4;b;Sud-Ouest;166 816
+Coutras;584516;33230;4;b;Sud-Ouest;332 977
+Croix d'Hins;582437;33380;5;c;Sud-Ouest;0
+Cubzac les Ponts;491266;33240;5;c;Sud-Ouest;4 547
+Gauriaguet;491225;33240;5;c;Sud-Ouest;25 593
+Gazinet Cestas;582403;33610;4;b;Sud-Ouest;295 149
+Gironde;582858;33190;5;c;Sud-Ouest;2 530
+Gujan Mestras;582619;33470;4;b;Sud-Ouest;355 831
+La Gorp;584755;33380;5;c;Sud-Ouest;30 873
+La Grave-d'Ambarès;491274;33440;5;c;Sud-Ouest;13 069
+La Hume;582635;33470;4;b;Sud-Ouest;126 609
+La Réole;582866;33190;4;b;Sud-Ouest;184 580
+La Teste;582643;33260;4;b;Sud-Ouest;318 512
+Lamothe Landerron;582882;33190;5;c;Sud-Ouest;2 855
+Le Teich;582601;33470;4;b;Sud-Ouest;187 975
+Le Verdon;581389;33123;4;c;Sud-Ouest;6 047
+Les Eglisottes;584532;33230;5;c;Sud-Ouest;12 524
+Lesparre;581314;33340;4;c;Sud-Ouest;70 458
+Ludon;581181;33290;5;c;Sud-Ouest;28 977
+Macau;581199;33460;4;c;Sud-Ouest;41 985
+Marcheprime;582445;33380;4;b;Sud-Ouest;303 482
+Margaux;581215;33460;4;c;Sud-Ouest;31 661
+Mérignac Arlac;278259;33000;5;c;Sud-Ouest;89 658
+Moulis-Listrac;581231;33480;5;c;Sud-Ouest;21 787
+Parempuyre;581710;33290;5;c;Sud-Ouest;18 903
+Pauillac;581256;33250;4;c;Sud-Ouest;58 291
+Pessac;581751;33600;4;b;Sud-Ouest;745 687
+Podensac;582734;33720;5;c;Sud-Ouest;66 692
+Pointe de Grave;581397;33780;5;c;Sud-Ouest;779
+Portets;582718;33640;5;c;Sud-Ouest;77 131
+Preignac;582767;33210;5;c;Sud-Ouest;9 168
+Ravezies;235317;33440;4;;Sud-Ouest;0
+Soulac sur Mer;581371;33780;4;c;Sud-Ouest;31 485
+Saint-André de Cubzac;491241;33240;4;b;Sud-Ouest;304 427
+Saint-Denis de Pile;584508;33910;5;c;Sud-Ouest;21 861
+Sainte-Eulalie Carbon Blanc;491282;33560;5;c;Sud-Ouest;9 442
+Sainte-Foy la Grande;584193;33220;4;b;Sud-Ouest;170 540
+Saint-Emilion;584102;33330;5;c;Sud-Ouest;49 968
+Saint-Loubes;584730;33450;5;c;Sud-Ouest;58 782
+Saint-Macaire;582825;33490;5;c;Sud-Ouest;10 356
+Saint-Mariens-Saint-Yzan;491209;33620;4;c;Sud-Ouest;109 967
+Saint-Médard de Guizières;584607;33230;5;c;Sud-Ouest;26 620
+Saint-Médard d'Eyrans;582692;33650;5;c;Sud-Ouest;52 233
+Saint-Pierre d'Aurillac;582833;33490;5;c;Sud-Ouest;9 391
+Saint-Seurin sur l'Isle;584615;33660;4;c;Sud-Ouest;101 252
+Saint-Sulpice Izon;584722;33450;5;c;Sud-Ouest;52 061
+Vayres;584714;33870;5;c;Sud-Ouest;15 754
+Villenave d'Ornon;581835;33140;5;c;Sud-Ouest;13 127
+Arengosse;671479;40110;5;c;Sud-Ouest;4 569
+Benesse Maremne;673285;40230;5;c;Sud-Ouest;9 094
+Labenne;673293;40530;4;c;Sud-Ouest;26 941
+Labouheyre;582551;40210;4;c;Sud-Ouest;44 628
+Morcenx;673103;40110;4;b;Sud-Ouest;150 014
+Ondres;673319;40440;5;c;Sud-Ouest;7 551
+Peyrehorade;672337;40300;4;c;Sud-Ouest;19 369
+Saubusse;673251;40180;5;c;Sud-Ouest;3 650
+Saint-Geours;673269;40230;5;c;Sud-Ouest;5 430
+Saint-Martin d'Oney;671495;40090;5;c;Sud-Ouest;35 258
+Saint-Vincent de Tyrosse;673277;40230;4;b;Sud-Ouest;141 776
+Ychoux;582536;40160;4;c;Sud-Ouest;86 901
+Ygos;671487;40100;5;c;Sud-Ouest;21 167
+Aiguillon;586693;47190;4;c;Sud-Ouest;96 163
+Laroque;586412;47340;5;c;Sud-Ouest;707
+Marmande;586545;47200;3;b;Sud-Ouest;441 394
+Monsempron Libos;586453;47500;4;c;Sud-Ouest;41 944
+Penne (Lot-et-Garonne);586438;47140;4;c;Sud-Ouest;22 834
+Pont du Casse;586404;47480;5;c;Sud-Ouest;0
+Port Sainte-Marie;586107;47130;4;c;Sud-Ouest;52 921
+Sauveterre la Lémance;586495;47500;5;c;Sud-Ouest;124
+Sainte-Bazeille;586479;47180;5;c;Sud-Ouest;4 441
+Saint-Nicolas-Saint-Romain;586180;47270;5;c;Sud-Ouest;0
+Tonneins;586651;47400;4;b;Sud-Ouest;172 731
+Trentels-Ladignac;586446;47140;5;c;Sud-Ouest;94
+Artix;672212;64170;4;c;Sud-Ouest;38 100
+Assat;672162;64510;5;c;Sud-Ouest;0
+Bidarray Pont Noblia;673699;64780;5;c;Sud-Ouest;992
+Boucau;673095;64340;5;c;Sud-Ouest;8 152
+Buzy en Béarn;672634;64260;5;c;Sud-Ouest;6 474
+Cambo les Bains;673657;64250;4;c;Sud-Ouest;6 011
+Coarraze Nay;672139;64800;4;c;Sud-Ouest;27 478
+Croix du Prince;672600;64000;5;c;Sud-Ouest;5 536
+Gan;672618;64290;5;c;Sud-Ouest;2 213
+Guéthary;673459;64210;5;c;Sud-Ouest;17 188
+Halsou-Larressore;673640;64480;5;c;Sud-Ouest;0
+Itxassou;673665;64250;5;c;Sud-Ouest;0
+Jatxou;673632;64480;5;c;Sud-Ouest;0
+Les Deux-Jumeaux;677104;64700;5;c;Sud-Ouest;24 858
+Louhossoa;673673;64250;5;c;Sud-Ouest;501
+Montaut Bétharram;672113;64800;5;c;Sud-Ouest;324
+Ogeu les Bains;672709;64680;5;c;Sud-Ouest;8 568
+Oloron Sainte-Marie;672725;64400;4;c;Sud-Ouest;97 433
+Osses Saint-Martin d'Arrossa;673707;64780;5;c;Sud-Ouest;1 117
+Puyoô;672279;64270;4;c;Sud-Ouest;38 875
+Saint-Jean Pied de Port;673723;64220;4;c;Sud-Ouest;39 147
+Urt;672386;64240;5;c;Sud-Ouest;2 962
+Ustaritz;673624;64480;5;c;Sud-Ouest;1 858
+Villefranque;673616;64990;5;c;Sud-Ouest;180
+Aix la Marsalouse;594291;19200;5;c;Sud-Ouest;0
+Allassac;594234;19240;4;c;Sud-Ouest;19 232
+Aubazine Saint Hilaire;594465;19190;5;c;Sud-Ouest;8 718
+Barsanges;592188;19170;5;c;Sud-Ouest;0
+Bugeat;592162;19170;4;c;Sud-Ouest;7 881
+Cornil;594481;19150;5;c;Sud-Ouest;3 951
+Corrèze;594119;19800;5;c;Sud-Ouest;2 633
+Egletons;594168;19300;4;c;Sud-Ouest;31 846
+Eygurande-Merlines;641241;19340;5;c;Sud-Ouest;892
+Jassonneix;594085;19250;5;c;Sud-Ouest;0
+La Celle;592147;19170;5;c;Sud-Ouest;349
+La Rivière de Mansac;594416;19520;5;c;Sud-Ouest;248
+Larche;594424;19600;5;c;Sud-Ouest;114
+Le Burg;594614;19240;5;c;Sud-Ouest;291
+Lubersac;594671;19210;5;c;Sud-Ouest;3 551
+Masseret;594820;19510;5;c;Sud-Ouest;6 026
+Meymac;594275;19250;4;c;Sud-Ouest;20 853
+Montaignac Saint-Hippolyte;594135;19300;5;c;Sud-Ouest;810
+Objat;594630;19130;4;c;Sud-Ouest;9 003
+Pérols sur Vézère;592170;19170;5;c;Sud-Ouest;306
+Pompadour;594663;19410;4;c;Sud-Ouest;10 866
+Saint-Aulaire;594622;19130;5;c;Sud-Ouest;109
+Tulle;594499;19000;4;b;Sud-Ouest;174 013
+Turenne;594556;19500;5;c;Sud-Ouest;293
+Ussel;594093;19200;4;c;Sud-Ouest;60 297
+Uzerche;594200;19140;4;c;Sud-Ouest;78 600
+Varetz;594606;19240;5;c;Sud-Ouest;1 603
+Verneuil sur Vienne;592675;87430;5;c;Sud-Ouest;276
+Vigeois;594218;19410;5;c;Sud-Ouest;7 944
+Vignols Saint Solve;594655;19130;5;c;Sud-Ouest;103
+Aubusson;597823;23200;5;c;Sud-Ouest;7 431
+Busseau sur Creuse;597708;23150;5;c;Sud-Ouest;1 192
+Felletin;597849;23340;5;c;Sud-Ouest;5 666
+Guéret;597609;23000;4;c;Sud-Ouest;81 735
+La Souterraine;592378;23300;4;b;Sud-Ouest;180 407
+Lavaufranche;597740;23600;5;c;Sud-Ouest;32
+Lavaveix les Mines;597781;23150;5;c;Sud-Ouest;994
+Marsac (Creuse);597625;23210;5;c;Sud-Ouest;3 993
+Montaigut;597674;23320;5;c;Sud-Ouest;933
+Parsac Gouzon;597724;23140;5;c;Sud-Ouest;99
+Saint-Sébastien;592493;23160;4;c;Sud-Ouest;5 816
+Vieilleville;597633;23210;5;c;Sud-Ouest;1 614
+Aixe sur Vienne;592667;87700;4;c;Sud-Ouest;10 306
+Ambazac;592311;87240;5;c;Sud-Ouest;34 037
+Bellac;592485;87300;4;c;Sud-Ouest;30 776
+Bersac;592352;87370;5;c;Sud-Ouest;5 415
+Brignac;592063;87400;5;c;Sud-Ouest;0
+Bussière Galant;592741;87230;4;c;Sud-Ouest;17 343
+Châteauneuf  Bujaleuf;592105;87460;5;c;Sud-Ouest;4 459
+Coussac-Bonneval;592840;87500;5;c;Sud-Ouest;276
+Eymoutiers-Vassiviere;592121;87120;4;c;Sud-Ouest;38 362
+Fromental;592360;87250;5;c;Sud-Ouest;1 503
+L’Aiguille;592634;87110;5;c;Sud-Ouest;4 540
+La Jonchère;592337;87340;5;c;Sud-Ouest;14 115
+La Meyze;592808;87800;5;c;Sud-Ouest;3 230
+La Porcherie;592295;87380;5;c;Sud-Ouest;5 703
+Lafarge;592733;87260;5;c;Sud-Ouest;7 389
+Le Dorat;592543;87210;4;c;Sud-Ouest;22 518
+Le Palais;592030;87410;5;c;Sud-Ouest;0
+Les Bardys;592048;87480;5;c;Sud-Ouest;4 010
+Limoges Montjovis;592022;87100;4;c;Sud-Ouest;18 437
+Magnac-Vicq;592279;87380;5;c;Sud-Ouest;14 237
+Nantiat;592444;87140;5;c;Sud-Ouest;19 571
+Nexon;592725;87800;4;c;Sud-Ouest;46 236
+Nieul;592410;87510;5;c;Sud-Ouest;5 087
+Peyrilhac-Saint-Jouvent;592428;87510;5;c;Sud-Ouest;410
+Pierre Buffière;592253;87260;5;c;Sud-Ouest;8 183
+Saillat-Chassenon;592717;87720;5;c;Sud-Ouest;634
+Solignac le- Vigen;592246;87110;5;c;Sud-Ouest;2 521
+Saint-Brice sur Vienne;592691;87200;5;c;Sud-Ouest;514
+Saint-Denis des Murs;592097;87400;5;c;Sud-Ouest;2 299
+Saint-Germain les Belles;592287;87380;5;c;Sud-Ouest;13 841
+Saint-Junien;592709;87200;4;c;Sud-Ouest;19 108
+Saint-Léonard de Noblat;592071;87400;4;c;Sud-Ouest;41 017
+Saint-Priest Taurion;592055;87480;5;c;Sud-Ouest;27 185
+Saint-Sulpice Laurière;592345;87370;4;c;Sud-Ouest;48 651
+Saint-Victurnien;592683;87420;5;c;Sud-Ouest;3 964
+Saint-Yrieix;592824;87500;4;c;Sud-Ouest;26 524
+Vaulry;592451;87140;5;c;Sud-Ouest;618
+Ax les Thermes;611533;9110;4;c;Sud-Ouest;87 727
+Foix;611616;9000;4;b;Sud-Ouest;236 662
+Les Cabannes;611574;9310;5;c;Sud-Ouest;6 975
+L'Hospitalet pres l'Andorre;611517;9390;4;c;Sud-Ouest;50 327
+Luzenac-Garanou;611558;9250;5;c;Sud-Ouest;10 643
+Mérens les Vals;611525;9110;5;c;Sud-Ouest;2 112
+Pamiers;611343;9100;4;b;Sud-Ouest;333 048
+Saverdun;611368;9700;4;b;Sud-Ouest;153 836
+Saint-Jean de Verges;611624;9000;5;c;Sud-Ouest;2 291
+Tarascon sur Ariège;611590;9400;4;c;Sud-Ouest;54 930
+Varilhes;611327;9120;4;c;Sud-Ouest;50 328
+Vernet d'Ariège;611350;9700;5;c;Sud-Ouest;12 912
+Aubin;613224;12110;5;c;Sud-Ouest;5 367
+Baraqueville-Carcenac-Peyrales;615757;12160;4;c;Sud-Ouest;3 828
+Campagnac Saint-Geniez;783340;12560;5;c;Sud-Ouest;524
+Capdenac;613109;12700;4;c;Sud-Ouest;76 948
+Cransac;613232;12110;5;c;Sud-Ouest;2 900
+Laissac;783761;12310;5;c;Sud-Ouest;859
+Luc Primaube;615773;12450;5;c;Sud-Ouest;3 419
+Millau;783001;12100;4;b;Sud-Ouest;86 767
+Montpaon;781534;12540;5;c;Sud-Ouest;323
+Najac;613463;12270;5;c;Sud-Ouest;6 376
+Naucelle;615732;12800;4;c;Sud-Ouest;12 228
+Rodez;613422;12000;3;b;Sud-Ouest;166 541
+Salles Courbatiers;613877;12260;5;c;Sud-Ouest;1 150
+Sévérac le Château;783365;12150;4;c;Sud-Ouest;16 978
+Saint-Christophe;613257;12330;4;c;Sud-Ouest;5 649
+Saint-Georges de Luzençon;783423;12100;5;c;Sud-Ouest;23 490
+Saint-Rome de Cernon;783431;12490;4;c;Sud-Ouest;2 721
+Tournemire Roquefort;783456;12250;5;c;Sud-Ouest;148
+Villefranche de Rouergue;613893;12200;4;c;Sud-Ouest;59 660
+Viviez-Décazeville;613661;12110;4;c;Sud-Ouest;14 968
+Aubiet;611764;32270;5;c;Sud-Ouest;9 152
+Auch;611749;32000;4;b;Sud-Ouest;244 062
+Gimont-Cahuzac;611772;32200;4;c;Sud-Ouest;58 615
+L'Isle Jourdain;611806;32600;4;b;Sud-Ouest;268 740
+Auterive;611384;31190;4;b;Sud-Ouest;405 926
+Avignonet;616011;31290;5;c;Sud-Ouest;26 335
+Baziège;611723;31450;5;c;Sud-Ouest;70 360
+Boussens;611095;31360;4;b;Sud-Ouest;173 829
+Brax Léguevin;611822;31490;5;b;Sud-Ouest;262 207
+Carbonne;611061;31390;4;b;Sud-Ouest;284 196
+Castelnau d'Estrétefonds;611665;31620;4;b;Sud-Ouest;184 481
+Cazères sur Garonne;611079;31220;4;b;Sud-Ouest;161 231
+Cintegabelle;611376;31550;5;c;Sud-Ouest;99 233
+Colomiers;611467;31770;4;b;Sud-Ouest;302 868
+Colomiers Lycée-nternational;611921;31770;5;b;Sud-Ouest;255 328
+Escalquens;611707;31750;4;c;Sud-Ouest;59 892
+Fenouillet Saint-Alban;611962;31150;5;c;Sud-Ouest;202
+Gallieni Canceropôle;497461;31000;5;c;Sud-Ouest;50 444
+Gragnague;615377;31380;5;c;Sud-Ouest;8 888
+Labarthe Inard;611129;31800;5;c;Sud-Ouest;261
+Labège Innopole;612002;31670;5;c;Sud-Ouest;158 673
+Labège Village;612028;31670;5;c;Sud-Ouest;17 206
+Lacourtensourt;611434;31200;5;c;Sud-Ouest;32 909
+Lalande Eglise;611947;31000;5;c;Sud-Ouest;456
+Lardenne;611939;31000;5;c;Sud-Ouest;17 086
+Le Fauga;611046;31410;5;c;Sud-Ouest;60 458
+Le TOEC;353573;31000;5;c;Sud-Ouest;4 156
+Les Ramassiers;353581;31000;5;c;Sud-Ouest;10 836
+Lestelle;611111;31360;5;c;Sud-Ouest;530
+Longages-Noé;611053;31410;5;c;Sud-Ouest;104 933
+Luchon;611236;31110;4;c;Sud-Ouest;41 289
+Marignac-Saint-Béat;611194;31440;5;c;Sud-Ouest;3 656
+Martres Tolosane;611087;31220;5;c;Sud-Ouest;22 865
+Mérenvielle;611814;31530;5;c;Sud-Ouest;51 854
+Montastruc la Conseillère;615369;31380;5;b;Sud-Ouest;108 197
+Montaudran;612010;31000;5;c;Sud-Ouest;27 724
+Montlaur;618207;31450;5;c;Sud-Ouest;3 308
+Montrabé;611848;31850;5;c;Sud-Ouest;40 990
+Montréjeau-Gourdan Polignan;611152;31210;4;b;Sud-Ouest;170 644
+Muret;611038;31600;4;b;Sud-Ouest;948 084
+Pibrac;611830;31820;5;b;Sud-Ouest;158 399
+Pins Justaret;618116;31860;5;b;Sud-Ouest;194 519
+Portet Saint-Simon;611400;31120;4;b;Sud-Ouest;348 606
+Roqueserière Buzet;615351;31380;5;c;Sud-Ouest;2 791
+Route de Launaguet;611954;31140;5;c;Sud-Ouest;106
+Saint-Agne;611301;31520;4;b;Sud-Ouest;1 115 517
+Saint-Cyprien Arènes;446179;31300;4;b;Sud-Ouest;318 071
+Saint-Gaudens;611137;31800;4;b;Sud-Ouest;278 903
+Saint-Jory;611657;31790;5;b;Sud-Ouest;163 061
+Saint-Martin du Touch;353599;31000;5;c;Sud-Ouest;9 039
+Saint-Martory;611103;31360;5;c;Sud-Ouest;2 300
+Vénerque le Vernet;611392;31810;5;b;Sud-Ouest;186 984
+Villefranche de Lauragais;615013;31290;4;b;Sud-Ouest;222 507
+Villenouvelle;618215;31290;5;c;Sud-Ouest;16 839
+Capvern;671156;65130;5;c;Sud-Ouest;6 729
+Lannemezan;671123;65300;4;b;Sud-Ouest;97 234
+Loures Barbazan;611178;65370;5;c;Sud-Ouest;1 042
+Ossun;671313;65380;5;c;Sud-Ouest;615
+Salechan Siradan;618710;65370;5;c;Sud-Ouest;33
+Saint-Pé de Bigorre;671362;65270;5;c;Sud-Ouest;1 782
+Tournay;671172;65190;4;c;Sud-Ouest;19 783
+Assier;613075;46320;4;c;Sud-Ouest;9 740
+Bagnac;613604;46270;5;c;Sud-Ouest;3 744
+Bétaille;594747;46110;5;c;Sud-Ouest;0
+Bretenoux Biars;594762;46130;4;c;Sud-Ouest;21 195
+Dégagnac;613174;46340;5;c;Sud-Ouest;53
+Figeac;613091;46100;4;b;Sud-Ouest;158 157
+Gignac-Cressensac;594325;46600;5;c;Sud-Ouest;1 229
+Gourdon;613141;46300;4;c;Sud-Ouest;91 418
+Gramat;613059;46500;4;c;Sud-Ouest;13 430
+Lalbenque-Fontanes;613323;46230;5;c;Sud-Ouest;6 211
+Laval de Cère;594796;46130;5;c;Sud-Ouest;493
+Les Quatre Routes;594564;46110;5;c;Sud-Ouest;4 086
+Puybrun;594754;46130;5;c;Sud-Ouest;1 371
+Rocamadour-Padirac;613042;46500;5;c;Sud-Ouest;4 666
+Souillac;594333;46200;4;b;Sud-Ouest;109 305
+Saint-Denis près Martel;594572;46600;4;c;Sud-Ouest;15 636
+Vayrac;594739;46110;5;c;Sud-Ouest;210
+Albi Madeleine;615195;81000;4;c;Sud-Ouest;56 211
+Carmaux;615625;81400;4;b;Sud-Ouest;104 870
+Castres;615468;81100;4;b;Sud-Ouest;181 310
+Cordes-Vindrac;613802;81170;4;c;Sud-Ouest;7 342
+Damiatte Saint-Paul;615484;81220;4;c;Sud-Ouest;21 088
+Gaillac;615252;81600;4;b;Sud-Ouest;218 360
+Labruguière;615526;81290;5;c;Sud-Ouest;9 358
+Lavaur;615476;81500;4;b;Sud-Ouest;143 720
+Les Cauquillous;328021;81500;5;c;Sud-Ouest;15 766
+Lisle sur Tarn;615310;81310;4;c;Sud-Ouest;59 113
+Marssac sur tarn;615419;81500;5;c;Sud-Ouest;7 591
+Mazamet;615542;81200;4;c;Sud-Ouest;51 404
+Rabastens Coufouleux;615328;81800;4;b;Sud-Ouest;125 141
+Saint-Sulpice (Tarn);615344;81370;4;b;Sud-Ouest;392 003
+Tessonnières;615245;81600;5;c;Sud-Ouest;3 567
+Vielmur sur Agout;615492;81570;5;c;Sud-Ouest;21 464
+Albias;613398;82350;5;c;Sud-Ouest;9 949
+Castelsarrasin;611897;82100;4;c;Sud-Ouest;77 321
+Caussade (Tarn-et-Garonne);613356;82300;4;c;Sud-Ouest;90 110
+Dieupentale;611681;82170;5;c;Sud-Ouest;93 292
+Golfech;618082;82400;5;c;Sud-Ouest;1 978
+Grisolles;611673;82170;5;c;Sud-Ouest;93 226
+Laguépie;613471;82250;5;c;Sud-Ouest;4 526
+Lamagistère;611855;82360;5;c;Sud-Ouest;19 121
+Lavilledieu;611459;82290;5;c;Sud-Ouest;9 661
+Lexos;613489;82330;5;c;Sud-Ouest;4 721
+Malause;611871;82200;5;c;Sud-Ouest;549
+Moissac;611889;82200;4;c;Sud-Ouest;74 810
+Montbartier;611699;82700;5;c;Sud-Ouest;44 263
+Pommevic;618058;82400;5;c;Sud-Ouest;272
+Valence d'Agen;611863;82400;4;c;Sud-Ouest;62 764
+Angoulins sur Mer;485102;17690;5;c;Sud-Ouest;12 654
+Chabanais;592873;16150;4;c;Sud-Ouest;7 186
+Chalais;583690;16210;4;c;Sud-Ouest;17 385
+Chasseneuil sur Bonnieure;583443;16260;5;c;Sud-Ouest;35 407
+Châteauneuf sur Charente;491506;16120;4;c;Sud-Ouest;43 702
+Cognac;491449;16100;4;b;Sud-Ouest;151 316
+Exideuil sur Vienne;592881;16150;5;c;Sud-Ouest;353
+Jarnac-Charente;491472;16200;4;c;Sud-Ouest;41 541
+La Rochefoucauld;583427;16110;4;c;Sud-Ouest;22 550
+Luxe;583823;16230;5;c;Sud-Ouest;21 351
+Montmoreau;583674;16190;5;c;Sud-Ouest;8 270
+Roumazieres Loubert;583468;16270;4;c;Sud-Ouest;7 989
+Ruelle;583203;16600;4;c;Sud-Ouest;7 749
+Ruffec Charente;583849;16700;4;c;Sud-Ouest;92 275
+Aytre Plage;437806;17440;5;c;Sud-Ouest;10 646
+Beillant;491076;17800;5;c;Sud-Ouest;255
+Bords;491019;17430;5;c;Sud-Ouest;9 623
+Bussac;491191;17100;5;c;Sud-Ouest;1 487
+Châtelaillon;485110;17340;4;c;Sud-Ouest;79 197
+Clion sur Seugne;491134;17240;5;c;Sud-Ouest;163
+Fontaines d'Ozillac;491159;17500;5;c;Sud-Ouest;0
+Jonzac;491142;17500;4;c;Sud-Ouest;100 573
+La Rochelle Porte Dauphine;437798;17000;5;c;Sud-Ouest;76 348
+Loulay;491290;17330;5;c;Sud-Ouest;921
+Mauze;485250;79210;5;c;Sud-Ouest;58 041
+Montendre;491183;17130;4;c;Sud-Ouest;37 279
+Pons;491100;17800;4;c;Sud-Ouest;25 767
+Saujon;491811;17600;4;c;Sud-Ouest;62 548
+Saint-Aigulin la Roche-Chalais;584540;17360;5;c;Sud-Ouest;9 132
+Saint-Hilaire Brizambourg;491324;17500;5;c;Sud-Ouest;172
+Saint-Jean d'Angely;491357;17400;4;c;Sud-Ouest;49 089
+Saint-Laurent Fouras;485136;17450;5;c;Sud-Ouest;29 757
+Saint-Savinien sur Charente;491035;17350;5;c;Sud-Ouest;14 571
+Taillebourg;491043;17350;5;c;Sud-Ouest;90
+Tonnay Charente;485151;17430;5;c;Sud-Ouest;11 731
+Villeneuve la Comtesse;491258;17330;5;c;Sud-Ouest;3 222
+Beauvoir sur Niort;485342;79360;5;c;Sud-Ouest;21 049
+Bressuire;487249;79300;4;c;Sud-Ouest;25 828
+Cerizay;487280;79140;5;c;Sud-Ouest;0
+Epannes;485276;79270;5;c;Sud-Ouest;0
+Fors;485326;79230;5;c;Sud-Ouest;23 202
+La Crèche;485474;79260;5;c;Sud-Ouest;12 509
+La Mothe Saint-Héray;485508;79800;5;c;Sud-Ouest;1 932
+Marigny;485334;79360;5;c;Sud-Ouest;10 899
+Pamproux;485524;79800;5;c;Sud-Ouest;7 000
+Prin Deyrançon;485268;79210;5;c;Sud-Ouest;5 902
+Prisse la Charrière;485359;79360;5;c;Sud-Ouest;5 733
+Thouars;487009;79100;4;c;Sud-Ouest;49 356
+Anché Voulon;575332;86700;5;c;Sud-Ouest;14 226
+Chasseneuil (Vienne);575225;86360;5;c;Sud-Ouest;11 448
+Dangé Saint-Romain;575126;86220;5;c;Sud-Ouest;13 784
+Dissay;575191;86130;5;c;Sud-Ouest;31 768
+Epanvilliers;575357;86510;5;c;Sud-Ouest;1 654
+Ingrandes sur Vienne;575134;86220;5;c;Sud-Ouest;3 654
+Iteuil;577403;86240;5;c;Sud-Ouest;9 291
+Jaunay Clan;575217;86130;5;c;Sud-Ouest;29 669
+La Tricherie;575183;86490;5;c;Sud-Ouest;16 654
+Lathus;575498;86390;5;c;Sud-Ouest;839
+Les Ormes sur Vienne;575118;86220;5;c;Sud-Ouest;2 590
+Liguge;575274;86240;5;c;Sud-Ouest;4 856
+Lusignan;485540;86600;5;c;Sud-Ouest;41 717
+Lussac les Châteaux;575845;86320;5;c;Sud-Ouest;23 978
+Mignaloux-Nouaille;575704;86550;5;c;Sud-Ouest;4 921
+Montmorillon;575480;86500;4;c;Sud-Ouest;42 465
+Naintre les Barres;575175;86530;5;c;Sud-Ouest;29 029
+Nerpuy;575167;85630;5;c;Sud-Ouest;4 582
+Rouille;485532;86480;5;c;Sud-Ouest;8 500
+Saint-Saviol;575365;86400;5;c;Sud-Ouest;35 554
+Vivonne;575290;86370;5;c;Sud-Ouest;44 306
+Manlay;694521;21430;5;c;Centre Est Rhône Alpes;106
+Bantzenheim;182840;68490;5;c;Est-Européen;8 239
+Ile Napoléon;182832;68170;5;;Est-Européen;0
+Mulhouse Musées;534339;68200;5;c;Est-Européen;0
+Zu-Rhein;472639;68200;5;c;Est-Européen;0
+Allée de la Tour-Rendez-Vous;113878;93320;5,1;b;Ile-de-France;664 200
+Freinville-Sevran;113894;93270;5,1;b;Ile-de-France;934 200
+Gargan;113860;93320;5,1;b;Ile-de-France;2 791 800
+La Remise à Jorelle ;988709;93140;5,1;b;Ile-de-France;750 600
+L'Abbaye;113886;93190;5,1;b;Ile-de-France;756 000
+Les Coquetiers;113845;93250;5,1;b;Ile-de-France;853 200
+Les Pavillons sous Bois ;113852;93320;5,1;b;Ile-de-France;1 285 200
+Lycée Henri Sellier;988717;93190;5,1;b;Ile-de-France;1 155 600
+Rougemont Chanteloup;431791;93270;5,1;b;Ile-de-France;1 420 200
+Monte Carlo Country Club;338590;6190;5;c;Méditerranée;12 580
+Fréjus Gare auto train;757518;83700;4;c;Méditerranée;1 417
+Aulnat Aéroport;562421;63510;5;c;Centre Est Rhône Alpes;15 060
+Chamonix-Aiguille du Midi;462085;74400;5;c;Centre Est Rhône Alpes;1 829
+Vaudagne;746727;74310;5;c;Centre Est Rhône Alpes;180
+Lentilly-Charpenay;566919;69210;5;c;Centre Est Rhône Alpes;128 013
+Ecole Valentin;710731;25480;5;c;Centre Est Rhône Alpes;5 058
+Créteil-Pompadour;608802;;;c;Ile-de-France;15
+Lérouville;175240;;;c;Est-Européen;5 795
+Poussay;144204;;;c;Est-Européen;185
+Tanus;615674;;;c;Sud-Ouest;328
+Halte de Fontanil - Lycée de Drap;561143;;;c;Méditerranée;0
+Nice Pont Michel;590299;;;c;Méditerranée;1 982
+Arenc Euroméditerranée;580340;;;c;Méditerranée;14 619
+La Barasse;635581;;;c;Méditerranée;0
+Carpentras;765735;;;c;Méditerranée;0
+Entraigues-sur-la-Sorgue;765826;;;c;Méditerranée;0
+Monteux;765818;;;c;Méditerranée;0
+Sérifontaine;381269;;;c;Manche-Nord;7 005
+Aigrefeuille;485193;;;c;Sud-Ouest;0
+La Jarrie;485185;;;c;Sud-Ouest;0
+Marans;485060;;;c;Sud-Ouest;1 439
+Le Teil;764472;;;c;Centre Est Rhône Alpes;4 571
+Saint-Péray;761494;;;c;Centre Est Rhône Alpes;1 528
+Bedous;672774;;;c;Sud-Ouest;480
+Bidos;517912;;;c;Sud-Ouest;264
+Lurbe-Saint-Christau ;672741;;;c;Sud-Ouest;0
+Sarrance;;;;c;Sud-Ouest;0
+Longevilles - Rochejean;715227;;;c;Centre Est Rhône Alpes;529
+Labergement-Sainte-Marie;715219;;;c;Centre Est Rhône Alpes;7 511
+;;;;;;
