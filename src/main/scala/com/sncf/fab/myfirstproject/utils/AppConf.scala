@@ -11,6 +11,11 @@ object AppConf extends Serializable{
   val SPARK_MASTER = conf.getString("local")
   val SAMPLE = conf.getString("sample")
   val PPIV = conf.getString("ppiv")
+  val GOLD = conf.getString("gold")
+  val REFINERY = conf.getString("refinery")
+  val LANDING_WORK = conf.getString("landing_work")
+  val TGA = "TGA.csv"
+  val TGD = "TGD.csv"
 
 }
 

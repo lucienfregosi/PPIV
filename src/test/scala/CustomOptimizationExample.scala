@@ -22,7 +22,7 @@ object CustomOptimizationExample {
   def main(args: Array[String]) {
 
     val sparkSession = SparkSession.builder.
-      master(LOCAL)
+      master(SPARK_MASTER)
       .appName(SAMPLE)
       .getOrCreate()
 

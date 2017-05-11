@@ -1,11 +1,17 @@
 package com.sncf.fab.myfirstproject.pipelineData
+import com.sncf.fab.myfirstproject.utils.AppConf._
+import com.sncf.fab.myfirstproject.utils.Conversion
+import org.joda.time.DateTime
 
 /**
   * Created by simoh-labdoui on 11/05/2017.
   */
 class TraitementTga extends SourcePipeline{
 
-  override def getSource()="TGA"
+  override def getSource()=LANDING_WORK+ Conversion.getYearMonthDay(new DateTime())+TGA
 
+  override def Depart(): Boolean = false
+
+  override def Arrive(): Boolean = true
 }
 object TraitementTga extends TraitementTga
