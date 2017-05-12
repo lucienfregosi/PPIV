@@ -6,13 +6,14 @@ package com.sncf.fab.myfirstproject.Exception
 
 import org.apache.log4j.Logger
 
-object RejectionHandler extends Serializable {
-  var LOGGER = Logger.getLogger(RejectionHandler.getClass)
+object PpivRejectionHandler extends Serializable {
+  var LOGGER = Logger.getLogger(PpivRejectionHandler.getClass)
 
 
   val UNKNOWN_LOGIN_IN_DWH_ERROR = 0
   val PARSING_ERROR = 1
   val TYPE_PARSING_ERROR = 2
+  val PROCESSING_ERROR = 3
 
   val causes = Map[Int, String](
     UNKNOWN_LOGIN_IN_DWH_ERROR -> "uic du train non trouvé",
