@@ -1,5 +1,8 @@
 package com.sncf.fab.myfirstproject.pipelineData
 
+import java.util.Date
+import java.util.Calendar
+
 import com.sncf.fab.myfirstproject.Exception.PpivRejectionHandler
 import com.sncf.fab.myfirstproject.business.{QualiteAffichage, TgaTgdParsed}
 import com.sncf.fab.myfirstproject.persistence.PersistHive
@@ -12,10 +15,17 @@ import org.apache.spark.sql.{Dataset, SparkSession}
 trait SourcePipeline extends Serializable {
 
 
+  val sparkSession = SparkSession.builder.
+    master(SPARK_MASTER)
+    .appName(PPIV)
+    .getOrCreate()
+  import sparkSession.implicits._
+
   /**
     *
     * @return le nom de l'application spark visible dans historyserver
     */
+
   def getAppName(): String = {
     PPIV
   }
@@ -45,11 +55,7 @@ trait SourcePipeline extends Serializable {
 
   def start(): Unit = {
 
-    val sparkSession = SparkSession.builder.
-      master(SPARK_MASTER)
-      .appName(PPIV)
-      .getOrCreate()
-    import sparkSession.implicits._
+
     //read data from csv file
     val dsTgaTgd = sparkSession.read.option("header", "true").option("inferSchema", "true").csv(getSource()).as[TgaTgdParsed]
     /*Traitement des fichiers*/
@@ -65,8 +71,14 @@ trait SourcePipeline extends Serializable {
       /*
         * convertir les date, nettoyer la data, filtrer la data, sauvegarde dans refinery
         */
+
+      val date=new java.sql.Date(new Date().getTime)
+      val qa=QualiteAffichage("", "",date, 0, "", "", "", true, true, true, true)
+
+      dsTgaTgd.map(dsTgaTgd4=>QualiteAffichage("", "", date, 0, "", "", "", true, true, true, true)).collect().foreach(println)
       val dsQualiteAffichage = clean(dsTgaTgd)
       /*
+
       sauvegarder le resultat temporairement dans le refinery
        */
       PersistHive.persisteTgaTgdParsedHive(dsTgaTgd)
@@ -90,7 +102,7 @@ trait SourcePipeline extends Serializable {
     * @param dsTgaTgd issu des fichiers sources TGA/TGD
     */
   def clean(dsTgaTgd: Dataset[TgaTgdParsed]): Dataset[QualiteAffichage] = {
-  null
+    null
   }
 
 
