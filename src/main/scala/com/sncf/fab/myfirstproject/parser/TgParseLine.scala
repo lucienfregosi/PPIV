@@ -2,7 +2,8 @@ package com.sncf.fab.myfirstproject.parser
 
 import com.sncf.fab.myfirstproject.Exception.PpivRejectionHandler
 import com.sncf.fab.myfirstproject.business.TgaTgdParsed
-import org.joda.time.DateTime
+import java.sql.Date
+import java.util.Calendar
 
 
 /**
@@ -13,11 +14,12 @@ class TgParseLine extends TLineParser[TgaTgdParsed] {
 
   override def parseLine(logLine: String): Option[TgaTgdParsed] = {
     val sysOrigine = "logline"
+    val date=Date.valueOf((Calendar.getInstance().getTime().getTime()).toString)
     try {
       Some(
-        TgaTgdParsed (
-          "", "", DateTime.now(), 0, "", "", "", true, true, true, true
-        )
+
+          TgaTgdParsed("","",0,date,"",date,0,"0","","","","0","0","0","0" )
+
       )
 
     } catch {

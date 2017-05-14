@@ -1,4 +1,4 @@
-iv_tgd_20160323.gare,iv_tgd_20160323.maj,iv_tgd_20160323.train,iv_tgd_20160323.ordes,iv_tgd_20160323.num,iv_tgd_20160323.type,iv_tgd_20160323.picto,iv_tgd_20160323.attribut_voie,iv_tgd_20160323.voie,iv_tgd_20160323.heure,iv_tgd_20160323.etat,iv_tgd_20160323.retard
+gare,agence,numTrain,dateTrain,typeTrain,dateHeure1erAffichageVoie,delaiAffichageVoieHorsRetard,delaiAffichageVoieRetardCompris,instantAffichageHorsRetard,instantAffichageRetardCompris,dernierRetardAffiche,nbrRetardsConfirmes,nbDevoiementsTotal,nbDevoiementsAffiches,nbDevoiementsNonAffiches
 RDF,1494469010,2,CALAIS,842683,TER,40,,4,1494475440,,
 RDF,1494469010,3,AMIENS,848838,TER,40,,2,1494476100,,
 RDF,1494469010,4,PARIS NORD (*),7229,TGV,30,,4,1494477000,,

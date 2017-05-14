@@ -15,6 +15,7 @@ libraryDependencies ++= Seq(
   "org.apache.spark" %% "spark-streaming" % sparkVersion,
   "org.apache.spark" %% "spark-hive" % sparkVersion,
   "com.typesafe" % "config" % "1.2.1",
+  "org.joda" % "joda-convert" % "1.8",
   "log4j" % "log4j" % "1.2.14"
 )
 
