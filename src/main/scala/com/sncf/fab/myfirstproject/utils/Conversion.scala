@@ -1,7 +1,9 @@
 package com.sncf.fab.myfirstproject.utils
+
 import java.text.SimpleDateFormat
-import org.joda.time.{DateTimeZone, DateTime}
-import org.joda.time.format.{ISODateTimeFormat, DateTimeFormat, DateTimeFormatter}
+
+import org.joda.time.{DateTime, DateTimeZone}
+import org.joda.time.format.{DateTimeFormat, DateTimeFormatter, ISODateTimeFormat}
 import java.util.{Calendar, Date}
 
 /**
@@ -125,6 +127,8 @@ object Conversion {
     val timestamp = cal.getTime
     ft.format(timestamp).toInt
   }
+
+  def unixTimestampToDateTime(time: Long): DateTime = DateTime.parse(timestampFormatWithTZ.print(time * 1000), timestampFormatWithTZ)
 
   def escapeSimpleQuote(line: String): String = {
     line.replace("'", "\\'")

@@ -18,7 +18,7 @@ class TgParseLine extends TLineParser[TgaTgdParsed] {
     try {
       Some(
 
-          TgaTgdParsed("","",0,date,"",date,0,"0","","","","0","0","0","0" )
+          TgaTgdParsed("",0,"","","","","","0","",0,"","0"  )
 
       )
 

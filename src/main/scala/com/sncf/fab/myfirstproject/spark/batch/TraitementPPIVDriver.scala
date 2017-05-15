@@ -14,7 +14,7 @@ object TraitementPPIVDriver extends Serializable {
     LOGGER.info("Traitement d'affichage des trains TGA")
     TraitementTga.start()
     LOGGER.info("Traitement d'affichage des trains TGD")
-    TraitementTgd.start()
+//    TraitementTgd.start()
   }
 
 

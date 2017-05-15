@@ -14,7 +14,7 @@ object AppConf extends Serializable{
   val GOLD = conf.getString("gold")
   val REFINERY = conf.getString("refinery")
   val LANDING_WORK = conf.getString("landing_work")
-  val TGA = "TGA.csv"
+  val cdTGA = "TGA.csv"
   val TGD = "TGD.csv"
 
 }

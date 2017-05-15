@@ -8,7 +8,7 @@ import org.joda.time.DateTime
   */
 class TraitementTga extends SourcePipeline{
 
-  override def getSource()=LANDING_WORK+ Conversion.getYearMonthDay(new DateTime())+TGA
+  override def getSource()=LANDING_WORK+ Conversion.getYearMonthDay(new DateTime())
 
   override def Depart(): Boolean = false
 
