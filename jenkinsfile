@@ -13,4 +13,9 @@ node {
        sh "sbt clean"
      }
 
+    //Cleaning stage
+    stage('Cleanup') {
+        sh "sbt package"
+     }
+
  }
