@@ -9,9 +9,7 @@ import com.sncf.fab.myfirstproject.business.{QualiteAffichage, TgaTgdParsed}
 import com.sncf.fab.myfirstproject.persistence.{PersistHive, PersistLocal}
 import com.sncf.fab.myfirstproject.utils.AppConf._
 import com.sncf.fab.myfirstproject.utils.Conversion
-import org.apache.spark.sql.types.DateType
 import org.apache.spark.sql.{Dataset, SparkSession}
-import org.joda.time.DateTime
 
 /**
   * Created by simoh-labdoui on 11/05/2017.
@@ -40,6 +38,20 @@ trait SourcePipeline extends Serializable {
     * @return le chemin de la source de données brute
     */
   def getSource(): String
+
+  /**
+    *
+    * @return le chemin de l'output qualité
+    */
+  def getOutputGoldPath(): String
+
+  /**
+    *
+    * @return the path used to store the cleaned TgaTgaPased
+    */
+  def getOutputRefineryPath(): String
+
+
 
   /**
     *
@@ -83,9 +95,10 @@ trait SourcePipeline extends Serializable {
       /*
         * convertir les date, nettoyer la data, filtrer la data, sauvegarde dans refinery
         */
-      PersistLocal.persisteTgaTgdParsed(dsTgaTgd)
+      PersistLocal.persisteTgaTgdParsedIntoFs(dsTgaTgd,getOutputRefineryPath())
 
       val dsQualiteAffichage = clean(dsTgaTgd)
+
       /*
 
       sauvegarder le resultat temporairement dans le refinery
@@ -95,7 +108,7 @@ trait SourcePipeline extends Serializable {
       /*
         *Croiser la data avec le refernetiel et sauvegarder dans  un Gold
         */
-      PersistHive.persisteQualiteAffichageHive(dsQualiteAffichage)
+      PersistLocal.persisteQualiteAffichageIntoFs(dsQualiteAffichage,getOutputGoldPath())
     }
     catch {
       case e: Throwable => {
