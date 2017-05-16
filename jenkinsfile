@@ -14,8 +14,8 @@ node {
      }
 
     //Cleaning stage
-    stage('Cleanup') {
+    stage('package') {
         sh "sbt package"
      }
-
+   echo 'End packaging'
  }
