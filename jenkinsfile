@@ -1,5 +1,6 @@
 node {
    // Mark the code checkout 'stage'....
+   echo 'Hello from jenkinsfile'
    stage 'Checkout'
 
    // Get some code from a GitHub repository
