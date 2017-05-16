@@ -12,11 +12,16 @@ node {
     //Cleaning stage
     stage('Cleanup') {
        sh "sbt clean"
-     }
+    }
+
+    //test stage
+    stage('test') {
+       sh "sbt test"
+    }
 
     //Cleaning stage
     stage('assembly') {
         sh "sbt assembly"
-     }
+    }
    echo 'End packaging'
  }
