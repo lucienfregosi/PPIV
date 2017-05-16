@@ -17,5 +17,9 @@ object AppConf extends Serializable{
   val TGA = "TGA.csv"
   val TGD = "TGD.csv"
 
+  // hdfs paths
+
+  val REFINERY_HDFS=conf.getString("refinery_hdfs")
+
 }
 

@@ -3,7 +3,7 @@ package com.sncf.fab.myfirstproject.pipelineData
 import com.sncf.fab.myfirstproject.Exception.PpivRejectionHandler
 import com.sncf.fab.myfirstproject.business.{QualiteAffichage, TgaTgdParsed}
 import com.sncf.fab.myfirstproject.parser.DatasetsParser
-import com.sncf.fab.myfirstproject.persistence.{PersistHive, PersistLocal}
+import com.sncf.fab.myfirstproject.persistence.{PersistHdfs, PersistHive, PersistLocal}
 import com.sncf.fab.myfirstproject.utils.AppConf._
 import com.sncf.fab.myfirstproject.utils.Conversion
 import org.apache.spark.sql.{Dataset, SparkSession}
@@ -98,6 +98,7 @@ trait SourcePipeline extends Serializable {
        */
 
       PersistHive.persisteTgaTgdParsedHive(dsTgaTgd)
+//      PersistHdfs.persisteTgaTgdParsedIntoHdfs(dsTgaTgd,"")
       /*
         *Croiser la data avec le refernetiel et sauvegarder dans  un Gold
         */
