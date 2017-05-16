@@ -1,11 +1,8 @@
 package com.sncf.fab.myfirstproject.pipelineData
 
-import java.sql.Timestamp
-import java.util.Date
-import java.util.Calendar
-
 import com.sncf.fab.myfirstproject.Exception.PpivRejectionHandler
 import com.sncf.fab.myfirstproject.business.{QualiteAffichage, TgaTgdParsed}
+import com.sncf.fab.myfirstproject.parser.DatasetsParser
 import com.sncf.fab.myfirstproject.persistence.{PersistHive, PersistLocal}
 import com.sncf.fab.myfirstproject.utils.AppConf._
 import com.sncf.fab.myfirstproject.utils.Conversion
@@ -21,7 +18,6 @@ trait SourcePipeline extends Serializable {
     master(SPARK_MASTER)
     .appName(PPIV)
     .getOrCreate()
-
   import sparkSession.implicits._
 
   /**
@@ -72,17 +68,14 @@ trait SourcePipeline extends Serializable {
 
   def start(): Unit = {
 
-
+    import com.sncf.fab.myfirstproject.parser.DatasetsParser._
     //read data from csv file
     val dsTgaTgd = sparkSession.read.csv(getSource())
     //filter the header to ovoid columns name problem matching
     val header = dsTgaTgd.first()
-    val data = dsTgaTgd.filter(_ != header).map(row => TgaTgdParsed(row.getString(0), row.getString(1).toLong,
-      row.getString(2), row.getString(3), row.getString(4), row.getString(5),
-      row.getString(6), row.getString(7), row.getString(8),
-      row.getString(9).toLong, row.getString(10), row.getString(11)))
+    val data = dsTgaTgd.filter(_ != header).map(DatasetsParser.parseTgaTgdDataset(_))
     /*Traitement des fichiers*/
-    process(data)
+    process(data.filter(_!=null))
   }
 
   /**
