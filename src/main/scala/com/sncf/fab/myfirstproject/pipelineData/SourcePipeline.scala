@@ -101,10 +101,11 @@ trait SourcePipeline extends Serializable {
 
       PersistHive.persisteTgaTgdParsedHive(dsTgaTgd)
 //      PersistHdfs.persisteTgaTgdParsedIntoHdfs(dsTgaTgd,"")
-      PersistElastic.persisteTgaTgdParsedIntoEs(dsTgaTgd,getOutputRefineryPath())
+      PersistElastic.persisteTgaTgdParsedIntoEs(dsTgaTgd,"")
       /*
         *Croiser la data avec le refernetiel et sauvegarder dans  un Gold
         */
+      PersistElastic.persisteQualiteAffichageIntoEs(dsQualiteAffichage,"")
       PersistLocal.persisteQualiteAffichageIntoFs(dsQualiteAffichage,getOutputGoldPath())
     }
     catch {
