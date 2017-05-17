@@ -21,5 +21,11 @@ object AppConf extends Serializable{
 
   val REFINERY_HDFS=conf.getString("refinery_hdfs")
 
+  //elastic confs
+  val PORT= conf.getString("port")
+  val HOST= conf.getString("host")
+  val QUALITE_INDEX=conf.getString("qualite_index")
+  val TGA_TGD_INDEX=conf.getString("tga_tgd_index")
+
 }
 
