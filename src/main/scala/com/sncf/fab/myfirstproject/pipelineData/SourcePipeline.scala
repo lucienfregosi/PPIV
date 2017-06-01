@@ -64,7 +64,7 @@ trait SourcePipeline extends Serializable {
 
 
   /**
-    * le traitement pricipal lancé pour chaque data source
+    * le traitement principal lancé pour chaque data source
     */
 
   def start(outputs: Array[String]): Unit = {

@@ -12,7 +12,7 @@ object TraitementPPIVDriver extends Serializable {
 
   def main(args: Array[String]): Unit = {
     if (args.length == 0)
-      println("Wrong number of parameters")
+      LOGGER.info("Wrong number of parameters")
     else {
       LOGGER.info("Traitement d'affichage des trains TGA")
       TraitementTga.start(args)
