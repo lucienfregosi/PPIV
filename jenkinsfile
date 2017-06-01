@@ -5,7 +5,7 @@ node {
 
    // Get some code from a GitHub repository
    //git url: 'https://github.com/Labdoui/PPIV.git'
-   git url: 'git@candelo.socrate.vsct.fr:lucien_fregosi/PPIV.git', branch: 'master'
+   git url: 'git@candelo.socrate.vsct.fr:lucien_fregosi/PPIV_team/PPIV.git', branch: 'master'
 
 
 
@@ -25,3 +25,4 @@ node {
     }
    echo 'End packaging'
  }
+
