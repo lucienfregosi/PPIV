@@ -17,9 +17,7 @@ class TgParseLine extends TLineParser[TgaTgdParsed] {
     val date=Date.valueOf((Calendar.getInstance().getTime().getTime()).toString)
     try {
       Some(
-
           TgaTgdParsed("",0,"","","","","","0","",0,"","0"  )
-
       )
 
     } catch {

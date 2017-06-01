@@ -18,7 +18,7 @@ trait SourcePipeline extends Serializable {
     master(SPARK_MASTER)
     .appName(PPIV)
     .getOrCreate()
-  sparkSession.sparkContext.getConf.set("es.index.auto.create", "true")
+  sparkSession.sparkContext.getConf.set("es.index.auto.create", "true").set("es.nodes", HOST)
 
   import sparkSession.implicits._
 
@@ -50,7 +50,6 @@ trait SourcePipeline extends Serializable {
   def getOutputRefineryPath(): String
 
 
-
   /**
     *
     * @return vrai s'il s'agit d'un départ de train, faux s'il s'agit d'un arrivé
@@ -68,7 +67,7 @@ trait SourcePipeline extends Serializable {
     * le traitement pricipal lancé pour chaque data source
     */
 
-  def start(): Unit = {
+  def start(outputs: Array[String]): Unit = {
 
     import com.sncf.fab.myfirstproject.parser.DatasetsParser._
     //read data from csv file
@@ -77,36 +76,43 @@ trait SourcePipeline extends Serializable {
     val header = dsTgaTgd.first()
     val data = dsTgaTgd.filter(_ != header).map(DatasetsParser.parseTgaTgdDataset(_))
     /*Traitement des fichiers*/
-    process(data.filter(_!=null))
+    process(data.filter(_ != null), outputs)
   }
 
   /**
     *
     * @param dsTgaTgd le dataset issu des fichier TGA/TGD (Nettoyé)
     */
-  def process(dsTgaTgd: Dataset[TgaTgdParsed]): Unit = {
+  def process(dsTgaTgd: Dataset[TgaTgdParsed], outputs: Array[String]): Unit = {
     try {
 
       /*
         * convertir les date, nettoyer la data, filtrer la data, sauvegarde dans refinery
         */
-      PersistLocal.persisteTgaTgdParsedIntoFs(dsTgaTgd,getOutputRefineryPath())
+
+
+      if(outputs.contains("fs"))
+        PersistLocal.persisteTgaTgdParsedIntoFs(dsTgaTgd, getOutputRefineryPath())
+      if(outputs.contains("hive"))
+        PersistHive.persisteTgaTgdParsedHive(dsTgaTgd)
+      if(outputs.contains("hdfs"))
+        PersistHdfs.persisteTgaTgdParsedIntoHdfs(dsTgaTgd,REFINERY_HDFS)
+      if(outputs.contains("es"))
+        PersistElastic.persisteTgaTgdParsedIntoEs(dsTgaTgd, TGA_TGD_INDEX)
 
       val dsQualiteAffichage = clean(dsTgaTgd)
+
 
       /*
 
       sauvegarder le resultat temporairement dans le refinery
        */
 
-      PersistHive.persisteTgaTgdParsedHive(dsTgaTgd)
-//      PersistHdfs.persisteTgaTgdParsedIntoHdfs(dsTgaTgd,"")
-      PersistElastic.persisteTgaTgdParsedIntoEs(dsTgaTgd,"")
       /*
         *Croiser la data avec le refernetiel et sauvegarder dans  un Gold
         */
-      PersistElastic.persisteQualiteAffichageIntoEs(dsQualiteAffichage,"")
-      PersistLocal.persisteQualiteAffichageIntoFs(dsQualiteAffichage,getOutputGoldPath())
+      PersistElastic.persisteQualiteAffichageIntoEs(dsQualiteAffichage, "")
+      PersistLocal.persisteQualiteAffichageIntoFs(dsQualiteAffichage, getOutputGoldPath())
     }
     catch {
       case e: Throwable => {
@@ -124,8 +130,11 @@ trait SourcePipeline extends Serializable {
     * @param dsTgaTgd issu des fichiers sources TGA/TGD
     */
   def clean(dsTgaTgd: Dataset[TgaTgdParsed]): Dataset[QualiteAffichage] =
-    dsTgaTgd.map(row => QualiteAffichage(row.gare, "", Conversion.unixTimestampToDateTime(row.heure).toString, 0, row.`type`, "", "", true, true, true, Option(row.retard).nonEmpty)
+    dsTgaTgd.map(row =>
+      QualiteAffichage(row.gare, "", Conversion.unixTimestampToDateTime(row.heure).toString, 0,
+        row.`type`, "", "", true, true, true, Option(row.retard).nonEmpty)
     )
+      //.join()
 
 
 }

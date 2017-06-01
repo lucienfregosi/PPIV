@@ -17,15 +17,19 @@ object AppConf extends Serializable{
   val TGA = "TGA.csv"
   val TGD = "TGD.csv"
 
-  // hdfs paths
-
-  val REFINERY_HDFS=conf.getString("refinery_hdfs")
-
   //elastic confs
   val PORT= conf.getString("port")
   val HOST= conf.getString("host")
   val QUALITE_INDEX=conf.getString("qualite_index")
   val TGA_TGD_INDEX=conf.getString("tga_tgd_index")
+
+  //hdfs paths
+  val GOLD_HDFS = conf.getString("gold_hdfs")
+  val REFINERY_HDFS = conf.getString("refinery_hdfs")
+  val LANDING_WORK_HDFS = conf.getString("landing_work_hdfs")
+
+
+
 
 }
 
