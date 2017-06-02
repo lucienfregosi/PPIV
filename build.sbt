@@ -18,7 +18,7 @@ libraryDependencies ++= Seq(
   "org.joda" % "joda-convert" % "1.8",
   "log4j" % "log4j" % "1.2.14",
   "com.github.nscala-time" % "nscala-time_2.10" % "2.16.0",
-  "org.elasticsearch" % "elasticsearch-spark-20_2.10" % "2.4.4" % "compile"
+  "org.elasticsearch" % "elasticsearch-spark_2.10" % "2.4.4" % "compile"
 
 )
 
