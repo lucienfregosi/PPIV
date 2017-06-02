@@ -5,7 +5,7 @@ node {
 
    // Get some code from a GitHub repository
    //git url: 'https://github.com/Labdoui/PPIV.git'
-   git url: 'https://candelo.socrate.vsct.fr/PPIV_team/PPIV.git', branch: 'master'
+   git url: 'git@candelo.socrate.vsct.fr:PPIV_team/PPIV.git', branch: 'master'
 
 
 
