@@ -21,7 +21,7 @@ libraryDependencies ++= Seq(
   "org.elasticsearch" % "elasticsearch-spark-20_2.11" % "5.4.0" % "compile"
 )
 
-test in assembly := {}
+test in assembly := {} 
 
 assemblyMergeStrategy in assembly := {
   case PathList("META-INF", xs @ _*) =>
