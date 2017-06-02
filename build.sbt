@@ -2,9 +2,9 @@ name := "sbt-scala-sample"
 
 version := "1.0"
 
-scalaVersion := "2.10.6"
+scalaVersion := "2.11.8"
 
-val sparkVersion = "1.6.2"
+val sparkVersion = "2.1.0"
 resolvers ++= Seq(
   "apache-snapshots" at "http://repository.apache.org/snapshots/"
 )
@@ -17,8 +17,8 @@ libraryDependencies ++= Seq(
   "com.typesafe" % "config" % "1.2.1",
   "org.joda" % "joda-convert" % "1.8",
   "log4j" % "log4j" % "1.2.14",
-  "com.github.nscala-time" % "nscala-time_2.10" % "2.16.0",
-  "org.elasticsearch" % "elasticsearch-spark_2.10" % "2.4.4" % "compile"
+  "com.github.nscala-time" % "nscala-time_2.11" % "2.16.0",
+  "org.elasticsearch" % "elasticsearch-spark-20_2.11" % "5.4.0" % "compile"
 
 )
 
