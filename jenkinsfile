@@ -9,7 +9,7 @@ node {
 
 
     // Analysis by sonar
-    stage('Cleanup') {
+    stage('Analyse par Sonar') {
        sh "sonar-runner"
     }
 
