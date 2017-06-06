@@ -32,3 +32,13 @@ assemblyMergeStrategy in assembly := {
   case "application.conf"                            => MergeStrategy.concat
   case _                                => MergeStrategy.first
 }
+
+publishTo := {
+  val nexus = "http://rogno.socrate.vsct.fr:60090/"
+  if (isSnapshot.value)
+    Some("snapshots" at nexus + "content/repositories/snapshots")
+  else
+    Some("releases"  at nexus + "content/repositories/releases")
+}
+
+credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")

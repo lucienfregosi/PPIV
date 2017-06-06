@@ -9,9 +9,9 @@ node {
 
 
     // Analysis by sonar
-    stage('Analyse par Sonar') {
-       sh "sonar-runner"
-    }
+    //stage('Analyse par Sonar') {
+      // sh "sonar-runner"
+    //}
 
     //Cleaning stage
     stage('Cleanup') {
