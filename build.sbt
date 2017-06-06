@@ -21,6 +21,17 @@ libraryDependencies ++= Seq(
   "org.elasticsearch" % "elasticsearch-spark-20_2.11" % "5.4.0" % "compile"
 )
 
+publishTo := {
+  val nexus = "http://rogno.socrate.vsct.fr:60090/"
+  if (isSnapshot.value)
+    Some("snapshots" at nexus + "content/repositories/snapshots")
+  else
+    Some("releases"  at nexus + "content/repositories/releases")
+}
+
+credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
+
+
 test in assembly := {}
 
 assemblyMergeStrategy in assembly := {
@@ -33,12 +44,3 @@ assemblyMergeStrategy in assembly := {
   case _                                => MergeStrategy.first
 }
 
-publishTo := {
-  val nexus = "http://rogno.socrate.vsct.fr:60090/"
-  if (isSnapshot.value)
-    Some("snapshots" at nexus + "content/repositories/snapshots")
-  else
-    Some("releases"  at nexus + "content/repositories/releases")
-}
-
-credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
