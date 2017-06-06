@@ -11,9 +11,9 @@ resolvers ++= Seq(
 
 libraryDependencies ++= Seq(
   "org.apache.spark" %% "spark-core" % sparkVersion,
-  "org.apache.spark" %% "spark-sql" % sparkVersion,
-  "org.apache.spark" %% "spark-streaming" % sparkVersion,
-  "org.apache.spark" %% "spark-hive" % sparkVersion,
+  "org.apache.spark" %% "spark-sql_2.11" % sparkVersion,
+  "org.apache.spark" %% "spark-streaming_2.11" % sparkVersion,
+  "org.apache.spark" %% "spark-hive_2.11" % sparkVersion,
   "com.typesafe" % "config" % "1.2.1",
   "org.joda" % "joda-convert" % "1.8",
   "log4j" % "log4j" % "1.2.14",
