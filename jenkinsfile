@@ -8,6 +8,10 @@ node {
    git url: 'git@candelo.socrate.vsct.fr:PPIV_team/PPIV.git', branch: 'master'
 
 
+    // Analysis by sonar
+    stage('Cleanup') {
+       sh "sonar-runner"
+    }
 
     //Cleaning stage
     stage('Cleanup') {
