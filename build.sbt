@@ -6,7 +6,7 @@ scalaVersion := "2.11.8"
 
 val sparkVersion = "2.0.0"
 resolvers ++= Seq(
-  "personal-snapshots" at "http://rogno.socrate.vsct.fr:60090/content/repositories/central/"
+  "apache-snapshots" at "http://repository.apache.org"
 )
 
 libraryDependencies ++= Seq(
