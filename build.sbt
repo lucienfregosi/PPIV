@@ -3,20 +3,17 @@ name := "sbt-scala-sample"
 version := "1.0"
 
 scalaVersion := "2.11.8"
-scalacOptions ++= Seq(
-  "-encoding", "UTF-8"
-)
-
 
 val sparkVersion = "2.0.0"
-
-
+resolvers ++= Seq(
+  "personal-snapshots" at "http://rogno.socrate.vsct.fr:60090/content/repositories/central/"
+)
 
 libraryDependencies ++= Seq(
-  "org.apache.spark" %% "spark-core" % "2.0.0",
-  "org.apache.spark" %% "spark-sql" %  "2.0.0",
-  "org.apache.spark" %% "spark-streaming" %  "2.0.0",
-  "org.apache.spark" %% "spark-hive" %  "2.0.0",
+  "org.apache.spark" %% "spark-core" % sparkVersion,
+  "org.apache.spark" %% "spark-sql" % sparkVersion,
+  "org.apache.spark" %% "spark-streaming" % sparkVersion,
+  "org.apache.spark" %% "spark-hive" % sparkVersion,
   "com.typesafe" % "config" % "1.2.1",
   "org.joda" % "joda-convert" % "1.8",
   "log4j" % "log4j" % "1.2.14",
