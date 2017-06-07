@@ -3,10 +3,14 @@ name := "sbt-scala-sample"
 version := "1.0"
 
 scalaVersion := "2.11.8"
+scalacOptions ++= Seq(
+  "-encoding", "UTF-8"
+)
+
 
 val sparkVersion = "2.1.0"
 
-javacOptions ++= Seq("-encoding", "UTF-8")
+
 
 libraryDependencies ++= Seq(
   "org.apache.spark" %% "spark-core" % "2.1.0",
