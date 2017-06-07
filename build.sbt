@@ -6,7 +6,7 @@ scalaVersion := "2.11.8"
 
 val sparkVersion = "2.0.0"
 resolvers ++= Seq(
-  "apache-snapshots" at "http://repository.apache.org"
+  "apache-snapshots" at "https://oss.sonatype.org/content/repositories/releases/"
 )
 
 libraryDependencies ++= Seq(
