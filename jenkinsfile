@@ -14,7 +14,7 @@ node {
     //}
 
     stage('JAVA_OPT') {
-           sh "export SBT_OPTS=\"$SBT_OPTS -Dfile.encoding=UTF8\""
+           sh "export JVM_OPTS=\"$JVM_OPTS -Dfile.encoding=UTF8\""
         }
 
     //Cleaning stage
