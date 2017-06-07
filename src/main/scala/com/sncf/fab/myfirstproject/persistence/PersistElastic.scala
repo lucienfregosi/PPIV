@@ -16,14 +16,16 @@ object PersistElastic extends Serializable {
     */
 
   def persisteTgaTgdParsedIntoEs(ds: Dataset[TgaTgdParsed], tgType:String): Unit = {
-    EsSparkSQL.saveToEs(ds,"spark/docs")
+    EsSparkSQL.saveToEs(ds,tgType)
   }
+
+
 
   /**
     * @param ds le dataset issu des fichiers TGA TGD et le referentiel des gares
     */
   def persisteQualiteAffichageIntoEs(ds: Dataset[QualiteAffichage],tgType:String): Unit = {
-    EsSparkSQL.saveToEs(ds,"qualite/docs")
+    EsSparkSQL.saveToEs(ds,tgType)
   }
 
 }

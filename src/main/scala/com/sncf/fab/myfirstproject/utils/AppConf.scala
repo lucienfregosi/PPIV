@@ -16,6 +16,7 @@ object AppConf extends Serializable{
   val LANDING_WORK = conf.getString("landing_work")
   val TGA = "TGA.csv"
   val TGD = "TGD.csv"
+  val REF_GARES="referentiel.csv"
 
   //elastic confs
   val PORT= conf.getString("port")
