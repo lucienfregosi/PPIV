@@ -4,7 +4,7 @@ version := "1.0"
 
 scalaVersion := "2.11.8"
 
-val sparkVersion = "2.0.0"
+val sparkVersion = "2.1.0"
 resolvers ++= Seq(
   "apache-snapshots" at "https://oss.sonatype.org/content/repositories/releases/"
 )
