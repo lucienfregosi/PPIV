@@ -13,6 +13,10 @@ node {
       // sh "sonar-runner"
     //}
 
+    stage('JAVA_OPT') {
+           sh "export JAVA_OPTS=\"$JAVA_OPTS -Dfile.encoding=UTF8\""
+        }
+
     //Cleaning stage
     stage('Cleanup') {
        sh "sbt clean"
