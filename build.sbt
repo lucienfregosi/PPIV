@@ -8,15 +8,15 @@ scalacOptions ++= Seq(
 )
 
 
-val sparkVersion = "2.1.0"
+val sparkVersion = "2.0.0"
 
 
 
 libraryDependencies ++= Seq(
-  "org.apache.spark" %% "spark-core" % "2.1.0",
-  "org.apache.spark" %% "spark-sql" %  "2.1.0",
-  "org.apache.spark" %% "spark-streaming" %  "2.1.0",
-  "org.apache.spark" %% "spark-hive" %  "2.1.0",
+  "org.apache.spark" %% "spark-core" % "2.0.0",
+  "org.apache.spark" %% "spark-sql" %  "2.0.0",
+  "org.apache.spark" %% "spark-streaming" %  "2.0.0",
+  "org.apache.spark" %% "spark-hive" %  "2.0.0",
   "com.typesafe" % "config" % "1.2.1",
   "org.joda" % "joda-convert" % "1.8",
   "log4j" % "log4j" % "1.2.14",
