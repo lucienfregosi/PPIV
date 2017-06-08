@@ -28,6 +28,11 @@ node {
     stage('assembly') {
         sh "sbt assembly"
     }
-   echo 'End packaging'
+
+    //Quality Gates
+    stage('sonar') {
+        sh "sbt sonar"
+    }
+    echo 'End packaging'
  }
 
