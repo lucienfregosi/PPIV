@@ -13,9 +13,6 @@ node {
       // sh "sonar-runner"
     //}
 
-    stage('JAVA_OPT') {
-           sh "export JAVA_OPTS='-Dfile.encoding=UTF-8'"
-        }
 
     //Cleaning stage
     stage('Cleanup') {
