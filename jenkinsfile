@@ -31,7 +31,7 @@ node {
 
     //Quality Gates
     stage('sonar') {
-        sh "sbt sonar"
+        sh "export http_proxy= && export https_proxy= && sbt sonar"
     }
     echo 'End packaging'
  }
