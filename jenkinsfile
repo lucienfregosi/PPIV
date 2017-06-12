@@ -8,15 +8,14 @@ node {
    git url: 'git@candelo.socrate.vsct.fr:PPIV_team/PPIV.git', branch: 'master'
 
 
-    // Analysis by sonar
-    //stage('Analyse par Sonar') {
-      // sh "sonar-runner"
-    //}
-
-
     //Cleaning stage
     stage('Cleanup') {
        sh "sbt clean"
+    }
+
+    // Analysis by sonar
+    stage('coverage') {
+       sh "sbt coverage"
     }
 
     //Quality Gates
@@ -33,6 +32,12 @@ node {
     stage('assembly') {
         sh "sbt assembly"
     }
+
+    //Cleaning stage
+    stage('report') {
+        sh "sbt coverageReport"
+    }
+
     echo 'End packaging'
  }
 
