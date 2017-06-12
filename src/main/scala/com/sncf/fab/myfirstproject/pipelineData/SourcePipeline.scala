@@ -1,7 +1,7 @@
 package com.sncf.fab.myfirstproject.pipelineData
 
 import com.sncf.fab.myfirstproject.Exception.PpivRejectionHandler
-import com.sncf.fab.myfirstproject.business.{QualiteAffichage, TgaTgdParsed}
+import com.sncf.fab.myfirstproject.business.{QualiteAffichage, RefGaresParsed, TgaTgdParsed}
 import com.sncf.fab.myfirstproject.parser.DatasetsParser
 import com.sncf.fab.myfirstproject.persistence.{PersistElastic, PersistHdfs, PersistHive, PersistLocal}
 import com.sncf.fab.myfirstproject.utils.AppConf._
@@ -73,46 +73,33 @@ trait SourcePipeline extends Serializable {
     //read data from csv file
     val dsTgaTgd = sparkSession.read.csv(getSource())
     //filter the header to ovoid columns name problem matching
-    val header = dsTgaTgd.first()
-    val data = dsTgaTgd.filter(_ != header).map(DatasetsParser.parseTgaTgdDataset(_))
+    val headerTgaTgd = dsTgaTgd.first()
+    val dataTgaTgd = dsTgaTgd.filter(_ != headerTgaTgd).map(DatasetsParser.parseTgaTgdDataset)
+    val refGares = sparkSession.read.option("delimiter", ";").csv(LANDING_WORK + REF_GARES)
+    val headerRefGares = refGares.first()
+    val dataRefGares = refGares.filter(_ != headerRefGares).map(DatasetsParser.parseRefGares)
+    dataRefGares.take(1).foreach(println)
     /*Traitement des fichiers*/
-    process(data.filter(_ != null), outputs)
+    process(dataTgaTgd.filter(_ != null), dataRefGares, outputs)
   }
 
   /**
     *
     * @param dsTgaTgd le dataset issu des fichier TGA/TGD (Nettoyé)
     */
-  def process(dsTgaTgd: Dataset[TgaTgdParsed], outputs: Array[String]): Unit = {
+  def process(dsTgaTgd: Dataset[TgaTgdParsed], refGares: Dataset[RefGaresParsed], outputs: Array[String]): Unit = {
     try {
+      val qualiteAffichage = joinData(dsTgaTgd, refGares)
 
-      /*
-        * convertir les date, nettoyer la data, filtrer la data, sauvegarde dans refinery
-        */
-
-
-      if(outputs.contains("fs"))
+      if (outputs.contains("fs"))
         PersistLocal.persisteTgaTgdParsedIntoFs(dsTgaTgd, getOutputRefineryPath())
-      if(outputs.contains("hive"))
+      if (outputs.contains("hive"))
         PersistHive.persisteTgaTgdParsedHive(dsTgaTgd)
-      if(outputs.contains("hdfs"))
-        PersistHdfs.persisteTgaTgdParsedIntoHdfs(dsTgaTgd,REFINERY_HDFS)
-      if(outputs.contains("es"))
-        PersistElastic.persisteTgaTgdParsedIntoEs(dsTgaTgd, TGA_TGD_INDEX)
+      if (outputs.contains("hdfs"))
+        PersistHdfs.persisteTgaTgdParsedIntoHdfs(dsTgaTgd, REFINERY_HDFS)
+      if (outputs.contains("es"))
+        PersistElastic.persisteQualiteAffichageIntoEs(qualiteAffichage, QUALITE_INDEX)
 
-      val dsQualiteAffichage = clean(dsTgaTgd)
-
-
-      /*
-
-      sauvegarder le resultat temporairement dans le refinery
-       */
-
-      /*
-        *Croiser la data avec le refernetiel et sauvegarder dans  un Gold
-        */
-      PersistElastic.persisteQualiteAffichageIntoEs(dsQualiteAffichage, "")
-      PersistLocal.persisteQualiteAffichageIntoFs(dsQualiteAffichage, getOutputGoldPath())
     }
     catch {
       case e: Throwable => {
@@ -125,16 +112,19 @@ trait SourcePipeline extends Serializable {
   }
 
   /**
-    * Nettoyer la data
+    * Jointure avec RefGares
     *
     * @param dsTgaTgd issu des fichiers sources TGA/TGD
+    * @param refGares issu des fichiers sources refGares
     */
-  def clean(dsTgaTgd: Dataset[TgaTgdParsed]): Dataset[QualiteAffichage] =
-    dsTgaTgd.map(row =>
-      QualiteAffichage(row.gare, "", Conversion.unixTimestampToDateTime(row.heure).toString, 0,
-        row.`type`, "", "", true, true, true, Option(row.retard).nonEmpty)
-    )
-      //.join()
+  def joinData(dsTgaTgd: Dataset[TgaTgdParsed], refGares: Dataset[RefGaresParsed]): Dataset[QualiteAffichage] = {
+    val finals = dsTgaTgd.join(refGares, dsTgaTgd("gare") === refGares("tvs"))
+    finals.map(row => QualiteAffichage(row.getString(0), row.getString(15),
+      Conversion.unixTimestampToDateTime(row.getLong(9)).toString, row.getString(13),
+      row.getString(5), "", "", true, true, Option(row.getString(11)).nonEmpty, Option(row.getString(8)).nonEmpty && row.getString(8) != "0",
+      row.getString(16), row.getString(17), row.getString(18)
+    ))
+  }
 
 
 }

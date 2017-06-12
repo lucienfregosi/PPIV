@@ -19,6 +19,8 @@ object PersistElastic extends Serializable {
     EsSparkSQL.saveToEs(ds,tgType)
   }
 
+
+
   /**
     * @param ds le dataset issu des fichiers TGA TGD et le referentiel des gares
     */
