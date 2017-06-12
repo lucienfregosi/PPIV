@@ -45,3 +45,4 @@ assemblyMergeStrategy in assembly := {
 }
 
 enablePlugins(SonarRunnerPlugin)
+coverageEnabled := true
