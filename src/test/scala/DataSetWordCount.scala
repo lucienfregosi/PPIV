@@ -1,6 +1,7 @@
-import org.apache.spark.sql.SparkSession
-import com.sncf.fab.myfirstproject.utils.AppConf._
+import org.apache.spark.sql.{SQLContext}
+import com.sncf.fab.ppiv.utils.AppConf._
 import org.apache.log4j.Logger
+import org.apache.spark.{SparkConf, SparkContext}
 
 /**
   * Created by simoh-labdoui on 10/05/2017.
@@ -10,17 +11,25 @@ object DataSetWordCount {
 
   def main(args: Array[String]) {
 
-    val sparkSession = SparkSession.builder.
-      master(SPARK_MASTER)
-      .appName(SAMPLE)
-      .getOrCreate()
+    val sparkConf =  new SparkConf()
+      .setAppName(PPIV)
+      .setMaster(SPARK_MASTER)
+    val sc = new SparkContext(sparkConf)
+    val sqlContext = new SQLContext(sc)
 
-    import sparkSession.implicits._
-    val data = sparkSession.read.text("src/main/resources/data.txt").as[String]
+
+
+    import sqlContext.implicits._
+
+    val data = sqlContext.read
+      .format("com.databricks.spark.csv")
+      .option("inferSchema", "true")
+      .option("header", "true")
+      .load("src/main/resources/data.csv").as[String];
 
     val words = data.flatMap(value => value.split("\\s+"))
 
-    val groupedWords = words.groupByKey(_.toLowerCase)
+    val groupedWords = words.groupBy(_.toLowerCase)
 
     val counts = groupedWords.count()
 
