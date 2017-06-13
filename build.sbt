@@ -19,7 +19,7 @@ libraryDependencies ++= Seq(
   "com.typesafe" % "config" % "1.2.1",
   "org.joda" % "joda-convert" % "1.8",
   "log4j" % "log4j" % "1.2.14",
-  "com.github.nscala-time" % "nscala-time_2.11" % "2.16.0",
+  "com.github.nscala-time" % "nscala-time_2.10" % "2.16.0",
   "org.elasticsearch" %% "elasticsearch-spark" % "2.2.0",
   "com.databricks" % "spark-csv_2.10" % "1.2.0"
 
