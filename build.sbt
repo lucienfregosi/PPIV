@@ -2,11 +2,12 @@ name := "ppiv"
 
 version := "0.0.1"
 
+
 scalaVersion := "2.10.6"
 
 val sparkVersion = "1.6.1"
 resolvers ++= Seq(
-  "apache-snapshots" at "http://repository.apache.org/snapshots/"
+  "apache-snapshots" at "https://oss.sonatype.org/content/repositories/releases/"
 )
 
 libraryDependencies ++= Seq(
@@ -21,8 +22,18 @@ libraryDependencies ++= Seq(
   "com.github.nscala-time" % "nscala-time_2.11" % "2.16.0",
   "org.elasticsearch" %% "elasticsearch-spark" % "2.2.0",
   "com.databricks" % "spark-csv_2.10" % "1.2.0"
+
 )
 
+publishTo := {
+  val nexus = "http://rogno.socrate.vsct.fr:60090/"
+  if (isSnapshot.value)
+    Some("snapshots" at nexus + "content/repositories/snapshots")
+  else
+    Some("releases"  at nexus + "content/repositories/releases")
+}
+
+credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
 
 
 
@@ -37,3 +48,6 @@ assemblyMergeStrategy in assembly := {
   case "application.conf"                            => MergeStrategy.concat
   case _                                => MergeStrategy.first
 }
+
+enablePlugins(SonarRunnerPlugin)
+coverageEnabled := true

@@ -5,13 +5,22 @@ node {
 
    // Get some code from a GitHub repository
    //git url: 'https://github.com/Labdoui/PPIV.git'
-   git url: 'https://github.com/Labdoui/PPIV.git', branch: 'bassemBranch'
-
+   git url: 'git@candelo.socrate.vsct.fr:PPIV_team/PPIV.git', branch: 'master'
 
 
     //Cleaning stage
     stage('Cleanup') {
        sh "sbt clean"
+    }
+
+    // Analysis by sonar
+    stage('coverage') {
+       sh "sbt coverage"
+    }
+
+    //Quality Gates
+    stage('sonar') {
+        sh "export http_proxy= && export https_proxy= && sbt sonar"
     }
 
     //test stage
@@ -23,5 +32,12 @@ node {
     stage('assembly') {
         sh "sbt assembly"
     }
-   echo 'End packaging'
+
+    //Cleaning stage
+    stage('report') {
+        sh "sbt coverageReport"
+    }
+
+    echo 'End packaging'
  }
+
