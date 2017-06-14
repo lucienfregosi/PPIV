@@ -21,8 +21,10 @@ libraryDependencies ++= Seq(
   "log4j" % "log4j" % "1.2.14",
   "com.github.nscala-time" % "nscala-time_2.10" % "2.16.0",
   "org.elasticsearch" %% "elasticsearch-spark" % "2.2.0",
-  "com.databricks" % "spark-csv_2.10" % "1.2.0"
-
+  "com.databricks" % "spark-csv_2.10" % "1.2.0",
+  "org.specs2" % "specs2-scalacheck_2.10" % "3.9.0" % "test",
+  "org.specs2" % "specs2-core_2.10" % "3.9.0" % "test",
+  "junit" % "junit" % "4.12" % "test"
 )
 
 publishTo := {
