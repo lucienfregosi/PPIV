@@ -1,6 +1,7 @@
 /**
   * Created by Lucien on 14/06/2017.
   */
+import com.sncf.fab.ppiv.utils.HelloWorld
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.specs2.mutable.Specification
