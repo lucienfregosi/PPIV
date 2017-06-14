@@ -4,6 +4,6 @@
 class HelloWorld {
 
   def hello() = {
-    "Hello Worldsq"
+    "Hello World"
   }
 }
