@@ -7,5 +7,22 @@ import java.sql.Date
   * Table issue des fichiers ref gares filtrer et nettoyée (Avec formattage des champs)
   */
 
-case class RefGaresParsed(tvs:String,uic: String, gare: String, agence_gc: String,
-                          segment_drg: String, longitude_ws_84: String, latitude_ws_84: String)
+case class RefGaresParsed(CodeGare: String,
+                          IntituleGare: String,
+                          NombrePlateformes: String,
+                          SegmentDRG: String,
+                          UIC: String,
+                          UniteGare: String,
+                          TVS: String,
+                          CodePostal: String,
+                          Commune: String,
+                          DepartementCommune: String,
+                          Departement: String,
+                          Region: String,
+                          AgenceGC: String,
+                          RegionSNCF: String,
+                          NiveauDeService: String,
+                          LongitudeWGS84: String,
+                          LatitudeWGS84: String,
+                          DateFinValiditeGare: String
+                         )

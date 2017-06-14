@@ -32,7 +32,14 @@ object DatasetsParser {
 
   def parseRefGares(row: Row): RefGaresParsed = {
     try {
-      RefGaresParsed(row.getString(6),row.getString(4), row.getString(1), row.getString(12), row.getString(3), row.getString(15), row.getString(16))
+      RefGaresParsed(row.getString(0), row.getString(1),
+        row.getString(2), row.getString(3), row.getString(4), row.getString(5),
+        row.getString(6), row.getString(7), row.getString(8),
+        row.getString(9), row.getString(10), row.getString(11),
+        row.getString(12), row.getString(13), row.getString(14),
+        row.getString(15), row.getString(16), row.getString(17)
+
+      )
     }
     catch {
       case e => {

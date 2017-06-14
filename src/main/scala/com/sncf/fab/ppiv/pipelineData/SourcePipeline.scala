@@ -9,6 +9,7 @@ import org.apache.spark.SparkConf
 import com.sncf.fab.ppiv.utils.Conversion
 import org.apache.spark.sql.{DataFrame, Dataset, SQLContext}
 import org.apache.spark.SparkContext
+import org.apache.spark.sql.types._
 
 /**
   * Created by simoh-labdoui on 11/05/2017.
@@ -42,11 +43,22 @@ trait SourcePipeline extends Serializable {
   }
 
   /**
-    *
+    * Le fichier source n'a pas de header mais possède le format suivant
+    * (0) -> gare
+    * (1) -> maj
+    * (2) -> train
+    * (3) -> ordes
+    * (4) -> num
+    * (5) -> type
+    * (6) -> picto
+    * (7) -> attribut_voie
+    * (8) -> voie
+    * (9) -> heure
+    * (10) -> etat
+    * (11) -> retard
     * @return le chemin de la source de données brute
     */
   def getSource(): String
-
   /**
     *
     * @return le chemin de l'output qualité
@@ -79,18 +91,36 @@ trait SourcePipeline extends Serializable {
 
   def start(outputs: Array[String]): Unit = {
     import sqlContext.implicits._
+
+
+
+    val newNamesTgaTgd = Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard","null")
+
     //read data from csv file
     val dsTgaTgd = sqlContext.read
       .format("com.databricks.spark.csv")
-      .option("inferSchema", "true")
+      .option("header", "false")
+      .option("delimiter", ";")
+      .load(getSource()).toDF(newNamesTgaTgd: _*)
+      .withColumn("maj", 'maj.cast(LongType))
+      .withColumn("heure", 'heure.cast(LongType))
+      .as[TgaTgdParsed];
+
+    dsTgaTgd.show
+
+
+    val newNamesRefGares = Seq("CodeGare","IntituleGare","NombrePlateformes","SegmentDRG","UIC","UniteGare","TVS","CodePostal","Commune","DepartementCommune","Departement","Region","AgenceGC","RegionSNCF","NiveauDeService","LongitudeWGS84","LatitudeWGS84","DateFinValiditeGare")
+
+    val refGares = sqlContext.read
+      .option("delimiter", ";")
       .option("header", "true")
-      .load(getSource()).as[TgaTgdParsed];
-
-    val refGares = sqlContext.read.
-      option("delimiter", ";")
+      .option("charset", "UTF8")
       .format("com.databricks.spark.csv")
-      .load(LANDING_WORK + REF_GARES).as[RefGaresParsed]
+      .load(LANDING_WORK + REF_GARES)
+      .toDF(newNamesRefGares: _*)
+      .as[RefGaresParsed]
 
+    refGares.show
 
 
     //filter the header to ovoid columns name problem matching
@@ -109,6 +139,8 @@ trait SourcePipeline extends Serializable {
     */
   def process(dsTgaTgd: Dataset[TgaTgdParsed], refGares: Dataset[RefGaresParsed], outputs: Array[String]): Unit = {
     try {
+
+      println("flag")
       val qualiteAffichage = joinData(dsTgaTgd, refGares)
 
       if (outputs.contains("fs"))
@@ -139,7 +171,7 @@ trait SourcePipeline extends Serializable {
     */
   def joinData(dsTgaTgd: Dataset[TgaTgdParsed], refGares: Dataset[RefGaresParsed]): Dataset[QualiteAffichage] = {
     import sqlContext.implicits._
-    val finals = dsTgaTgd.joinWith(refGares, dsTgaTgd.toDF().col("gare") === refGares.toDF().col("tvs"))
+    val finals = dsTgaTgd.joinWith(refGares, dsTgaTgd.toDF().col("gare") === refGares.toDF().col("TVS"))
     finals.toDF().map(row => QualiteAffichage(row.getString(0), row.getString(15),
       Conversion.unixTimestampToDateTime(row.getLong(9)).toString, row.getString(13),
       row.getString(5), "", "", true, true, Option(row.getString(11)).nonEmpty, Option(row.getString(8)).nonEmpty && row.getString(8) != "0",

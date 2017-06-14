@@ -12,5 +12,5 @@ import java.sql.Date
 case class TgaTgdParsed(gare:String, maj:Long, train:String,
                         ordes:String, num:String, `type`:String,
                         picto:String, attribut_voie:String, voie:String,
-                        heure:Long, etat:String, retard:String)
+                        heure: Long, etat:String, retard:String)
 
