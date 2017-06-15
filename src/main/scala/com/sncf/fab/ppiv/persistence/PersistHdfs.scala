@@ -15,15 +15,18 @@ object PersistHdfs extends Serializable {
     * @param ds sauvegarde le dataset issu des fichiers tga/tgd nettoyés
     */
 
-  def persisteTgaTgdParsedIntoHdfs(ds: Dataset[TgaTgdParsed],tgType:String): Unit = {
-    ds.toDF().write.format("com.databricks.spark.csv").save(AppConf.REFINERY_HDFS)
+  def persisteTgaTgdParsedIntoHdfs(ds: Dataset[TgaTgdParsed], hdfsRefineryPath:String): Unit = {
+    ds.toDF().write.format("com.databricks.spark.csv").save(hdfsRefineryPath)
   }
 
   /**
     * @param ds le dataset issu des fichiers TGA TGD et le referentiel des gares
     */
-  def persisteQualiteAffichageIntoHdfs(ds: Dataset[QualiteAffichage],tgType:String): Unit = {
-    ds.toDF().write.format("com.databricks.spark.csv").save(AppConf.GOLD + Conversion.getYearMonthDay(new DateTime())+tgType)
+  def persisteQualiteAffichageIntoHdfs(ds: Dataset[QualiteAffichage], hdfsGoldPath:String): Unit = {
+
+    println(hdfsGoldPath)
+    System.exit(0)
+    ds.toDF().write.format("com.databricks.spark.csv").save(hdfsGoldPath)
   }
 
 }

@@ -11,9 +11,9 @@ class TraitementTgd extends SourcePipeline {
 
   override def getSource()=LANDING_WORK+ Conversion.getYearMonthDay(new DateTime())+TGD
 
-  override def getOutputGoldPath()=GOLD+ Conversion.getYearMonthDay(new DateTime())+"_TGD"
+  override def getOutputGoldPath()=GOLD_HDFS + Conversion.getYearMonthDay(new DateTime())+"_TGD"
 
-  override def getOutputRefineryPath()=REFINERY+ Conversion.getYearMonthDay(new DateTime())+"_TGD"
+  override def getOutputRefineryPath()= REFINERY_HDFS + Conversion.getYearMonthDay(new DateTime())+"_TGD"
 
   override def Depart(): Boolean = true
 

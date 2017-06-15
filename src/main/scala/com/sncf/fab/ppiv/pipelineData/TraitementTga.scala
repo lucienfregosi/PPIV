@@ -9,11 +9,12 @@ import org.joda.time.DateTime
   */
 class TraitementTga extends SourcePipeline {
 
+
   override def getSource() = LANDING_WORK + Conversion.getYearMonthDay(new DateTime()) + TGA
 
-  override def getOutputGoldPath() = GOLD + "_TGA_" + Conversion.getYearMonthDay(new DateTime())
+  override def getOutputGoldPath() = GOLD_HDFS + Conversion.getYearMonthDay(new DateTime()) + "_TGA"
 
-  override def getOutputRefineryPath() = REFINERY + "_TGA_" + Conversion.getYearMonthDay(new DateTime())
+  override def getOutputRefineryPath() = REFINERY_HDFS + Conversion.getYearMonthDay(new DateTime()) + "_TGA"
 
   override def Depart(): Boolean = false
 

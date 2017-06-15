@@ -69,6 +69,7 @@ trait SourcePipeline extends Serializable {
     *
     * @return the path used to store the cleaned TgaTgaPased
     */
+
   def getOutputRefineryPath(): String
 
 
@@ -149,7 +150,7 @@ trait SourcePipeline extends Serializable {
       qualiteAffichage.show()
 
 
-      PersistHdfs.persisteQualiteAffichageIntoHdfs(qualiteAffichage, GOLD_HDFS)
+      PersistHdfs.persisteQualiteAffichageIntoHdfs(qualiteAffichage, getOutputGoldPath())
 
       /*
       // Enregistrement du résultat sur le serveur
