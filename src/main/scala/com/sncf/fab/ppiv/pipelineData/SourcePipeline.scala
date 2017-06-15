@@ -93,11 +93,9 @@ trait SourcePipeline extends Serializable {
   def start(outputs: Array[String]): Unit = {
     import sqlContext.implicits._
 
-
-
+    // Comme pas de header définition du nom des champs
     val newNamesTgaTgd = Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard","null")
-
-    //read data from csv file
+    // Lecture du CSV avec les bons noms de champs
     val dsTgaTgd = sqlContext.read
       .format("com.databricks.spark.csv")
       .option("header", "false")
@@ -109,7 +107,6 @@ trait SourcePipeline extends Serializable {
 
 
     val newNamesRefGares = Seq("CodeGare","IntituleGare","NombrePlateformes","SegmentDRG","UIC","UniteGare","TVS","CodePostal","Commune","DepartementCommune","Departement","Region","AgenceGC","RegionSNCF","NiveauDeService","LongitudeWGS84","LatitudeWGS84","DateFinValiditeGare")
-
     val refGares = sqlContext.read
       .option("delimiter", ";")
       .option("header", "true")
@@ -120,8 +117,6 @@ trait SourcePipeline extends Serializable {
       .as[RefGaresParsed]
 
 
-
-
     val dataTgaTgd = dsTgaTgd.toDF().map(row => DatasetsParser.parseTgaTgdDataset(row)).toDS()
 
     val dataRefGares = refGares.toDF().map(DatasetsParser.parseRefGares).toDS()
@@ -129,7 +124,7 @@ trait SourcePipeline extends Serializable {
     dataTgaTgd.show
     dataRefGares.show
 
-    process(dataTgaTgd, dataRefGares, outputs)
+    //process(dataTgaTgd, dataRefGares, outputs)
   }
 
   /**

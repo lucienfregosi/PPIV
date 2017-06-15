@@ -1,10 +1,12 @@
 package com.sncf.fab.ppiv.utils
 
-import java.text.SimpleDateFormat
+import java.text.{DecimalFormat, SimpleDateFormat}
 
 import org.joda.time.{DateTime, DateTimeZone}
 import org.joda.time.format.{DateTimeFormat, DateTimeFormatter, ISODateTimeFormat}
 import java.util.{Calendar, Date}
+
+import org.apache.hive.common.util.DateUtils
 
 /**
   * Created by simoh-labdoui on 11/05/2017.
@@ -25,12 +27,13 @@ object Conversion {
   }
 
   protected def now(): DateTime = {
-    new DateTime(new Date(), DateTimeZone.UTC)
+    new DateTime(new Date(), ParisTimeZone)
   }
 
   def nowToDateTime(): DateTime = {
     now()
   }
+
 
   def nowToString(): String = {
     timestampFormat.print(now())
@@ -119,6 +122,16 @@ object Conversion {
   def getYearMonthDay(date: DateTime): Int = {
     yearMonthDayFormat.print(date).toInt
   }
+
+  def getHour(date: DateTime): String = {
+    // Retrancher une heure à la date actuelle pour traiter fichier à H-1
+    val HourToProcess = date.plusHours(-1)
+    // Convertir sous le format HH type 01 au lieu de 1
+    println(new DecimalFormat("00").format(HourToProcess.getHourOfDay))
+    new DecimalFormat("00").format(HourToProcess.getHourOfDay)
+  }
+
+
 
   def getYesterdaysDate(): Int = {
     val ft = new SimpleDateFormat("yyyyMMdd")

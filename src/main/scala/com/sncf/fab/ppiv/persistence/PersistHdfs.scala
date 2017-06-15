@@ -25,6 +25,7 @@ object PersistHdfs extends Serializable {
   def persisteQualiteAffichageIntoHdfs(ds: Dataset[QualiteAffichage], hdfsGoldPath:String): Unit = {
 
     println(hdfsGoldPath)
+    System.exit(0)
     ds.toDF().write.format("com.databricks.spark.csv").save(hdfsGoldPath)
   }
 

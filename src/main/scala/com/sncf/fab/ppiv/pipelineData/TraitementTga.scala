@@ -10,7 +10,7 @@ import org.joda.time.DateTime
 class TraitementTga extends SourcePipeline {
 
 
-  override def getSource() = LANDING_WORK + Conversion.getYearMonthDay(new DateTime()) + TGA
+  override def getSource() = LANDING_WORK_HDFS  + "TGA-" + Conversion.getYearMonthDay(Conversion.nowToDateTime()) + "_" + Conversion.getHour(Conversion.nowToDateTime())
 
   override def getOutputGoldPath() = GOLD_HDFS + Conversion.getYearMonthDay(new DateTime()) + "_TGA"
 
