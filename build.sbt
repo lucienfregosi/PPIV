@@ -1,6 +1,6 @@
 name := "ppiv"
 
-version := "0.0.1"
+version := "0.0.1-SNAPSHOT"
 
 
 scalaVersion := "2.10.6"
@@ -35,8 +35,10 @@ publishTo := {
     Some("releases"  at nexus + "content/repositories/releases")
 }
 
-credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
-
+credentials += Credentials("Nexus Repository Manager",
+                           "rogno.socrate.vsct.fr",
+                           "deployment",
+                           "deployment123")
 
 
 test in assembly := {}
@@ -53,3 +55,4 @@ assemblyMergeStrategy in assembly := {
 
 enablePlugins(SonarRunnerPlugin)
 coverageEnabled := true
+publishMavenStyle := true
