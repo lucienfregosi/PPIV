@@ -18,19 +18,9 @@ node {
        sh "sbt coverage"
     }
 
-    //Quality Gates
-    stage('sonar') {
-        sh "export http_proxy= && export https_proxy= && sbt sonar"
-    }
-
     //test stage
     stage('test') {
        sh "sbt test"
-    }
-
-    //Cleaning stage
-    stage('assembly') {
-        sh "sbt assembly"
     }
 
     //Cleaning stage
@@ -38,6 +28,15 @@ node {
         sh "sbt coverageReport"
     }
 
+    //Quality Gates
+    stage('sonar') {
+        sh "export http_proxy= && export https_proxy= && sbt sonar"
+    }
+
+    //Cleaning stage
+    stage('assembly') {
+        sh "sbt assembly"
+    }
+
     echo 'End packaging'
  }
-
