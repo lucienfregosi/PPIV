@@ -40,7 +40,7 @@ node {
 
     //Cleaning stage
     stage('run') {
-        sh "sbt hdfs"
+        sh "sbt run hdfs"
     }
 
     echo 'End packaging'
