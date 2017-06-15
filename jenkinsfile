@@ -45,7 +45,7 @@ node {
 
     //Deploy Nexus
     stage('publish VM') {
-        sh "VERSION=$(curl --silent "http://rogno.socrate.vsct.fr:60090/service/local/lucene/search?g=ppiv&a=ppiv_2.10&repositoryId=snapshots" | sed -n 's|<latestSnapshot>\(.*\)</latestSnapshot>|\1|p' | sed -e 's/^[ \t]*//' | tail -1)"
+        sh "VERSION=$(curl --silent 'http://rogno.socrate.vsct.fr:60090/service/local/lucene/search?g=ppiv&a=ppiv_2.10&repositoryId=snapshots' | sed -n 's|<latestSnapshot>\(.*\)</latestSnapshot>|\1|p' | sed -e 's/^[ \t]*//' | tail -1)"
         sh "echo $VERSION"
     }
 
