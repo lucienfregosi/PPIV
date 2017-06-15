@@ -171,10 +171,9 @@ trait SourcePipeline extends Serializable {
     */
   def joinData(dsTgaTgd: Dataset[TgaTgdParsed], refGares: Dataset[RefGaresParsed]): Dataset[QualiteAffichage] = {
     import sqlContext.implicits._
+    
+    val finals = dsTgaTgd.toDF().join(refGares.toDF(), dsTgaTgd.toDF().col("gare") === refGares.toDF().col("TVS"))
 
-    val finals = dsTgaTgd.joinWith(refGares, dsTgaTgd.toDF().col("gare") === refGares.toDF().col("TVS"))
-
-    finals.printSchema()
 
     val affichageFinal = finals.toDF().map(row => QualiteAffichage(row.getString(0), row.getString(15),
       Conversion.unixTimestampToDateTime(row.getLong(9)).toString, row.getString(13),
@@ -182,7 +181,6 @@ trait SourcePipeline extends Serializable {
       row.getString(16), row.getString(17), row.getString(18)
     ))
 
-    affichageFinal.toDS().show()
 
     affichageFinal.toDS().as[QualiteAffichage]
   }
