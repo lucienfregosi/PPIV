@@ -106,8 +106,6 @@ trait SourcePipeline extends Serializable {
       .withColumn("heure", 'heure.cast(LongType))
       .as[TgaTgdParsed];
 
-    dsTgaTgd.show
-
 
     val newNamesRefGares = Seq("CodeGare","IntituleGare","NombrePlateformes","SegmentDRG","UIC","UniteGare","TVS","CodePostal","Commune","DepartementCommune","Departement","Region","AgenceGC","RegionSNCF","NiveauDeService","LongitudeWGS84","LatitudeWGS84","DateFinValiditeGare")
 
@@ -120,16 +118,16 @@ trait SourcePipeline extends Serializable {
       .toDF(newNamesRefGares: _*)
       .as[RefGaresParsed]
 
-    refGares.show
 
 
-    //filter the header to ovoid columns name problem matching
-    val headerTgaTgd = dsTgaTgd.first()
-    val dataTgaTgd = dsTgaTgd.filter(_ != headerTgaTgd).toDF().map(row => DatasetsParser.parseTgaTgdDataset(row)).toDS()
 
-    val headerRefGares = refGares.first()
-    val dataRefGares = refGares.filter(_ != headerRefGares).toDF().map(DatasetsParser.parseRefGares).toDS()
-    /*Traitement des fichiers*/
+    val dataTgaTgd = dsTgaTgd.toDF().map(row => DatasetsParser.parseTgaTgdDataset(row)).toDS()
+
+    val dataRefGares = refGares.toDF().map(DatasetsParser.parseRefGares).toDS()
+
+    dataTgaTgd.show
+    dataRefGares.show
+
     process(dataTgaTgd, dataRefGares, outputs)
   }
 
@@ -140,8 +138,10 @@ trait SourcePipeline extends Serializable {
   def process(dsTgaTgd: Dataset[TgaTgdParsed], refGares: Dataset[RefGaresParsed], outputs: Array[String]): Unit = {
     try {
 
-      println("flag")
       val qualiteAffichage = joinData(dsTgaTgd, refGares)
+
+      qualiteAffichage.show()
+      System.exit(0)
 
       if (outputs.contains("fs"))
         PersistLocal.persisteTgaTgdParsedIntoFs(dsTgaTgd, getOutputRefineryPath())
@@ -171,13 +171,20 @@ trait SourcePipeline extends Serializable {
     */
   def joinData(dsTgaTgd: Dataset[TgaTgdParsed], refGares: Dataset[RefGaresParsed]): Dataset[QualiteAffichage] = {
     import sqlContext.implicits._
+
     val finals = dsTgaTgd.joinWith(refGares, dsTgaTgd.toDF().col("gare") === refGares.toDF().col("TVS"))
-    finals.toDF().map(row => QualiteAffichage(row.getString(0), row.getString(15),
+
+    finals.printSchema()
+
+    val affichageFinal = finals.toDF().map(row => QualiteAffichage(row.getString(0), row.getString(15),
       Conversion.unixTimestampToDateTime(row.getLong(9)).toString, row.getString(13),
       row.getString(5), "", "", true, true, Option(row.getString(11)).nonEmpty, Option(row.getString(8)).nonEmpty && row.getString(8) != "0",
       row.getString(16), row.getString(17), row.getString(18)
     ))
-    finals.toDS().as[QualiteAffichage]
+
+    affichageFinal.toDS().show()
+
+    affichageFinal.toDS().as[QualiteAffichage]
   }
 
 

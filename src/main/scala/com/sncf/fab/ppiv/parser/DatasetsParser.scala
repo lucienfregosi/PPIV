@@ -16,10 +16,10 @@ object DatasetsParser {
 
   def parseTgaTgdDataset(row: Row): TgaTgdParsed = {
     try {
-      TgaTgdParsed(row.getString(0), row.getString(1).toLong,
+      TgaTgdParsed(row.getString(0), row.getLong(1),
         row.getString(2), row.getString(3), row.getString(4), row.getString(5),
         row.getString(6), row.getString(7), row.getString(8),
-        row.getString(9).toLong, row.getString(10), row.getString(11))
+        row.getLong(9), row.getString(10), row.getString(11))
     }
     catch {
       case e => {
