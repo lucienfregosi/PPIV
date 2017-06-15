@@ -43,10 +43,6 @@ node {
         sh "export http_proxy= && export https_proxy= && sbt publish"
     }
 
-    //Upload du Jar sur la VM
-    //stage('upload') {
-      //  sh 'sbt "run hdfs"'
-    //}
 
     echo 'End packaging'
  }
