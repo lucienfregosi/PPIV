@@ -138,19 +138,31 @@ trait SourcePipeline extends Serializable {
   def process(dsTgaTgd: Dataset[TgaTgdParsed], refGares: Dataset[RefGaresParsed], outputs: Array[String]): Unit = {
     try {
 
+      // 1. Validation
+      // 2. Nettoyage
+      // 3. Enregistrement dans Refinerry
+      // 4. Jointure
+      // 5. Enregistrement dans Gold
+
+
       val qualiteAffichage = joinData(dsTgaTgd, refGares)
-
       qualiteAffichage.show()
-      System.exit(0)
 
+
+      PersistHdfs.persisteQualiteAffichageIntoHdfs(qualiteAffichage, GOLD_HDFS)
+
+      /*
+      // Enregistrement du résultat sur le serveur
       if (outputs.contains("fs"))
         PersistLocal.persisteTgaTgdParsedIntoFs(dsTgaTgd, getOutputRefineryPath())
       if (outputs.contains("hive"))
         PersistHive.persisteTgaTgdParsedHive(dsTgaTgd)
       if (outputs.contains("hdfs"))
-        PersistHdfs.persisteTgaTgdParsedIntoHdfs(dsTgaTgd, REFINERY_HDFS)
+        PersistHdfs.persisteQualiteAffichageIntoHdfs(qualiteAffichage, GOLD_HDFS)
       if (outputs.contains("es"))
         PersistElastic.persisteQualiteAffichageIntoEs(qualiteAffichage, QUALITE_INDEX)
+
+      */
 
     }
     catch {
@@ -171,7 +183,7 @@ trait SourcePipeline extends Serializable {
     */
   def joinData(dsTgaTgd: Dataset[TgaTgdParsed], refGares: Dataset[RefGaresParsed]): Dataset[QualiteAffichage] = {
     import sqlContext.implicits._
-    
+
     val finals = dsTgaTgd.toDF().join(refGares.toDF(), dsTgaTgd.toDF().col("gare") === refGares.toDF().col("TVS"))
 
 

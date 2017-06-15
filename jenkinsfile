@@ -38,5 +38,10 @@ node {
         sh "sbt assembly"
     }
 
+    //Cleaning stage
+    stage('run') {
+        sh "sbt hdfs"
+    }
+
     echo 'End packaging'
  }
