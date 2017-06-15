@@ -38,10 +38,10 @@ node {
         sh "sbt assembly"
     }
 
-    //Cleaning stage
-    stage('run') {
-        sh 'sbt "run hdfs"'
-    }
+    //Upload du Jar sur la VM
+    //stage('upload') {
+      //  sh 'sbt "run hdfs"'
+    //}
 
     echo 'End packaging'
  }
