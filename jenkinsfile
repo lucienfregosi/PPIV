@@ -40,7 +40,7 @@ node {
 
     //Deploy Nexus
     stage('publish') {
-        sh "sbt publish"
+        sh "export http_proxy= && export https_proxy= && sbt publish"
     }
 
     //Upload du Jar sur la VM
