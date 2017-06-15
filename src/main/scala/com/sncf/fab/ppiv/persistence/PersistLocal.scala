@@ -25,6 +25,7 @@ object PersistLocal extends Serializable {
     * @param ds le dataset issu des fichiers TGA TGD et le referentiel des gares
     */
   def persisteQualiteAffichageIntoFs(ds: Dataset[QualiteAffichage],tgType:String): Unit = {
+    println("passe")
     ds.toDF().write.format("csv").save(AppConf.GOLD+ Conversion.getYearMonthDay(new DateTime())+tgType)
   }
 
