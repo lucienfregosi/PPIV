@@ -43,7 +43,7 @@ credentials += Credentials("Nexus Repository Manager",
 
 
 test in assembly := {}
-coverageEnabled.in(ThisBuild ,Test, test) := true
+
 
 assemblyMergeStrategy in assembly := {
   case PathList("META-INF", xs @ _*) =>
@@ -56,5 +56,5 @@ assemblyMergeStrategy in assembly := {
 }
 
 enablePlugins(SonarRunnerPlugin)
-coverageEnabled := true
+coverageEnabled.in(ThisBuild ,Test, test) := true
 publishMavenStyle := true
