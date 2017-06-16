@@ -93,9 +93,6 @@ trait SourcePipeline extends Serializable {
   def start(outputs: Array[String]): Unit = {
     import sqlContext.implicits._
 
-    println(getSource())
-
-    System.exit(0)
 
     // Comme pas de header définition du nom des champs
     val newNamesTgaTgd = Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard","null")

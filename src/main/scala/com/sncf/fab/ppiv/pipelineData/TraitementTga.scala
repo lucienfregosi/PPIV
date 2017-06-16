@@ -12,9 +12,9 @@ class TraitementTga extends SourcePipeline {
 
   override def getSource() = LANDING_WORK_HDFS  + Conversion.getYearMonthDay(Conversion.nowToDateTime()) + "/TGA-" + Conversion.getYearMonthDay(Conversion.nowToDateTime()) + "_" + Conversion.getHour(Conversion.nowToDateTime()) + ".csv"
 
-  override def getOutputGoldPath() = GOLD_HDFS + Conversion.getYearMonthDay(new DateTime()) + "_TGA"
+  override def getOutputGoldPath() = GOLD_HDFS + Conversion.getYearMonthDay(new DateTime()) + "_TGA.csv"
 
-  override def getOutputRefineryPath() = REFINERY_HDFS + Conversion.getYearMonthDay(new DateTime()) + "_TGA"
+  override def getOutputRefineryPath() = REFINERY_HDFS + Conversion.getYearMonthDay(new DateTime()) + "_TGA.csv"
 
   override def Depart(): Boolean = false
 
