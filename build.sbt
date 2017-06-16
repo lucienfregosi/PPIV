@@ -24,7 +24,8 @@ libraryDependencies ++= Seq(
   "com.databricks" % "spark-csv_2.10" % "1.2.0",
   "org.specs2" % "specs2-scalacheck_2.10" % "3.9.0" % "test",
   "org.specs2" % "specs2-core_2.10" % "3.9.0" % "test",
-  "junit" % "junit" % "4.12" % "test"
+  "junit" % "junit" % "4.12" % "test",
+  "org.scoverage" % "sbt-scoverage" % "1.5.0"
 )
 
 publishTo := {
@@ -42,6 +43,7 @@ credentials += Credentials("Nexus Repository Manager",
 
 
 test in assembly := {}
+coverageEnabled.in(ThisBuild ,Test, test) := true
 
 assemblyMergeStrategy in assembly := {
   case PathList("META-INF", xs @ _*) =>
