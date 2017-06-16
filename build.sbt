@@ -25,7 +25,7 @@ libraryDependencies ++= Seq(
   "org.specs2" % "specs2-scalacheck_2.10" % "3.9.0" % "test",
   "org.specs2" % "specs2-core_2.10" % "3.9.0" % "test",
   "junit" % "junit" % "4.12" % "test",
-  "org.scoverage" % "sbt-scoverage" % "1.5.0"
+  "org.scoverage" % "scalac-scoverage-plugin_2.10" % "1.3.0" % "provided"
 )
 
 publishTo := {
