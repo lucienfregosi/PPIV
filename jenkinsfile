@@ -45,8 +45,14 @@ node {
 
     //Deploy Nexus
     stage('publish VM') {
+        // Récupération de la dernière version
         def version = sh returnStdout: true, script: "export http_proxy= && export https_proxy= &&  curl --silent 'http://rogno.socrate.vsct.fr:60090/service/local/lucene/search?g=ppiv&a=ppiv_2.10&repositoryId=snapshots' | sed -n 's|<latestSnapshot>\\(.*\\)</latestSnapshot>|\\1|p' | sed -e 's/^[ \\t]*//' | tail -1"
-        echo "Version du snpashot : ${version}"
+        def url = "http://rogno.socrate.vsct.fr:60090/content/repositories/snapshots/ppiv/ppiv_2.10/" + version
+
+        // Copier sur la VM
+        sh ‘scp ${url} hdpppip1@10.101.108.70:/home’
+
+        echo "Version du snpashot : ${url}"
     }
 
 
