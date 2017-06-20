@@ -24,6 +24,7 @@ trait SourcePipeline extends Serializable {
     new SparkConf()
       .setAppName(PPIV)
       .setMaster(SPARK_MASTER)
+      .set("spark.driver.extraClassPath","/export/appl/hdpppip1/DEV/mylibs/spark-csv_2.10-1.2.0.jar:/export/appl/hdpppip1/DEV/mylibs/commons-csv-2.4.1.jar")
       .set("es.nodes", HOST)
       .set("es.port", "9201")
       .set("es.index.auto.create", "true")
