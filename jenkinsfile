@@ -52,7 +52,7 @@ node {
         sh """
            echo ${url}
            ssh -t -t hdpppip1@cuccaro ls -lR
-           ssh -t -t hdpppip1@cuccaro wget -PO ./DEV ${url}
+           ssh -t -t hdpppip1@cuccaro wget -P ./DEV ${url}
            ssh -t -t hdpppip1@cuccaro ls -lR ./DEV
         """
     }
