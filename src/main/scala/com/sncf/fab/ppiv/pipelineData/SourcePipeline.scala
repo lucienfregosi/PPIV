@@ -139,10 +139,18 @@ trait SourcePipeline extends Serializable {
       // 2. Nettoyage
       // 3. Enregistrement dans Refinerry
       // 4. Jointure
-      // 5. Enregistrement dans Gold
+      // 5. Calcul des règles de gestion
+      // 6. Enregistrement dans Gold
 
 
       val qualiteAffichage = joinData(dsTgaTgd, refGares)
+
+      // Un petit calcul de regle de gestion
+
+      // 1 ...
+
+      // 2 ...
+
       qualiteAffichage.show()
 
 
