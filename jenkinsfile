@@ -60,7 +60,9 @@ node {
     // Launch Spark Submit with the JAR
     stage('Launch Spark Submit') {
         sh """
-                   ssh -t -t hdpppip1@cuccaro eval "cd DEV; spark-submit --class com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver --master local[2] --jars mylibs/commons-csv-1.4.jar,mylibs/spark-csv_2.10-1.2.0.jar,mylibs/univocity-parsers-1.0.0.jar ppiv_2.10-0.0.2-SNAPSHOT.jar hdfs"
+           ssh -t -t hdpppip1@cuccaro kinit -kt ppiv-dev.keytab ppiv_phase2_dev@SNB.SOCRATE.VSCT.FR
+           ssh -t -t hdpppip1@cuccaro eval "cd DEV; spark-submit --class com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver --master local[2] --jars mylibs/commons-csv-1.4.jar,mylibs/spark-csv_2.10-1.2.0.jar,mylibs/univocity-parsers-1.0.0.jar ppiv_2.10-0.0.2-SNAPSHOT.jar hdfs"
+           ssh -t -t hdpppip1@cuccaro kdestroy
         """
 
     }
