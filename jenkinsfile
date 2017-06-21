@@ -33,7 +33,7 @@ node {
         sh "export http_proxy= && export https_proxy= && sbt sonar"
     }
 
-    //Cleaning stage
+    //Build du JAR
     stage('assembly') {
         sh "sbt assembly"
     }
@@ -43,7 +43,7 @@ node {
         sh "export http_proxy= && export https_proxy= && sbt publish"
     }
 
-    //Deploy Nexus
+    // Récupération du JAR sur la VM
     stage('publish VM') {
         // Récupération de la dernière version
         def version = sh returnStdout: true, script: "export http_proxy= && export https_proxy= &&  curl --silent 'http://rogno.socrate.vsct.fr:60090/service/local/lucene/search?g=ppiv&a=ppiv_2.10&repositoryId=snapshots' | sed -n 's|<latestSnapshot>\\(.*\\)</latestSnapshot>|\\1|p' | sed -e 's/^[ \\t]*//' | tail -1 | tr -d '\n' "
@@ -57,8 +57,12 @@ node {
         """
     }
 
+    // Launch Spark Submit with the JAR
+    stage('Launch Spark Submit') {
+        sh """
+                   ssh -t -t hdpppip1@cuccaro eval "cd DEV; spark-submit --class com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver --master local[2] --jars mylibs/commons-csv-1.4.jar,mylibs/spark-csv_2.10-1.2.0.jar,mylibs/univocity-parsers-1.0.0.jar ppiv_2.10-0.0.2-SNAPSHOT.jar hdfs"
+        """
 
-
-
+    }
     echo 'End packaging'
  }
