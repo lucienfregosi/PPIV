@@ -155,7 +155,7 @@ trait SourcePipeline extends Serializable {
       qualiteAffichage.show()
 
 
-      PersistHdfs.persisteQualiteAffichageIntoHdfs(qualiteAffichage, getOutputGoldPath())
+      PersistHdfs.persisteQualiteAffichageIntoHdfs(qualiteAffichage, getOutputRefineryPath())
 
       /*
       // Enregistrement du résultat sur le serveur
