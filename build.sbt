@@ -2,7 +2,6 @@ name := "ppiv"
 
 version := "0.0.2-SNAPSHOT"
 
-
 scalaVersion := "2.10.6"
 
 val sparkVersion = "1.6.1"
