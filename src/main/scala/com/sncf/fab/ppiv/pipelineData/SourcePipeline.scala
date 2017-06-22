@@ -1,7 +1,7 @@
 package com.sncf.fab.ppiv.pipelineData
 
 import com.sncf.fab.ppiv.Exception.PpivRejectionHandler
-import com.sncf.fab.ppiv.business.{QualiteAffichage, RefGaresParsed, TgaTgdParsed}
+import com.sncf.fab.ppiv.business.{ReferentielGare, TgaTgdInput, TgaTgdOutput, TgaTgdTransitionnal}
 import com.sncf.fab.ppiv.parser.DatasetsParser
 import com.sncf.fab.ppiv.persistence.{PersistElastic, PersistHdfs, PersistHive, PersistLocal}
 import com.sncf.fab.ppiv.utils.AppConf._
@@ -27,7 +27,6 @@ trait SourcePipeline extends Serializable {
       .set("es.nodes", HOST)
       .set("es.port", "9201")
       .set("es.index.auto.create", "true")
-
   }
 
 
@@ -85,6 +84,12 @@ trait SourcePipeline extends Serializable {
     */
   def Arrive(): Boolean
 
+  /**
+    *
+    * @return TGA ou TGD selon le type de trajet
+    */
+  def Panneau(): String
+
 
   /**
     * le traitement principal lancé pour chaque data source
@@ -104,7 +109,7 @@ trait SourcePipeline extends Serializable {
       .load(getSource()).toDF(newNamesTgaTgd: _*)
       .withColumn("maj", 'maj.cast(LongType))
       .withColumn("heure", 'heure.cast(LongType))
-      .as[TgaTgdParsed];
+      .as[TgaTgdInput];
 
 
     val newNamesRefGares = Seq("CodeGare","IntituleGare","NombrePlateformes","SegmentDRG","UIC","UniteGare","TVS","CodePostal","Commune","DepartementCommune","Departement","Region","AgenceGC","RegionSNCF","NiveauDeService","LongitudeWGS84","LatitudeWGS84","DateFinValiditeGare")
@@ -113,48 +118,49 @@ trait SourcePipeline extends Serializable {
       .option("header", "true")
       .option("charset", "UTF8")
       .format("com.databricks.spark.csv")
-      .load(REFINERY_HDFS + REF_GARES)
+      .load(LANDING_WORK + REF_GARES)
       .toDF(newNamesRefGares: _*)
-      .as[RefGaresParsed]
+      .as[ReferentielGare]
 
 
     val dataTgaTgd = dsTgaTgd.toDF().map(row => DatasetsParser.parseTgaTgdDataset(row)).toDS()
 
     val dataRefGares = refGares.toDF().map(DatasetsParser.parseRefGares).toDS()
 
-    dataTgaTgd.show
-    dataRefGares.show
+    //dataTgaTgd.show
+    //dataRefGares.show
 
-    process(dataTgaTgd, dataRefGares, outputs)
+    // On groupe les cycles entre eux
+    dataTgaTgd.toDF().registerTempTable("dataTgaTgd")
+    val dataTgaTgdGrouped = sqlContext.sql("SELECT concat(gare,num,'TGA',heure) as cycle_id, first(heure) as heure," +
+      " first(gare) as gare, first(num) as num_train, first(type) as type, first(ordes) as origine_destination" +
+      " from dataTgaTgd group by concat(gare,num,'TGA',heure)")
+      .withColumn("heure", 'heure.cast(LongType))
+      .withColumn("num_train", 'num_train.cast(LongType))
+      .as[TgaTgdTransitionnal]
+
+
+    dataTgaTgdGrouped.show
+
+    process(dataTgaTgdGrouped, dataRefGares, outputs)
   }
 
   /**
     *
     * @param dsTgaTgd le dataset issu des fichier TGA/TGD (Nettoyé)
     */
-  def process(dsTgaTgd: Dataset[TgaTgdParsed], refGares: Dataset[RefGaresParsed], outputs: Array[String]): Unit = {
+  def process(dsTgaTgd: Dataset[TgaTgdTransitionnal], refGares: Dataset[ReferentielGare], outputs: Array[String]): Unit = {
     try {
 
-      // 1. Validation
-      // 2. Nettoyage
-      // 3. Enregistrement dans Refinerry
-      // 4. Jointure
-      // 5. Calcul des règles de gestion
-      // 6. Enregistrement dans Gold
 
-
+      // Jointure après le calcul de la règle de gestion
       val qualiteAffichage = joinData(dsTgaTgd, refGares)
-
-      // Un petit calcul de regle de gestion
-
-      // 1 ...
-
-      // 2 ...
 
       qualiteAffichage.show()
 
+      System.exit(0)
 
-      PersistHdfs.persisteQualiteAffichageIntoHdfs(qualiteAffichage, getOutputRefineryPath())
+      //PersistHdfs.persisteQualiteAffichageIntoHdfs(qualiteAffichage, getOutputRefineryPath())
 
       /*
       // Enregistrement du résultat sur le serveur
@@ -186,20 +192,19 @@ trait SourcePipeline extends Serializable {
     * @param dsTgaTgd issu des fichiers sources TGA/TGD
     * @param refGares issu des fichiers sources refGares
     */
-  def joinData(dsTgaTgd: Dataset[TgaTgdParsed], refGares: Dataset[RefGaresParsed]): Dataset[QualiteAffichage] = {
+  def joinData(dsTgaTgd: Dataset[TgaTgdTransitionnal], refGares: Dataset[ReferentielGare]): Dataset[TgaTgdOutput] = {
     import sqlContext.implicits._
 
+    // Jointure avec le référentiel
     val finals = dsTgaTgd.toDF().join(refGares.toDF(), dsTgaTgd.toDF().col("gare") === refGares.toDF().col("TVS"))
 
-
-    val affichageFinal = finals.toDF().map(row => QualiteAffichage(row.getString(0), row.getString(15),
-      Conversion.unixTimestampToDateTime(row.getLong(9)).toString, row.getString(13),
-      row.getString(5), "", "", true, true, Option(row.getString(11)).nonEmpty, Option(row.getString(8)).nonEmpty && row.getString(8) != "0",
-      row.getString(16), row.getString(17), row.getString(18)
+    val affichageFinal = finals.toDF().map(row => TgaTgdOutput(row.getString(7), row.getString(18),
+      row.getString(9), row.getString(10),
+      row.getFloat(21), row.getFloat(22),row.getString(0),row.getLong(3),row.getString(4),
+      row.getString(5), Panneau(), Conversion.unixTimestampToDateTime(row.getLong(9)).toString
     ))
 
-
-    affichageFinal.toDS().as[QualiteAffichage]
+    affichageFinal.toDS().as[TgaTgdOutput]
   }
 
 
