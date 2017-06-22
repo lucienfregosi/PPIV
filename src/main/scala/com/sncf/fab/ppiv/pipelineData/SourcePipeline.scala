@@ -135,7 +135,7 @@ trait SourcePipeline extends Serializable {
     dataTgaTgd.toDF().registerTempTable("dataTgaTgd")
     val dataTgaTgdGrouped = sqlContext.sql("SELECT concat(gare,num,'TGA',heure) as cycle_id, first(heure) as heure," +
       " first(gare) as gare, first(num) as num_train, first(type) as type, first(ordes) as origine_destination" +
-      " from dataTgaTgd group by concat(gare,num,'TGA',heure)") 
+      " from dataTgaTgd group by concat(gare,num,'TGA',heure)")
       .withColumn("heure", 'heure.cast(LongType))
       .as[TgaTgdTransitionnal]
 
@@ -155,7 +155,7 @@ trait SourcePipeline extends Serializable {
       // Jointure après le calcul de la règle de gestion
       val qualiteAffichage = joinData(dsTgaTgd, refGares)
 
-
+   
 
 
       PersistHdfs.persisteQualiteAffichageIntoHdfs(qualiteAffichage, getOutputRefineryPath())
