@@ -118,7 +118,7 @@ trait SourcePipeline extends Serializable {
       .option("header", "true")
       .option("charset", "UTF8")
       .format("com.databricks.spark.csv")
-      .load(LANDING_WORK + REF_GARES)
+      .load(REFINERY_HDFS + REF_GARES)
       .toDF(newNamesRefGares: _*)
       .as[ReferentielGare]
 
