@@ -10,6 +10,7 @@ import com.sncf.fab.ppiv.utils.Conversion
 import org.apache.spark.sql.{DataFrame, Dataset, SQLContext}
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.types._
+import org.apache.spark.storage.StorageLevel
 
 /**
   * Created by simoh-labdoui on 11/05/2017.
@@ -17,9 +18,9 @@ import org.apache.spark.sql.types._
 trait SourcePipeline extends Serializable {
 
 
-  val sparkConf = getSparkConf()
-  val sc = new SparkContext(sparkConf)
-  val sqlContext = new SQLContext(sc)
+  @transient val sparkConf = getSparkConf()
+   @transient val sc = new SparkContext(sparkConf)
+  @transient val sqlContext = new SQLContext(sc)
   def getSparkConf() : SparkConf = {
     new SparkConf()
       .setAppName(PPIV)
@@ -138,8 +139,6 @@ trait SourcePipeline extends Serializable {
       .as[TgaTgdTransitionnal]
 
 
-    dataTgaTgdGrouped.show
-
     process(dataTgaTgdGrouped, dataRefGares, outputs)
   }
 
@@ -148,15 +147,24 @@ trait SourcePipeline extends Serializable {
     * @param dsTgaTgd le dataset issu des fichier TGA/TGD (Nettoyé)
     */
   def process(dsTgaTgd: Dataset[TgaTgdTransitionnal], refGares: Dataset[ReferentielGare], outputs: Array[String]): Unit = {
+    import sqlContext.implicits._
     try {
 
 
       // Jointure après le calcul de la règle de gestion
-      val qualiteAffichage = joinData(dsTgaTgd, refGares)
+      //val qualiteAffichage = joinData(dsTgaTgd, refGares)
+      val finals = dsTgaTgd.toDF().join(refGares.toDF(), dsTgaTgd.toDF().col("gare") === refGares.toDF().col("TVS"))
+
+      val affichageFinal = finals.toDF().map(row => TgaTgdOutput(row.getString(7), row.getString(18),
+        row.getString(9), row.getString(10),
+        row.getString(21), row.getString(22),row.getString(0),row.getString(3),row.getString(4),
+        row.getString(5), Panneau(), Conversion.unixTimestampToDateTime(row.getLong(9)).toString
+      ))
+
+      val qualiteAffichage = affichageFinal.toDS().as[TgaTgdOutput]
 
       qualiteAffichage.show()
 
-      System.exit(0)
 
       //PersistHdfs.persisteQualiteAffichageIntoHdfs(qualiteAffichage, getOutputRefineryPath())
 
