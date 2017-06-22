@@ -11,6 +11,6 @@ import org.joda.time.DateTime
   */
 
 case class TgaTgdOutput(nom_de_la_gare: String, agence: String, segmentation:  String,
-                        uic: String, x: Float, y: Float, id_train: String,
-                        num_train: Long, `type`: String, origine_destination: String, type_panneau: String,
+                        uic: String, x: String, y: String, id_train: String,
+                        num_train: String, `type`: String, origine_destination: String, type_panneau: String,
                         dateheure2: String)

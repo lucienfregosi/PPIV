@@ -135,8 +135,6 @@ trait SourcePipeline extends Serializable {
     val dataTgaTgdGrouped = sqlContext.sql("SELECT concat(gare,num,'TGA',heure) as cycle_id, first(heure) as heure," +
       " first(gare) as gare, first(num) as num_train, first(type) as type, first(ordes) as origine_destination" +
       " from dataTgaTgd group by concat(gare,num,'TGA',heure)")
-      .withColumn("heure", 'heure.cast(LongType))
-      .withColumn("num_train", 'num_train.cast(LongType))
       .as[TgaTgdTransitionnal]
 
 
@@ -200,7 +198,7 @@ trait SourcePipeline extends Serializable {
 
     val affichageFinal = finals.toDF().map(row => TgaTgdOutput(row.getString(7), row.getString(18),
       row.getString(9), row.getString(10),
-      row.getFloat(21), row.getFloat(22),row.getString(0),row.getLong(3),row.getString(4),
+      row.getString(21), row.getString(22),row.getString(0),row.getString(3),row.getString(4),
       row.getString(5), Panneau(), Conversion.unixTimestampToDateTime(row.getLong(9)).toString
     ))
 
