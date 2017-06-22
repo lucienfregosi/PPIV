@@ -136,6 +136,7 @@ trait SourcePipeline extends Serializable {
     val dataTgaTgdGrouped = sqlContext.sql("SELECT concat(gare,num,'TGA',heure) as cycle_id, first(heure) as heure," +
       " first(gare) as gare, first(num) as num_train, first(type) as type, first(ordes) as origine_destination" +
       " from dataTgaTgd group by concat(gare,num,'TGA',heure)")
+      .withColumn("heure", 'heure.cast(LongType))
       .as[TgaTgdTransitionnal]
 
 
