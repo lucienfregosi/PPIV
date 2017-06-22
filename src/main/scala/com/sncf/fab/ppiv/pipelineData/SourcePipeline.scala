@@ -153,21 +153,12 @@ trait SourcePipeline extends Serializable {
 
 
       // Jointure après le calcul de la règle de gestion
-      //val qualiteAffichage = joinData(dsTgaTgd, refGares)
-      val finals = dsTgaTgd.toDF().join(refGares.toDF(), dsTgaTgd.toDF().col("gare") === refGares.toDF().col("TVS"))
+      val qualiteAffichage = joinData(dsTgaTgd, refGares)
 
-      val affichageFinal = finals.toDF().map(row => TgaTgdOutput(row.getString(7), row.getString(18),
-        row.getString(9), row.getString(10),
-        row.getString(21), row.getString(22),row.getString(0),row.getString(3),row.getString(4),
-        row.getString(5), Panneau(), Conversion.unixTimestampToDateTime(row.getLong(1)).toString
-      ))
-
-      val qualiteAffichage = affichageFinal.toDS().as[TgaTgdOutput]
-
-      qualiteAffichage.show()
+      
 
 
-      //PersistHdfs.persisteQualiteAffichageIntoHdfs(qualiteAffichage, getOutputRefineryPath())
+      PersistHdfs.persisteQualiteAffichageIntoHdfs(qualiteAffichage, getOutputRefineryPath())
 
       /*
       // Enregistrement du résultat sur le serveur
@@ -208,7 +199,7 @@ trait SourcePipeline extends Serializable {
     val affichageFinal = finals.toDF().map(row => TgaTgdOutput(row.getString(7), row.getString(18),
       row.getString(9), row.getString(10),
       row.getString(21), row.getString(22),row.getString(0),row.getString(3),row.getString(4),
-      row.getString(5), Panneau(), Conversion.unixTimestampToDateTime(row.getLong(9)).toString
+      row.getString(5), Panneau(), Conversion.unixTimestampToDateTime(row.getLong(1)).toString
     ))
 
     affichageFinal.toDS().as[TgaTgdOutput]
