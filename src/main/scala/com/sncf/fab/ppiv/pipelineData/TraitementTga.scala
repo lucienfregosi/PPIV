@@ -19,6 +19,8 @@ class TraitementTga extends SourcePipeline {
   override def Depart(): Boolean = false
 
   override def Arrive(): Boolean = true
+
+  override def Panneau() : String = "TGA"
 }
 
 object TraitementTga extends TraitementTga

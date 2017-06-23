@@ -4,7 +4,7 @@ import java.sql.Date
 import java.util.Calendar
 
 import com.sncf.fab.ppiv.Exception.PpivRejectionHandler
-import com.sncf.fab.ppiv.business.{RefGaresParsed, TgaTgdParsed}
+import com.sncf.fab.ppiv.business.{ReferentielGare, TgaTgdInput}
 import org.apache.log4j.Logger
 import org.apache.spark.sql.{Row}
 
@@ -14,9 +14,9 @@ import org.apache.spark.sql.{Row}
 object DatasetsParser {
   var LOGGER = Logger.getLogger(DatasetsParser.getClass)
 
-  def parseTgaTgdDataset(row: Row): TgaTgdParsed = {
+  def parseTgaTgdDataset(row: Row): TgaTgdInput = {
     try {
-      TgaTgdParsed(row.getString(0), row.getLong(1),
+      TgaTgdInput(row.getString(0), row.getLong(1),
         row.getString(2), row.getString(3), row.getString(4), row.getString(5),
         row.getString(6), row.getString(7), row.getString(8),
         row.getLong(9), row.getString(10), row.getString(11))
@@ -30,9 +30,9 @@ object DatasetsParser {
     }
   }
 
-  def parseRefGares(row: Row): RefGaresParsed = {
+  def parseRefGares(row: Row): ReferentielGare = {
     try {
-      RefGaresParsed(row.getString(0), row.getString(1),
+      ReferentielGare(row.getString(0), row.getString(1),
         row.getString(2), row.getString(3), row.getString(4), row.getString(5),
         row.getString(6), row.getString(7), row.getString(8),
         row.getString(9), row.getString(10), row.getString(11),

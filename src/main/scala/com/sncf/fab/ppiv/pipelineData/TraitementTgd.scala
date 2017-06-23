@@ -18,6 +18,8 @@ class TraitementTgd extends SourcePipeline {
   override def Depart(): Boolean = true
 
   override def Arrive(): Boolean = false
+
+  override def Panneau() : String = "TGD"
 }
 
 
