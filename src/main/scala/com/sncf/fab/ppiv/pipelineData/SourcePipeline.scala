@@ -100,6 +100,23 @@ trait SourcePipeline extends Serializable {
     import sqlContext.implicits._
 
 
+    /*
+Chargement des fichiers
+Sparadrap
+Filtrage
+Validation champ à champ
+Regroupement en cycle
+Validation cycle
+Nettoyage / Calcul des heures
+Enregistrement dans refinery HDFS
+Calcul des indicateurs avec les règles de gestion
+Jointure avec le référentiel
+Sauvegarde dans la table Hive
+Fusion des sorties TGA et TGD
+     */
+
+
+
     // Comme pas de header définition du nom des champs
     val newNamesTgaTgd = Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard","null")
     // Lecture du CSV avec les bons noms de champs
