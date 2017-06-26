@@ -43,19 +43,6 @@ trait SourcePipeline extends Serializable {
   }
 
   /**
-    * Le fichier source n'a pas de header mais possède le format suivant
-    * (0) -> gare
-    * (1) -> maj
-    * (2) -> train
-    * (3) -> ordes
-    * (4) -> num
-    * (5) -> type
-    * (6) -> picto
-    * (7) -> attribut_voie
-    * (8) -> voie
-    * (9) -> heure
-    * (10) -> etat
-    * (11) -> retard
     * @return le chemin de la source de données brute
     */
   def getSource(): String
@@ -96,27 +83,49 @@ trait SourcePipeline extends Serializable {
     * le traitement principal lancé pour chaque data source
     */
 
-  def start(outputs: Array[String]): Unit = {
+  def start(outputs: Array[String]): Dataset[TgaTgdOutput] = {
     import sqlContext.implicits._
 
+    // Début du Pipeline
 
-    /*
-Chargement des fichiers
-Sparadrap
-Filtrage
-Validation champ à champ
-Regroupement en cycle
-Validation cycle
-Nettoyage / Calcul des heures
-Enregistrement dans refinery HDFS
-Calcul des indicateurs avec les règles de gestion
-Jointure avec le référentiel
-Sauvegarde dans la table Hive
-Fusion des sorties TGA et TGD
-     */
+    // 1) Chargement des fichiers déjà parsé dans leur classe
+    val dataTgaTgd                = loadTgaTgd()
+    val dataRefGares              = loadReferentiel()
+
+    // 2) Application du sparadrap sur les données au cause du Bug lié au passe nuit
+    val dataTgaTgdBugFix          = applyStickingPaser(dataTgaTgd)
+
+    // 3) Validation champ à champ
+    val dataTgaTgdFielValidated   = validateField(dataTgaTgdBugFix)
+
+    // 4) Regroupement en cycle
+    val dataTgaTgdGrouped         = groupDataByCycle(dataTgaTgdFielValidated)
+
+    // 5) Sélection des lignes dont les cycles sont terminé et enrichissement dans les fichiers horaires précédents
+    val dataTgaTgdCycleOver       = filterCycleOver(dataTgaTgdGrouped)
+
+    // 6) Validation des cycles
+    val dataTgaTgdCycleValidated  = validateCycle(dataTgaTgdCycleOver)
+
+    // 7) Nettoyage et mise en forme
+    val dataTgaTgdCycleCleaned    = cleanCycle(dataTgaTgdCycleValidated)
+
+    // 8) Sauvegarde des données propres la ou G&C le souhaite
+    saveCleanData(dataTgaTgdCycleCleaned)
+
+    // 9) Calcul des différents cas d'exceptions
+    val dataTgaTgdCycleKPI        = computeKPI(dataTgaTgdCycleCleaned)
+
+    // 10) Jointure avec le référentiel
+    val dataTgaTgdWithReferentiel = joinReferentiel(dataTgaTgdCycleKPI, dataRefGares )
+
+    // Reste l'enregistrement que l'on fait a la fin du traitement TGA et TGD (donc un cran plus haut)
+    dataTgaTgdWithReferentiel
+  }
 
 
-
+  def loadTgaTgd(): Dataset[TgaTgdInput] = {
+    import sqlContext.implicits._
     // Comme pas de header définition du nom des champs
     val newNamesTgaTgd = Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard","null")
     // Lecture du CSV avec les bons noms de champs
@@ -129,7 +138,11 @@ Fusion des sorties TGA et TGD
       .withColumn("heure", 'heure.cast(LongType))
       .as[TgaTgdInput];
 
+   dsTgaTgd.toDF().map(row => DatasetsParser.parseTgaTgdDataset(row)).toDS()
+  }
 
+  def loadReferentiel() : Dataset[ReferentielGare] = {
+    import sqlContext.implicits._
     val newNamesRefGares = Seq("CodeGare","IntituleGare","NombrePlateformes","SegmentDRG","UIC","UniteGare","TVS","CodePostal","Commune","DepartementCommune","Departement","Region","AgenceGC","RegionSNCF","NiveauDeService","LongitudeWGS84","LatitudeWGS84","DateFinValiditeGare")
     val refGares = sqlContext.read
       .option("delimiter", ";")
@@ -140,80 +153,77 @@ Fusion des sorties TGA et TGD
       .toDF(newNamesRefGares: _*)
       .as[ReferentielGare]
 
+    refGares.toDF().map(DatasetsParser.parseRefGares).toDS()
+  }
 
-    val dataTgaTgd = dsTgaTgd.toDF().map(row => DatasetsParser.parseTgaTgdDataset(row)).toDS()
 
-    val dataRefGares = refGares.toDF().map(DatasetsParser.parseRefGares).toDS()
+  def applyStickingPaser(dsTgaTgd: Dataset[TgaTgdInput]): Dataset[TgaTgdInput] = {
+    import sqlContext.implicits._
+    // Application du sparadrap ...
+    dsTgaTgd
+  }
 
-    //dataTgaTgd.show
-    //dataRefGares.show
+  def validateField(dsTgaTgd: Dataset[TgaTgdInput]): Dataset[TgaTgdInput] = {
+    import sqlContext.implicits._
+    // Validation de chaque champ avec les contraintes définies dans le dictionnaire de données
+    // Voir comment traiter les rejets ..
+    dsTgaTgd
+  }
 
-    // On groupe les cycles entre eux
-    dataTgaTgd.toDF().registerTempTable("dataTgaTgd")
+
+  def groupDataByCycle(dsTgaTgd: Dataset[TgaTgdInput]): Dataset[TgaTgdTransitionnal] = {
+    import sqlContext.implicits._
+    // Groupement des évènements pour constituer des cycles uniques concaténation de gare + panneau + numéro de train + heure de départ (timestamp)
+    dsTgaTgd.toDF().registerTempTable("dataTgaTgd")
     val dataTgaTgdGrouped = sqlContext.sql("SELECT concat(gare,num,'TGA',heure) as cycle_id, first(heure) as heure," +
       " first(gare) as gare, first(num) as num_train, first(type) as type, first(ordes) as origine_destination" +
       " from dataTgaTgd group by concat(gare,num,'TGA',heure)")
       .withColumn("heure", 'heure.cast(LongType))
       .as[TgaTgdTransitionnal]
 
-
-    process(dataTgaTgdGrouped, dataRefGares, outputs)
+    dataTgaTgdGrouped
   }
 
-  /**
-    *
-    * @param dsTgaTgd le dataset issu des fichier TGA/TGD (Nettoyé)
-    */
-  def process(dsTgaTgd: Dataset[TgaTgdTransitionnal], refGares: Dataset[ReferentielGare], outputs: Array[String]): Unit = {
+  def filterCycleOver(dsTgaTgd: Dataset[TgaTgdTransitionnal]): Dataset[TgaTgdTransitionnal] = {
     import sqlContext.implicits._
-    try {
-
-
-      // Jointure après le calcul de la règle de gestion
-      val qualiteAffichage = joinData(dsTgaTgd, refGares)
-
-   
-
-
-      PersistHdfs.persisteQualiteAffichageIntoHdfs(qualiteAffichage, getOutputRefineryPath())
-
-      /*
-      // Enregistrement du résultat sur le serveur
-      if (outputs.contains("fs"))
-        PersistLocal.persisteTgaTgdParsedIntoFs(dsTgaTgd, getOutputRefineryPath())
-      if (outputs.contains("hive"))
-        PersistHive.persisteTgaTgdParsedHive(dsTgaTgd)
-      if (outputs.contains("hdfs"))
-        PersistHdfs.persisteQualiteAffichageIntoHdfs(qualiteAffichage, GOLD_HDFS)
-      if (outputs.contains("es"))
-        PersistElastic.persisteQualiteAffichageIntoEs(qualiteAffichage, QUALITE_INDEX)
-
-      */
-
-    }
-    catch {
-      case e: Throwable => {
-        e.printStackTrace()
-        PpivRejectionHandler.handleRejection(e.getMessage, PpivRejectionHandler.PROCESSING_ERROR)
-        None
-      }
-    }
-
+    // Sélection des trajets finis (voir combien de temps après le départ on le considère comme fini)
+    // Puis récupération des évènements antérieurs pour les cycles définis comme finis.
+    dsTgaTgd
   }
 
-  /**
-    * Jointure avec RefGares
-    *
-    * @param dsTgaTgd issu des fichiers sources TGA/TGD
-    * @param refGares issu des fichiers sources refGares
-    */
-  def joinData(dsTgaTgd: Dataset[TgaTgdTransitionnal], refGares: Dataset[ReferentielGare]): Dataset[TgaTgdOutput] = {
+  def validateCycle(dsTgaTgd: Dataset[TgaTgdTransitionnal]): Dataset[TgaTgdTransitionnal] = {
+    import sqlContext.implicits._
+    // Validation des cycles. Un cycle doit comporter au moins une voie et tous ses évènements ne peuvent pas se passer x minutes après le départ du train
+    // Voir comment traiter les rejets ..
+    dsTgaTgd
+  }
+
+  def cleanCycle(dsTgaTgd: Dataset[TgaTgdTransitionnal]): Dataset[TgaTgdTransitionnal] = {
+    import sqlContext.implicits._
+    // Nettoyage, mise en forme des lignes, conversion des heures etc ..
+    dsTgaTgd
+  }
+
+  def saveCleanData(dsTgaTgd: Dataset[TgaTgdTransitionnal]): Unit = {
+    import sqlContext.implicits._
+    // Sauvegarde des données pour que G&C ait un historique d'Obier exploitable
+  }
+
+  def computeKPI(dsTgaTgd: Dataset[TgaTgdTransitionnal]): Dataset[TgaTgdTransitionnal] = {
+    import sqlContext.implicits._
+    // Calcul des différents indicateurs
+    // On devra surement spliter la fonction en différentes sous fonctions
+    dsTgaTgd
+  }
+
+
+  def joinReferentiel(dsTgaTgd: Dataset[TgaTgdTransitionnal], refGares : Dataset[ReferentielGare]): Dataset[TgaTgdOutput] = {
+    // Jointure avec le référentiel pour enrichir les lignes
     import sqlContext.implicits._
 
-    // Jointure avec le référentiel
-    val finals = dsTgaTgd.toDF().join(refGares.toDF(), dsTgaTgd.toDF().col("gare") === refGares.toDF().col("TVS"))
+    val joinedData = dsTgaTgd.toDF().join(refGares.toDF(), dsTgaTgd.toDF().col("gare") === refGares.toDF().col("TVS"))
 
-    val affichageFinal = finals.toDF().map(row => TgaTgdOutput(row.getString(7), row.getString(18),
+    val affichageFinal = joinedData.toDF().map(row => TgaTgdOutput(row.getString(7), row.getString(18),
       row.getString(9), row.getString(10),
       row.getString(21), row.getString(22),row.getString(0),row.getString(3),row.getString(4),
       row.getString(5), Panneau(), Conversion.unixTimestampToDateTime(row.getLong(1)).toString
@@ -221,8 +231,6 @@ Fusion des sorties TGA et TGD
 
     affichageFinal.toDS().as[TgaTgdOutput]
   }
-
-
 }
 
 

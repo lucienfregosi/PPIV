@@ -1,5 +1,7 @@
 package com.sncf.fab.ppiv.spark.batch
 
+import com.sncf.fab.ppiv.Exception.PpivRejectionHandler
+import com.sncf.fab.ppiv.persistence.{PersistElastic, PersistHdfs, PersistHive, PersistLocal}
 import com.sncf.fab.ppiv.pipelineData.{SourcePipeline, TraitementTga, TraitementTgd}
 import org.apache.log4j.Logger
 import com.sncf.fab.ppiv.utils.AppConf._
@@ -14,14 +16,37 @@ object TraitementPPIVDriver extends Serializable {
   def main(args: Array[String]): Unit = {
     if (args.length == 0){
       LOGGER.error("Wrong number of parameters")
-      println(GOLD)
       System.exit(1)
     }
     else {
       LOGGER.info("Traitement d'affichage des trains TGA")
-      TraitementTga.start(args)
+      val dataTga = TraitementTga.start(args)
+
       LOGGER.info("Traitement d'affichage des trains TGD")
-    //  TraitementTgd.start(args)
+      val dataTgd = TraitementTgd.start(args)
+
+      // 11) Fusion des résultats de TGA et TGD
+      val dataTgaAndTga = dataTga.union(dataTgd)
+
+      // 12) Sauvegarde la ou nous l'a demandé
+      try {
+        if (args.contains("fs"))
+          PersistLocal.persisteQualiteAffichageIntoFs(dataTgaAndTga, TraitementTga.getOutputRefineryPath())
+        if (args.contains("hive"))
+          PersistHive.persisteQualiteAffichageHive(dataTgaAndTga)
+        if (args.contains("hdfs"))
+          PersistHdfs.persisteQualiteAffichageIntoHdfs(dataTgaAndTga, TraitementTga.getOutputRefineryPath())
+        if (args.contains("es"))
+          PersistElastic.persisteQualiteAffichageIntoEs(dataTgaAndTga, QUALITE_INDEX)
+      }
+      catch {
+        case e: Throwable => {
+          e.printStackTrace()
+          PpivRejectionHandler.handleRejection(e.getMessage, PpivRejectionHandler.PROCESSING_ERROR)
+          None
+        }
+      }
+
     }
   }
 
