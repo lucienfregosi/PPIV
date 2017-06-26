@@ -19,7 +19,7 @@ trait SourcePipeline extends Serializable {
 
 
   @transient val sparkConf = getSparkConf()
-   @transient val sc = new SparkContext(sparkConf)
+  @transient val sc = new SparkContext(sparkConf)
   @transient val sqlContext = new SQLContext(sc)
   def getSparkConf() : SparkConf = {
     new SparkConf()
@@ -136,7 +136,7 @@ Fusion des sorties TGA et TGD
       .option("header", "true")
       .option("charset", "UTF8")
       .format("com.databricks.spark.csv")
-      .load(REFINERY_HDFS + REF_GARES)
+      .load(REF_GARES)
       .toDF(newNamesRefGares: _*)
       .as[ReferentielGare]
 

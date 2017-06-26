@@ -10,11 +10,11 @@ import org.joda.time.DateTime
 class TraitementTga extends SourcePipeline {
 
 
-  override def getSource() = LANDING_WORK_HDFS  + Conversion.getYearMonthDay(Conversion.nowToDateTime()) + "/TGA-" + Conversion.getYearMonthDay(Conversion.nowToDateTime()) + "_" + Conversion.getHour(Conversion.nowToDateTime()) + ".csv"
+  override def getSource() = LANDING_WORK  + Conversion.getYearMonthDay(Conversion.nowToDateTime()) + "/TGA-" + Conversion.getYearMonthDay(Conversion.nowToDateTime()) + "_" + Conversion.getHour(Conversion.nowToDateTime()) + ".csv"
 
-  override def getOutputGoldPath() = GOLD_HDFS + Conversion.getYearMonthDay(new DateTime()) + "_TGA_" + Conversion.getHour(Conversion.nowToDateTime()) + ".csv"
+  override def getOutputGoldPath() = GOLD + Conversion.getYearMonthDay(new DateTime()) + "_TGA_" + Conversion.getHour(Conversion.nowToDateTime()) + ".csv"
 
-  override def getOutputRefineryPath() = REFINERY_HDFS + Conversion.getYearMonthDay(new DateTime()) + "_TGA_" + Conversion.getHour(Conversion.nowToDateTime()) + ".csv"
+  override def getOutputRefineryPath() = REFINERY + Conversion.getYearMonthDay(new DateTime()) + "_TGA_" + Conversion.getHour(Conversion.nowToDateTime()) + ".csv"
 
   override def Depart(): Boolean = false
 
