@@ -30,7 +30,7 @@ object TraitementPPIVDriver extends Serializable {
 
       LOGGER.info("Traitement d'affichage des trains TGAAAAAAAAAAAAAAAAAAAAAA")
       //val dataTga = TraitementTga.start(args, sc, sqlContext)
-      //TraitementTga.start(args, sc, sqlContext)
+      TraitementTga.start(args, sc, sqlContext)
 
 
       /*LOGGER.info("Traitement d'affichage des trains TGD")
