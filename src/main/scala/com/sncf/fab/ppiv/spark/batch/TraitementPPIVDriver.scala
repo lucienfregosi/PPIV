@@ -37,7 +37,7 @@ object TraitementPPIVDriver extends Serializable {
 
 
       // 11) Fusion des résultats de TGA et TGD
-      val dataTgaAndTga = dataTga.union(dataTgd)
+      //val dataTgaAndTga = dataTga.union(dataTgd)
 
       // 12) Sauvegarde la ou nous l'a demandé
       try {
