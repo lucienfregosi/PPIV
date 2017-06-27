@@ -1,6 +1,8 @@
 package com.sncf.fab.ppiv.persistence
-import com.sncf.fab.ppiv.business.{TgaTgdOutput, TgaTgdInput}
-import org.apache.spark.sql.Dataset
+import com.sncf.fab.ppiv.business.{TgaTgdInput, TgaTgdOutput}
+import org.apache.spark.sql.{Dataset, SQLContext, SaveMode}
+import org.apache.spark.sql.hive.HiveContext
+
 
 /**
   * Created by simoh-labdoui on 11/05/2017.
@@ -19,7 +21,10 @@ object PersistHive extends Serializable {
   /**
     * @param ds le dataset issu des fichiers TGA TGD et le referentiel des gares
     */
-  def persisteQualiteAffichageHive(ds: Dataset[TgaTgdOutput]): Unit = {
+  def persisteQualiteAffichageHive(ds: Dataset[TgaTgdOutput], sqlContext : SQLContext): Unit = {
+    import sqlContext.implicits._
+
+    ds.toDF().write.mode(SaveMode.Append).saveAsTable("ppiv_ref.iv_tgatgd")
 
   }
 
