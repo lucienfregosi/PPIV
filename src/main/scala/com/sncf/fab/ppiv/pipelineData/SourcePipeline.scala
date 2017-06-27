@@ -68,7 +68,7 @@ trait SourcePipeline extends Serializable {
     * le traitement principal lancé pour chaque data source
     */
 
-  def start(outputs: Array[String], sc : SparkContext, sqlContext : SQLContext): Dataset[TgaTgdOutput] = {
+  def start(outputs: Array[String], sc : SparkContext, sqlContext : SQLContext): Unit = {
 
     // Début du Pipeline
 
@@ -83,7 +83,7 @@ trait SourcePipeline extends Serializable {
     val dataTgaTgdFielValidated   = validateField(dataTgaTgdBugFix, sqlContext)
 
     // 4) Regroupement en cycle
-    val dataTgaTgdGrouped         = groupDataByCycle(dataTgaTgdFielValidated, sqlContext)
+    /*val dataTgaTgdGrouped         = groupDataByCycle(dataTgaTgdFielValidated, sqlContext)
 
     // 5) Sélection des lignes dont les cycles sont terminé et enrichissement dans les fichiers horaires précédents
     val dataTgaTgdCycleOver       = filterCycleOver(dataTgaTgdGrouped, sqlContext)
@@ -103,8 +103,9 @@ trait SourcePipeline extends Serializable {
     // 10) Jointure avec le référentiel
     val dataTgaTgdWithReferentiel = joinReferentiel(dataTgaTgdCycleKPI, dataRefGares,sqlContext )
 
-    // Reste l'enregistrement que l'on fait a la fin du traitement TGA et TGD (donc un cran plus haut)
-    dataTgaTgdWithReferentiel
+    // Reste l'enregistrement que l'on fait a la fin du traitement TGA et TGD (donc un cran plus haut)*/
+    //dataTgaTgdWithReferentiel
+    None
   }
 
 
