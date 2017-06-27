@@ -69,7 +69,6 @@ trait SourcePipeline extends Serializable {
     */
 
   def start(outputs: Array[String], sc : SparkContext, sqlContext : SQLContext): Dataset[TgaTgdOutput] = {
-    sc.broadcast(sqlContext)
 
     // Début du Pipeline
 
@@ -192,6 +191,7 @@ trait SourcePipeline extends Serializable {
   def saveCleanData(dsTgaTgd: Dataset[TgaTgdTransitionnal], sqlContext : SQLContext): Unit = {
     import sqlContext.implicits._
     // Sauvegarde des données pour que G&C ait un historique d'Obier exploitable
+    None
   }
 
   def computeKPI(dsTgaTgd: Dataset[TgaTgdTransitionnal], sqlContext : SQLContext): Dataset[TgaTgdTransitionnal] = {
