@@ -144,6 +144,7 @@ trait SourcePipeline extends Serializable {
   def applyStickingPaser(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext): Dataset[TgaTgdInput] = {
     import sqlContext.implicits._
     // Application du sparadrap ...
+    dsTgaTgd.count()
     dsTgaTgd
   }
 
