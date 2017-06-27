@@ -8,7 +8,7 @@ import com.typesafe.config.ConfigFactory
 object AppConf extends Serializable{
   val conf         = ConfigFactory.load()
 
-  val SPARK_MASTER = conf.getString("local")
+  val SPARK_MASTER = conf.getString("yarn")
   val PPIV         = conf.getString("ppiv")
 
   // Chemin ou aller chercher et enregistrer les données

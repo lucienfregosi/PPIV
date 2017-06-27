@@ -1,6 +1,6 @@
 name := "ppiv"
 
-version := "1.1-SNAPSHOT"
+version := "0.0.2-SNAPSHOT"
 
 scalaVersion := "2.10.6"
 
