@@ -28,7 +28,7 @@ object TraitementPPIVDriver extends Serializable {
       @transient val sqlContext = new SQLContext(sc)
 
 
-      LOGGER.info("Traitement d'affichage des trains TGA")
+      LOGGER.info("Traitement d'affichage des trains TGAAAAAAAAAAAAAAAAAAAAAA")
       //val dataTga = TraitementTga.start(args, sc, sqlContext)
       //TraitementTga.start(args, sc, sqlContext)
 
