@@ -68,7 +68,7 @@ trait SourcePipeline extends Serializable {
     * le traitement principal lancé pour chaque data source
     */
 
-  def start(outputs: Array[String], sc : SparkContext, sqlContext : SQLContext): Unit = {
+  def start(outputs: Array[String], sc : SparkContext, sqlContext : SQLContext): Dataset[TgaTgdOutput] = {
 
     // Début du Pipeline
 
@@ -76,7 +76,7 @@ trait SourcePipeline extends Serializable {
     val dataTgaTgd                = loadTgaTgd(sqlContext)
     val dataRefGares              = loadReferentiel(sqlContext)
 
-    /*// 2) Application du sparadrap sur les données au cause du Bug lié au passe nuit
+    // 2) Application du sparadrap sur les données au cause du Bug lié au passe nuit
     val dataTgaTgdBugFix          = applyStickingPaser(dataTgaTgd, sqlContext)
 
     // 3) Validation champ à champ
@@ -105,8 +105,7 @@ trait SourcePipeline extends Serializable {
 
     // Reste l'enregistrement que l'on fait a la fin du traitement TGA et TGD (donc un cran plus haut)
     dataTgaTgdWithReferentiel
-    */
-    None
+
   }
 
 
