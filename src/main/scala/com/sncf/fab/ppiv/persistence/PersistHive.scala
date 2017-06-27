@@ -1,5 +1,6 @@
 package com.sncf.fab.ppiv.persistence
 import com.sncf.fab.ppiv.business.{TgaTgdInput, TgaTgdOutput}
+import com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver.LOGGER
 import org.apache.spark.sql.{Dataset, SQLContext, SaveMode}
 import org.apache.spark.sql.hive.HiveContext
 
@@ -23,6 +24,8 @@ object PersistHive extends Serializable {
     */
   def persisteQualiteAffichageHive(ds: Dataset[TgaTgdOutput], sqlContext : SQLContext): Unit = {
     import sqlContext.implicits._
+
+    LOGGER.info("Sauvegarde dans Hive")
 
     ds.toDF().write.mode(SaveMode.Append).saveAsTable("ppiv_ref.iv_tgatgd")
 
