@@ -29,12 +29,14 @@ object TraitementPPIVDriver extends Serializable {
 
 
       LOGGER.info("Traitement d'affichage des trains TGA")
-      val dataTga = TraitementTga.start(args, sc, sqlContext)
+      //val dataTga = TraitementTga.start(args, sc, sqlContext)
+      TraitementTga.start(args, sc, sqlContext)
 
-      LOGGER.info("Traitement d'affichage des trains TGD")
+
+      /*LOGGER.info("Traitement d'affichage des trains TGD")
       val dataTgd = TraitementTgd.start(args, sc, sqlContext)
 
-      /*
+
       // 11) Fusion des résultats de TGA et TGD
       val dataTgaAndTga = dataTga.union(dataTgd)
 
@@ -56,7 +58,7 @@ object TraitementPPIVDriver extends Serializable {
           None
         }
       }
-      */
+    */
     }
   }
 

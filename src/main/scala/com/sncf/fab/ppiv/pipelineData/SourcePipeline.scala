@@ -76,14 +76,14 @@ trait SourcePipeline extends Serializable {
     val dataTgaTgd                = loadTgaTgd(sqlContext)
     val dataRefGares              = loadReferentiel(sqlContext)
 
-    // 2) Application du sparadrap sur les données au cause du Bug lié au passe nuit
+    /*// 2) Application du sparadrap sur les données au cause du Bug lié au passe nuit
     val dataTgaTgdBugFix          = applyStickingPaser(dataTgaTgd, sqlContext)
 
     // 3) Validation champ à champ
     val dataTgaTgdFielValidated   = validateField(dataTgaTgdBugFix, sqlContext)
 
     // 4) Regroupement en cycle
-    /*val dataTgaTgdGrouped         = groupDataByCycle(dataTgaTgdFielValidated, sqlContext)
+    val dataTgaTgdGrouped         = groupDataByCycle(dataTgaTgdFielValidated, sqlContext)
 
     // 5) Sélection des lignes dont les cycles sont terminé et enrichissement dans les fichiers horaires précédents
     val dataTgaTgdCycleOver       = filterCycleOver(dataTgaTgdGrouped, sqlContext)
@@ -103,8 +103,9 @@ trait SourcePipeline extends Serializable {
     // 10) Jointure avec le référentiel
     val dataTgaTgdWithReferentiel = joinReferentiel(dataTgaTgdCycleKPI, dataRefGares,sqlContext )
 
-    // Reste l'enregistrement que l'on fait a la fin du traitement TGA et TGD (donc un cran plus haut)*/
-    //dataTgaTgdWithReferentiel
+    // Reste l'enregistrement que l'on fait a la fin du traitement TGA et TGD (donc un cran plus haut)
+    dataTgaTgdWithReferentiel
+    */
     None
   }
 
@@ -145,7 +146,6 @@ trait SourcePipeline extends Serializable {
   def applyStickingPaser(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext): Dataset[TgaTgdInput] = {
     import sqlContext.implicits._
     // Application du sparadrap ...
-    dsTgaTgd.count()
     dsTgaTgd
   }
 
