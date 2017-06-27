@@ -57,7 +57,6 @@ object TraitementPPIVDriver extends Serializable {
           None
         }
       }
-    */
     }
   }
 
@@ -68,6 +67,7 @@ object TraitementPPIVDriver extends Serializable {
       .set("es.nodes", HOST)
       .set("es.port", "9201")
       .set("es.index.auto.create", "true")
+      .set("spark.ui.port","44040")
   }
 
 
