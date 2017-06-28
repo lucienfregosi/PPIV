@@ -28,7 +28,7 @@ object TraitementPPIVDriver extends Serializable {
       @transient val sqlContext = new SQLContext(sc)
 
 
-      LOGGER.info("Traitement d'affichage des trains TGAAAAAAAAAAAAAAAAAAAAAA")
+      LOGGER.info("Traitement d'affichage des trains TGA")
       val dataTga = TraitementTga.start(args, sc, sqlContext)
 
 
@@ -44,7 +44,8 @@ object TraitementPPIVDriver extends Serializable {
         if (args.contains("fs"))
           PersistLocal.persisteQualiteAffichageIntoFs(dataTgaAndTga, TraitementTga.getOutputRefineryPath())
         if (args.contains("hive"))
-          PersistHive.persisteQualiteAffichageHive(dataTgaAndTga, sqlContext)
+          LOGGER.info("Traitement d'affichage des trains TGA")
+          PersistHive.persisteQualiteAffichageHive(dataTgaAndTga, sc)
         if (args.contains("hdfs"))
           PersistHdfs.persisteQualiteAffichageIntoHdfs(dataTgaAndTga, TraitementTga.getOutputRefineryPath())
         if (args.contains("es"))
@@ -63,6 +64,7 @@ object TraitementPPIVDriver extends Serializable {
   def getSparkConf() : SparkConf = {
     new SparkConf()
       .setAppName(PPIV)
+      .setMaster(SPARK_MASTER)
       .set("es.nodes", HOST)
       .set("es.port", "9201")
       .set("es.index.auto.create", "true")
