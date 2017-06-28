@@ -3,7 +3,6 @@ package com.sncf.fab.ppiv.pipelineData
 import com.sncf.fab.ppiv.Exception.PpivRejectionHandler
 import com.sncf.fab.ppiv.business.{ReferentielGare, TgaTgdInput, TgaTgdOutput, TgaTgdTransitionnal}
 import com.sncf.fab.ppiv.parser.DatasetsParser
-import com.sncf.fab.ppiv.persistence.{PersistElastic, PersistHdfs, PersistHive, PersistLocal}
 import com.sncf.fab.ppiv.utils.AppConf._
 import org.apache.spark.SparkConf
 import com.sncf.fab.ppiv.utils.Conversion
@@ -11,6 +10,7 @@ import org.apache.spark.sql.{DataFrame, Dataset, SQLContext}
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.types._
 import org.apache.spark.storage.StorageLevel
+import com.sncf.fab.ppiv.persistence.{PersistElastic, PersistHdfs, PersistHive, PersistLocal}
 
 /**
   * Created by simoh-labdoui on 11/05/2017.
@@ -27,6 +27,7 @@ trait SourcePipeline extends Serializable {
       .setMaster(SPARK_MASTER)
       .set("es.nodes", HOST)
       .set("es.port", "9201")
+      .set("spark.driver.allowMultipleContexts", "true")
       .set("es.index.auto.create", "true")
   }
 
@@ -167,7 +168,7 @@ trait SourcePipeline extends Serializable {
     import sqlContext.implicits._
     // Validation de chaque champ avec les contraintes définies dans le dictionnaire de données
     // Voir comment traiter les rejets ..
-    dsTgaTgd
+       dsTgaTgd
   }
 
 
@@ -230,6 +231,8 @@ trait SourcePipeline extends Serializable {
     ))
 
     affichageFinal.toDS().as[TgaTgdOutput]
+
+
   }
 }
 

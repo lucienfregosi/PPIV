@@ -9,6 +9,7 @@ resolvers ++= Seq(
   "apache-snapshots" at "https://oss.sonatype.org/content/repositories/releases/"
 )
 
+
 libraryDependencies ++= Seq(
   "org.apache.spark" %% "spark-core" % sparkVersion,
   "org.apache.spark" %% "spark-sql" % sparkVersion,
@@ -28,7 +29,11 @@ libraryDependencies ++= Seq(
   "org.apache.commons" % "commons-csv" % "1.4",
   "com.univocity" % "univocity-parsers" % "2.4.0"
 
+
 )
+
+
+scalacOptions in Test ++= Seq("-Yrangepos")
 
 publishTo := {
   val nexus = "http://rogno.socrate.vsct.fr:60090/"
