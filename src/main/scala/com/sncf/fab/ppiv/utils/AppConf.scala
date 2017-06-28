@@ -8,7 +8,7 @@ import com.typesafe.config.ConfigFactory
 object AppConf extends Serializable{
   val conf         = ConfigFactory.load()
 
-  val SPARK_MASTER = conf.getString("local")
+  val SPARK_MASTER = conf.getString("spark-master")
   val PPIV         = conf.getString("ppiv")
 
   // Chemin ou aller chercher et enregistrer les données
@@ -17,7 +17,10 @@ object AppConf extends Serializable{
   val LANDING_WORK = conf.getString("landing_work")
   val REF_GARES    = conf.getString("ref_gares")
 
-  // Valeut TGA et TGD
+  // Chemin ou enregistrer les logs
+  val LOG_PATH     = conf.getString("log")
+
+  // Valeur TGA et TGD
   val TGA          = "TGA.csv"
   val TGD          = "TGD.csv"
 
