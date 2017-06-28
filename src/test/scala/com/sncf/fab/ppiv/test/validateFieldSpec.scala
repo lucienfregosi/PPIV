@@ -49,7 +49,7 @@ Field 12 : retard should be 2 or 3 digits                                       
   import sqlContext.implicits._
 
   val newNamesTgaTgd = Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard")
-  val testrddDf = sc.parallelize(Seq(("ABC", "1598652962", "296", "DEST", "123", "TER", "12345", "I", "A", "1598652962", "IND", "05"))).toDF(newNamesTgaTgd: _*).withColumn("maj", 'maj.cast(LongType)).withColumn("heure", 'heure.cast(LongType))
+  val testrddDf = sc.parallelize(Seq(("ABC", "1598652962", "20", "DEST", "123", "TER", "12345", "I", "A", "1598652962", "IND", "05"))).toDF(newNamesTgaTgd: _*).withColumn("maj", 'maj.cast(LongType)).withColumn("heure", 'heure.cast(LongType))
   val testrddDs = testrddDf.as[TgaTgdInput]
   //val currentTimestamp = DateTime.now(DateTimeZone.UTC).asInstanceOf[Long]
 
