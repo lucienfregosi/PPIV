@@ -29,7 +29,7 @@ object PersistHive extends Serializable {
 
     // Sauvegarde dans Hive
     ds.toDF().registerTempTable("dataToSaveHive")
-    sqlContext.sql("insert into table ppiv_ref.iv_tgatgd select * from dataToSaveHive")
+    sqlContext.sql("insert into table iv_tgatgd select * from dataToSaveHive")
 
 
 
