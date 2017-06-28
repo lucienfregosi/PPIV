@@ -14,7 +14,6 @@ libraryDependencies ++= Seq(
   "org.apache.spark" %% "spark-core" % sparkVersion,
   "org.apache.spark" %% "spark-sql" % sparkVersion,
   "org.apache.spark" %% "spark-hive" % sparkVersion,
-  "org.apache.commons" % "commons-csv" % "1.1",
   "org.scalatest" %% "scalatest" % "2.2.6" % "test",
   "com.typesafe" % "config" % "1.2.1",
   "org.joda" % "joda-convert" % "1.8",

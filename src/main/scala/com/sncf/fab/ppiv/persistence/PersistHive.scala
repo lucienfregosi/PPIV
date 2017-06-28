@@ -1,6 +1,5 @@
 package com.sncf.fab.ppiv.persistence
 import com.sncf.fab.ppiv.business.{TgaTgdInput, TgaTgdOutput}
-import com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver.LOGGER
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.{Dataset, SQLContext, SaveMode}
 import org.apache.spark.sql.hive.HiveContext
@@ -27,7 +26,6 @@ object PersistHive extends Serializable {
 
     import sqlContext.implicits._
 
-    LOGGER.info("Sauvegarde dans Hive")
     val hiveContext = new HiveContext(sc)
 
 

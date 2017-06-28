@@ -1,10 +1,10 @@
 package com.sncf.fab.ppiv.test
 import com.sncf.fab.ppiv.business.TgaTgdInput
 import com.sncf.fab.ppiv.pipelineData.TraitementTga
-import com.sncf.fab.ppiv.utils.AppConf.{HOST, PPIV, SPARK_MASTER}
 import org.apache.spark.{SparkConf, SparkContext}
-import org.apache.spark.sql.SQLContext
 import org.apache.spark.sql.types.{DoubleType, LongType}
+import com.sncf.fab.ppiv.utils.AppConf._
+import org.apache.spark.sql.SQLContext
 import org.joda.time.{DateTime, DateTimeZone}
 import org.specs2._
 
@@ -31,10 +31,7 @@ Field 12 : retard should be 2 or 3 digits                                       
 
   """
 
-  /*val Sp = new TraitementTga()
-  val sparkConf = Sp.sparkConf
-  val sc = Sp.sc
-  val sqlContext = Sp.sqlContext*/
+
 
   val sparkConf = new SparkConf()
     .setAppName(PPIV)
@@ -47,6 +44,7 @@ Field 12 : retard should be 2 or 3 digits                                       
   @transient val sqlContext = new SQLContext(sc)
 
   val sourcePipeline = new TraitementTga
+
 
   import sqlContext.implicits._
 
