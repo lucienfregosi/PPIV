@@ -12,7 +12,7 @@ import org.apache.spark.{SparkConf, SparkContext}
 //  * Created by simoh-labdoui on 11/05/2017.
 //  */
 
-class TraitementPPIVDriver {
+class SparkConfClass {
 
   def getSparkConf(): SparkConf = {
     @transient val conf = new SparkConf()
@@ -24,15 +24,16 @@ class TraitementPPIVDriver {
     conf
   }
 
-  def getSparkContext() : SparkContext = {
+  def getSparkContext(): SparkContext = {
     @transient val sc = new SparkContext(getSparkConf)
     sc
   }
 
-  def getSparkSQL(sc : SparkContext) : SQLContext ={
+  def getSparkSQL(sc: SparkContext): SQLContext = {
     @transient val sqlContext = new SQLContext(sc)
     sqlContext
   }
+}
 
 
 object TraitementPPIVDriver extends Serializable {
@@ -46,8 +47,10 @@ object TraitementPPIVDriver extends Serializable {
     }
     else {
 
-      val sc = getSparkContext()
-      val sqlContext = getSparkSQL(sc)
+      val classSparkConf = new SparkConfClass
+
+      val sc = classSparkConf.getSparkContext()
+      val sqlContext = classSparkConf.getSparkSQL(sc)
 
 
       LOGGER.info("Traitement d'affichage des trains TGA")
@@ -81,6 +84,5 @@ object TraitementPPIVDriver extends Serializable {
       }
     }
   }
-}
 }
 

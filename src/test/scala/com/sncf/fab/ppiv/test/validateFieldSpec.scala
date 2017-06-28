@@ -1,7 +1,7 @@
 package com.sncf.fab.ppiv.test
 import com.sncf.fab.ppiv.business.TgaTgdInput
 import com.sncf.fab.ppiv.pipelineData.TraitementTga
-import com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver
+import com.sncf.fab.ppiv.spark.batch.SparkConfClass
 import org.apache.spark.sql.types.{DoubleType, LongType}
 import org.joda.time.{DateTime, DateTimeZone}
 import org.specs2._
@@ -29,10 +29,12 @@ Field 12 : retard should be 2 or 3 digits                                       
 
   """
 
-  val traitementPPIVDriver = new TraitementPPIVDriver()
+  val sparkConf = new SparkConfClass
 
-  val sc = traitementPPIVDriver.getSparkContext()
-  val sqlContext = traitementPPIVDriver.getSparkSQL(sc)
+  val sc = sparkConf.getSparkContext()
+  val sqlContext = sparkConf.getSparkSQL(sc)
+
+
 
   val sourcePipeline = new TraitementTga()
 
