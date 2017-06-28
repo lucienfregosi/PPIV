@@ -11,21 +11,43 @@ import org.apache.spark.{SparkConf, SparkContext}
 /**
 //  * Created by simoh-labdoui on 11/05/2017.
 //  */
+
+class TraitementPPIVDriver {
+
+  def getSparkConf(): SparkConf = {
+    @transient val conf = new SparkConf()
+      .setAppName(PPIV)
+      .setMaster(SPARK_MASTER)
+      .set("es.nodes", HOST)
+      .set("es.port", "9201")
+      .set("es.index.auto.create", "true")
+    conf
+  }
+
+  def getSparkContext() : SparkContext = {
+    @transient val sc = new SparkContext(getSparkConf)
+    sc
+  }
+
+  def getSparkSQL(sc : SparkContext) : SQLContext ={
+    @transient val sqlContext = new SQLContext(sc)
+    sqlContext
+  }
+
+
 object TraitementPPIVDriver extends Serializable {
   var LOGGER = Logger.getLogger(TraitementPPIVDriver.getClass)
   LOGGER.info("Traitement d'affichage des trains")
 
   def main(args: Array[String]): Unit = {
-    if (args.length == 0){
+    if (args.length == 0) {
       LOGGER.error("Wrong number of parameters")
       System.exit(1)
     }
     else {
 
-      // Définition du Spark Context et SQL Context
-      @transient val sparkConf = getSparkConf()
-      @transient val sc = new SparkContext(sparkConf)
-      @transient val sqlContext = new SQLContext(sc)
+      val sc = getSparkContext()
+      val sqlContext = getSparkSQL(sc)
 
 
       LOGGER.info("Traitement d'affichage des trains TGA")
@@ -59,16 +81,6 @@ object TraitementPPIVDriver extends Serializable {
       }
     }
   }
-
-  def getSparkConf() : SparkConf = {
-    new SparkConf()
-      .setAppName(PPIV)
-      .setMaster(SPARK_MASTER)
-      .set("es.nodes", HOST)
-      .set("es.port", "9201")
-      .set("es.index.auto.create", "true")
-  }
-
-
+}
 }
 

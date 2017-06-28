@@ -1,6 +1,7 @@
 package com.sncf.fab.ppiv.test
 import com.sncf.fab.ppiv.business.TgaTgdInput
 import com.sncf.fab.ppiv.pipelineData.TraitementTga
+import com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver
 import org.apache.spark.sql.types.{DoubleType, LongType}
 import org.joda.time.{DateTime, DateTimeZone}
 import org.specs2._
@@ -28,10 +29,14 @@ Field 12 : retard should be 2 or 3 digits                                       
 
   """
 
-  val Sp = new TraitementTga()
-  val sparkConf = Sp.sparkConf
-  val sc = Sp.sc
-  val sqlContext = Sp.sqlContext
+  val traitementPPIVDriver = new TraitementPPIVDriver()
+
+  val sc = traitementPPIVDriver.getSparkContext()
+  val sqlContext = traitementPPIVDriver.getSparkSQL(sc)
+
+  val sourcePipeline = new TraitementTga()
+
+
 
   import sqlContext.implicits._
 
@@ -45,21 +50,21 @@ Field 12 : retard should be 2 or 3 digits                                       
   val number:AnyVal = 10
   val l:Long = number.asInstanceOf[Number].longValue
 
-  Sp.validateField(testrddDs)
+  sourcePipeline.validateField(testrddDs,sqlContext)
 
-  def e1 = Sp.validateField(testrddDs).toDF().head().getString(0) must =~("^[A-Z]{3}$")
-  def e2 = Sp.validateField(testrddDs).toDF().head().getLong(1) must be_>=(currentTimestamp)
-  def e3 = Sp.validateField(testrddDs).toDF().head().getString(2) must =~("^[0-2]{0,1}[0-9]$")
-  def e4 = Sp.validateField(testrddDs).toDF().head().getString(3) must =~("^[A-Z]{1,}$")
-  def e5 = Sp.validateField(testrddDs).toDF().head().getString(4) must =~("^[0-9]{1,}$")
-  def e6 = Sp.validateField(testrddDs).toDF().head().getString(4).toInt must be_>= (0)
-  def e7 = Sp.validateField(testrddDs).toDF().head().getString(5) must beOneOf("TER","BUS","TGV","INTERCITES")
-  def e8 = Sp.validateField(testrddDs).toDF().head().getString(6).toInt must be_>= (0)
-  def e9 = Sp.validateField(testrddDs).toDF().head().getString(7) must =~("I{0,1}$")
-  def e10 = Sp.validateField(testrddDs).toDF().head().getString(8) must =~("^[A-Z]{1}$")
-  def e11 = Sp.validateField(testrddDs).toDF().head().getLong(9) must be_>=(currentTimestamp)
-  def e12 = Sp.validateField(testrddDs).toDF().head().getString(10) must beOneOf("IND", "SUP","ARR")
-  def e13 = Sp.validateField(testrddDs).toDF().head().getString(11) must =~("^[0-9]{2}|[0-9]{4}$")
+  def e1 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(0) must =~("^[A-Z]{3}$")
+  def e2 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getLong(1) must be_>=(currentTimestamp)
+  def e3 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(2) must =~("^[0-2]{0,1}[0-9]$")
+  def e4 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(3) must =~("^[A-Z]{1,}$")
+  def e5 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(4) must =~("^[0-9]{1,}$")
+  def e6 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(4).toInt must be_>= (0)
+  def e7 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(5) must beOneOf("TER","BUS","TGV","INTERCITES")
+  def e8 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(6).toInt must be_>= (0)
+  def e9 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(7) must =~("I{0,1}$")
+  def e10 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(8) must =~("^[A-Z]{1}$")
+  def e11 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getLong(9) must be_>=(currentTimestamp)
+  def e12 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(10) must beOneOf("IND", "SUP","ARR")
+  def e13 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(11) must =~("^[0-9]{2}|[0-9]{4}$")
 
 
 }

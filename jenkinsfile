@@ -10,7 +10,7 @@ node {
 
     //Cleaning stage
     stage('Cleanup') {
-       sh "sbt clean"
+       sh "sbt clean compile"
     }
 
     // Analysis by sonar
