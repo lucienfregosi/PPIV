@@ -24,7 +24,7 @@ object PersistHive extends Serializable {
     * @param ds le dataset issu des fichiers TGA TGD et le referentiel des gares
     */
   def persisteQualiteAffichageHive(ds: Dataset[TgaTgdOutput], sqlContext : SQLContext): Unit = {
-    
+
     LOGGER.info("Sauvegarde dans Hive")
 
     // Sauvegarde dans Hive
