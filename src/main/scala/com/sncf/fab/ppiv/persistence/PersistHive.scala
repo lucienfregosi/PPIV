@@ -30,7 +30,7 @@ object PersistHive extends Serializable {
     import hiveContext.sql
 
     LOGGER.info("Sauvegarde dans Hive")
-    ds.toDF().write.mode(SaveMode.Append).saveAsTable("ppiv_ref.iv_tgatgd")
+    ds.toDF().write.saveAsTable("ppiv_ref.iv_tgatgd")
 
   }
 
