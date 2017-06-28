@@ -62,7 +62,7 @@ node {
         def version = sh returnStdout: true, script: "export http_proxy= && export https_proxy= &&  curl --silent 'http://rogno.socrate.vsct.fr:60090/service/local/lucene/search?g=ppiv&a=ppiv_2.10&repositoryId=snapshots' | sed -n 's|<latestSnapshot>\\(.*\\)</latestSnapshot>|\\1|p' | sed -e 's/^[ \\t]*//' | tail -1 | tr -d '\n' "
         sh """
            ssh -t -t hdpppip1@cuccaro kinit -kt ppiv-dev.keytab ppiv_phase2_dev@SNB.SOCRATE.VSCT.FR
-           ssh -t -t hdpppip1@cuccaro eval "cd DEV; spark-submit --class com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver --master yarn-client --num-executors 2 --driver-memory 512m --executor-memory 512m --executor-cores 1--jars mylibs/commons-csv-1.4.jar,mylibs/spark-csv_2.10-1.2.0.jar,mylibs/univocity-parsers-1.0.0.jar ppiv_2.10-${version}.jar hdfs"
+           ssh -t -t hdpppip1@cuccaro eval "cd DEV; spark-submit --class com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver --master yarn-client --num-executors 2 --driver-memory 512m --executor-memory 512m --executor-cores 1 --jars mylibs/commons-csv-1.4.jar,mylibs/spark-csv_2.10-1.2.0.jar,mylibs/univocity-parsers-1.0.0.jar ppiv_2.10-${version}.jar hdfs"
            ssh -t -t hdpppip1@cuccaro kdestroy
         """
 
