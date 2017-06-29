@@ -32,12 +32,10 @@ object PersistHive extends Serializable {
     // Sauvegarde dans Hive
     dfToSave.registerTempTable("dataToSaveHive")
     //sqlContext.sql("insert into table iv_tgatgd select * from dataToSaveHive")
-    //hiveContext.sql("create table testHive as select * from dataToSaveHive")
-    hiveContext.sql("show databases").show()
+    sqlContext.sql("create table testHive as select * from dataToSaveHive")
+    //hiveContext.sql("show databases").show()
 
-    val df = sqlContext.sql("select * from dataToSaveHive")
-
-    println(df.count())
+    //val df = sqlContext.sql("select * from dataToSaveHive")
 
 
 
