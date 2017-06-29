@@ -22,7 +22,7 @@ object PersistHive extends Serializable {
   /**
     * @param ds le dataset issu des fichiers TGA TGD et le referentiel des gares
     */
-  def persisteQualiteAffichageHive(ds: Dataset[TgaTgdOutput], sc : SparkContext, sqlContext :SQLContext): Unit = {
+  def persisteQualiteAffichageHive(ds: Dataset[TgaTgdOutput], sc : SparkContext): Unit = {
 
 
     val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
@@ -32,14 +32,14 @@ object PersistHive extends Serializable {
     // Sauvegarde dans Hive
     dfToSave.registerTempTable("dataToSaveHive")
 
-    hiveContext.refreshTable("ppiv_ref.iv_tgatgd")
 
-
-    hiveContext.sql("insert into table iv_tgatgd select * from iv_tgatgd")
-    //hiveContext.sql("create table testHive as select * from dataToSaveHive")
+    //hiveContext.sql("insert into table iv_tgatgd select * from iv_tgatgd")
+    hiveContext.sql("create table testHive as select * from dataToSaveHive")
     //hiveContext.sql("show databases").show()
 
     //val df = sqlContext.sql("select * from dataToSaveHive")
+
+
 
 
 

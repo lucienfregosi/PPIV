@@ -39,7 +39,7 @@ object TraitementPPIVDriver extends Serializable {
         if (args.contains("fs"))
           PersistLocal.persisteQualiteAffichageIntoFs(dataTgaAndTga, TraitementTga.getOutputRefineryPath())
         if (args.contains("hive"))
-          PersistHive.persisteQualiteAffichageHive(dataTgaAndTga, sc, sqlContext)
+          PersistHive.persisteQualiteAffichageHive(dataTgaAndTga, sc)
         if (args.contains("hdfs"))
           PersistHdfs.persisteQualiteAffichageIntoHdfs(dataTgaAndTga, TraitementTga.getOutputRefineryPath())
         if (args.contains("es"))
