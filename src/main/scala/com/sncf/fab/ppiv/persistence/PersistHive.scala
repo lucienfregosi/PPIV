@@ -41,8 +41,8 @@ object PersistHive extends Serializable {
 
 
     // Chargement des données de HDFS dans Hive
-    hiveContext.sql("USE ppiv_ref")
-    hiveContext.sql("LOAD DATA INPATH " + hdfsRefineryPath + " INTO TABLE iv_tgatgd")
+    hiveContext.sql("CREATE EXTERNAL TABLE IF NOT EXISTS test (nom_de_la_gare String, agence String, segmentation  String, uic String, x String, y String, id_train String, num_train String, type String, origine_destination String, type_panneau String, dateheure2 String)")
+    hiveContext.sql("LOAD DATA INPATH " + hdfsRefineryPath + " INTO TABLE test")
     hiveContext.sql("FROM src SELECT * LIMIT 10").collect().foreach(println)
 
 
