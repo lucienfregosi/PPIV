@@ -15,19 +15,19 @@ class validateFieldSpec extends Specification { def is = s2"""
 
 This is a specification fot the "validateField" output
 The 'validateField'  output   should
-Field 1 : gare has three capital letters                                           $e1
-Field 2 : maj  is less or equal to Current Timestamp                               $e2
-Field 3 : train field is in [1:20]                                                 $e3
-Field 4 : ordres field has only capital letters                                    $e4
-Field 5 : num_train should be a number                                             $e5
-Field 5 : num_train should be a postive number                                     $e6
-Field 6 : type should be in the list {TER,BUS,TGV,INTERCITES}                      $e7
-Field 7 : picto should be positive                                                 $e8
-Field 8 : attribut_voie should I or empty                                          $e9
-Field 9 : voie should be a one character                                           $e10
-Field 10 : heure  is less or equal to Current Timestamp                            $e11
-Field 11 : etat should be in the list {SUP, IND, ARR}                              $e12
-Field 12 : retard should be 2 or 3 digits                                          $e13
+Gare has three capital letters                                           $e1
+Maj is less or equal to Current Timestamp                                $e2
+Train field is in [1:20]                                                 $e3
+Ordres field has only capital letters                                    $e4
+Num_train is a number                                                    $e5
+Num_train is a postive number                                            $e6
+Type is in the list {TER,BUS,TGV,INTERCITES}                             $e7
+Picto is positive                                                        $e8
+Attribut_voie is I or empty                                              $e9
+Voie is one character                                                    $e10
+Heure  is less or equal to Current Timestamp                             $e11
+Etat should be in the list {SUP, IND, ARR}                               $e12
+Retard should be 2 or 3 digits                                           $e13
 
   """
 
