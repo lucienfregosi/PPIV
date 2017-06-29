@@ -1,5 +1,6 @@
 package com.sncf.fab.ppiv.test
 import com.sncf.fab.ppiv.business.TgaTgdInput
+import com.sncf.fab.ppiv.parser.DatasetsParser
 import com.sncf.fab.ppiv.pipelineData.TraitementTga
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.sql.types.{DoubleType, LongType}
@@ -49,16 +50,18 @@ Retard should be 2 or 3 digits                                           $e13
   import sqlContext.implicits._
 
   val newNamesTgaTgd = Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard")
-  val testrddDf = sc.parallelize(Seq(("ABC", "15", "20", "DEST", "123", "TER", "12345", "I", "A", "12962", "IND", "05"))).toDF(newNamesTgaTgd: _*).withColumn("maj", 'maj.cast(LongType)).withColumn("heure", 'heure.cast(LongType))
-  val testrddDs = testrddDf.as[TgaTgdInput]
-  //val currentTimestamp = DateTime.now(DateTimeZone.UTC).asInstanceOf[Long]
+  //val testrddDf = sc.parallelize(Seq(("ABC", "15", "20", "DEST", "123", "TER", "12345", "I", "A", "12962", "IND", "05"))).toDF(newNamesTgaTgd: _*).withColumn("maj", 'maj.cast(LongType)).withColumn("heure", 'heure.cast(LongType))
+  val testrddDf = sc.parallelize(Seq(("ABT", "15", "20", "DEST", "123", "TER", "12345", "I", "A", "12962", "IND", "05")))
+    .toDF(newNamesTgaTgd: _*)
+    .withColumn("maj", 'maj.cast(LongType))
+    .withColumn("heure", 'heure.cast(LongType))
+    .as[TgaTgdInput]
+
+  val testrddDs  =  testrddDf.toDF().map(row => DatasetsParser.parseTgaTgdDataset(row)).toDS()
 
   val currentTimestamp = DateTime.now(DateTimeZone.UTC).getMillis() / 1000
 
-  val number:AnyVal = 10
-  val l:Long = number.asInstanceOf[Number].longValue
-
-  sourcePipeline.validateField(testrddDs,sqlContext)
+   sourcePipeline.validateField(testrddDs,sqlContext)
 
   def e1 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(0) must =~("^[A-Z]{3}$")
   def e2 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getLong(1) must be_<=(currentTimestamp)
