@@ -156,7 +156,10 @@ trait SourcePipeline extends Serializable {
     val currentTimestamp = DateTime.now(DateTimeZone.UTC).getMillis() / 1000
 
      dsTgaTgd.show()
-     val dsTgaTgdValidatedFields = dsTgaTgd.toDF().filter($"gare" rlike "^[A-Z]{3}$" )
+     val dsTgaTgdValidatedFields = dsTgaTgd.toDF().filter($"gare" rlike "^[A-Z]{3}$" ).filter( $"maj" <= currentTimestamp ).filter( $"train" rlike "^[0-2]{0,1}[0-9]$")
+       .filter($"ordes" rlike "^[A-Z]{1,}$").filter($"num" rlike "^[0-9]{1,}$").filter($"num" .cast(IntegerType) >=0).filter($"picto".cast(IntegerType) >=0)
+       .filter($"voie" rlike "^[0-9]{1}$").filter($"heure" <= currentTimestamp)
+
        //("^[A-Z]{3}$"))
        /*.filter( _.maj <= currentTimestamp ).filter( _.train equals ("^[0-2]{0,1}[0-9]$"))
        .filter(_.ordes equals ("^[A-Z]{1,}$")).filter(_.num equals ("^[0-9]{1,}$")).filter(_.num.toInt >= 0).filter(_.picto.toInt >=0)
