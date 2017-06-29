@@ -11,6 +11,7 @@ import org.apache.spark.SparkContext
 import org.apache.spark.sql.types._
 import org.apache.spark.storage.StorageLevel
 import com.sncf.fab.ppiv.persistence.{PersistElastic, PersistHdfs, PersistHive, PersistLocal}
+import org.joda.time.{DateTime, DateTimeZone}
 
 /**
   * Created by simoh-labdoui on 11/05/2017.
@@ -152,9 +153,9 @@ trait SourcePipeline extends Serializable {
     import sqlContext.implicits._
     // Validation de chaque champ avec les contraintes définies dans le dictionnaire de données
     // Voir comment traiter les rejets ..
+    val currentTimestamp = DateTime.now(DateTimeZone.UTC).getMillis() / 1000
 
-
-     dsTgaTgd.filter(_.maj > 0).show()
+     dsTgaTgd.filter( _.maj < currentTimestamp  ).filter(_.gare equals("^[A-Z]{4}$")).show()
        dsTgaTgd
   }
 
