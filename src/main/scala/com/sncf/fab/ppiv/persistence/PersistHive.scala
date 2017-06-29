@@ -39,7 +39,7 @@ object PersistHive extends Serializable {
 
     ds.toDF().write.format("com.databricks.spark.csv").save(hdfsRefineryPath)
 
-
+  
     // Chargement des données de HDFS dans Hive
     hiveContext.sql("CREATE EXTERNAL TABLE IF NOT EXISTS ppiv_ref.test (nom_de_la_gare String, agence String, segmentation  String, uic String, x String, y String, id_train String, num_train String, type String, origine_destination String, type_panneau String, dateheure2 String)")
     hiveContext.sql("LOAD DATA INPATH " + hdfsRefineryPath + " INTO TABLE test")
