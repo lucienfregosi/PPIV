@@ -164,7 +164,7 @@ trait SourcePipeline extends Serializable {
       .filter(_.`type` matches "(^[A-Z]+$)")
       .filter(_.picto.toInt >=0)
       .filter(_.attribut_voie matches "I||\\s")
-      .filter(_.voie matches "0-9||A-Z")
+      .filter(_.voie matches "^(?:0-9|A-Z$")
       /*.filter(_.heure <= currentTimestamp)
       .filter(_.etat matches "(IND||SUP||ARR||\\s)")
       .filter(_.retard matches  "(^[0-9]{2}|[0-9]{4}|\\s$)")*/
