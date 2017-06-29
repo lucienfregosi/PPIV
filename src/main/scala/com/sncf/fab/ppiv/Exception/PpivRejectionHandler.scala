@@ -28,7 +28,7 @@ object PpivRejectionHandler extends Serializable {
     */
   def handleRejection(sysOrigine: String, erroCode: Int): Unit = {
     val errorMess: String = causes.getOrElse(erroCode, "UNKNOWN")
-    LOGGER.info(sysOrigine +" "+ erroCode)
+    LOGGER.info(sysOrigine + " " + erroCode)
 
   }
 }
