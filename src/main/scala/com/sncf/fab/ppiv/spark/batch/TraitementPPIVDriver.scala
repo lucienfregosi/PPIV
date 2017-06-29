@@ -33,6 +33,8 @@ object TraitementPPIVDriver extends Serializable {
       // 11) Fusion des résultats de TGA et TGD
       val dataTgaAndTga = dataTga.union(dataTgd)
       // 12) Sauvegarde la ou nous l'a demandé
+
+
       try {
         if (args.contains("fs"))
           PersistLocal.persisteQualiteAffichageIntoFs(dataTgaAndTga, TraitementTga.getOutputRefineryPath())
