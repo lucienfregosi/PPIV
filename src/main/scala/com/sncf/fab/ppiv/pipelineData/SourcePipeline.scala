@@ -157,7 +157,7 @@ trait SourcePipeline extends Serializable {
 
      dsTgaTgd.show()
      val dsTgaTgdValidatedFields = dsTgaTgd.toDF().filter($"gare" rlike "^[A-Z]{3}$").filter( $"maj" <= currentTimestamp ).filter( $"train" rlike "^[0-2]{0,1}[0-9]$")
-       .filter($"ordes" rlike "^[A-Z]{1,}\s*[A-Z]{0,}$").filter($"num" rlike "^[0-9]{1,}$").filter($"num" .cast(IntegerType) >=0).filter($"type" isin ("TER","BUS","TGV","INTERCITES"))
+       .filter($"ordes" rlike "^[A-Z]{1,}[A-Z]{0,}$").filter($"num" rlike "^[0-9]{1,}$").filter($"num" .cast(IntegerType) >=0).filter($"type" isin ("TER","BUS","TGV","INTERCITES"))
        .filter($"picto".cast(IntegerType) >=0).filter($"attribut_voie" isin ("", "I")).filter($"voie" rlike "^[0-9|A-Z]{1}$").filter($"heure" <= currentTimestamp)
        .filter($"etat" isin ("IND", "SUP","ARR", "")).filter($"retard" rlike "^[[0-9]{2}|[0-9]{4}]{0,1}$")
 
