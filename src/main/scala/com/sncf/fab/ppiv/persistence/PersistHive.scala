@@ -34,7 +34,6 @@ object PersistHive extends Serializable {
     val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
 
     // Sauvegarde dans HDFS
-
     val hdfsRefineryPath = TraitementTga.getOutputRefineryPath()
 
     ds.toDF().write.format("com.databricks.spark.csv").save(hdfsRefineryPath)
