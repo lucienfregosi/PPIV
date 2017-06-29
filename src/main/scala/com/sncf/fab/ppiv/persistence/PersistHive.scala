@@ -26,18 +26,9 @@ object PersistHive extends Serializable {
 
 
     val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
-
-    val dfToSave = ds.toDF()
-
-    // Sauvegarde dans Hive
-    dfToSave.registerTempTable("dataToSaveHive")
-
-
-    //hiveContext.sql("insert into table iv_tgatgd select * from iv_tgatgd")
+    ds.toDF().registerTempTable("dataToSaveHive")
     hiveContext.sql("create table testHive as select * from dataToSaveHive")
-    //hiveContext.sql("show databases").show()
 
-    //val df = sqlContext.sql("select * from dataToSaveHive")
 
 
 
