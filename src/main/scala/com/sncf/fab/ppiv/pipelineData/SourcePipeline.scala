@@ -139,7 +139,8 @@ trait SourcePipeline extends Serializable {
       .as[ReferentielGare]
 
     refGares.toDF().map(DatasetsParser.parseRefGares).toDS()
-  }
+
+}
 
 
   def applyStickingPaser(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext): Dataset[TgaTgdInput] = {
