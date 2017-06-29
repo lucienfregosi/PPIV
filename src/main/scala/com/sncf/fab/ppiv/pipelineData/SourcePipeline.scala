@@ -159,12 +159,16 @@ trait SourcePipeline extends Serializable {
       .filter(_.maj <= currentTimestamp)
       .filter(_.train matches  "(^[0-2]{0,1}[0-9]$)")
       .filter(_.ordes matches "(^[A-Z|\\s]{1,}[A-Z]{0,}$)")
+      .filter(_.num matches  "(^[0-9]{1,}$)")
+      .filter(_.num.toInt >= 0)
+      .filter(_.`type` matches "(^[A-Z]+$)")
+      .filter(_.picto.toInt >=0)
+      .filter(_.attribut_voie matches "(I|\\s)")
+      .filter(_.voie matches "(^[0-9|A-Z]{1}$)")
+      .filter(_.heure <= currentTimestamp)
+      .filter(_.etat matches "(IND|SUP|ARR|\\s)")
+     .filter(_.retard matches  "(^[0-9]{2}|[0-9]{4}|\\s$)")
 
-    /* val dsTgaTgdValidatedFields = dsTgaTgd.toDF()
-       .filter($"gare" rlike "^[A-Z]{3}$").filter( $"maj" <= currentTimestamp ).filter( $"train" rlike "^[0-2]{0,1}[0-9]$")
-       .filter($"ordes" rlike "^[A-Z|\\s]{1,}[A-Z]{0,}$").filter($"num" rlike "^[0-9]{1,}$").filter($"num" .cast(IntegerType) >=0).filter($"type" isin ("TER","BUS","TGV","INTERCITES"))
-       .filter($"picto".cast(IntegerType) >=0).filter($"attribut_voie" isin ("", "I")).filter($"voie" rlike "^[0-9|A-Z]{1}$").filter($"heure" <= currentTimestamp)
-       .filter($"etat" isin ("IND", "SUP","ARR", "")).filter($"retard" rlike "^[[0-9]{2}|[0-9]{4}|\\s]$")*/
     dsTgaTgdValidatedFields.show()
     dsTgaTgdValidatedFields
 
