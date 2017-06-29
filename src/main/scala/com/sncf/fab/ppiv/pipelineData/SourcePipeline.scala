@@ -152,6 +152,9 @@ trait SourcePipeline extends Serializable {
     import sqlContext.implicits._
     // Validation de chaque champ avec les contraintes définies dans le dictionnaire de données
     // Voir comment traiter les rejets ..
+
+
+     dsTgaTgd.filter(_.maj > 0).show()
        dsTgaTgd
   }
 
