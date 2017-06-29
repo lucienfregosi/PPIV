@@ -63,7 +63,7 @@ Retard should be 2 or 3 digits                                           $e13
   def e1 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(0) must =~("^[A-Z]{3}$")
   def e2 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getLong(1) must be_<=(currentTimestamp)
   def e3 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(2) must =~("^[0-2]{0,1}[0-9]$")
-  def e4 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(3) must =~("^[A-Z|\\s]{1,}*[A-Z]{0,}$")
+  def e4 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(3) must =~("^[A-Z|\\s]{1,}[A-Z]{0,}$")
   def e5 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(4) must =~("^[0-9]{1,}$")
   def e6 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(4).toInt must be_>= (0)
   def e7 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(5) must beOneOf("TER","BUS","TGV","INTERCITES")
