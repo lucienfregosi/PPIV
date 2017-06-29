@@ -50,7 +50,7 @@ Retard should be 2 or 3 digits                                           $e13
   import sqlContext.implicits._
 
   val newNamesTgaTgd = Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard")
-  val testrddDf = sc.parallelize(Seq(("ABT", "15", "20", "DEST", "123", "TER", "12345", "I", "A", "12962", "IND", "05")))
+  val testrddDf = sc.parallelize(Seq(("ABT", "15", "20", "DEST O", "123", "TER", "12345", "I", "9", "12962", "IND", "05")))
     .toDF(newNamesTgaTgd: _*)
     .withColumn("maj", 'maj.cast(LongType))
     .withColumn("heure", 'heure.cast(LongType))
@@ -71,7 +71,7 @@ Retard should be 2 or 3 digits                                           $e13
   def e7 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(5)  must =~ ("^[A-Z]+$")
   def e8 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(6).toInt must be_>= (0)
   def e9 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(7) must =~("I{0,1}$")
-  def e10 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(8) must =~("^[A-Z|1-9]{1}$")
+  def e10 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(8) must =~("^[A-Z||1-9]{1}$")
   def e11 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getLong(9) must be_<=(currentTimestamp)
   def e12 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(10) must beOneOf("IND", "SUP","ARR","")
   def e13 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(11) must =~("^[0-9]{2}|[0-9]{4}|\\s]$")
