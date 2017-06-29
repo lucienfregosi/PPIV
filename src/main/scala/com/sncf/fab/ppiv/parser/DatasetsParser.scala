@@ -14,38 +14,38 @@ import org.apache.spark.sql.{Row}
 object DatasetsParser {
   var LOGGER = Logger.getLogger(DatasetsParser.getClass)
 
-  def parseTgaTgdDataset(row: Row): Option[TgaTgdInput] = {
+  def parseTgaTgdDataset(row: Row): TgaTgdInput = {
     try {
-      Some(TgaTgdInput(row.getString(0), row.getLong(1),
+      TgaTgdInput(row.getString(0), row.getLong(1),
         row.getString(2), row.getString(3), row.getString(4), row.getString(5),
         row.getString(6), row.getString(7), row.getString(8),
-        row.getLong(9), row.getString(10), row.getString(11)))
+        row.getLong(9), row.getString(10), row.getString(11))
     }
     catch {
       case e => {
         PpivRejectionHandler.handleRejection(row.toString(), PpivRejectionHandler.PARSING_ERROR)
         LOGGER.error("Parssing Error for row :" + row.toString() + "\n" + e.getLocalizedMessage)
-        None
+        null
       }
     }
   }
 
-  def parseRefGares(row: Row): Option[ReferentielGare] = {
+  def parseRefGares(row: Row): ReferentielGare = {
     try {
-      Some(ReferentielGare(row.getString(0), row.getString(1),
+      ReferentielGare(row.getString(0), row.getString(1),
         row.getString(2), row.getString(3), row.getString(4), row.getString(5),
         row.getString(6), row.getString(7), row.getString(8),
         row.getString(9), row.getString(10), row.getString(11),
         row.getString(12), row.getString(13), row.getString(14),
         row.getString(15), row.getString(16), row.getString(17)
 
-      ))
+      )
     }
     catch {
       case e => {
         PpivRejectionHandler.handleRejection(row.toString(), PpivRejectionHandler.PARSING_ERROR)
         LOGGER.error("Parssing Error for row :" + row.toString() + "\n" + e.getLocalizedMessage)
-        None
+        null
       }
     }
   }

@@ -17,7 +17,7 @@ object PersistLocal extends Serializable {
 
   def persisteTgaTgdParsedIntoFs(ds: Dataset[TgaTgdInput], tgType:String): Unit = {
 
-        ds.toDF().write.format("com.databricks.spark.csv").save(AppConf.REFINERY+ Conversion.getYearMonthDay(new DateTime())+tgType)
+        ds.toDF().write.format("com.databricks.spark.csv").save(AppConf.REFINERY + Conversion.getYearMonthDay(new DateTime()) + tgType)
 
   }
 
@@ -26,7 +26,7 @@ object PersistLocal extends Serializable {
     */
   def persisteQualiteAffichageIntoFs(ds: Dataset[TgaTgdOutput], tgType:String): Unit = {
 
-    ds.toDF().write.format("com.databricks.spark.csv").save(AppConf.GOLD+ Conversion.getYearMonthDay(new DateTime())+tgType)
+    ds.toDF().write.format("com.databricks.spark.csv").save(AppConf.GOLD + Conversion.getYearMonthDay(new DateTime()) + tgType)
 
   }
 

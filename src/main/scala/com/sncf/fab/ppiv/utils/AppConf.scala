@@ -24,7 +24,7 @@ object AppConf extends Serializable{
   val TGA          = "TGA.csv"
   val TGD          = "TGD.csv"
 
-  //elastic confs
+  // elastic confs
   val PORT= conf.getString("port")
   val HOST= conf.getString("host")
   val QUALITE_INDEX=conf.getString("qualite_index")
