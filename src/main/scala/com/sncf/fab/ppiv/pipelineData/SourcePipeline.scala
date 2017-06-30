@@ -76,6 +76,8 @@ trait SourcePipeline extends Serializable {
     val dataTgaTgd                = loadTgaTgd(sqlContext)
     val dataRefGares              = loadReferentiel(sqlContext)
 
+
+
     // 2) Application du sparadrap sur les données au cause du Bug lié au passe nuit
     val dataTgaTgdBugFix          = applyStickingPaser(dataTgaTgd, sqlContext)
 
