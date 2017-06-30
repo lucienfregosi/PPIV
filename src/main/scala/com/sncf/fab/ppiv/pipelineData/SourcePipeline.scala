@@ -154,7 +154,9 @@ trait SourcePipeline extends Serializable {
     // Validation de chaque champ avec les contraintes définies dans le dictionnaire de données
     // Voir comment traiter les rejets ..
     val currentTimestamp = DateTime.now(DateTimeZone.UTC).getMillis() / 1000
+
     dsTgaTgd.show()
+    // Valid
     val dsTgaTgdValidatedFields = dsTgaTgd.filter(_.gare matches("^[A-Z]{3}$"))
       .filter(_.maj <= currentTimestamp)
       .filter(_.train matches  "(^[0-2]{0,1}[0-9]$)")
@@ -167,10 +169,24 @@ trait SourcePipeline extends Serializable {
       .filter(_.voie matches "^(?:[0-9]|[A-Z])$")
       .filter(_.heure <= currentTimestamp)
       .filter(_.etat matches "^(?:(IND)|(SUP)|(ARR)|(\\s))$")
-      //.filter(_.etat matches "(IND||SUP||ARR||\\s)")
-     // .filter(_.retard matches  "(^[0-9]{2}|[0-9]{4}|\\s$)")*/
+      .filter(_.retard matches  "^(?:[0-9]{2}|[0-9]{4}|(\\s))$")
 
     dsTgaTgdValidatedFields.show()
+    // Rejected
+  /*  val dsTgaTgdRejectedFields = dsTgaTgd.filter(_.gare matches("^[A-Z]{3}$"))
+      .filter(_.maj <= currentTimestamp)
+      .filter(_.train matches  "(^[0-2]{0,1}[0-9]$)")
+      .filter(_.ordes matches "(^[A-Z|\\s]{1,}[A-Z]{0,}$)")
+      .filter(_.num matches  "(^[0-9]{1,}$)")
+      .filter(_.num.toInt >= 0)
+      .filter(_.`type` matches "(^[A-Z]+$)")
+      .filter(_.picto.toInt >=0)
+      .filter(_.attribut_voie matches "I||\\s")
+      .filter(_.voie matches "^(?:[0-9]|[A-Z])$")
+      .filter(_.heure <= currentTimestamp)
+      .filter(_.etat matches "^(?:(IND)|(SUP)|(ARR)|(\\s))$")
+      .filter(_.retard matches  "^(?:[0-9]{2}|[0-9]{4}|(\\s))$")*/
+
     dsTgaTgdValidatedFields
 
   }
