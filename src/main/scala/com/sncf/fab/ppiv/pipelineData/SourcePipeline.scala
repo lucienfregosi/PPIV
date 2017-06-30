@@ -169,11 +169,11 @@ trait SourcePipeline extends Serializable {
       .filter(_.voie matches "^(?:[0-9]|[A-Z])$")
       .filter(_.heure <= currentTimestamp)
       .filter(_.etat matches "^(?:(IND)|(SUP)|(ARR)|(\\s))$")
-      .filter(_.retard matches  "^(?:[0-9]{2}|[0-9]{4}|(\\s))$")
+      .filter(_.retard matches  "^(?:([0-9]{2}|[0-9]{4}|(\\s)))$")
 
     dsTgaTgdValidatedFields.show()
     // Rejected
-  /*  val dsTgaTgdRejectedFields = dsTgaTgd.filter(_.gare matches("^[A-Z]{3}$"))
+   /*val dsTgaTgdRejectedFields = dsTgaTgd.filter(_.gare matches("^(?!([A-Z]{3}))$"))
       .filter(_.maj <= currentTimestamp)
       .filter(_.train matches  "(^[0-2]{0,1}[0-9]$)")
       .filter(_.ordes matches "(^[A-Z|\\s]{1,}[A-Z]{0,}$)")
@@ -186,6 +186,8 @@ trait SourcePipeline extends Serializable {
       .filter(_.heure <= currentTimestamp)
       .filter(_.etat matches "^(?:(IND)|(SUP)|(ARR)|(\\s))$")
       .filter(_.retard matches  "^(?:[0-9]{2}|[0-9]{4}|(\\s))$")*/
+
+   // dsTgaTgdRejectedFields.show()
 
     dsTgaTgdValidatedFields
 
