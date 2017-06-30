@@ -1,5 +1,6 @@
 package com.sncf.fab.ppiv.persistence
 import com.sncf.fab.ppiv.business.{TgaTgdInput, TgaTgdOutput}
+import com.sncf.fab.ppiv.pipelineData.TraitementTga
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.{Dataset, SQLContext, SaveMode}
 import org.apache.spark.sql.hive.HiveContext
@@ -24,16 +25,23 @@ object PersistHive extends Serializable {
     */
   def persisteQualiteAffichageHive(ds: Dataset[TgaTgdOutput], sc : SparkContext): Unit = {
 
-
+    /*
     val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
     ds.toDF().registerTempTable("dataToSaveHive")
     hiveContext.sql("create table testHive as select * from dataToSaveHive")
+    */
 
+    val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
 
+    // Sauvegarde dans HDFS
+    val hdfsRefineryPath = TraitementTga.getOutputRefineryPath()
 
+    ds.toDF().write.format("com.databricks.spark.csv").save(hdfsRefineryPath)
 
-
-
+    // Chargement des données de HDFS dans Hive
+    hiveContext.sql("CREATE EXTERNAL TABLE IF NOT EXISTS ppiv_ref.testUniqueee (nom_de_la_gare String, agence String, segmentation  String, uic String, x String, y String, id_train String, num_train String, type String, origine_destination String, type_panneau String, dateheure2 String) row format delimited fields terminated by ','")
+    hiveContext.sql("LOAD DATA INPATH '" + hdfsRefineryPath.replaceAll("hdfs:","") + "' INTO TABLE ppiv_ref.testUniqueee")
+    hiveContext.sql("FROM ppiv_ref.testUniqueee SELECT * LIMIT 10").collect().foreach(println)
 
   }
 
