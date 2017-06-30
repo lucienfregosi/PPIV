@@ -157,7 +157,7 @@ trait SourcePipeline extends Serializable {
 
     // Si maj > 18 && heure < 12 on retranche un jour a la date de maj
 
-    val dsTgaTgdWithStickingPlaster = dsTgaTgd.map{
+    /*val dsTgaTgdWithStickingPlaster = dsTgaTgd.map{
       row =>
         val hourMaj    = new DateTime(row.maj).toDateTime.toString("hh").toInt
         val hourHeure  = new DateTime(row.heure).toDateTime.toString("hh").toInt
@@ -168,6 +168,8 @@ trait SourcePipeline extends Serializable {
         TgaTgdInput(row.gare, newMaj, row.train, row.ordes, row.num,row.`type`, row.picto, row.attribut_voie, row.voie, row.heure, row.etat, row.retard)
     }
     dsTgaTgdWithStickingPlaster
+    */
+    dsTgaTgd
   }
 
   def validateField(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext): Dataset[TgaTgdInput] = {
