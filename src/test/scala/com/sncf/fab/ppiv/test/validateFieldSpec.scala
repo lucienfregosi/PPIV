@@ -60,7 +60,6 @@ Retard should be 2 or 3 digits                                           $e13
 
   val currentTimestamp = DateTime.now(DateTimeZone.UTC).getMillis() / 1000
 
-   sourcePipeline.validateField(testrddDs,sqlContext)
 
   def e1 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(0) must =~("^[A-Z]{3}$")
   def e2 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getLong(1) must be_<=(currentTimestamp)
