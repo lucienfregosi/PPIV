@@ -20,6 +20,9 @@ object AppConf extends Serializable{
   // Chemin ou enregistrer les logs
   val LOG_PATH     = conf.getString("log")
 
+  // Variable pour le prijet
+  val STICKING_PLASTER = conf.getBoolean("apply_sticking_plaster")
+
   // Valeur TGA et TGD
   val TGA          = "TGA.csv"
   val TGD          = "TGD.csv"

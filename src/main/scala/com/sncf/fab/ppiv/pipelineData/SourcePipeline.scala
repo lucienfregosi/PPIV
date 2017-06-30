@@ -11,6 +11,8 @@ import org.apache.spark.SparkContext
 import org.apache.spark.sql.types._
 import org.apache.spark.storage.StorageLevel
 import com.sncf.fab.ppiv.persistence.{PersistElastic, PersistHdfs, PersistHive, PersistLocal}
+import org.joda.time.DateTime
+import org.joda.time.Timestamp
 
 /**
   * Created by simoh-labdoui on 11/05/2017.
@@ -76,10 +78,8 @@ trait SourcePipeline extends Serializable {
     val dataTgaTgd                = loadTgaTgd(sqlContext)
     val dataRefGares              = loadReferentiel(sqlContext)
 
-
-
-    // 2) Application du sparadrap sur les données au cause du Bug lié au passe nuit
-    val dataTgaTgdBugFix          = applyStickingPaser(dataTgaTgd, sqlContext)
+    // 2) Application du sparadrap sur les données au cause du Bug lié au passe nuit. Flag pour pouvoir le désactiver
+    val dataTgaTgdBugFix = if (STICKING_PLASTER == true) applyStickingPlaster(dataTgaTgd, sqlContext) else dataTgaTgd
 
     // 3) Validation champ à champ
     val dataTgaTgdFielValidated   = validateField(dataTgaTgdBugFix, sqlContext)
@@ -150,10 +150,25 @@ trait SourcePipeline extends Serializable {
 }
 
 
-  def applyStickingPaser(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext): Dataset[TgaTgdInput] = {
+  def applyStickingPlaster(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext): Dataset[TgaTgdInput] = {
     import sqlContext.implicits._
-    // Application du sparadrap ...
-    dsTgaTgd
+    // Application du sparadrap
+    // Pour les trains passe nuit, affiché entre après 18h et partant le lendemain il y a un bug connu et identifié dans OBIER
+    // Les évènements de 18à 24h seront a la date N+1. Il faut donc leur retrancher un jour pour la cohérence
+
+    // Si maj > 18 && heure < 12 on retranche un jour a la date de maj
+
+    val dsTgaTgdWithStickingPlaster = dsTgaTgd.map{
+      row =>
+        val hourMaj    = new DateTime(row.maj).toDateTime.toString("hh").toInt
+        val hourHeure  = new DateTime(row.heure).toDateTime.toString("hh").toInt
+        val newMaj = if(hourMaj > 18 && hourHeure < 12){
+          // On retranche un jour
+          new DateTime(row.maj).plusDays(-1).getMillis
+        } else row.maj
+        TgaTgdInput(row.gare, newMaj, row.train, row.ordes, row.num,row.`type`, row.picto, row.attribut_voie, row.voie, row.heure, row.etat, row.retard)
+    }
+    dsTgaTgdWithStickingPlaster
   }
 
   def validateField(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext): Dataset[TgaTgdInput] = {
