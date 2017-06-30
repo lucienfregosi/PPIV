@@ -12,7 +12,6 @@ import org.apache.spark.sql.types._
 import org.apache.spark.storage.StorageLevel
 import com.sncf.fab.ppiv.persistence.{PersistElastic, PersistHdfs, PersistHive, PersistLocal}
 import org.joda.time.DateTime
-import org.joda.time.Timestamp
 
 /**
   * Created by simoh-labdoui on 11/05/2017.
