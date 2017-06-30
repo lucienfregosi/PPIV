@@ -165,7 +165,7 @@ trait SourcePipeline extends Serializable {
       .filter(_.num.toInt >= 0)
       .filter(_.`type` matches "(^[A-Z]+$)")
       .filter(_.picto.toInt >=0)
-      .filter(_.attribut_voie matches "I||\\s")
+      .filter(_.attribut_voie matches "I||\\s||$")
       .filter(_.voie matches "^(?:[0-9]|[A-Z])$")
       .filter(_.heure <= currentTimestamp)
       .filter(_.etat matches "^(?:(IND)|(SUP)|(ARR)|(\\s))$")
@@ -175,9 +175,9 @@ trait SourcePipeline extends Serializable {
     // Rejected
    val dsTgaTgdRejectedFields = dsTgaTgd.filter(x => (x.gare matches("^(?!([A-Z]{3}))$")) || (x.maj > currentTimestamp)  || (x.train matches  "(^(?!([0-2]{0,1}[0-9]))$)")
      || (x.ordes matches "(^(?!([A-Z|\\s]{1,}[A-Z]{0,}))$)") || (x.num matches  "(^(?!([0-9]{1,})$))") || (x.num.toInt < 0) || (x.`type` matches "(^(?!([A-Z]+)$))")
-     || (x.picto.toInt <0) || (x.attribut_voie matches "(?!(I||\\s))") ||  (x.voie matches "^(?!(?:[0-9]|[A-Z]))$") || (x.heure > currentTimestamp)
+     || (x.picto.toInt <0) || (x.attribut_voie matches "(?!(I||\\s||$))") ||  (x.voie matches "^(?!(?:[0-9]|[A-Z]))$") || (x.heure > currentTimestamp)
      || (x.etat matches "^(?!(?:(IND)|(SUP)|(ARR)|(\\s)))$")  || (x.retard matches  "^(?!(?:[0-9]{2}|[0-9]{4}|(\\s)))$"))
-    
+
    dsTgaTgdRejectedFields.show()
 
     dsTgaTgdValidatedFields
