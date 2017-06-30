@@ -179,9 +179,9 @@ trait SourcePipeline extends Serializable {
      || ((x.num matches  "^(?!([0-9]{1,}))$") && (x.num.toInt < 0))
      || (x.`type` matches "^(?!([A-Z]+))$")
      ||  (x.attribut_voie matches "(?!(I||\\s||$))")
-    ||  (x.voie matches "^(?!(?:[0-9]|[A-Z]))$"))
-    /*  || (x.heure > currentTimestamp)
-     || (x.etat matches "^(?!(?:(IND)|(SUP)|(ARR)|(\\s)))$")
+     ||  (x.voie matches "^(?!(?:[0-9]|[A-Z]))$")
+     || (x.heure > currentTimestamp))
+    /* || (x.etat matches "^(?!(?:(IND)|(SUP)|(ARR)|(\\s)))$")
      || (x.retard matches  "^(?!(?:[0-9]{2}|[0-9]{4}|(\\s)))$"))
 */
    dsTgaTgdRejectedFields.show()
