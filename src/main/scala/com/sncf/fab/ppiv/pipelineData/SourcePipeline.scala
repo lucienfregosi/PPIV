@@ -82,11 +82,16 @@ trait SourcePipeline extends Serializable {
     // 3) Validation champ à champ
     val dataTgaTgdFielValidated   = validateField(dataTgaTgdBugFix, sqlContext)
 
-    // 4) Regroupement en cycle
-    val dataTgaTgdGrouped         = groupDataByCycle(dataTgaTgdFielValidated, sqlContext)
+    // 4) Sélection des lignes dont les cycles sont terminé et enrichissement dans les fichiers horaires précédents
+    // TODO : Pour les passes nuits aller chercher dans les fichiers de la veille aussi
+    // Le groupement des cycles et cette étape est commune
+    // Ressortir un tableau avec tous les cycles id a traiter et les traiter dans un boucle
+    val dataTgaTgdCycleOver       = filterCycleOver(dataTgaTgdFielValidated, sqlContext)
 
-    // 5) Sélection des lignes dont les cycles sont terminé et enrichissement dans les fichiers horaires précédents
-    val dataTgaTgdCycleOver       = filterCycleOver(dataTgaTgdGrouped, sqlContext)
+    // 5) Pour un cycle ID donné on récupère tous ses évènements dans les fichiers précédents
+    val dataTgaTgdGrouped         = getEventCycleId(dataTgaTgdCycleOver, sqlContext)
+
+    // Fonction pour aller cherche les évènements des fichiers horaires
 
     // 6) Validation des cycles
     val dataTgaTgdCycleValidated  = validateCycle(dataTgaTgdCycleOver, sqlContext)
@@ -97,8 +102,8 @@ trait SourcePipeline extends Serializable {
     // 8) Sauvegarde des données propres la ou G&C le souhaite
     saveCleanData(dataTgaTgdCycleCleaned, sqlContext)
 
-    // 9) Calcul des différents cas d'exceptions
-    val dataTgaTgdCycleKPI        = computeKPI(dataTgaTgdCycleCleaned, sqlContext)
+    // 9) Calcul des différents règles de gestion.
+    val dataTgaTgdCycleKPI        = computeOutputFields(dataTgaTgdCycleCleaned, sqlContext)
 
     // 10) Jointure avec le référentiel
     val dataTgaTgdWithReferentiel = joinReferentiel(dataTgaTgdCycleKPI, dataRefGares,sqlContext )
@@ -157,7 +162,7 @@ trait SourcePipeline extends Serializable {
   }
 
 
-  def groupDataByCycle(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext): Dataset[TgaTgdTransitionnal] = {
+  def filterCycleOver(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext): Dataset[TgaTgdTransitionnal] = {
     import sqlContext.implicits._
     // Groupement des évènements pour constituer des cycles uniques concaténation de gare + panneau + numéro de train + heure de départ (timestamp)
     dsTgaTgd.toDF().registerTempTable("dataTgaTgd")
@@ -170,10 +175,9 @@ trait SourcePipeline extends Serializable {
     dataTgaTgdGrouped
   }
 
-  def filterCycleOver(dsTgaTgd: Dataset[TgaTgdTransitionnal], sqlContext : SQLContext): Dataset[TgaTgdTransitionnal] = {
+  def getEventCycleId(dsTgaTgd: Dataset[TgaTgdTransitionnal], sqlContext : SQLContext): Dataset[TgaTgdTransitionnal] = {
     import sqlContext.implicits._
-    // Sélection des trajets finis (voir combien de temps après le départ on le considère comme fini)
-    // Puis récupération des évènements antérieurs pour les cycles définis comme finis.
+    // Pour un cycle id renvoyer la liste des évènements trouvé dans les fichiers horaires de la journée
     dsTgaTgd
   }
 
@@ -196,7 +200,7 @@ trait SourcePipeline extends Serializable {
     None
   }
 
-  def computeKPI(dsTgaTgd: Dataset[TgaTgdTransitionnal], sqlContext : SQLContext): Dataset[TgaTgdTransitionnal] = {
+  def computeOutputFields(dsTgaTgd: Dataset[TgaTgdTransitionnal], sqlContext : SQLContext): Dataset[TgaTgdTransitionnal] = {
     import sqlContext.implicits._
     // Calcul des différents indicateurs
     // On devra surement spliter la fonction en différentes sous fonctions
