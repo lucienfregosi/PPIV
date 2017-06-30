@@ -181,7 +181,7 @@ trait SourcePipeline extends Serializable {
      ||  (x.attribut_voie matches "(?!(I||\\s||$))")
      ||  (x.voie matches "^(?!(?:[0-9]|[A-Z]))$")
      //||  (x.heure > currentTimestamp)
-    || (x.etat matches "^(?!(?:(IND)|(SUP)|(ARR)|(\\s)))$"))
+     || (x.etat matches "^(?!(?:(IND)|(SUP)|(ARR)|$))$"))
     /*|| (x.retard matches  "^(?!(?:[0-9]{2}|[0-9]{4}|(\\s)))$"))
 */
    dsTgaTgdRejectedFields.show()
