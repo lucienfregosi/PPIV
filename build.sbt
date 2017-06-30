@@ -33,7 +33,7 @@ libraryDependencies ++= Seq(
 
 
 scalacOptions in Test ++= Seq("-Yrangepos")
-parallelExecution in Test := false
+testOptions in Test += Tests.Argument("sequential")
 
 publishTo := {
   val nexus = "http://rogno.socrate.vsct.fr:60090/"

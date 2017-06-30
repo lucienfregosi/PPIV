@@ -13,7 +13,11 @@ import org.specs2._
 /**
   * Created by ELFI03951 on 30/06/2017.
   */
-class validateApplyStickingPlaster extends Specification{ def is = s2"""
+class validateApplyStickingPlaster extends Specification with ScalaCheck with SparkTests{
+  sequential
+
+
+  def is = s2"""
 
 This is a specification fot the "validateApplyStickingPlaster" output
 The 'validateApplyStickingPlaster'  output   should
@@ -22,14 +26,6 @@ The 'validateApplyStickingPlaster'  output   should
   Field maj should be the same day than field hour if maj < 18 or heure > 12          $e3
   """
 
-  val sparkConf = new SparkConf()
-    .setAppName(PPIV)
-    .setMaster(SPARK_MASTER)
-    .set("es.nodes", HOST)
-    .set("es.port", "9201")
-    .set("es.index.auto.create", "true")
-
-  @transient val sc = new SparkContext(sparkConf)
   @transient val sqlContext = new SQLContext(sc)
 
   val sourcePipeline = new TraitementTga
@@ -47,5 +43,4 @@ The 'validateApplyStickingPlaster'  output   should
 
   def e3 = new DateTime(sourcePipeline.applyStickingPlaster(dsToFail, sqlContext).toDF().head().getLong(1)).getDayOfMonth must be_== (new DateTime(sourcePipeline.applyStickingPlaster(dsToFail, sqlContext).toDF().head().getLong(9)).getDayOfMonth).when((new DateTime(sourcePipeline.applyStickingPlaster(dsToFail, sqlContext).toDF().head().getLong(1)).getHourOfDay) < 18 && (new DateTime(sourcePipeline.applyStickingPlaster(dsToFail, sqlContext).toDF().head().getLong(9)).getHourOfDay) > 12 )
 
- sc.stop()
 }

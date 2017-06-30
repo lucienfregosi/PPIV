@@ -12,7 +12,10 @@ import org.specs2._
 /**
   * Created by ESGI10601 on 27/06/2017.
   */
-class validateFieldSpec extends Specification { def is = s2"""
+class validateFieldSpec extends Specification with ScalaCheck with SparkTests  {
+  sequential
+
+  def is = s2"""
 
 This is a specification fot the "validateField" output
 The 'validateField'  output   should
@@ -29,17 +32,7 @@ Etat should be in the list {SUP, IND, ARR}                               $e12
 Retard should be 2 or 3 digits                                           $e13
 
   """
-
-
-
-  val sparkConf = new SparkConf()
-    .setAppName(PPIV)
-    .setMaster(SPARK_MASTER)
-    .set("es.nodes", HOST)
-    .set("es.port", "9201")
-    .set("es.index.auto.create", "true")
-
-  @transient val sc = new SparkContext(sparkConf)
+  
   @transient val sqlContext = new SQLContext(sc)
 
   val sourcePipeline = new TraitementTga
@@ -75,5 +68,4 @@ Retard should be 2 or 3 digits                                           $e13
 
  // "^[0-9]{2,4}$")
 
-  sc.stop()
 }
