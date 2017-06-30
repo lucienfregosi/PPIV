@@ -13,8 +13,8 @@ import org.specs2._
 /**
   * Created by ELFI03951 on 30/06/2017.
   */
-class validateApplyStickingPlaster extends Specification with ScalaCheck with SparkTests{
-  sequential
+class validateApplyStickingPlaster extends Specification{
+
 
   def is = s2"""
 
@@ -25,10 +25,14 @@ The 'validateApplyStickingPlaster'  output   should
   Field maj should be the same day than field hour if maj < 18 or heure > 12          $e3
   """
 
-  val sqlContext = new SQLContext(sc)
+  val sparkConf = new SparkConf()
+    .setAppName(PPIV)
+    .setMaster(SPARK_MASTER)
+    .set("spark.driver.allowMultipleContexts", "true")
 
+  @transient val sc = new SparkContext(sparkConf)
+  @transient val sqlContext = new SQLContext(sc)
   val sourcePipeline = new TraitementTga
-
   import sqlContext.implicits._
 
   val newNamesTgaTgd = Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard")
