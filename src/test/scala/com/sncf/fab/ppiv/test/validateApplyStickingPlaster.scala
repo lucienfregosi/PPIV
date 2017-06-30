@@ -14,7 +14,6 @@ import org.specs2._
   * Created by ELFI03951 on 30/06/2017.
   */
 class validateApplyStickingPlaster extends Specification with ScalaCheck with SparkTests{
-  sequential
 
 
   def is = s2"""
