@@ -13,7 +13,7 @@ import org.specs2._
   * Created by ESGI10601 on 27/06/2017.
   */
 class validateFieldSpec extends Specification with ScalaCheck with SparkTests  {
-
+  sequential
   def is = s2"""
 
 This is a specification fot the "validateField" output
@@ -32,7 +32,7 @@ Retard should be 2 or 3 digits                                           $e13
 
   """
 
-  @transient val sqlContext = new SQLContext(sc)
+  val sqlContext = new SQLContext(sc)
 
   val sourcePipeline = new TraitementTga
 

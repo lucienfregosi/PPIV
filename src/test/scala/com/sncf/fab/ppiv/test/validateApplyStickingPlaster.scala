@@ -14,7 +14,7 @@ import org.specs2._
   * Created by ELFI03951 on 30/06/2017.
   */
 class validateApplyStickingPlaster extends Specification with ScalaCheck with SparkTests{
-
+  sequential
 
   def is = s2"""
 
@@ -25,7 +25,7 @@ The 'validateApplyStickingPlaster'  output   should
   Field maj should be the same day than field hour if maj < 18 or heure > 12          $e3
   """
 
-  @transient val sqlContext = new SQLContext(sc)
+  val sqlContext = new SQLContext(sc)
 
   val sourcePipeline = new TraitementTga
 
