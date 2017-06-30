@@ -37,8 +37,8 @@ The 'validateApplyStickingPlaster'  output   should
   import sqlContext.implicits._
 
   val newNamesTgaTgd = Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard")
-  val dsToFail = sc.parallelize(Seq(("ABC", "1498828411", "20", "DEST", "123", "TER", "12345", "I", "A", "1498839248", "IND", "05"))).toDF(newNamesTgaTgd: _*).withColumn("maj", 'maj.cast(LongType)).withColumn("heure", 'heure.cast(LongType)).as[TgaTgdInput]
-  //val dsToFail = sc.parallelize(Seq(("ABC", "1498839248", "20", "DEST", "123", "TER", "12345", "I", "A", "1498828542", "IND", "05"))).toDF(newNamesTgaTgd: _*).withColumn("maj", 'maj.cast(LongType)).withColumn("heure", 'heure.cast(LongType)).as[TgaTgdInput]
+  val dsToSuccess = sc.parallelize(Seq(("ABC", "1498828411", "20", "DEST", "123", "TER", "12345", "I", "A", "1498839248", "IND", "05"))).toDF(newNamesTgaTgd: _*).withColumn("maj", 'maj.cast(LongType)).withColumn("heure", 'heure.cast(LongType)).as[TgaTgdInput]
+  val dsToFail = sc.parallelize(Seq(("ABC", "1498839248", "20", "DEST", "123", "TER", "12345", "I", "A", "1498828542", "IND", "05"))).toDF(newNamesTgaTgd: _*).withColumn("maj", 'maj.cast(LongType)).withColumn("heure", 'heure.cast(LongType)).as[TgaTgdInput]
 
 
   def e1 = sourcePipeline.applyStickingPlaster(dsToFail, sqlContext) must haveClass[Dataset[TgaTgdInput]]
