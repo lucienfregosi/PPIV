@@ -46,6 +46,5 @@ The 'validateApplyStickingPlaster'  output   should
 
   def e3 = new DateTime(sourcePipeline.applyStickingPlaster(dsToFail, sqlContext).toDF().head().getLong(1)).getDayOfMonth must be_== (new DateTime(sourcePipeline.applyStickingPlaster(dsToFail, sqlContext).toDF().head().getLong(9)).getDayOfMonth).when((new DateTime(sourcePipeline.applyStickingPlaster(dsToFail, sqlContext).toDF().head().getLong(1)).getHourOfDay) < 18 && (new DateTime(sourcePipeline.applyStickingPlaster(dsToFail, sqlContext).toDF().head().getLong(9)).getHourOfDay) > 12 )
 
-  sc.stop()
 
 }

@@ -71,7 +71,6 @@ Retard should be 2 or 3 digits                                           $e13
 
  // "^[0-9]{2,4}$")
 
-  sc.stop()
 
 }
 
