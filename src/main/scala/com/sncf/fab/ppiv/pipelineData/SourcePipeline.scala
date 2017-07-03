@@ -8,6 +8,7 @@ import org.apache.spark.SparkConf
 import com.sncf.fab.ppiv.utils.Conversion
 import org.apache.spark.sql.{DataFrame, Dataset, SQLContext}
 import org.apache.spark.SparkContext
+import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
 import org.apache.spark.storage.StorageLevel
 import com.sncf.fab.ppiv.persistence.{PersistElastic, PersistHdfs, PersistHive, PersistLocal}
@@ -89,16 +90,18 @@ trait SourcePipeline extends Serializable {
     // Ressortir un tableau avec tous les cycles id a traiter et les traiter dans un boucle
     val dataTgaTgdCycleOver       = filterCycleOver(dataTgaTgdFielValidated, sqlContext)
 
+
     // 5) Pour un cycle ID donné on récupère tous ses évènements dans les fichiers précédents
     val dataTgaTgdGrouped         = getEventCycleId(dataTgaTgdCycleOver, sqlContext)
 
     // Fonction pour aller cherche les évènements des fichiers horaires
 
+
     // 6) Validation des cycles
-    val dataTgaTgdCycleValidated  = validateCycle(dataTgaTgdCycleOver, sqlContext)
+    val dataTgaTgdCycleValidated  = validateCycle(dataTgaTgdFielValidated, sqlContext)
 
     // 7) Nettoyage et mise en forme
-    val dataTgaTgdCycleCleaned    = cleanCycle(dataTgaTgdCycleValidated, sqlContext)
+    val dataTgaTgdCycleCleaned    = cleanCycle(dataTgaTgdGrouped, sqlContext)
 
     // 8) Sauvegarde des données propres la ou G&C le souhaite
     saveCleanData(dataTgaTgdCycleCleaned, sqlContext)
@@ -176,7 +179,7 @@ trait SourcePipeline extends Serializable {
     // Voir comment traiter les rejets ..
     val currentTimestamp = DateTime.now(DateTimeZone.UTC).getMillis() / 1000
 
-    dsTgaTgd.show()
+    //dsTgaTgd.show()
     // Valid
     val dsTgaTgdValidatedFields = dsTgaTgd.filter(_.gare matches("^[A-Z]{3}$"))
       .filter(_.maj <= currentTimestamp)
@@ -192,7 +195,7 @@ trait SourcePipeline extends Serializable {
       .filter(_.etat matches "^(?:(IND)|(SUP)|(ARR)|(\\s))$")
       .filter(_.retard matches  "^(([0-9]{4})|([0-9]{2})|$|\\s)$")
 
-    dsTgaTgdValidatedFields.show()
+    //dsTgaTgdValidatedFields.show()
     // Rejected
    val dsTgaTgdRejectedFields = dsTgaTgd.filter(x => (x.gare matches("^(?!([A-Z]{3}))$")) || (x.maj > currentTimestamp)
      ||  (x.train matches  "^(?!([0-2]{0,1}[0-9]))$")
@@ -205,7 +208,7 @@ trait SourcePipeline extends Serializable {
      || (x.etat matches "^(?!(?:(IND)|(SUP)|(ARR)|$))$")
      || (x.retard matches  "^(?!(?:[0-9]{2}|[0-9]{4}|$|\\s))$"))
 
-   dsTgaTgdRejectedFields.show()
+     //dsTgaTgdRejectedFields.show()
 
     dsTgaTgdValidatedFields
 
@@ -231,11 +234,27 @@ trait SourcePipeline extends Serializable {
     dsTgaTgd
   }
 
-  def validateCycle(dsTgaTgd: Dataset[TgaTgdTransitionnal], sqlContext : SQLContext): Dataset[TgaTgdTransitionnal] = {
+  def validateCycle(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext): Boolean = {
     import sqlContext.implicits._
     // Validation des cycles. Un cycle doit comporter au moins une voie et tous ses évènements ne peuvent pas se passer x minutes après le départ du train
-    // Voir comment traiter les rejets ..
-    dsTgaTgd
+    // En entrée la liste des évènements pour un cycle id donné.
+
+    // Si on passe les conditions on renvoie les lignes sinon on ne renvoie rien
+    val cntVoie = dsTgaTgd.toDF().select("voie").filter($"voie".isNotNull.notEqual("").notEqual("0")).count()
+
+    // Compter le nombre d'évènements après le départ théroque + retard
+    val departThéorique = dsTgaTgd.toDF().select("heure").first().getAs[Long]("heure")
+    val retard = getCycleRetard(dsTgaTgd, sqlContext)
+    // 10 : pour la marge d'erreur imposé par le métier
+    val departReel = departThéorique + retard + 10
+
+    val cntEventApresDepart = dsTgaTgd.toDF().filter($"maj".gt(departReel)).count()
+
+    // Si le compte de voie est à 0 ou le compte des évènement après la date est égale a la somme des event (= tous les évènements postérieurs à la date de départ du train
+    if(cntVoie == 0 || cntEventApresDepart == dsTgaTgd.count()){
+      false
+    }
+    else true
   }
 
   def cleanCycle(dsTgaTgd: Dataset[TgaTgdTransitionnal], sqlContext : SQLContext): Dataset[TgaTgdTransitionnal] = {
@@ -271,8 +290,24 @@ trait SourcePipeline extends Serializable {
     ))
 
     affichageFinal.toDS().as[TgaTgdOutput]
+  }
 
 
+
+  /********************** Fonction de calcul des régles métiers qui prennent un data set input ********************/
+
+  // TODO : Faire un test pour cette fonction
+  def getCycleRetard(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext) : Long = {
+    import sqlContext.implicits._
+    // Filtre des retard et tri selon la date d'èvènement pour que le retard soit en dernier
+    val dsFiltered = dsTgaTgd.toDF().orderBy($"maj".asc).filter($"retard".isNotNull.notEqual("").notEqual("0"))
+
+    // Si 0 retard on renvoie la valeur 0
+    if(dsFiltered.count() == 0){
+      0
+    } else {
+      dsFiltered.groupBy("retard").agg(last('retard) as 'retardFinal).first().getLong(0)
+    }
   }
 }
 
