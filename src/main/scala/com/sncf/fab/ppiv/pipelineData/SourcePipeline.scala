@@ -239,8 +239,10 @@ trait SourcePipeline extends Serializable {
     // Validation des cycles. Un cycle doit comporter au moins une voie et tous ses évènements ne peuvent pas se passer x minutes après le départ du train
     // En entrée la liste des évènements pour un cycle id donné.
 
-    // Si on passe les conditions on renvoie les lignes sinon on ne renvoie rien
-    val cntVoie = dsTgaTgd.toDF().select("voie").filter($"voie".isNotNull.notEqual("").notEqual("0")).count()
+    // Décompte du nombre de lignes ou il y a une voie
+    //val cntVoieAffiche = dsTgaTgd.toDF().select("voie").filter($"voie".isNotNull.notEqual("").notEqual("0")).count()
+    val cntVoieAffiche = dsTgaTgd.toDF().select("voie").filter($"voie".notEqual(""))
+      .filter($"voie".isNotNull).filter($"voie".notEqual("0")).count()
 
     // Compter le nombre d'évènements après le départ théroque + retard
     val departThéorique = dsTgaTgd.toDF().select("heure").first().getAs[Long]("heure")
@@ -250,11 +252,13 @@ trait SourcePipeline extends Serializable {
 
     val cntEventApresDepart = dsTgaTgd.toDF().filter($"maj".gt(departReel)).count()
 
-    // Si le compte de voie est à 0 ou le compte des évènement après la date est égale a la somme des event (= tous les évènements postérieurs à la date de départ du train
-    if(cntVoie == 0 || cntEventApresDepart == dsTgaTgd.count()){
+    // Si le compte de voie est différent de 0 ou le compte des évènement après la date est égale a la somme des event (= tous les évènements postérieurs à la date de départ du train
+    if(cntVoieAffiche != 0 && cntEventApresDepart != dsTgaTgd.count()){
+      true
+    }
+    else{
       false
     }
-    else true
   }
 
   def cleanCycle(dsTgaTgd: Dataset[TgaTgdTransitionnal], sqlContext : SQLContext): Dataset[TgaTgdTransitionnal] = {
@@ -300,13 +304,19 @@ trait SourcePipeline extends Serializable {
   def getCycleRetard(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext) : Long = {
     import sqlContext.implicits._
     // Filtre des retard et tri selon la date d'èvènement pour que le retard soit en dernier
-    val dsFiltered = dsTgaTgd.toDF().orderBy($"maj".asc).filter($"retard".isNotNull.notEqual("").notEqual("0"))
+    val dsFiltered = dsTgaTgd.toDF().orderBy($"maj".asc)
+      .filter($"retard".isNotNull)
+      .filter($"retard".notEqual(""))
+      .filter($"retard".notEqual("0"))
 
     // Si 0 retard on renvoie la valeur 0
     if(dsFiltered.count() == 0){
       0
     } else {
+      //dsFiltered.groupBy("retard").agg(last('retard) as 'retardFinal).first().getLong(0)
+      // Faire une valeur par défaut quand il n'y a pas de retard
       dsFiltered.groupBy("retard").agg(last('retard) as 'retardFinal).first().getLong(0)
+      5
     }
   }
 }
