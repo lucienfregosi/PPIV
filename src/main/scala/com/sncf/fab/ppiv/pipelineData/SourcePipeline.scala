@@ -1,5 +1,7 @@
 package com.sncf.fab.ppiv.pipelineData
 
+import java.util.Date
+
 import com.sncf.fab.ppiv.Exception.PpivRejectionHandler
 import com.sncf.fab.ppiv.business.{ReferentielGare, TgaTgdInput, TgaTgdOutput, TgaTgdTransitionnal}
 import com.sncf.fab.ppiv.parser.DatasetsParser
@@ -12,6 +14,7 @@ import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
 import org.apache.spark.storage.StorageLevel
 import com.sncf.fab.ppiv.persistence.{PersistElastic, PersistHdfs, PersistHive, PersistLocal}
+import com.sncf.fab.ppiv.utils.Conversion.ParisTimeZone
 import org.joda.time.{DateTime, DateTimeZone}
 
 /**
@@ -318,6 +321,21 @@ trait SourcePipeline extends Serializable {
       dsFiltered.groupBy("retard").agg(last('retard) as 'retardFinal).first().getLong(0)
       5
     }
+  }
+
+  // Fonction qui renvoie la date de premier affichage de la voie pour un cycle donné
+  def getPremierAffichage(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext) : DateTime = {
+    new DateTime(new Date(), ParisTimeZone)
+  }
+
+  // Fonction qui renvoie le temps durant lequel le train est resté affiché
+  def getAffichageDuree1(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext) : Int = {
+    18
+  }
+
+  // Fonction qui renvoie le temps durant le quel le train est resté affiché retard compris
+  def getAffichageDuree2(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext) : Int = {
+    18
   }
 }
 
