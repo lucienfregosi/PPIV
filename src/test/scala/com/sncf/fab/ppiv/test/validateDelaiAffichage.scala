@@ -20,12 +20,12 @@ class validateDelaiAffichage extends Specification{
 This is a specification for the "getAffichage" output
 The 'getAffichageDuree1'  output   should
   be a positive number beginning from 0                                        $e1
-  With trajet_sans_retard.csv the result should be 13                          $e2
-  With trajet_avec_retard.csv data with delay the result should be 13          $e3
+  With trajet_sans_retard.csv the result should be 774                         $e2
+  With trajet_avec_retard.csv data with delay the result should be 774         $e3
 The 'getAffichageDuree2'  output   should
   be a positive number beginning from 0                                        $e4
-  With trajet_sans_retard.csv the result should be 13                          $e5
-  With trajet_avec_retard.csv with delay the result should be 18               $e6
+  With trajet_sans_retard.csv the result should be 774                         $e5
+  With trajet_avec_retard.csv with delay the result should be 1074             $e6
   """
 
 
@@ -42,7 +42,7 @@ The 'getAffichageDuree2'  output   should
 
   val header = Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard")
   val pathSansRetard = new File("src/test/resources/data/trajet_sans_retard.csv").getAbsolutePath
-  val pathAvecRetard = new File("src/test/resources/data/trajet_avec_voie.csv").getAbsolutePath()
+  val pathAvecRetard = new File("src/test/resources/data/trajet_avec_retard.csv").getAbsolutePath()
 
   val dsSansRetard = sqlContext.read
     .format("com.databricks.spark.csv")
@@ -62,13 +62,16 @@ The 'getAffichageDuree2'  output   should
     .withColumn("heure", 'heure.cast(LongType))
     .as[TgaTgdInput];
 
+  //sourcePipeline.getAffichageDuree1(dsAvecRetard, sqlContext)
 
-  def e1 = sourcePipeline.getAffichageDuree1(dsSansRetard, sqlContext) must be_>= (0)
-  def e2 = sourcePipeline.getAffichageDuree1(dsSansRetard, sqlContext) mustEqual 13
-  def e3 = sourcePipeline.getAffichageDuree1(dsAvecRetard, sqlContext) mustEqual 13
+  //System.exit(0)
 
-  def e4 = sourcePipeline.getAffichageDuree2(dsSansRetard, sqlContext) must be_>= (0)
-  def e5 = sourcePipeline.getAffichageDuree1(dsSansRetard, sqlContext) mustEqual 13
-  def e6 = sourcePipeline.getAffichageDuree1(dsAvecRetard, sqlContext) mustEqual 18
+  def e1 = sourcePipeline.getAffichageDuree1(dsSansRetard, sqlContext).toInt must be_>= (0)
+  def e2 = sourcePipeline.getAffichageDuree1(dsSansRetard, sqlContext) mustEqual 774
+  def e3 = sourcePipeline.getAffichageDuree1(dsAvecRetard, sqlContext) mustEqual 774
+
+  def e4 = sourcePipeline.getAffichageDuree2(dsSansRetard, sqlContext).toInt must be_>= (0)
+  def e5 = sourcePipeline.getAffichageDuree2(dsSansRetard, sqlContext) mustEqual 774
+  def e6 = sourcePipeline.getAffichageDuree2(dsAvecRetard, sqlContext) mustEqual 1074
 
 }

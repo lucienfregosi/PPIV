@@ -169,7 +169,7 @@ trait SourcePipeline extends Serializable {
         val hourHeure  = new DateTime(row.heure).toDateTime.toString("hh").toInt
         val newMaj = if(hourMaj > 18 && hourHeure < 12){
           // On retranche un jour
-          new DateTime(row.maj).plusDays(-1).getMillis
+          new DateTime(row.maj).plusDays(-1).getMillis / 1000
         } else row.maj
         TgaTgdInput(row.gare, newMaj, row.train, row.ordes, row.num,row.`type`, row.picto, row.attribut_voie, row.voie, row.heure, row.etat, row.retard)
     }
@@ -250,8 +250,9 @@ trait SourcePipeline extends Serializable {
     // Compter le nombre d'évènements après le départ théroque + retard
     val departThéorique = dsTgaTgd.toDF().select("heure").first().getAs[Long]("heure")
     val retard = getCycleRetard(dsTgaTgd, sqlContext)
-    // 10 : pour la marge d'erreur imposé par le métier
-    val departReel = departThéorique + retard + 10
+    // 10 minutes : pour la marge d'erreur imposé par le métier. A convertir en secondes
+    val margeErreur = 10 * 60
+    val departReel = departThéorique + retard + margeErreur
 
     val cntEventApresDepart = dsTgaTgd.toDF().filter($"maj".gt(departReel)).count()
 
@@ -318,24 +319,49 @@ trait SourcePipeline extends Serializable {
     } else {
       //dsFiltered.groupBy("retard").agg(last('retard) as 'retardFinal).first().getLong(0)
       // Faire une valeur par défaut quand il n'y a pas de retard
-      dsFiltered.groupBy("retard").agg(last('retard) as 'retardFinal).first().getLong(0)
-      5
+      val minuteRetard = dsFiltered.groupBy("retard").agg(last('retard) as 'retardFinal).first().getInt(0)
+      // Multipliation par 60 pour renvoyer un résultat en secondes
+      minuteRetard * 60
+
     }
   }
 
   // Fonction qui renvoie la date de premier affichage de la voie pour un cycle donné
-  def getPremierAffichage(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext) : DateTime = {
-    new DateTime(new Date(), ParisTimeZone)
+  def getPremierAffichage(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext) : Long = {
+    import sqlContext.implicits._
+    //
+    // Récupération de la date de premier affichage. On cherche le moment ou la bonne voie a été affiché pour la première fois
+
+    // Filtre des lignes qui ne contiennent pas de voie. Puis group sur les vois et pour chaque voie on sélectionne le min de maj (le moment ou ell est affichée)
+    val dsVoieGrouped = dsTgaTgd.toDF().orderBy(asc("maj")).filter($"voie".isNotNull).filter($"voie".notEqual("")).filter($"voie".notEqual("0"))
+      .groupBy("voie").agg(min($"maj") as 'premierAffichageParVoie)
+
+    //dsVoieGrouped.show()
+
+    // Sélection de la dernière des voie apparaissant et de son timestamp correspondant au premier affichage
+    dsVoieGrouped.orderBy($"premierAffichageParVoie".desc).first().getLong(1)
   }
 
-  // Fonction qui renvoie le temps durant lequel le train est resté affiché
-  def getAffichageDuree1(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext) : Int = {
-    18
+  // Fonction qui renvoie le temps durant lequel le train est resté affiché. On retourne un timestamp
+  def getAffichageDuree1(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext) : Long = {
+    import sqlContext.implicits._
+
+    val departTheorique = dsTgaTgd.toDF().first().getLong(9)
+    //println("depart théroique" + departTheorique)
+
+
+    val premierAffichage = getPremierAffichage(dsTgaTgd, sqlContext)
+    //println("premier affichage" + premierAffichage)
+
+    departTheorique - premierAffichage
   }
 
-  // Fonction qui renvoie le temps durant le quel le train est resté affiché retard compris
-  def getAffichageDuree2(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext) : Int = {
-    18
+  // Fonction qui renvoie le temps durant le quel le train est resté affiché retard compris. On retourne un timestamp
+  def getAffichageDuree2(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext) : Long = {
+    val affichageDuree1 = getAffichageDuree1(dsTgaTgd, sqlContext)
+    val retard = getCycleRetard(dsTgaTgd, sqlContext)
+
+    affichageDuree1 + retard
   }
 }
 
