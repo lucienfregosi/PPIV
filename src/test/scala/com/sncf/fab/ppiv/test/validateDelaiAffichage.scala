@@ -61,10 +61,7 @@ The 'getAffichageDuree2'  output   should
     .withColumn("maj", 'maj.cast(LongType))
     .withColumn("heure", 'heure.cast(LongType))
     .as[TgaTgdInput];
-
-  //sourcePipeline.getAffichageDuree1(dsAvecRetard, sqlContext)
-
-  //System.exit(0)
+  
 
   def e1 = sourcePipeline.getAffichageDuree1(dsSansRetard, sqlContext).toInt must be_>= (0)
   def e2 = sourcePipeline.getAffichageDuree1(dsSansRetard, sqlContext) mustEqual 774

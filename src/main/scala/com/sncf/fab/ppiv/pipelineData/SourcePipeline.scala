@@ -317,12 +317,11 @@ trait SourcePipeline extends Serializable {
     if(dsFiltered.count() == 0){
       0
     } else {
-      //dsFiltered.groupBy("retard").agg(last('retard) as 'retardFinal).first().getLong(0)
-      // Faire une valeur par défaut quand il n'y a pas de retard
-      val minuteRetard = dsFiltered.groupBy("retard").agg(last('retard) as 'retardFinal).first().getInt(0)
+      // On trie dans le sens décroissant pour prendre le dernier retard
+      val minuteRetard = dsFiltered.orderBy($"maj".desc).first().getString(11).toLong
+
       // Multipliation par 60 pour renvoyer un résultat en secondes
       minuteRetard * 60
-
     }
   }
 
@@ -340,6 +339,7 @@ trait SourcePipeline extends Serializable {
 
     // Sélection de la dernière des voie apparaissant et de son timestamp correspondant au premier affichage
     dsVoieGrouped.orderBy($"premierAffichageParVoie".desc).first().getLong(1)
+
   }
 
   // Fonction qui renvoie le temps durant lequel le train est resté affiché. On retourne un timestamp
