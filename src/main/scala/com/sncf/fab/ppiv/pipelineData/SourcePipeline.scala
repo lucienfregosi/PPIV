@@ -255,7 +255,7 @@ trait SourcePipeline extends Serializable {
     val dfJoin = dsTgaTgdCyclesOver.toDF().select("cycle_id").join(tgaTgdInputAllDay, $"cycle_id" === $"cycle_id2","LeftOuter")
 
     println("after join " + dfJoin.count)
-
+ 
 
 
     //val dfGroupByCycleOver = dfJoin.drop("cycle_id2").groupBy("cycle_id").agg(collect_list(struct($"gare",$"maj",$"train",$"ordes",$"num",$"type",$"picto",$"attribut_voie",$"voie",$"heure",$"etat",$"retard")).as("events"))
