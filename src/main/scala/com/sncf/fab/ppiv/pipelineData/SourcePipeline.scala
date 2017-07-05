@@ -240,9 +240,10 @@ trait SourcePipeline extends Serializable {
   }
 
   def getEventCycleId(dsTgaTgdCyclesOver : Dataset[TgaTgdCycle], sqlContext : SQLContext, sc : SparkContext): DataFrame = {
-    import sqlContext.implicits._
 
-    val hiveContext: SQLContext = new HiveContext(sc)
+
+    val sqlContext: SQLContext = new HiveContext(sc)
+    import sqlContext.implicits._
 
     // A partir de la liste des cycles finis, reconstitution d'un DS de la forme cycleId| Seq(gare, maj, ...)
     val tgaTgdInputAllDay = loadTgaTgd(sqlContext).toDF().withColumn("cycle_id2",concat(col("gare"),lit(Panneau()),col("num"), col("heure")))
