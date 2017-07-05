@@ -98,6 +98,8 @@ trait SourcePipeline extends Serializable {
     val cycleIdListOver   = filterCycleOver(cycleIdList, sqlContext)
     val tgaTgdCycleOver   = getEventCycleId(cycleIdListOver, sqlContext)
 
+    tgaTgdCycleOver.show()
+    System.exit(0)
 
     // 6) Validation des cycles
     val dataTgaTgdCycleValidated  = validateCycle(dataTgaTgdFielValidated, sqlContext)
@@ -252,11 +254,12 @@ trait SourcePipeline extends Serializable {
 
     println("after join " + dfJoin.count)
 
-    System.exit(0)
 
-    //dfJoin.drop("cycle_id2").groupBy("cycle_id")
 
-    dfJoin
+    val dfGroupByCycleOver = dfJoin.drop("cycle_id2").groupBy("cycle_id").agg(collect_list(struct($"gare",$"maj",$"train",$"ordes",$"num",$"type",$"picto",$"attribut_voie",$"voie",$"heure",$"etat",$"retard")).as("events"))
+
+
+    dfGroupByCycleOver
   }
 
 
