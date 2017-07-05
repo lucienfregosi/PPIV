@@ -214,7 +214,7 @@ trait SourcePipeline extends Serializable {
     println("Count rejected  " + dsTgaTgdRejectedFields.count())
 
      // Sauvegarde des rejets
-    PersistElastic.persisteTgaTgdParsedIntoEs(dsTgaTgdRejectedFields,"ppiv/rejectedField")
+    //PersistElastic.persisteTgaTgdParsedIntoEs(dsTgaTgdRejectedFields,"ppiv/rejectedField")
 
     dsTgaTgdValidatedFields
 
