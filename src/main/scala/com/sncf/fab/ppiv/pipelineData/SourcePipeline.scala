@@ -271,17 +271,27 @@ trait SourcePipeline extends Serializable {
     //val dfGroupByCycleOver = hiveDataframe.drop("cycle_id2").groupBy("cycle_id").agg(collect_list(struct($"gare",$"maj",$"train",$"ordes",$"num",$"type",$"picto",$"attribut_voie",$"voie",$"heure",$"etat",$"retard")).as("events"))
 
     // On doit définir une UDF
-    val zipper = udf[Seq[(String, String)], Seq[String], Seq[String]](_.zip(_))
+    //val zipper = udf[Seq[(String, Int,String,String,String,String,String,String, String, Int, String, String)], Seq[String], Seq[Int],Seq[String],Seq[String],Seq[String],Seq[String],Seq[String],Seq[String],Seq[String],Seq[Int],Seq[String],Seq[String]](_.zip(_))
+
 
     val dfGroupByCycleOver = hiveDataframe.drop("cycle_id2").groupBy("cycle_id")
       .agg(
         collect_list($"gare") as "gare",
-        collect_list($"maj") as "maj"
-      ).withColumn("gare",zipper(col("gare"),col("maj")))
+        collect_list($"maj") as "maj",
+        collect_list($"train") as "train",
+        collect_list($"ordes") as "ordes",
+        collect_list($"num") as "num",
+        collect_list($"type") as "type",
+        collect_list($"picto") as "picto",
+        collect_list($"attribut_voie") as "attribut_voie",
+        collect_list($"voie") as "voie",
+        collect_list($"heure") as "heure",
+        collect_list($"etat") as "etat",
+        collect_list($"retard") as "retard"
+      )
 
 
-
-    dfGroupByCycleOver
+      dfGroupByCycleOver
   }
 
 
