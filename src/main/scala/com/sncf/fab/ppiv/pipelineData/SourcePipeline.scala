@@ -268,9 +268,10 @@ trait SourcePipeline extends Serializable {
     //hiveContext.createDataFrame(dfJoin.rdd, dfJoin.schema).registerTempTable("dataTgaTgdOver")
 
     val hiveDataframe = hiveContext.createDataFrame(dfJoin.rdd, dfJoin.schema)
-    val dfGroupByCycleOver = hiveDataframe.drop("cycle_id2").groupBy("cycle_id").agg(collect_list(struct($"gare",$"maj",$"train",$"ordes",$"num",$"type",$"picto",$"attribut_voie",$"voie",$"heure",$"etat",$"retard")).as("events"))
+    //val dfGroupByCycleOver = hiveDataframe.drop("cycle_id2").groupBy("cycle_id").agg(collect_list(struct($"gare",$"maj",$"train",$"ordes",$"num",$"type",$"picto",$"attribut_voie",$"voie",$"heure",$"etat",$"retard")).as("events"))
+    val dfGroupByCycleOver = hiveDataframe.drop("cycle_id2").groupBy("cycle_id").agg(collect_list($"gare"))
 
-    
+
 
     dfGroupByCycleOver
   }
