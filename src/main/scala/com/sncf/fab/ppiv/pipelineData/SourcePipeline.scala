@@ -258,10 +258,12 @@ trait SourcePipeline extends Serializable {
 
 
 
-    val dfGroupByCycleOver = dfJoin.drop("cycle_id2").groupBy("cycle_id").agg(collect_list(struct($"gare",$"maj",$"train",$"ordes",$"num",$"type",$"picto",$"attribut_voie",$"voie",$"heure",$"etat",$"retard")).as("events"))
+    //val dfGroupByCycleOver = dfJoin.drop("cycle_id2").groupBy("cycle_id").agg(collect_list(struct($"gare",$"maj",$"train",$"ordes",$"num",$"type",$"picto",$"attribut_voie",$"voie",$"heure",$"etat",$"retard")).as("events"))
     //val dfGroupByCycleOver = dfJoin.drop("cycle_id2").groupBy("cycle_id")
 
-    dfJoin.rdd.take(10).foreach(println)
+    dfJoin.drop("cycle_id2").toDF().registerTempTable("dataTgaTgdOver")
+
+    val dfGroupByCycleOver = sqlContext.sql("select cycle_id, collect_list(gare) from dataTgaTgdOver group by cycle_id")
 
     dfGroupByCycleOver
   }
