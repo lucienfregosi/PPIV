@@ -202,7 +202,7 @@ trait SourcePipeline extends Serializable {
     // Rejected
    val dsTgaTgdRejectedFields = dsTgaTgd.filter(x => (x.gare matches("^(?!([A-Z]{3}))$")) || (x.maj > currentTimestamp)
      ||  (x.train matches  "^(?!([0-2]{0,1}[0-9]))$")
-     ||(x.train matches  "^(?!([0-2]{0,1}[0-9]))$")
+
 
      //||  (x.`type` matches "^(?!([A-Z]+))$")
      //||((x.attribut_voie matches "(?!(^I$))") || (x.voie matches "^(?!(?:[0-9]|[A-Z]|$))$" )) &&((x.attribut_voie matches "(?!(\\s||$))") || (x.voie matches "^(?!(?:[0-9]|[A-Z]))$" ))
