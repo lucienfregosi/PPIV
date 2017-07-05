@@ -206,7 +206,7 @@ trait SourcePipeline extends Serializable {
 
 
      // Sauvegarde des rejets
-    PersistElastic.persisteTgaTgdParsedIntoEs(dsTgaTgdRejectedFields,"ppiv/rejectedField")
+    //PersistElastic.persisteTgaTgdParsedIntoEs(dsTgaTgdRejectedFields,"ppiv/rejectedField")
 
     dsTgaTgdValidatedFields
 
@@ -248,11 +248,13 @@ trait SourcePipeline extends Serializable {
     tgaTgdInputAllDay.show()
 
     // On joint les deux avec un left join pour garder seulement les cycles terminés
-    val dfJoin = dsTgaTgdCyclesOver.toDF().join(tgaTgdInputAllDay, $"cycle_id" === $"cycle_id2","LeftOuter")
+    val dfJoin = dsTgaTgdCyclesOver.toDF().select("cycle_id").join(tgaTgdInputAllDay, $"cycle_id" === $"cycle_id2","LeftOuter")
 
     println("after join " + dfJoin.count)
 
     System.exit(0)
+
+    //dfJoin.drop("cycle_id2").groupBy("cycle_id")
 
     dfJoin
   }
