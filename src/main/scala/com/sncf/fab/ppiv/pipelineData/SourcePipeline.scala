@@ -275,29 +275,18 @@ trait SourcePipeline extends Serializable {
 
 
 
-    val rddGroupByCycleOver = hiveDataframe.drop("cycle_id2").rdd.map(
+    /*val rddGroupByCycleOver = hiveDataframe.drop("cycle_id2").rdd.map(
       x => ((x.getString(0)),(x.getString(1),x.getLong(2),x.getString(3),x.getString(4),x.getString(5),x.getString(6),x.getString(7),x.getString(8),x.getString(9),x.getLong(10),x.getString(11),x.getString(12))
       )).groupByKey()
 
-    rddGroupByCycleOver.toDF().show()
+    rddGroupByCycleOver.toDF().show()*/
 
+    val dfGroupByCycleOver = hiveDataframe.drop("cycle_id2").select($"cycle_id", array($"gare",$"maj",$"train",$"ordes",$"num",$"type",$"picto",$"attribut_voie",$"voie",$"heure",$"etat",$"retard") as "event")
+      .agg(
+        collect_list($"event") as "event"
+      )
 
-      /*.agg(
-        collect_list($"gare") as "gare",
-        collect_list($"maj") as "maj",
-        collect_list($"train") as "train",
-        collect_list($"ordes") as "ordes",
-        collect_list($"num") as "num",
-        collect_list($"type") as "type",
-        collect_list($"picto") as "picto",
-        collect_list($"attribut_voie") as "attribut_voie",
-        collect_list($"voie") as "voie",
-        collect_list($"heure") as "heure",
-        collect_list($"etat") as "etat",
-        collect_list($"retard") as "retard"
-      )*/
-
-    rddGroupByCycleOver.toDF()
+    dfGroupByCycleOver
 
 
   }
