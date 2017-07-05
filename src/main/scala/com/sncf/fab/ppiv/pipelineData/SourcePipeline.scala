@@ -8,13 +8,14 @@ import com.sncf.fab.ppiv.parser.DatasetsParser
 import com.sncf.fab.ppiv.utils.AppConf._
 import org.apache.spark.SparkConf
 import com.sncf.fab.ppiv.utils.Conversion
-import org.apache.spark.sql.{DataFrame, Dataset, SQLContext}
+import org.apache.spark.sql.{DataFrame, Dataset, GroupedData, SQLContext}
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
 import org.apache.spark.storage.StorageLevel
 import com.sncf.fab.ppiv.persistence.{PersistElastic, PersistHdfs, PersistHive, PersistLocal}
 import com.sncf.fab.ppiv.utils.Conversion.ParisTimeZone
+import org.apache.spark.sql.hive.HiveContext
 import org.joda.time.{DateTime, DateTimeZone}
 
 /**
@@ -96,9 +97,9 @@ trait SourcePipeline extends Serializable {
       // Récupération de tous les cycles d'un fichier horaire et sélection des terminés
     val cycleIdList       = buildCycles(dataTgaTgdFielValidated, sqlContext)
     val cycleIdListOver   = filterCycleOver(cycleIdList, sqlContext)
-    val tgaTgdCycleOver   = getEventCycleId(cycleIdListOver, sqlContext)
+    val tgaTgdCycleOver   = getEventCycleId(cycleIdListOver, sqlContext, sc)
 
-    tgaTgdCycleOver.show()
+
     System.exit(0)
 
     // 6) Validation des cycles
@@ -238,9 +239,10 @@ trait SourcePipeline extends Serializable {
 
   }
 
-  def getEventCycleId(dsTgaTgdCyclesOver : Dataset[TgaTgdCycle], sqlContext : SQLContext): DataFrame = {
+  def getEventCycleId(dsTgaTgdCyclesOver : Dataset[TgaTgdCycle], sqlContext : SQLContext, sc : SparkContext): Dataframe = {
     import sqlContext.implicits._
 
+    val sqlContext: SQLContext = new HiveContext(sc)
 
     // A partir de la liste des cycles finis, reconstitution d'un DS de la forme cycleId| Seq(gare, maj, ...)
     val tgaTgdInputAllDay = loadTgaTgd(sqlContext).toDF().withColumn("cycle_id2",concat(col("gare"),lit(Panneau()),col("num"), col("heure")))
@@ -257,8 +259,8 @@ trait SourcePipeline extends Serializable {
 
 
 
-    //val dfGroupByCycleOver = dfJoin.drop("cycle_id2").groupBy("cycle_id").agg(collect_list(struct($"gare",$"maj",$"train",$"ordes",$"num",$"type",$"picto",$"attribut_voie",$"voie",$"heure",$"etat",$"retard")).as("events"))
-    val dfGroupByCycleOver = dfJoin.drop("cycle_id2").groupBy("cycle_id")
+    val dfGroupByCycleOver = dfJoin.drop("cycle_id2").groupBy("cycle_id").agg(collect_list(struct($"gare",$"maj",$"train",$"ordes",$"num",$"type",$"picto",$"attribut_voie",$"voie",$"heure",$"etat",$"retard")).as("events"))
+    //val dfGroupByCycleOver = dfJoin.drop("cycle_id2").groupBy("cycle_id")
 
     dfGroupByCycleOver
   }
