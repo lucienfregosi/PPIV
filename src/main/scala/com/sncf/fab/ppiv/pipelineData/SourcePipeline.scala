@@ -3,7 +3,7 @@ package com.sncf.fab.ppiv.pipelineData
 import java.util.Date
 
 import com.sncf.fab.ppiv.Exception.PpivRejectionHandler
-import com.sncf.fab.ppiv.business.{ReferentielGare, TgaTgdInput, TgaTgdOutput, TgaTgdTransitionnal}
+import com.sncf.fab.ppiv.business._
 import com.sncf.fab.ppiv.parser.DatasetsParser
 import com.sncf.fab.ppiv.utils.AppConf._
 import org.apache.spark.SparkConf
@@ -88,28 +88,22 @@ trait SourcePipeline extends Serializable {
     val dataTgaTgdBugFix = if (STICKING_PLASTER == true) applyStickingPlaster(dataTgaTgd, sqlContext) else dataTgaTgd
 
     // 3) Validation champ à champ
-    println("CNT initial" + dataTgaTgdBugFix.count())
+    println("CNT initial" + dataTgaTgd.count())
     val dataTgaTgdFielValidated   = validateField(dataTgaTgdBugFix, sqlContext)
 
 
-    // 4) Sélection des lignes dont les cycles sont terminé et enrichissement dans les fichiers horaires précédents
-    // TODO : Pour les passes nuits aller chercher dans les fichiers de la veille aussi
-    // Le groupement des cycles et cette étape est commune
-    // Ressortir un tableau avec tous les cycles id a traiter et les traiter dans un boucle
-    val dataTgaTgdCycleOver       = filterCycleOver(dataTgaTgdFielValidated, sqlContext)
-
-
-    // 5) Pour un cycle ID donné on récupère tous ses évènements dans les fichiers précédents
-    val dataTgaTgdGrouped         = getEventCycleId(dataTgaTgdCycleOver, sqlContext)
-
-    // Fonction pour aller cherche les évènements des fichiers horaires
+    // 4) Reconstitution des évènements pour chaque trajet
+      // Récupération de tous les cycles d'un fichier horaire et sélection des terminés
+    val cycleIdList       = buildCycles(dataTgaTgdFielValidated, sqlContext)
+    val cycleIdListOver   = filterCycleOver(cycleIdList, sqlContext)
+    val tgaTgdCycleOver   = getEventCycleId(cycleIdListOver, sqlContext)
 
 
     // 6) Validation des cycles
     val dataTgaTgdCycleValidated  = validateCycle(dataTgaTgdFielValidated, sqlContext)
 
     // 7) Nettoyage et mise en forme
-    val dataTgaTgdCycleCleaned    = cleanCycle(dataTgaTgdGrouped, sqlContext)
+    val dataTgaTgdCycleCleaned    = cleanCycle(temp(dataTgaTgdBugFix, sqlContext), sqlContext)
 
     // 8) Sauvegarde des données propres la ou G&C le souhaite
     saveCleanData(dataTgaTgdCycleCleaned, sqlContext)
@@ -211,10 +205,6 @@ trait SourcePipeline extends Serializable {
      || (x.retard matches  "^(?!(?:[0-9]{2}|[0-9]{4}|$|\\s))$"))
 
 
-
-    println("Count accepted  " + dsTgaTgdValidatedFields.count())
-    println("Count rejected  " + dsTgaTgdRejectedFields.count())
-
      // Sauvegarde des rejets
     PersistElastic.persisteTgaTgdParsedIntoEs(dsTgaTgdRejectedFields,"ppiv/rejectedField")
 
@@ -222,8 +212,53 @@ trait SourcePipeline extends Serializable {
 
   }
 
+  def buildCycles(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext) : Dataset[TgaTgdCycle] = {
+    import sqlContext.implicits._
+    dsTgaTgd.toDF().registerTempTable("dataTgaTgd")
+    val dataTgaTgCycles = sqlContext.sql("SELECT concat(gare,'" + Panneau() + "',num,heure) as cycle_id, first(heure) as heure," +
+      " last(retard) as retard" +
+      " from dataTgaTgd group by concat(gare, '" + Panneau() + "',num,heure)")
+      .withColumn("heure", 'heure.cast(LongType))
+      .as[TgaTgdCycle]
 
-  def filterCycleOver(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext): Dataset[TgaTgdTransitionnal] = {
+    //dataTgaTgCycles.show()
+    dataTgaTgCycles
+  }
+
+  def filterCycleOver(dsTgaTgdCycles : Dataset[TgaTgdCycle], sqlContext : SQLContext):  Dataset[TgaTgdCycle]= {
+    import sqlContext.implicits._
+    val horaireMax = Conversion.nowToDateTime().plusHours(-1)
+
+    val dataTgaTgdCycleOver = dsTgaTgdCycles .filter(x =>
+      ( (new  DateTime(x.heure).plusMinutes(x.retard.toInt)) isBefore(horaireMax) ))
+
+    dsTgaTgdCycles
+
+  }
+
+  def getEventCycleId(dsTgaTgdCyclesOver : Dataset[TgaTgdCycle], sqlContext : SQLContext): DataFrame = {
+    import sqlContext.implicits._
+
+    // A partir de la liste des cycles finis, reconstitution d'un DS de la forme cycleId| Seq(gare, maj, ...)
+    val tgaTgdInputAllDay = loadTgaTgd(sqlContext).toDF().withColumn("cycle_id2",concat(col("gare"),lit(Panneau()),col("num"), col("heure")))
+
+    println("cycle over cnt:"  + dsTgaTgdCyclesOver.count())
+
+    dsTgaTgdCyclesOver.show()
+    tgaTgdInputAllDay.show()
+
+    // On joint les deux avec un left join pour garder seulement les cycles terminés
+    val dfJoin = dsTgaTgdCyclesOver.toDF().join(tgaTgdInputAllDay, $"cycle_id" === $"cycle_id2","LeftOuter")
+
+    println("after join " + dfJoin.count)
+
+    System.exit(0)
+
+    dfJoin
+  }
+
+
+  def temp(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext): Dataset[TgaTgdTransitionnal] = {
     import sqlContext.implicits._
     // Groupement des évènements pour constituer des cycles uniques concaténation de gare + panneau + numéro de train + heure de départ (timestamp)
     dsTgaTgd.toDF().registerTempTable("dataTgaTgd")
@@ -236,11 +271,6 @@ trait SourcePipeline extends Serializable {
     dataTgaTgdGrouped
   }
 
-  def getEventCycleId(dsTgaTgd: Dataset[TgaTgdTransitionnal], sqlContext : SQLContext): Dataset[TgaTgdTransitionnal] = {
-    import sqlContext.implicits._
-    // Pour un cycle id renvoyer la liste des évènements trouvé dans les fichiers horaires de la journée
-    dsTgaTgd
-  }
 
   def validateCycle(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext): Boolean = {
     import sqlContext.implicits._
