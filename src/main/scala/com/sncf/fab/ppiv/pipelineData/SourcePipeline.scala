@@ -241,6 +241,7 @@ trait SourcePipeline extends Serializable {
 
   def getEventCycleId(dsTgaTgdCyclesOver : Dataset[TgaTgdCycle], sqlContext : SQLContext, sc : SparkContext): DataFrame = {
 
+    val hiveContext = new HiveContext(sc)
     import sqlContext.implicits._
 
     // A partir de la liste des cycles finis, reconstitution d'un DS de la forme cycleId| Seq(gare, maj, ...)
@@ -263,7 +264,7 @@ trait SourcePipeline extends Serializable {
 
     dfJoin.drop("cycle_id2").toDF().registerTempTable("dataTgaTgdOver")
 
-    val dfGroupByCycleOver = sqlContext.sql("select cycle_id, collect_list(gare) from dataTgaTgdOver group by cycle_id")
+    val dfGroupByCycleOver = hiveContext.sql("select cycle_id, collect_list(gare) from dataTgaTgdOver group by cycle_id")
 
     dfGroupByCycleOver
   }
