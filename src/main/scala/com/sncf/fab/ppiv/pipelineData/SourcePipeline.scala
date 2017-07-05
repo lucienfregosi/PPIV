@@ -189,15 +189,14 @@ trait SourcePipeline extends Serializable {
 
     // Valid
     //dsTgaTgd.show()
-    val dsTgaTgdValidatedFields = dsTgaTgd.filter(_.gare matches("^[A-Z]{3}$"))
+    val dsTgaTgdValidatedFields = dsTgaTgd
+      .filter(_.gare matches("^[A-Z]{3}$"))
       .filter(_.maj <= currentTimestamp)
       .filter(_.train matches  "(^[0-2]{0,1}[0-9]$)")
-      .filter(_.ordes matches "(^[A-Z|\\s]{1,}[A-Z]{0,}$)")
-      .filter(_.`type` matches "(^[A-Z]+$)")
-      //.filter(_.picto.toInt >=0)
+      //.filter(_.ordes matches "(^[A-Z|\\s]{1,s)") // Il en enlève 2000
+      //.filter(_.`type` matches "(^[A-Z]+$)") // Il en enlève 100
       .filter(_.attribut_voie matches "I||\\s||$")
-      .filter(_.voie matches "^(?:[0-9]|[A-Z])$")
-      //.filter(_.heure <= currentTimestamp)
+      //.filter(_.voie matches "^(?:[0-9]|[A-Z])$") // Il en enlève 8000
       .filter(_.etat matches "^(?:(IND)|(SUP)|(ARR)|$|(\\s))$")
       .filter(_.retard matches  "^(([0-9]{4})|([0-9]{2})|$|\\s)$")
 
@@ -208,7 +207,6 @@ trait SourcePipeline extends Serializable {
      ||  (x.`type` matches "^(?!([A-Z]+))$")
      ||  (x.attribut_voie matches "(?!(I||\\s||$))")
      ||  (x.voie matches "^(?!(?:[0-9]|[A-Z]))$")
-     //||  (x.heure > currentTimestamp)
      || (x.etat matches "^(?!(?:(IND)|(SUP)|(ARR)|$|\\s))$")
      || (x.retard matches  "^(?!(?:[0-9]{2}|[0-9]{4}|$|\\s))$"))
 
