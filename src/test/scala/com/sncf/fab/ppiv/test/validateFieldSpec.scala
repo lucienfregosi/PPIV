@@ -21,10 +21,10 @@ The 'validateField'  output   should
 Gare has three capital letters                                           $e1
 Maj is less or equal to Current Timestamp                                $e2
 Train field is in [1:20]                                                 $e3
-Ordes field has only capital letters                                     $e4
+
 Type in capital letters                                                  $e7
 Attribut_voie is I or empty                                              $e9
-Voie is one character                                                    $e10
+
 Etat should be in the list {SUP, IND, ARR}                               $e12
 Retard should be 2 or 3 digits                                           $e13
 
@@ -56,13 +56,12 @@ Retard should be 2 or 3 digits                                           $e13
   def e1 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(0) must =~("^[A-Z]{3}$")
   def e2 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getLong(1) must be_<=(currentTimestamp)
   def e3 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(2) must =~("^[0-2]{0,1}[0-9]$")
-  def e4 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(3) must =~("^[A-Z|\\s]{1,}[A-Z]{0,}$")
+  
   def e7 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(5)  must =~ ("^[A-Z]+$")
   //def e8 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(6).toInt must be_>= (0)
-  def e9 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(7) must =~("I{0,1}$")
-  def e10 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(8) must =~("^[A-Z|1-9]{1}$")
-  //def e11 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getLong(9) must be_<=(currentTimestamp)
-  def e12 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(10) must beOneOf("IND", "SUP","ARR","")
+  def e9 = (sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(7) must =~("I")) && (sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(8) must =~("^[A-Z|1-9|$]{1}$")) ||(sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(7) must =~("\\s|$")) && (sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(8) must =~("^[A-Z|1-9]{1}$"))
+
+    def e12 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(10) must beOneOf("IND", "SUP","ARR","")
   def e13 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(11) must =~ ("^(([0-9]{4})|([0-9]{2})|$|\\s)$")
 
   // "^[0-9]{2,4}$")
