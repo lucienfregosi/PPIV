@@ -81,11 +81,16 @@ trait SourcePipeline extends Serializable {
     val dataTgaTgd                = loadTgaTgd(sqlContext)
     val dataRefGares              = loadReferentiel(sqlContext)
 
+
+
+
     // 2) Application du sparadrap sur les données au cause du Bug lié au passe nuit. Flag pour pouvoir le désactiver
     val dataTgaTgdBugFix = if (STICKING_PLASTER == true) applyStickingPlaster(dataTgaTgd, sqlContext) else dataTgaTgd
 
     // 3) Validation champ à champ
+    println("CNT initial" + dataTgaTgdBugFix.count())
     val dataTgaTgdFielValidated   = validateField(dataTgaTgdBugFix, sqlContext)
+
 
     // 4) Sélection des lignes dont les cycles sont terminé et enrichissement dans les fichiers horaires précédents
     // TODO : Pour les passes nuits aller chercher dans les fichiers de la veille aussi
@@ -182,36 +187,38 @@ trait SourcePipeline extends Serializable {
     // Voir comment traiter les rejets ..
     val currentTimestamp = DateTime.now(DateTimeZone.UTC).getMillis() / 1000
 
-    //dsTgaTgd.show()
     // Valid
+    //dsTgaTgd.show()
     val dsTgaTgdValidatedFields = dsTgaTgd.filter(_.gare matches("^[A-Z]{3}$"))
       .filter(_.maj <= currentTimestamp)
       .filter(_.train matches  "(^[0-2]{0,1}[0-9]$)")
       .filter(_.ordes matches "(^[A-Z|\\s]{1,}[A-Z]{0,}$)")
-      .filter(_.num matches  "(^[0-9]{1,}$)")
-      .filter(_.num.toInt >= 0)
       .filter(_.`type` matches "(^[A-Z]+$)")
       //.filter(_.picto.toInt >=0)
       .filter(_.attribut_voie matches "I||\\s||$")
       .filter(_.voie matches "^(?:[0-9]|[A-Z])$")
       //.filter(_.heure <= currentTimestamp)
-      .filter(_.etat matches "^(?:(IND)|(SUP)|(ARR)|(\\s))$")
+      .filter(_.etat matches "^(?:(IND)|(SUP)|(ARR)|$|(\\s))$")
       .filter(_.retard matches  "^(([0-9]{4})|([0-9]{2})|$|\\s)$")
 
-    //dsTgaTgdValidatedFields.show()
     // Rejected
    val dsTgaTgdRejectedFields = dsTgaTgd.filter(x => (x.gare matches("^(?!([A-Z]{3}))$")) || (x.maj > currentTimestamp)
      ||  (x.train matches  "^(?!([0-2]{0,1}[0-9]))$")
      ||  (x.ordes matches "^(?!([A-Z|\\s]{1,}[A-Z]{0,}))$")
-     ||  ((x.num matches  "^([0-9]{1,})$") && (x.num.toInt < 0))
      ||  (x.`type` matches "^(?!([A-Z]+))$")
      ||  (x.attribut_voie matches "(?!(I||\\s||$))")
      ||  (x.voie matches "^(?!(?:[0-9]|[A-Z]))$")
      //||  (x.heure > currentTimestamp)
-     || (x.etat matches "^(?!(?:(IND)|(SUP)|(ARR)|$))$")
+     || (x.etat matches "^(?!(?:(IND)|(SUP)|(ARR)|$|\\s))$")
      || (x.retard matches  "^(?!(?:[0-9]{2}|[0-9]{4}|$|\\s))$"))
 
-     //dsTgaTgdRejectedFields.show()
+
+
+    println("Count accepted  " + dsTgaTgdValidatedFields.count())
+    println("Count rejected  " + dsTgaTgdRejectedFields.count())
+
+     // Sauvegarde des rejets
+    PersistElastic.persisteTgaTgdParsedIntoEs(dsTgaTgdRejectedFields,"ppiv/rejectedField")
 
     dsTgaTgdValidatedFields
 

@@ -22,8 +22,6 @@ Gare has three capital letters                                           $e1
 Maj is less or equal to Current Timestamp                                $e2
 Train field is in [1:20]                                                 $e3
 Ordes field has only capital letters                                     $e4
-Num_train is a number                                                    $e5
-Num_train is a postive number                                            $e6
 Type in capital letters                                                  $e7
 Attribut_voie is I or empty                                              $e9
 Voie is one character                                                    $e10
@@ -59,8 +57,6 @@ Retard should be 2 or 3 digits                                           $e13
   def e2 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getLong(1) must be_<=(currentTimestamp)
   def e3 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(2) must =~("^[0-2]{0,1}[0-9]$")
   def e4 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(3) must =~("^[A-Z|\\s]{1,}[A-Z]{0,}$")
-  def e5 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(4) must =~("^[0-9]{1,}$")
-  def e6 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(4).toInt must be_>= (0)
   def e7 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(5)  must =~ ("^[A-Z]+$")
   //def e8 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(6).toInt must be_>= (0)
   def e9 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(7) must =~("I{0,1}$")
