@@ -277,7 +277,7 @@ trait SourcePipeline extends Serializable {
       .agg(
         collect_list($"gare") as "gare",
         collect_list($"maj") as "maj"
-      ).withColumn("gare",zipper(col("gare"),col("maj"))) 
+      ).withColumn("gare",zipper(col("gare"),col("maj")))
 
 
 
