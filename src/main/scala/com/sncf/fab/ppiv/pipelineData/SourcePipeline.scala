@@ -274,8 +274,15 @@ trait SourcePipeline extends Serializable {
     //val zipper = udf[Seq[(String, Int,String,String,String,String,String,String, String, Int, String, String)], Seq[String], Seq[Int],Seq[String],Seq[String],Seq[String],Seq[String],Seq[String],Seq[String],Seq[String],Seq[Int],Seq[String],Seq[String]](_.zip(_))
 
 
-    val dfGroupByCycleOver = hiveDataframe.drop("cycle_id2").groupBy("cycle_id")
-      .agg(
+
+    val rddGroupByCycleOver = hiveDataframe.drop("cycle_id2").rdd.map(
+      x => ((x.getString(0)),(x.getString(1),x.getLong(2),x.getString(3),x.getString(4),x.getString(5),x.getString(6),x.getString(7),x.getString(8),x.getString(9),x.getLong(10),x.getString(11),x.getString(12))
+      )).groupByKey()
+
+    rddGroupByCycleOver.toDF().show()
+
+
+      /*.agg(
         collect_list($"gare") as "gare",
         collect_list($"maj") as "maj",
         collect_list($"train") as "train",
@@ -288,10 +295,11 @@ trait SourcePipeline extends Serializable {
         collect_list($"heure") as "heure",
         collect_list($"etat") as "etat",
         collect_list($"retard") as "retard"
-      )
+      )*/
+
+    hiveDataframe.toDF().
 
 
-      dfGroupByCycleOver
   }
 
 
