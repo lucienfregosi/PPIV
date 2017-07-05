@@ -26,12 +26,16 @@ object TraitementPPIVDriver extends Serializable {
       @transient val sparkConf = getSparkConf()
       @transient val sc = new SparkContext(sparkConf)
       @transient val sqlContext = new SQLContext(sc)
+
+      sc.setLogLevel("ERROR")
+
       LOGGER.info("Traitement d'affichage des trains TGA")
-      val dataTga = TraitementTga.start(args, sc, sqlContext)
+      val dataTgaAndTga = TraitementTga.start(args, sc, sqlContext)
+
       LOGGER.info("Traitement d'affichage des trains TGD")
-      val dataTgd = TraitementTgd.start(args, sc, sqlContext)
+      //val dataTgd = TraitementTgd.start(args, sc, sqlContext)
       // 11) Fusion des résultats de TGA et TGD
-      val dataTgaAndTga = dataTga.union(dataTgd)
+      //val dataTgaAndTga = dataTga.union(dataTgd)
       // 12) Sauvegarde la ou nous l'a demandé
 
 
@@ -43,7 +47,7 @@ object TraitementPPIVDriver extends Serializable {
         if (args.contains("hdfs"))
           PersistHdfs.persisteQualiteAffichageIntoHdfs(dataTgaAndTga, TraitementTga.getOutputRefineryPath())
         if (args.contains("es"))
-          PersistElastic.persisteQualiteAffichageIntoEs(dataTgaAndTga, QUALITE_INDEX)
+          PersistElastic.persisteQualiteAffichageIntoEs(dataTgaAndTga, "ppiv/output")
       }
       catch {
         case e: Throwable => {
@@ -59,7 +63,7 @@ object TraitementPPIVDriver extends Serializable {
       .setAppName(PPIV)
       .setMaster(SPARK_MASTER)
       .set("es.nodes", HOST)
-      .set("es.port", "9201")
+      .set("es.port", PORT)
       .set("es.index.auto.create", "true")
   }
 }
