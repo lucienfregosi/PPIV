@@ -194,7 +194,7 @@ trait SourcePipeline extends Serializable {
       .filter(_.maj <= currentTimestamp)
       .filter(_.train matches  "(^[0-2]{0,1}[0-9]$)")
       .filter(_.ordes matches "(^[A-Z|\\s]*$)") // Il en enlève 2000
-      .filter(_.`type` matches "(^[A-Z]+$)") // Il en enlève 100
+      .filter(_.`type` matches "^([A-Z]+$)") // Il en enlève 100
       .filter(x => ((x.attribut_voie matches "I") && (x.voie matches "^(?:[0-9]|[A-Z]|$)$" )) ||((x.attribut_voie matches "\\s||$") && (x.voie matches "^(?:[0-9]|[A-Z])$" )))
       .filter(_.etat matches "^(?:(IND)|(SUP)|(ARR)|$|(\\s))$")
       .filter(_.retard matches  "^(([0-9]{4})|([0-9]{2})|$|\\s)$")
@@ -202,10 +202,11 @@ trait SourcePipeline extends Serializable {
     // Rejected
    val dsTgaTgdRejectedFields = dsTgaTgd.filter(x => (x.gare matches("^(?!([A-Z]{3}))$")) || (x.maj > currentTimestamp)
      ||  (x.train matches  "^(?!([0-2]{0,1}[0-9]))$")
+     ||(x.train matches  "^(?!([0-2]{0,1}[0-9]))$")
      ||  (x.ordes matches "^(?!([A-Z|\\s]*))$")
      ||  (x.`type` matches "^(?!([A-Z]+))$")
-     ||  ((x.attribut_voie matches "(?!(\\s||$))") &&  (x.voie matches "(?!(\\s||$))"))
-     || (x.etat matches "^(?!(?:(IND)|(SUP)|(ARR)|$|\\s))$")
+     ||((x.attribut_voie matches "(?!(^I$))") || (x.voie matches "^(?!(?:[0-9]|[A-Z]|$))$" )) &&((x.attribut_voie matches "(?!(\\s||$))") || (x.voie matches "^(?!(?:[0-9]|[A-Z]))$" ))
+        || (x.etat matches "^(?!(?:(IND)|(SUP)|(ARR)|$|\\s))$")
      || (x.retard matches  "^(?!(?:[0-9]{2}|[0-9]{4}|$|\\s))$"))
 
 
