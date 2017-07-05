@@ -281,7 +281,7 @@ trait SourcePipeline extends Serializable {
 
     rddGroupByCycleOver.toDF().show()*/
 
-    val dfGroupByCycleOver = hiveDataframe.drop("cycle_id2").select($"cycle_id", array($"gare",$"maj",$"train",$"ordes",$"num",$"type",$"picto",$"attribut_voie",$"voie",$"heure",$"etat",$"retard").toString() as "event")
+    val dfGroupByCycleOver = hiveDataframe.drop("cycle_id2").select($"cycle_id", concat($"gare",$"maj",$"train",$"ordes",$"num",$"type",$"picto",$"attribut_voie",$"voie",$"heure",$"etat",$"retard"))
       .agg(
         collect_list($"event") as "event"
       )
