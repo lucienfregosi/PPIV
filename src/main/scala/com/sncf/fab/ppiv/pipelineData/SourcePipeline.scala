@@ -241,6 +241,7 @@ trait SourcePipeline extends Serializable {
   def getEventCycleId(dsTgaTgdCyclesOver : Dataset[TgaTgdCycle], sqlContext : SQLContext): DataFrame = {
     import sqlContext.implicits._
 
+
     // A partir de la liste des cycles finis, reconstitution d'un DS de la forme cycleId| Seq(gare, maj, ...)
     val tgaTgdInputAllDay = loadTgaTgd(sqlContext).toDF().withColumn("cycle_id2",concat(col("gare"),lit(Panneau()),col("num"), col("heure")))
 
@@ -256,8 +257,8 @@ trait SourcePipeline extends Serializable {
 
 
 
-    val dfGroupByCycleOver = dfJoin.drop("cycle_id2").groupBy("cycle_id").agg(collect_list(struct($"gare",$"maj",$"train",$"ordes",$"num",$"type",$"picto",$"attribut_voie",$"voie",$"heure",$"etat",$"retard")).as("events"))
-
+    //val dfGroupByCycleOver = dfJoin.drop("cycle_id2").groupBy("cycle_id").agg(collect_list(struct($"gare",$"maj",$"train",$"ordes",$"num",$"type",$"picto",$"attribut_voie",$"voie",$"heure",$"etat",$"retard")).as("events"))
+    val dfGroupByCycleOver = dfJoin.drop("cycle_id2").groupBy("cycle_id")
 
     dfGroupByCycleOver
   }
