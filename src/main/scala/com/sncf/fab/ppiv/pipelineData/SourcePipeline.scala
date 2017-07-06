@@ -22,8 +22,7 @@ import org.joda.time.{DateTime, DateTimeZone}
   * Created by simoh-labdoui on 11/05/2017.
   */
 trait SourcePipeline extends Serializable {
-
-
+  
   /**
     *
     * @return le nom de l'application spark visible dans historyserver
