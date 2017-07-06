@@ -143,8 +143,9 @@ trait SourcePipeline extends Serializable {
 
       // 6) Validation des cycles
 
-      val isCycleValidated  = validateCycle(dfFinal, sqlContext)
-      if(isCycleValidated == false){return null}
+      // TODO trouver un moyen de sortir du map
+      //val isCycleValidated  = validateCycle(dfFinal, sqlContext)
+      //if(isCycleValidated == false){return null}
 
       // 7) Nettoyage et mise en forme
       val dataTgaTgdCycleCleaned    = cleanCycle(dfFinal, sqlContext)
@@ -296,6 +297,7 @@ trait SourcePipeline extends Serializable {
     import sqlContext.implicits._
 
     // A partir de la liste des cycles finis, reconstitution d'un DS de la forme cycleId| Seq(gare, maj, ...)
+    // TODO : Charger les TGA TGD de la journée
     val tgaTgdInputAllDay = loadTgaTgd(sqlContext).toDF().withColumn("cycle_id2",concat(col("gare"),lit(Panneau()),col("num"), col("heure")))
 
     //println("cycle over cnt:"  + dsTgaTgdCyclesOver.count())
