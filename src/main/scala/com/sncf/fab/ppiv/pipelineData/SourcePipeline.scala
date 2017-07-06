@@ -103,7 +103,7 @@ trait SourcePipeline extends Serializable {
     tgaTgdCycleOver.printSchema()
     tgaTgdCycleOver.show(false)
 
-
+ 
 
     System.exit(0)
 
