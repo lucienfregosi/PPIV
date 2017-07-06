@@ -31,6 +31,8 @@ object PersistHive extends Serializable {
     hiveContext.sql("create table testHive as select * from dataToSaveHive")
     */
 
+    ds.show()
+
     val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
 
     // Sauvegarde dans HDFS
