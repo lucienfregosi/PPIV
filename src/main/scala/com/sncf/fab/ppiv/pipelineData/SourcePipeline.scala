@@ -261,19 +261,14 @@ trait SourcePipeline extends Serializable {
 
     dsTgaTgdCyclesOver.show()
     tgaTgdInputAllDay.show()
-
     // On joint les deux avec un left join pour garder seulement les cycles terminés
     val dfJoin = dsTgaTgdCyclesOver.toDF().select("cycle_id").join(tgaTgdInputAllDay, $"cycle_id" === $"cycle_id2","LeftOuter")
 
     println("after join " + dfJoin.count)
 
-
-
-
     val hiveDataframe = hiveContext.createDataFrame(dfJoin.rdd, dfJoin.schema)
 
-
-    // On concatène les colonnes pour pouvoir manipuler plus facilement la colonne dans le group byu
+   // On concatène les colonnes pour pouvoir manipuler plus facilement la colonne dans le group byu
     // On reconstruiera un TgaTgdInput plus tard
     val dfGroupByCycleOver = hiveDataframe.drop("cycle_id2").select($"cycle_id", concat($"gare",lit(","),$"maj",lit(","),$"train",lit(","),$"ordes",lit(","),$"num",lit(","),$"type",lit(","),$"picto",lit(","),$"attribut_voie",lit(","),$"voie",lit(","),$"heure",lit(","),$"etat",lit(","),$"retard") as "event")
         .groupBy("cycle_id").agg(
