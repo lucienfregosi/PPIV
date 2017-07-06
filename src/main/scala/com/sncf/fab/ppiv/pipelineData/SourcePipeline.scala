@@ -268,8 +268,6 @@ trait SourcePipeline extends Serializable {
     println("after join " + dfJoin.count)
 
 
-
-
     val hiveDataframe = hiveContext.createDataFrame(dfJoin.rdd, dfJoin.schema)
 
 
