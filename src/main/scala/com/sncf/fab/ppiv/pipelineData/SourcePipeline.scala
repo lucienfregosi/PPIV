@@ -101,14 +101,11 @@ trait SourcePipeline extends Serializable {
 
 
     // 5) Boucle sur les cycles finis
-    /*tgaTgdCycleOver.map{
-      x => {
-        x.get(1).
-      }
-    }*/
-    
-    tgaTgdCycleOver.write.format("com.databricks.spark.csv").save(TraitementTga.getOutputRefineryPath() + "DEEEV")
+    tgaTgdCycleOver.withColumn("event",explode(col("event"))).show
 
+
+
+    tgaTgdCycleOver.show
 
     System.exit(0)
 
