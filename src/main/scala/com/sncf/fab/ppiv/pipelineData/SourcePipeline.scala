@@ -104,7 +104,7 @@ trait SourcePipeline extends Serializable {
     // 5) Boucle sur les cycles finis
     val tgatgdExploded = tgaTgdCycleOver.withColumn("event",explode(col("event"))).select("event")
 
-    tgatgdExploded.map(x => {
+    val dataTgaTgdWithReferentiel = tgatgdExploded.map(x => {
       val stringLine = x.toString()
       val stringSplit = stringLine.split(" ").toList
 
@@ -141,36 +141,39 @@ trait SourcePipeline extends Serializable {
         TgaTgdInput(x.getString(0), x.getLong(1),x.getString(2),x.getString(3),x.getString(4),x.getString(5),x.getString(6),x.getString(7),x.getString(8),x.getLong(9),x.getString(10),x.getString(11))
       }).toDS()
 
-      dfFinal.show()
+      // 6) Validation des cycles
 
-      System.exit(0)
-      
+      val isCycleValidated  = validateCycle(dfFinal, sqlContext)
+      if(isCycleValidated == false){return null}
+
+      // 7) Nettoyage et mise en forme
+      val dataTgaTgdCycleCleaned    = cleanCycle(dfFinal, sqlContext)
+
+      // 8) Sauvegarde des données propres la ou G&C le souhaite
+      // TO DO : Charger une liste temporaire en append et sauvegarder a la foin
+      saveCleanData(dataTgaTgdCycleCleaned, sqlContext)
+
+      // 9) Calcul des différents règles de gestion.
+      // TODO tout mettre dans une fonction
+      val dataTgaTgdCycleKPI        = computeOutputFields(dataTgaTgdCycleCleaned, sqlContext)
+
+      val premierAffichage = getPremierAffichage(dataTgaTgdCycleCleaned,sqlContext )
+      val affichageDuree1 = getAffichageDuree1(dataTgaTgdCycleCleaned, sqlContext)
+      val affichageDuree2 =getAffichageDuree2(dataTgaTgdCycleCleaned, sqlContext)
+
+      // 10) Jointure avec le référentiel
+      val dataTgaTgdWithReferentiel = joinReferentiel(dataTgaTgdCycleKPI, premierAffichage, affichageDuree1, affichageDuree2,  dataRefGares, sqlContext)
+
+      TgaTgdOutput(dataTgaTgdWithReferentiel.first().nom_de_la_gare, dataTgaTgdWithReferentiel.first().agence,dataTgaTgdWithReferentiel.first().segmentation,dataTgaTgdWithReferentiel.first().uic,
+        dataTgaTgdWithReferentiel.first().x,dataTgaTgdWithReferentiel.first().y,dataTgaTgdWithReferentiel.first().id_train,dataTgaTgdWithReferentiel.first().num_train,
+        dataTgaTgdWithReferentiel.first().`type`,dataTgaTgdWithReferentiel.first().origine_destination,dataTgaTgdWithReferentiel.first().type_panneau,dataTgaTgdWithReferentiel.first().dateheure2,
+        dataTgaTgdWithReferentiel.first().premierAffichage,dataTgaTgdWithReferentiel.first().dureeAffichageDuree1,dataTgaTgdWithReferentiel.first().dureeAffichageDuree2)
     })
 
-    tgatgdExploded.show()
 
-    
-
-
-
-    // 6) Validation des cycles
-    val dataTgaTgdCycleValidated  = validateCycle(dataTgaTgdFielValidated, sqlContext)
-
-    // 7) Nettoyage et mise en forme
-    val dataTgaTgdCycleCleaned    = cleanCycle(temp(dataTgaTgdBugFix, sqlContext), sqlContext)
-
-    // 8) Sauvegarde des données propres la ou G&C le souhaite
-    saveCleanData(dataTgaTgdCycleCleaned, sqlContext)
-
-    // 9) Calcul des différents règles de gestion.
-    val dataTgaTgdCycleKPI        = computeOutputFields(dataTgaTgdCycleCleaned, sqlContext)
-
-    // 10) Jointure avec le référentiel
-    val dataTgaTgdWithReferentiel = joinReferentiel(dataTgaTgdCycleKPI, dataRefGares,sqlContext )
 
     // Reste l'enregistrement que l'on fait a la fin du traitement TGA et TGD (donc un cran plus haut)
-    dataTgaTgdWithReferentiel
-
+    dataTgaTgdWithReferentiel.toDS()
   }
 
 
@@ -232,39 +235,36 @@ trait SourcePipeline extends Serializable {
   def validateField(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext): Dataset[TgaTgdInput] = {
     import sqlContext.implicits._
     // Validation de chaque champ avec les contraintes définies dans le dictionnaire de données
-    // Voir comment traiter les rejets ..
     val currentTimestamp = DateTime.now(DateTimeZone.UTC).getMillis() / 1000
 
     // Valid
+
     //dsTgaTgd.show()
     val dsTgaTgdValidatedFields = dsTgaTgd
       .filter(_.gare matches "^[A-Z]{3}$" )
       .filter(_.maj <= currentTimestamp)
       .filter(_.train matches  "^[0-2]{0,1}[0-9]$")
-
-      //.filter(_.`type` matches "^([A-Z]+$)") // Il en enlève 100
-     // .filter(x => ((x.attribut_voie matches "I") && (x.voie matches "^(?:[0-9]|[A-Z]|$)$" )) ||((x.attribut_voie matches "\\s||$") && (x.voie matches "^(?:[0-9]|[A-Z])$" )))
-     // .filter(_.etat matches "^(?:(IND)|(SUP)|(ARR)|$|(\\s))$")
-     // .filter(_.retard matches  "^(([0-9]{4})|([0-9]{2})|$|\\s)$")
+      .filter(_.`type` matches "^([A-Z]+)$")
+      .filter(_.attribut_voie matches "I|$")
+      .filter(_.attribut_voie matches "^(?:[0-9]|[A-Z]|$)$")
+      .filter(_.etat matches "^(?:(IND)|(SUP)|(ARR)|$|(\\s))$")
+      .filter(_.retard matches  "^(([0-9]{4})|([0-9]{2})|$|\\s)$")
 
     // Rejected
-   val dsTgaTgdRejectedFields = dsTgaTgd.filter(x => (x.gare matches("(?!(^[A-Z]{3})$)")) || (x.maj > currentTimestamp)
-     ||  (x.train matches  "(?!(^[0-2]{0,1}[0-9]$))")
-
-
-     //||  (x.`type` matches "^(?!([A-Z]+))$")
-     //||((x.attribut_voie matches "(?!(^I$))") || (x.voie matches "^(?!(?:[0-9]|[A-Z]|$))$" )) &&((x.attribut_voie matches "(?!(\\s||$))") || (x.voie matches "^(?!(?:[0-9]|[A-Z]))$" ))
-        //|| (x.etat matches "^(?!(?:(IND)|(SUP)|(ARR)|$|\\s))$")
-     //|| (x.retard matches  "^(?!(?:[0-9]{2}|[0-9]{4}|$|\\s))$")
-   )
-
-
-     // Sauvegarde des rejets
+    val dsTgaTgdRejectedFields = dsTgaTgd.filter(x => (x.gare matches("(?!(^[A-Z]{3})$)")) || (x.maj > currentTimestamp)
+      ||  (x.train matches  "(?!(^[0-2]{0,1}[0-9]$))")
+      ||  (x.`type` matches "(?!(^[A-Z]+$))")
+      ||  (x.attribut_voie matches "!(I|$)")
+      ||  (x.voie matches "(?!(^(?:[0-9]|[A-Z]|$)$))")
+      || (x.etat matches "(?!(^(?:(IND)|(SUP)|(ARR)|$|\\s)$))")
+      || (x.retard matches  "(?!(^(?:[0-9]{2}|[0-9]{4}|$|\\s)$))")
+    )
+    // Sauvegarde des rejets
     //PersistElastic.persisteTgaTgdParsedIntoEs(dsTgaTgdRejectedFields,"ppiv/rejectedField")
-
     dsTgaTgdValidatedFields
 
   }
+
 
   def buildCycles(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext) : Dataset[TgaTgdCycle] = {
     import sqlContext.implicits._
@@ -298,14 +298,14 @@ trait SourcePipeline extends Serializable {
     // A partir de la liste des cycles finis, reconstitution d'un DS de la forme cycleId| Seq(gare, maj, ...)
     val tgaTgdInputAllDay = loadTgaTgd(sqlContext).toDF().withColumn("cycle_id2",concat(col("gare"),lit(Panneau()),col("num"), col("heure")))
 
-    println("cycle over cnt:"  + dsTgaTgdCyclesOver.count())
+    //println("cycle over cnt:"  + dsTgaTgdCyclesOver.count())
 
-    dsTgaTgdCyclesOver.show()
-    tgaTgdInputAllDay.show()
+    //dsTgaTgdCyclesOver.show()
+    //tgaTgdInputAllDay.show()
     // On joint les deux avec un left join pour garder seulement les cycles terminés
     val dfJoin = dsTgaTgdCyclesOver.toDF().select("cycle_id").join(tgaTgdInputAllDay, $"cycle_id" === $"cycle_id2","LeftOuter")
 
-    println("after join " + dfJoin.count)
+    //println("after join " + dfJoin.count)
 
     val hiveDataframe = hiveContext.createDataFrame(dfJoin.rdd, dfJoin.schema)
 
@@ -322,7 +322,7 @@ trait SourcePipeline extends Serializable {
   }
 
 
-  def temp(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext): Dataset[TgaTgdTransitionnal] = {
+  /*def temp(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext): Dataset[TgaTgdTransitionnal] = {
     import sqlContext.implicits._
     // Groupement des évènements pour constituer des cycles uniques concaténation de gare + panneau + numéro de train + heure de départ (timestamp)
     dsTgaTgd.toDF().registerTempTable("dataTgaTgd")
@@ -333,7 +333,7 @@ trait SourcePipeline extends Serializable {
       .as[TgaTgdTransitionnal]
 
     dataTgaTgdGrouped
-  }
+  }*/
 
 
   def validateCycle(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext): Boolean = {
@@ -364,19 +364,19 @@ trait SourcePipeline extends Serializable {
     }
   }
 
-  def cleanCycle(dsTgaTgd: Dataset[TgaTgdTransitionnal], sqlContext : SQLContext): Dataset[TgaTgdTransitionnal] = {
+  def cleanCycle(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext): Dataset[TgaTgdInput] = {
     import sqlContext.implicits._
     // Nettoyage, mise en forme des lignes, conversion des heures etc ..
     dsTgaTgd
   }
 
-  def saveCleanData(dsTgaTgd: Dataset[TgaTgdTransitionnal], sqlContext : SQLContext): Unit = {
+  def saveCleanData(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext): Unit = {
     import sqlContext.implicits._
     // Sauvegarde des données pour que G&C ait un historique d'Obier exploitable
     None
   }
 
-  def computeOutputFields(dsTgaTgd: Dataset[TgaTgdTransitionnal], sqlContext : SQLContext): Dataset[TgaTgdTransitionnal] = {
+  def computeOutputFields(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext): Dataset[TgaTgdInput] = {
     import sqlContext.implicits._
     // Calcul des différents indicateurs
     // On devra surement spliter la fonction en différentes sous fonctions
@@ -384,7 +384,7 @@ trait SourcePipeline extends Serializable {
   }
 
 
-  def joinReferentiel(dsTgaTgd: Dataset[TgaTgdTransitionnal], refGares : Dataset[ReferentielGare], sqlContext : SQLContext): Dataset[TgaTgdOutput] = {
+  def joinReferentiel(dsTgaTgd: Dataset[TgaTgdInput], premierAffichage: Long, affichageDuree1: Long, affichageDuree2: Long,  refGares : Dataset[ReferentielGare], sqlContext : SQLContext): Dataset[TgaTgdOutput] = {
     // Jointure avec le référentiel pour enrichir les lignes
     import sqlContext.implicits._
 
@@ -393,7 +393,7 @@ trait SourcePipeline extends Serializable {
     val affichageFinal = joinedData.toDF().map(row => TgaTgdOutput(row.getString(7), row.getString(18),
       row.getString(9), row.getString(10),
       row.getString(21), row.getString(22),row.getString(0),row.getString(3),row.getString(4),
-      row.getString(5), Panneau(), Conversion.unixTimestampToDateTime(row.getLong(1)).toString
+      row.getString(5), Panneau(), Conversion.unixTimestampToDateTime(row.getLong(1)).toString,premierAffichage, affichageDuree1, affichageDuree2
     ))
 
     affichageFinal.toDS().as[TgaTgdOutput]
