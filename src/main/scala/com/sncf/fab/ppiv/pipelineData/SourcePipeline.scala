@@ -8,7 +8,7 @@ import com.sncf.fab.ppiv.parser.DatasetsParser
 import com.sncf.fab.ppiv.utils.AppConf._
 import org.apache.spark.SparkConf
 import com.sncf.fab.ppiv.utils.Conversion
-import org.apache.spark.sql.{DataFrame, Dataset, GroupedData, SQLContext}
+import org.apache.spark.sql._
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
@@ -103,14 +103,20 @@ trait SourcePipeline extends Serializable {
     // 5) Boucle sur les cycles finis
     val tgatgdExploded = tgaTgdCycleOver.withColumn("event",explode(split(col("event"), " "))).select("event")
 
-    /*tgatgdExploded.map(x => {
+    tgatgdExploded.map(x => {
       val stringLine = x.toString()
-      val stringSplit = stringLine.split(" ").flatMap(x => x)
+      val stringSplit = stringLine.split(" ").toList
 
+      // Création d'un RDD
+      val rdd = sqlContext.sparkContext.parallelize(Seq(stringSplit))
+      val rowRdd = rdd.map(v => Row(v: _*))
 
+      rowRdd.take(10).foreach(println)
+
+      System.exit(0)
 
     })
-    */
+
     tgatgdExploded.show()
 
     
