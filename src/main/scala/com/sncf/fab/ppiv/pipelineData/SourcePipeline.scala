@@ -246,7 +246,6 @@ trait SourcePipeline extends Serializable {
 
   def getEventCycleId(dsTgaTgdCyclesOver : Dataset[TgaTgdCycle], sqlContext : SQLContext, sc : SparkContext): DataFrame = {
 
-    val hiveContext = new HiveContext(sc)
     import sqlContext.implicits._
 
     // A partir de la liste des cycles finis, reconstitution d'un DS de la forme cycleId| Seq(gare, maj, ...)
@@ -261,30 +260,10 @@ trait SourcePipeline extends Serializable {
     val dfJoin = dsTgaTgdCyclesOver.toDF().select("cycle_id").join(tgaTgdInputAllDay, $"cycle_id" === $"cycle_id2","LeftOuter")
 
     println("after join " + dfJoin.count)
- 
 
+    
 
-    //val dfGroupByCycleOver = dfJoin.drop("cycle_id2").groupBy("cycle_id").agg(collect_list(struct($"gare",$"maj",$"train",$"ordes",$"num",$"type",$"picto",$"attribut_voie",$"voie",$"heure",$"etat",$"retard")).as("events"))
-    //val dfGroupByCycleOver = dfJoin.drop("cycle_id2").groupBy("cycle_id")
-
-    //dfJoin.drop("cycle_id2").toDF().registerTempTable("dataTgaTgdOver")
-    //hiveContext.createDataFrame(dfJoin.rdd, dfJoin.schema).registerTempTable("dataTgaTgdOver")
-
-    val hiveDataframe = hiveContext.createDataFrame(dfJoin.rdd, dfJoin.schema)
-    //val dfGroupByCycleOver = hiveDataframe.drop("cycle_id2").groupBy("cycle_id").agg(collect_list(struct($"gare",$"maj",$"train",$"ordes",$"num",$"type",$"picto",$"attribut_voie",$"voie",$"heure",$"etat",$"retard")).as("events"))
-
-    // On doit définir une UDF
-    //val zipper = udf[Seq[(String, Int,String,String,String,String,String,String, String, Int, String, String)], Seq[String], Seq[Int],Seq[String],Seq[String],Seq[String],Seq[String],Seq[String],Seq[String],Seq[String],Seq[Int],Seq[String],Seq[String]](_.zip(_))
-
-
-
-    /*val rddGroupByCycleOver = hiveDataframe.drop("cycle_id2").rdd.map(
-      x => ((x.getString(0)),(x.getString(1),x.getLong(2),x.getString(3),x.getString(4),x.getString(5),x.getString(6),x.getString(7),x.getString(8),x.getString(9),x.getLong(10),x.getString(11),x.getString(12))
-      )).groupByKey()
-
-    rddGroupByCycleOver.toDF().show()*/
-
-    val dfGroupByCycleOver = hiveDataframe.drop("cycle_id2").select($"cycle_id", concat($"gare",$"maj",$"train",$"ordes",$"num",$"type",$"picto",$"attribut_voie",$"voie",$"heure",$"etat",$"retard") as "event")
+    val dfGroupByCycleOver = dfJoin.drop("cycle_id2").select($"cycle_id", concat($"gare",$"maj",$"train",$"ordes",$"num",$"type",$"picto",$"attribut_voie",$"voie",$"heure",$"etat",$"retard") as "event")
       .agg(
         collect_list($"event") as "event"
       )
