@@ -22,7 +22,7 @@ import org.joda.time.{DateTime, DateTimeZone}
   * Created by simoh-labdoui on 11/05/2017.
   */
 trait SourcePipeline extends Serializable {
-  
+
   /**
     *
     * @return le nom de l'application spark visible dans historyserver
@@ -99,9 +99,12 @@ trait SourcePipeline extends Serializable {
     val cycleIdListOver   = filterCycleOver(cycleIdList, sqlContext)
     val tgaTgdCycleOver   = getEventCycleId(cycleIdListOver, sqlContext, sc)
 
+    tgaTgdCycleOver.show()
 
     // 5) Boucle sur les cycles finis
     val tgatgdExploded = tgaTgdCycleOver.withColumn("event",explode(col("event"))).select("event")
+
+    tgatgdExploded.show()
 
     val dataTgaTgdWithReferentiel = tgatgdExploded.map(x => {
       val stringLine = x.toString()
