@@ -99,11 +99,11 @@ trait SourcePipeline extends Serializable {
     val cycleIdListOver   = filterCycleOver(cycleIdList, sqlContext)
     val tgaTgdCycleOver   = getEventCycleId(cycleIdListOver, sqlContext, sc)
 
-    println("count: " + tgaTgdCycleOver.count)
+    //println("count: " + tgaTgdCycleOver.count)
     tgaTgdCycleOver.printSchema()
-    tgaTgdCycleOver.show(false)
+    tgaTgdCycleOver.rdd.take(20).foreach(println)
 
- 
+
 
     System.exit(0)
 
