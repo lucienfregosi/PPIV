@@ -99,9 +99,15 @@ trait SourcePipeline extends Serializable {
     val cycleIdListOver   = filterCycleOver(cycleIdList, sqlContext)
     val tgaTgdCycleOver   = getEventCycleId(cycleIdListOver, sqlContext, sc)
 
-    //println("count: " + tgaTgdCycleOver.count)
-    tgaTgdCycleOver.printSchema()
-    tgaTgdCycleOver.show
+
+    // 5) Boucle sur les cycles finis
+    /*tgaTgdCycleOver.map{
+      x => {
+        x.get(1).
+      }
+    }*/
+    
+    tgaTgdCycleOver.write.format("com.databricks.spark.csv").save(TraitementTga.getOutputRefineryPath() + "DEEEV")
 
 
     System.exit(0)
