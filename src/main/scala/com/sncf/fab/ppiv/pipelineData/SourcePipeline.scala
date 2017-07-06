@@ -270,9 +270,9 @@ trait SourcePipeline extends Serializable {
 
 
     val dfGroupByCycleOver = hiveDataframe.drop("cycle_id2").select($"cycle_id", concat($"gare",$"maj",$"train",$"ordes",$"num",$"type",$"picto",$"attribut_voie",$"voie",$"heure",$"etat",$"retard") as "event")
-      .agg(
-        collect_list($"event") as "event"
-      )
+        .groupBy("cycle_id").agg(
+            collect_list($"event") as "event"
+        )
 
     dfGroupByCycleOver
 
