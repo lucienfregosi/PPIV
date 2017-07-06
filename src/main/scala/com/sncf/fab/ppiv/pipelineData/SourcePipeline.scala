@@ -267,8 +267,9 @@ trait SourcePipeline extends Serializable {
     val hiveDataframe = hiveContext.createDataFrame(dfJoin.rdd, dfJoin.schema)
 
 
-
-    val dfGroupByCycleOver = hiveDataframe.drop("cycle_id2").select($"cycle_id", concat($"gare",$"maj",$"train",$"ordes",$"num",$"type",$"picto",$"attribut_voie",$"voie",$"heure",$"etat",$"retard") as "event")
+    // On concatène les colonnes pour pouvoir manipuler plus facilement la colonne dans le group byu
+    // On reconstruiera un TgaTgdInput plus tard
+    val dfGroupByCycleOver = hiveDataframe.drop("cycle_id2").select($"cycle_id", concat($"gare",lit(","),$"maj",lit(","),$"train",lit(","),$"ordes",lit(","),$"num",lit(","),$"type",lit(","),$"picto",lit(","),$"attribut_voie",lit(","),$"voie",lit(","),$"heure",lit(","),$"etat",lit(","),$"retard") as "event")
         .groupBy("cycle_id").agg(
             collect_list($"event") as "event"
         )
