@@ -76,6 +76,7 @@ trait SourcePipeline extends Serializable {
 
   def start(outputs: Array[String], sc : SparkContext, sqlContext : SQLContext): Dataset[TgaTgdOutput] = {
 
+    import sqlContext.implicits._
     // Début du Pipeline
 
     // 1) Chargement des fichiers déjà parsé dans leur classe
@@ -121,17 +122,36 @@ trait SourcePipeline extends Serializable {
 
       val df = sqlContext.createDataFrame(rowRdd, schema)
 
-      df.show
+      val dfSplitted = df.withColumn("_tmp", split(col("event"),",")).select(
+        col("_tmp").getItem(0).as("gare"),
+        col("_tmp").getItem(0).as("maj"),
+        col("_tmp").getItem(0).as("train"),
+        col("_tmp").getItem(0).as("ordes"),
+        col("_tmp").getItem(0).as("num"),
+        col("_tmp").getItem(0).as("type"),
+        col("_tmp").getItem(0).as("picto"),
+        col("_tmp").getItem(0).as("attribut_voie"),
+        col("_tmp").getItem(0).as("voie"),
+        col("_tmp").getItem(0).as("heure"),
+        col("_tmp").getItem(0).as("etat"),
+        col("_tmp").getItem(0).as("retard")
+      )
+
+      val dfFinal = dfSplitted.map( x => {
+        TgaTgdInput(x.getString(0), x.getLong(1),x.getString(2),x.getString(3),x.getString(4),x.getString(5),x.getString(6),x.getString(7),x.getString(8),x.getLong(9),x.getString(10),x.getString(11))
+      }).toDS()
+
+      dfFinal.show()
 
       System.exit(0)
-
+      
     })
 
     tgatgdExploded.show()
 
     
 
-    System.exit(0)
+
 
     // 6) Validation des cycles
     val dataTgaTgdCycleValidated  = validateCycle(dataTgaTgdFielValidated, sqlContext)
