@@ -101,7 +101,7 @@ trait SourcePipeline extends Serializable {
 
 
     // 5) Boucle sur les cycles finis
-    val tgatgdExploded = tgaTgdCycleOver.withColumn("event",explode(split(col("event"), " "))).select("event")
+    val tgatgdExploded = tgaTgdCycleOver.withColumn("event",explode(col("event"), " ")).select("event")
 
     tgatgdExploded.map(x => {
       val stringLine = x.toString()
@@ -111,7 +111,17 @@ trait SourcePipeline extends Serializable {
       val rdd = sqlContext.sparkContext.parallelize(Seq(stringSplit))
       val rowRdd = rdd.map(v => Row(v: _*))
 
-      rowRdd.take(10).foreach(println)
+      //rowRdd.take(10).foreach(println)
+
+      // Création d'un schéma
+      val schemaString = "event"
+      val schema =
+        StructType(
+          schemaString.split(" ").map(fieldName => StructField(fieldName, StringType, true)))
+
+      val df = sqlContext.createDataFrame(rowRdd, schema)
+
+      df.show
 
       System.exit(0)
 
