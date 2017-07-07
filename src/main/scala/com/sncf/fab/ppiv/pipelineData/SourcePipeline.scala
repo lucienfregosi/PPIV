@@ -107,6 +107,11 @@ trait SourcePipeline extends Serializable {
     tgatgdExploded.show()
 
     val dataTgaTgdWithReferentiel = tgatgdExploded.map(x => {
+
+      println(x.toString())
+
+      System.exit(0)
+
       val stringLine = x.toString()
       val stringSplit = stringLine.split(" ").toList
 
