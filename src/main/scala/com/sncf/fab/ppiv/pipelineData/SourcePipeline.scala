@@ -155,6 +155,7 @@ trait SourcePipeline extends Serializable {
 
       // 6) Validation des cycles
 
+      
       // TODO trouver un moyen de sortir du map
       //val isCycleValidated  = validateCycle(dfFinal, sqlContext)
       //if(isCycleValidated == false){return null}
@@ -189,8 +190,6 @@ trait SourcePipeline extends Serializable {
     })
 
     dataTgaTgdWithReferentiel.toDS().show()
-
-
 
     // Reste l'enregistrement que l'on fait a la fin du traitement TGA et TGD (donc un cran plus haut)
     dataTgaTgdWithReferentiel.toDS()
