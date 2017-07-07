@@ -106,7 +106,13 @@ trait SourcePipeline extends Serializable {
 
     tgatgdExploded.show()
 
-    val dataTgaTgdWithReferentiel = tgatgdExploded.map(x => {
+    tgatgdExploded.map{
+      x => println(x.toString())
+    }
+
+    System.exit(0)
+
+    /*val dataTgaTgdWithReferentiel = tgatgdExploded.map(x => {
 
       println(x.toString())
 
@@ -146,7 +152,7 @@ trait SourcePipeline extends Serializable {
       )
       dfSplitted.first()
 
-      /*val dfFinal = dfSplitted.map( x => {
+      val dfFinal = dfSplitted.map( x => {
         TgaTgdInput(x.getString(0), x.getLong(1),x.getString(2),x.getString(3),x.getString(4),x.getString(5),x.getString(6),x.getString(7),x.getString(8),x.getLong(9),x.getString(10),x.getString(11))
       }).toDS()
 
@@ -186,15 +192,14 @@ trait SourcePipeline extends Serializable {
         dataTgaTgdWithReferentiel.first().x,dataTgaTgdWithReferentiel.first().y,dataTgaTgdWithReferentiel.first().id_train,dataTgaTgdWithReferentiel.first().num_train,
         dataTgaTgdWithReferentiel.first().`type`,dataTgaTgdWithReferentiel.first().origine_destination,dataTgaTgdWithReferentiel.first().type_panneau,dataTgaTgdWithReferentiel.first().dateheure2,
         dataTgaTgdWithReferentiel.first().premierAffichage,dataTgaTgdWithReferentiel.first().dureeAffichageDuree1,dataTgaTgdWithReferentiel.first().dureeAffichageDuree2)
-    */
-    })
+
+    })*/
 
     //dataTgaTgdWithReferentiel.toDS().show()
 
     // Reste l'enregistrement que l'on fait a la fin du traitement TGA et TGD (donc un cran plus haut)
     //dataTgaTgdWithReferentiel.toDS()
 
-    dataTgaTgdWithReferentiel.take(2).foreach(println)
     System.exit(0)
 
     null
