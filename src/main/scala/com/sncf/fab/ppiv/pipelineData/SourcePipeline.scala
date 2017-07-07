@@ -106,9 +106,11 @@ trait SourcePipeline extends Serializable {
 
     tgatgdExploded.show()
 
-    tgatgdExploded.map{
-      x => println(x.toString())
+    val t = tgatgdExploded.map{
+      x => x.toString()
     }
+
+    println(t)
 
     System.exit(0)
 
