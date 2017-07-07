@@ -138,10 +138,13 @@ trait SourcePipeline extends Serializable {
         col("_tmp").getItem(0).as("etat"),
         col("_tmp").getItem(0).as("retard")
       )
+      dfSplitted.show
 
       val dfFinal = dfSplitted.map( x => {
         TgaTgdInput(x.getString(0), x.getLong(1),x.getString(2),x.getString(3),x.getString(4),x.getString(5),x.getString(6),x.getString(7),x.getString(8),x.getLong(9),x.getString(10),x.getString(11))
       }).toDS()
+
+      dfFinal.show
 
       // 6) Validation des cycles
 
@@ -158,6 +161,7 @@ trait SourcePipeline extends Serializable {
 
       // 9) Calcul des différents règles de gestion.
       // TODO tout mettre dans une fonction
+      dataTgaTgdCycleCleaned.show
       val dataTgaTgdCycleKPI        = computeOutputFields(dataTgaTgdCycleCleaned, sqlContext)
 
       val premierAffichage = getPremierAffichage(dataTgaTgdCycleCleaned,sqlContext )
@@ -166,6 +170,10 @@ trait SourcePipeline extends Serializable {
 
       // 10) Jointure avec le référentiel
       val dataTgaTgdWithReferentiel = joinReferentiel(dataTgaTgdCycleKPI, premierAffichage, affichageDuree1, affichageDuree2,  dataRefGares, sqlContext)
+
+      dataTgaTgdWithReferentiel.show
+
+      System.exit(0)
 
       TgaTgdOutput(dataTgaTgdWithReferentiel.first().nom_de_la_gare, dataTgaTgdWithReferentiel.first().agence,dataTgaTgdWithReferentiel.first().segmentation,dataTgaTgdWithReferentiel.first().uic,
         dataTgaTgdWithReferentiel.first().x,dataTgaTgdWithReferentiel.first().y,dataTgaTgdWithReferentiel.first().id_train,dataTgaTgdWithReferentiel.first().num_train,
