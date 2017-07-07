@@ -109,7 +109,7 @@ trait SourcePipeline extends Serializable {
     val dataTgaTgdWithReferentiel = tgatgdExploded.map(x => {
 
       println(x.toString())
-      
+
 
       val stringLine = x.toString()
       val stringSplit = stringLine.split(" ").toList
@@ -144,7 +144,7 @@ trait SourcePipeline extends Serializable {
         col("_tmp").getItem(0).as("etat"),
         col("_tmp").getItem(0).as("retard")
       )
-      dfSplitted.show
+      dfSplitted.first()
 
       /*val dfFinal = dfSplitted.map( x => {
         TgaTgdInput(x.getString(0), x.getLong(1),x.getString(2),x.getString(3),x.getString(4),x.getString(5),x.getString(6),x.getString(7),x.getString(8),x.getLong(9),x.getString(10),x.getString(11))
@@ -193,6 +193,10 @@ trait SourcePipeline extends Serializable {
 
     // Reste l'enregistrement que l'on fait a la fin du traitement TGA et TGD (donc un cran plus haut)
     //dataTgaTgdWithReferentiel.toDS()
+
+    dataTgaTgdWithReferentiel.take(2).foreach(println)
+    System.exit(0)
+
     null
   }
 
