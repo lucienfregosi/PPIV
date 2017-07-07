@@ -188,6 +188,8 @@ trait SourcePipeline extends Serializable {
         dataTgaTgdWithReferentiel.first().premierAffichage,dataTgaTgdWithReferentiel.first().dureeAffichageDuree1,dataTgaTgdWithReferentiel.first().dureeAffichageDuree2)
     })
 
+    dataTgaTgdWithReferentiel.toDS().show()
+
 
 
     // Reste l'enregistrement que l'on fait a la fin du traitement TGA et TGD (donc un cran plus haut)
