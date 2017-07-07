@@ -110,6 +110,8 @@ trait SourcePipeline extends Serializable {
       val stringLine = x.toString()
       val stringSplit = stringLine.split(" ").toList
 
+      println(stringSplit)
+
       // Création d'un RDD
       val rdd = sqlContext.sparkContext.parallelize(Seq(stringSplit))
       val rowRdd = rdd.map(v => Row(v: _*))
