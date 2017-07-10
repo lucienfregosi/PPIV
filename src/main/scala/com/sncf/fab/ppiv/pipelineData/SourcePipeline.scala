@@ -69,6 +69,7 @@ trait SourcePipeline extends Serializable {
   def Panneau(): String
 
 
+
   /**
     * le traitement principal lancé pour chaque data source
     */
@@ -99,9 +100,10 @@ trait SourcePipeline extends Serializable {
     val cycleIdListOver   = filterCycleOver(cycleIdList, sqlContext)
     val tgaTgdCycleOver   = getEventCycleId(cycleIdListOver, sqlContext, sc)
 
-    tgaTgdCycleOver.show()
+    tgaTgdCycleOver.printSchema()
 
-    System.exit(0)
+
+
 
     // 5) Boucle sur les cycles finis
     tgaTgdCycleOver.select("event").printSchema()
@@ -115,12 +117,10 @@ trait SourcePipeline extends Serializable {
         TgaTgdInput(split(0), split(1).toLong, split(2), split(3), split(4), split(5), split(6), split(7), split(8), split(9).toLong, split(10), split(11))
       })
 
-      val dfTgaTgdInput = seqTgaTgd.toDS()
 
-      val isCycleValidated  = validateCycle(dfTgaTgdInput, sqlContext)
-      if(isCycleValidated == false){println("false")}
+      val cycleRetard  = getCycleRetard(seqTgaTgd)
 
-
+      cycleRetard
     }
 
 
@@ -173,6 +173,7 @@ trait SourcePipeline extends Serializable {
       }).toDS()
 
       dfFinal.show
+
 
       // 6) Validation des cycles
 
@@ -352,32 +353,18 @@ trait SourcePipeline extends Serializable {
 
    // On concatène les colonnes pour pouvoir manipuler plus facilement la colonne dans le group byu
     // On reconstruiera un TgaTgdInput plus tard
-    /*val dfGroupByCycleOver = hiveDataframe.drop("cycle_id2").select($"cycle_id", concat($"gare",lit(","),$"maj",lit(","),$"train",lit(","),$"ordes",lit(","),$"num",lit(","),$"type",lit(","),$"picto",lit(","),$"attribut_voie",lit(","),$"voie",lit(","),$"heure",lit(","),$"etat",lit(","),$"retard") as "event")
+    val dfGroupByCycleOver = hiveDataframe.drop("cycle_id2").distinct().select($"cycle_id", concat($"gare",lit(","),$"maj",lit(","),$"train",lit(","),$"ordes",lit(","),$"num",lit(","),$"type",lit(","),$"picto",lit(","),$"attribut_voie",lit(","),$"voie",lit(","),$"heure",lit(","),$"etat",lit(","),$"retard") as "event")
         .groupBy("cycle_id").agg(
             collect_list($"event") as "event"
-        )*/
-
-    dfJoin
+        )
 
 
+    dfGroupByCycleOver
   }
 
 
-  /*def temp(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext): Dataset[TgaTgdTransitionnal] = {
-    import sqlContext.implicits._
-    // Groupement des évènements pour constituer des cycles uniques concaténation de gare + panneau + numéro de train + heure de départ (timestamp)
-    dsTgaTgd.toDF().registerTempTable("dataTgaTgd")
-    val dataTgaTgdGrouped = sqlContext.sql("SELECT concat(gare,num,'TGA',heure) as cycle_id, first(heure) as heure," +
-      " first(gare) as gare, first(num) as num_train, first(type) as type, first(ordes) as origine_destination" +
-      " from dataTgaTgd group by concat(gare,num,'TGA',heure)")
-      .withColumn("heure", 'heure.cast(LongType))
-      .as[TgaTgdTransitionnal]
 
-    dataTgaTgdGrouped
-  }*/
-
-
-  def validateCycle(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext): Boolean = {
+ /* def validateCycle(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext): Boolean = {
     import sqlContext.implicits._
     // Validation des cycles. Un cycle doit comporter au moins une voie et tous ses évènements ne peuvent pas se passer x minutes après le départ du train
     // En entrée la liste des évènements pour un cycle id donné.
@@ -404,6 +391,7 @@ trait SourcePipeline extends Serializable {
       false
     }
   }
+
 
   def cleanCycle(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext): Dataset[TgaTgdInput] = {
     import sqlContext.implicits._
@@ -438,14 +426,14 @@ trait SourcePipeline extends Serializable {
     ))
 
     affichageFinal.toDS().as[TgaTgdOutput]
-  }
+  }*/
 
 
 
   /********************** Fonction de calcul des régles métiers qui prennent un data set input ********************/
 
   // TODO : Faire un test pour cette fonction
-  def getCycleRetard(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext) : Long = {
+  /*def getCycleRetard(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext) : Long = {
     import sqlContext.implicits._
     // Filtre des retard et tri selon la date d'èvènement pour que le retard soit en dernier
     val dsFiltered = dsTgaTgd.toDF().orderBy($"maj".asc)
@@ -463,10 +451,31 @@ trait SourcePipeline extends Serializable {
       // Multipliation par 60 pour renvoyer un résultat en secondes
       minuteRetard * 60
     }
+  }*/
+
+
+  def getCycleRetard(dsTgaTgd: Seq[TgaTgdInput]) : Long = {
+    // Filtre des retard et tri selon la date d'èvènement pour que le retard soit en dernier
+
+    val dsFiltered = dsTgaTgd.filter(x => (x.retard !=null) && (x.retard !="") && (x.retard !="0"))
+    //val dsFiltered = dsTgaTgd.toDF().orderBy($"maj".asc).filter($"retard".isNotNull).filter($"retard".notEqual("")).filter($"retard".notEqual("0"))
+
+    // Si 0 retard on renvoie la valeur 0
+    if(dsFiltered.isEmpty){
+      0
+    } else {
+      // On trie dans le sens décroissant pour prendre le dernier retard
+      //  val minuteRetard = dsFiltered.orderBy($"maj".desc).first().getString(11).toLong
+      val minuteRetardFilred = dsFiltered.sortBy(x=>x.maj)
+      val  minuteRetard =  minuteRetardFilred(0).retard.toLong
+      // Multipliation par 60 pour renvoyer un résultat en secondes
+      minuteRetard * 60
+    }
   }
 
+
   // Fonction qui renvoie la date de premier affichage de la voie pour un cycle donné
-  def getPremierAffichage(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext) : Long = {
+ /* def getPremierAffichage(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext) : Long = {
     import sqlContext.implicits._
     //
     // Récupération de la date de premier affichage. On cherche le moment ou la bonne voie a été affiché pour la première fois
@@ -502,7 +511,7 @@ trait SourcePipeline extends Serializable {
     val retard = getCycleRetard(dsTgaTgd, sqlContext)
 
     affichageDuree1 + retard
-  }
+  }*/
 }
 
 
