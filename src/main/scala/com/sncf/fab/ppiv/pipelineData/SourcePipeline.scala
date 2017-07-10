@@ -104,7 +104,7 @@ trait SourcePipeline extends Serializable {
     // 5) Boucle sur les cycles finis
     val tgatgdExploded = tgaTgdCycleOver.withColumn("event",explode(col("event"))).select("event")
 
-    tgatgdExploded.rdd.take(1).foreach(println)
+    tgatgdExploded.rdd.take(5).foreach(println)
 
     val t = tgatgdExploded.map{ x =>
       println(x.toString())
