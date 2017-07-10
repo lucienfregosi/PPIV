@@ -114,12 +114,11 @@ trait SourcePipeline extends Serializable {
       // Problème sur le split si il y a des espaces
       val stringSplit = stringLine.split(" ").toSeq
 
-      println(stringSplit)
+      val objectSeq = stringSplit.map( x => x.split(",").toSeq)
 
-      val f = stringSplit.flatMap(x => x)
+      val seqTgaTgdInput = objectSeq.map(x => TgaTgdInput(x(0), x(1).toLong,x(2),x(3),x(4),x(5),x(6),x(7),x(8),x(9).toLong,x(10),x(11)))
 
-      f
-
+      seqTgaTgdInput
     }
 
     t.take(5).foreach(println)
