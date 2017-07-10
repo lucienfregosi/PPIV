@@ -124,7 +124,7 @@ trait SourcePipeline extends Serializable {
       //seqTgaTgdInput
     }*/
 
-    t.take(5).foreach(println)
+    //t.take(5).foreach(println)
 
     System.exit(0)
 
