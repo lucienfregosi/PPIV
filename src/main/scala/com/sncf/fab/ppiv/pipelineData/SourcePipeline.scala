@@ -104,7 +104,7 @@ trait SourcePipeline extends Serializable {
     // 5) Boucle sur les cycles finis
     tgaTgdCycleOver.select("event").printSchema()
 
-    val t = tgaTgdCycleOver.select("event").map{ x =>
+    /*val t = tgaTgdCycleOver.select("event").map{ x =>
 
       val rowSeq = x.toSeq
       val seqTgaTgd = rowSeq.map(x => {
@@ -119,7 +119,11 @@ trait SourcePipeline extends Serializable {
       if(isCycleValidated == false){println("false")}
 
 
-    }
+    }*/
+
+    val t = tgaTgdCycleOver.foreach(x =>
+      sc.parallelize(x.toSeq)
+    )
 
 
     t.take(5).foreach(println)
