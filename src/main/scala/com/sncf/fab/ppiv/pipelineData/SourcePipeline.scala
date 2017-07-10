@@ -114,10 +114,12 @@ trait SourcePipeline extends Serializable {
       // Problème sur le split si il y a des espaces
       val stringSplit = stringLine.split(" ").toList
 
-      val rdd = sqlContext.sparkContext.parallelize(Seq(stringSplit))
+      println(stringSplit)
+
+      val rdd = sc.parallelize(Seq(stringSplit))
       val rowRdd = rdd.map(v => Row.fromSeq(v))
 
-      rowRdd.first()
+      rdd.first()
 
       // Création d'un schéma
       /*val schemaString = "event"
