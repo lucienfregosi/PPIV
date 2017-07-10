@@ -101,10 +101,12 @@ trait SourcePipeline extends Serializable {
 
     tgaTgdCycleOver.show()
 
+    System.exit(0)
+
     // 5) Boucle sur les cycles finis
     tgaTgdCycleOver.select("event").printSchema()
 
-    /*val t = tgaTgdCycleOver.select("event").map{ x =>
+    val t = tgaTgdCycleOver.select("event").map{ x =>
 
       val rowSeq = x.toSeq
       val seqTgaTgd = rowSeq.map(x => {
@@ -119,11 +121,7 @@ trait SourcePipeline extends Serializable {
       if(isCycleValidated == false){println("false")}
 
 
-    }*/
-
-    val t = tgaTgdCycleOver.foreach(x =>
-      sc.parallelize(x.toSeq)
-    )
+    }
 
 
     t.take(5).foreach(println)
@@ -354,12 +352,12 @@ trait SourcePipeline extends Serializable {
 
    // On concatène les colonnes pour pouvoir manipuler plus facilement la colonne dans le group byu
     // On reconstruiera un TgaTgdInput plus tard
-    val dfGroupByCycleOver = hiveDataframe.drop("cycle_id2").select($"cycle_id", concat($"gare",lit(","),$"maj",lit(","),$"train",lit(","),$"ordes",lit(","),$"num",lit(","),$"type",lit(","),$"picto",lit(","),$"attribut_voie",lit(","),$"voie",lit(","),$"heure",lit(","),$"etat",lit(","),$"retard") as "event")
+    /*val dfGroupByCycleOver = hiveDataframe.drop("cycle_id2").select($"cycle_id", concat($"gare",lit(","),$"maj",lit(","),$"train",lit(","),$"ordes",lit(","),$"num",lit(","),$"type",lit(","),$"picto",lit(","),$"attribut_voie",lit(","),$"voie",lit(","),$"heure",lit(","),$"etat",lit(","),$"retard") as "event")
         .groupBy("cycle_id").agg(
             collect_list($"event") as "event"
-        )
+        )*/
 
-    dfGroupByCycleOver
+    dfJoin
 
 
   }
