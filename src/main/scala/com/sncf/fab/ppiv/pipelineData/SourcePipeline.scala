@@ -102,17 +102,19 @@ trait SourcePipeline extends Serializable {
     tgaTgdCycleOver.show()
 
     // 5) Boucle sur les cycles finis
-    val tgatgdExploded = tgaTgdCycleOver.withColumn("event",explode(col("event"))).select("event")
+    tgaTgdCycleOver.select("event").printSchema()
 
-    tgatgdExploded.rdd.take(5).foreach(println)
+    val t = tgaTgdCycleOver.select("event").map{ x =>
 
-    val t = tgatgdExploded.map{ x =>
-      println(x.toString())
+      // Chaque élement de notre tableau
+      val tgaTgd = for( i <- x){
+        println(i)
+      }
 
-      val stringLine = x.toString()
+      //val stringLine = x.toString()
 
       // Problème sur le split si il y a des espaces
-      val stringSplit = stringLine.split(" ").toSeq
+      //val stringSplit = stringLine.split(" ").toSeq
 
 
 
@@ -120,7 +122,6 @@ trait SourcePipeline extends Serializable {
 
       //val seqTgaTgdInput = objectSeq.map(x => TgaTgdInput(x(0), x(1).toLong,x(2),x(3),x(4),x(5),x(6),x(7),x(8),x(9).toLong,x(10),x(11)))
       //seqTgaTgdInput
-      stringSplit
     }
 
     t.take(5).foreach(println)
