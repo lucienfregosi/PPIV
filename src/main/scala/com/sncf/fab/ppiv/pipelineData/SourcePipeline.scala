@@ -106,28 +106,19 @@ trait SourcePipeline extends Serializable {
 
     tgatgdExploded.rdd.take(1).foreach(println)
 
-    val t = tgatgdExploded.map{ x=>
+    val t = tgatgdExploded.map{ x =>
       println(x.toString())
 
       val stringLine = x.toString()
 
       // Problème sur le split si il y a des espaces
-      val stringSplit = stringLine.split(" ").toList
+      val stringSplit = stringLine.split(" ").toSeq
 
       println(stringSplit)
 
-      val rdd = sc.parallelize(Seq(stringSplit))
-      val rowRdd = rdd.map(v => Row.fromSeq(v))
+      val f = stringSplit.flatMap(x => x)
 
-      rdd.first()
-
-      // Création d'un schéma
-      /*val schemaString = "event"
-      val schema =
-        StructType(
-          schemaString.split(" ").map(fieldName => StructField(fieldName, StringType, true)))
-
-      val df = sqlContext.createDataFrame(rdd, schema)*/
+      f.foreach(println)
 
 
     }
