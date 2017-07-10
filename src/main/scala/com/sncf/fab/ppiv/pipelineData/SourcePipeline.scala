@@ -116,9 +116,9 @@ trait SourcePipeline extends Serializable {
 
       val objectSeq = stringSplit.map( x => x.split(",").toSeq)
 
-      val seqTgaTgdInput = objectSeq.map(x => TgaTgdInput(x(0), x(1).toLong,x(2),x(3),x(4),x(5),x(6),x(7),x(8),x(9).toLong,x(10),x(11)))
-
-      seqTgaTgdInput
+      //val seqTgaTgdInput = objectSeq.map(x => TgaTgdInput(x(0), x(1).toLong,x(2),x(3),x(4),x(5),x(6),x(7),x(8),x(9).toLong,x(10),x(11)))
+      //seqTgaTgdInput
+      objectSeq
     }
 
     t.take(5).foreach(println)
