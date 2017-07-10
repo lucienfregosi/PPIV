@@ -107,16 +107,18 @@ trait SourcePipeline extends Serializable {
     val t = tgaTgdCycleOver.select("event").map{ x =>
 
       val rowSeq = x.toSeq
-
-
       val seqTgaTgd = rowSeq.map(x => {
         // On veut créer notre TgaTgdInput
         val split = x.toString.split(",")
         TgaTgdInput(split(0), split(1).toLong, split(2), split(3), split(4), split(5), split(6), split(7), split(8), split(9).toLong, split(10), split(11))
       })
 
-      seqTgaTgd
-      
+      val dfTgaTgdInput = seqTgaTgd.toDS()
+
+      val isCycleValidated  = validateCycle(dfTgaTgdInput, sqlContext)
+      if(isCycleValidated == false){return null}
+
+
     }
 
 
