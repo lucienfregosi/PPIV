@@ -116,7 +116,7 @@ trait SourcePipeline extends Serializable {
       val dfTgaTgdInput = seqTgaTgd.toDS()
 
       val isCycleValidated  = validateCycle(dfTgaTgdInput, sqlContext)
-      if(isCycleValidated == false){return null}
+      if(isCycleValidated == false){println("false")}
 
 
     }
