@@ -106,11 +106,16 @@ trait SourcePipeline extends Serializable {
 
     tgatgdExploded.show()
 
-    val t = tgatgdExploded.map{
-      x => x.toString()
+    val t = tgatgdExploded.map{ x=>
+      println(x.toString())
+
+      val stringLine = x.toString()
+      val stringSplit = stringLine.split(" ").toList
+
+      stringSplit
     }
 
-    println(t)
+    t.take(5).foreach(println)
 
     System.exit(0)
 
