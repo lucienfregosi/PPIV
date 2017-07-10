@@ -14,7 +14,7 @@ class TraitementTga extends SourcePipeline {
 
   override def getOutputGoldPath() = GOLD + Conversion.getYearMonthDay(new DateTime()) + "_" + Conversion.getHour(Conversion.nowToDateTime()) + ".csv"
 
-  override def getOutputRefineryPath() = REFINERY + Conversion.getYearMonthDay(new DateTime()) + "_" + Conversion.getHour(Conversion.nowToDateTime()) + ".2csv"
+  override def getOutputRefineryPath() = REFINERY + Conversion.getYearMonthDay(new DateTime()) + "_" + Conversion.getHour(Conversion.nowToDateTime()) + ".csv"
 
   override def Depart(): Boolean = false
 
