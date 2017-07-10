@@ -115,9 +115,9 @@ trait SourcePipeline extends Serializable {
       val stringSplit = stringLine.split(" ").toList
 
       val rdd = sqlContext.sparkContext.parallelize(Seq(stringSplit))
-      val rowRdd = rdd.map(v => Row(v: _*))
+      val rowRdd = rdd.map(v => Row.fromSeq(v))
 
-      rdd.first()
+      rowRdd.first()
 
       // Création d'un schéma
       /*val schemaString = "event"
