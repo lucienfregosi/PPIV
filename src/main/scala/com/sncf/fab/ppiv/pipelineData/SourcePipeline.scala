@@ -118,8 +118,7 @@ trait SourcePipeline extends Serializable {
 
       val f = stringSplit.flatMap(x => x)
 
-      f.foreach(println)
-
+      f
 
     }
 
