@@ -107,19 +107,16 @@ trait SourcePipeline extends Serializable {
     val t = tgaTgdCycleOver.select("event").map{ x =>
 
       val rowSeq = x.toSeq
-      rowSeq
-
-      //val stringLine = x.toString()
-
-      // Problème sur le split si il y a des espaces
-      //val stringSplit = stringLine.split(" ").toSeq
 
 
+      val seqTgaTgd = rowSeq.map(x => {
+        // On veut créer notre TgaTgdInput
+        val split = x.toString.split(",")
+        TgaTgdInput(split(0), split(1).toLong, split(2), split(3), split(4), split(5), split(6), split(7), split(8), split(9).toLong, split(10), split(11))
+      })
 
-      //val objectSeq = stringSplit.map( x => x.split(",").toSeq)
-
-      //val seqTgaTgdInput = objectSeq.map(x => TgaTgdInput(x(0), x(1).toLong,x(2),x(3),x(4),x(5),x(6),x(7),x(8),x(9).toLong,x(10),x(11)))
-      //seqTgaTgdInput
+      seqTgaTgd
+      
     }
 
 
