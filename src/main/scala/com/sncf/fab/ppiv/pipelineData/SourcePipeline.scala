@@ -123,7 +123,7 @@ trait SourcePipeline extends Serializable {
     }
 
 
-    //t.take(5).foreach(println)
+    t.take(5).foreach(println)
 
     System.exit(0)
 
