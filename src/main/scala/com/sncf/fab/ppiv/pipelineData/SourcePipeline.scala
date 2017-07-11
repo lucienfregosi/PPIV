@@ -109,7 +109,7 @@ trait SourcePipeline extends Serializable {
       //val cycleId = x.getString(0)
       //val eventTgaTgd = x.getAs[Row(1)
 
-      val seq = x.getSeq(0)
+      val seq = x.getSeq[String](0)
 
       val seqTgaTgd = seq.map(x => {
         // Boucle sur les évènements pour pouvoir construire des Seq[TgaTgdInput)
