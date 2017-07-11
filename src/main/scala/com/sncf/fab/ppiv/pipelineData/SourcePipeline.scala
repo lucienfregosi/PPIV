@@ -134,12 +134,7 @@ trait SourcePipeline extends Serializable {
 
 
       // 9) Calcul des différents règles de gestion.
-      //val premierAffichage = getPremierAffichage(dataTgaTgdCycleCleaned)
-      val dsVoieGrouped = seqTgaTgd.sortBy(_.maj ).reverse.filter(x => x.voie != null && x.voie != "" &&  x.voie   != ("0")).groupBy(_.voie).map{ case(_,group)=> ( group.map(_.maj).min)}
-      dsVoieGrouped.toString()
-
-      /*val premierAffichage = 0
-
+      val premierAffichage = getPremierAffichage(dataTgaTgdCycleCleaned)
       val affichageDuree1  = getAffichageDuree1(dataTgaTgdCycleCleaned)
       val affichageDuree2  = getAffichageDuree2(dataTgaTgdCycleCleaned)
 
@@ -436,7 +431,12 @@ trait SourcePipeline extends Serializable {
 
 
     val dsVoieGrouped = seqTgaTgd.sortBy(_.maj ).reverse.filter(x => x.voie != null && x.voie != "" &&  x.voie   != ("0")).groupBy(_.voie).map{ case(_,group)=> ( group.map(_.maj).min)}
-    dsVoieGrouped.head
+    if (dsVoieGrouped.size == 0){
+      0
+    }
+    else{
+      dsVoieGrouped.head
+    }
 
   }
 
