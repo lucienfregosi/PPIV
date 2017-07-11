@@ -122,7 +122,7 @@ trait SourcePipeline extends Serializable {
       // 6) Validation des cycles
       val isCycleValidated  = validateCycle(seqTgaTgd)
       if(isCycleValidated == false){
-        null
+        println("invalidate cycle")
       }
 
       // 7) Nettoyage et mise en forme
@@ -141,8 +141,7 @@ trait SourcePipeline extends Serializable {
       //dataTgaTgdCycleCleaned
 
       // 10) Création d'une classe prenant toutes les règles de gestion (sans les conversions) à joindre au référentiel
-      TgaTgdWithoutRef("t",seqTgaTgd(0).gare,seqTgaTgd(0).ordes,seqTgaTgd(0).num,seqTgaTgd(0).`type`,seqTgaTgd(0).heure,seqTgaTgd(0).etat, premierAffichage, affichageDuree1, affichageDuree2)*/
-
+      TgaTgdWithoutRef("t",seqTgaTgd(0).gare,seqTgaTgd(0).ordes,seqTgaTgd(0).num,seqTgaTgd(0).`type`,seqTgaTgd(0).heure,seqTgaTgd(0).etat, premierAffichage, affichageDuree1, affichageDuree2)
     }
 
 
