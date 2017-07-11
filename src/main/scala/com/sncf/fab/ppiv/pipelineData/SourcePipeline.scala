@@ -121,7 +121,8 @@ trait SourcePipeline extends Serializable {
 
       // 7) Nettoyage et mise en forme
       val dataTgaTgdCycleCleaned    = cleanCycle(seqTgaTgd)
-
+      dataTgaTgdCycleCleaned
+      /*
       // 8) On sauvegarde un fichier par cycle dans refinery
       // TODO Voir ou G&C veulent qu'on charge leur données
       saveCleanData(dataTgaTgdCycleCleaned)
@@ -134,7 +135,12 @@ trait SourcePipeline extends Serializable {
 
       // 10) Création d'une classe prenant toutes les règles de gestion (sans les conversions) à joindre au référentiel
       TgaTgdWithoutRef("t",seqTgaTgd(0).gare,seqTgaTgd(0).ordes,seqTgaTgd(0).num,seqTgaTgd(0).`type`,seqTgaTgd(0).heure,seqTgaTgd(0).etat, premierAffichage, affichageDuree1, affichageDuree2)
+      */
     }.toDS()
+
+    ivTgaTgdWithoutReferentiel.show()
+
+    System.exit(0)
 
 
     // 10) Jointure avec le référentiel
@@ -149,7 +155,7 @@ trait SourcePipeline extends Serializable {
 
     dataTgaTgdOutput.show()
 
-    System.exit(0)
+
 
     dataTgaTgdOutput
   }
@@ -354,7 +360,6 @@ trait SourcePipeline extends Serializable {
   def getTgaTgdOutput(dfTgaTgd: DataFrame, sqlContext : SQLContext) : Dataset[TgaTgdOutput] = {
     import sqlContext.implicits._
 
-    dfTgaTgd.printSchema()
 
     val affichageFinal =  dfTgaTgd.map(row => TgaTgdOutput(
       row.getString(11),
@@ -387,22 +392,20 @@ trait SourcePipeline extends Serializable {
   def getCycleRetard(dsTgaTgd: Seq[TgaTgdInput]) : Long = {
     // Filtre des retard et tri selon la date d'èvènement pour que le retard soit en dernier
 
-    val dsFiltered = dsTgaTgd.filter(x => (x.retard !=null) && (x.retard !="") && (x.retard !="0"))
+    val seqFiltered = dsTgaTgd.filter(x => (x.retard !=null) && (x.retard !="") && (x.retard !="0"))
     //val dsFiltered = dsTgaTgd.toDF().orderBy($"maj".asc).filter($"retard".isNotNull).filter($"retard".notEqual("")).filter($"retard".notEqual("0"))
 
     // Si 0 retard on renvoie la valeur 0
-    if(dsFiltered.isEmpty){
+    if(seqFiltered.isEmpty){
       0
     } else {
       // On trie dans le sens décroissant pour prendre le dernier retard
       //  val minuteRetard = dsFiltered.orderBy($"maj".desc).first().getString(11).toLong
 
-      dsFiltered.foreach(println)
-
-      System.exit(0)
+      seqFiltered.foreach(println)
 
 
-      val minuteRetardFilred = dsFiltered.sortBy(x=>x.maj)
+      val minuteRetardFilred = seqFiltered.sortBy(x=>x.maj)
       val  minuteRetard =  minuteRetardFilred(0).retard.toLong
       // Multipliation par 60 pour renvoyer un résultat en secondes
       minuteRetard * 60
