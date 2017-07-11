@@ -124,7 +124,6 @@ trait SourcePipeline extends Serializable {
 
       // 7) Nettoyage et mise en forme
       val dataTgaTgdCycleCleaned    = cleanCycle(seqTgaTgd)
-      dataTgaTgdCycleCleaned
 
       // 8) On sauvegarde un fichier par cycle dans refinery
       // TODO Voir ou G&C veulent qu'on charge leur données
@@ -435,7 +434,7 @@ trait SourcePipeline extends Serializable {
 
     val dsVoieGrouped = seqTgaTgd.sortBy(_.maj ).reverse.filter(x => x.voie != null && x.voie != "" &&  x.voie   != ("0")).groupBy(_.voie).map{ case(_,group)=> ( group.map(_.maj).min)}
     dsVoieGrouped.head
-    
+
   }
 
   // Fonction qui renvoie le temps durant lequel le train est resté affiché. On retourne un timestamp
