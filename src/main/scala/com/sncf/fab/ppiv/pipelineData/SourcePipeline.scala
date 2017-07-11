@@ -144,24 +144,13 @@ trait SourcePipeline extends Serializable {
       TgaTgdWithoutRef(cycleId,seqTgaTgd(0).gare,seqTgaTgd(0).ordes,seqTgaTgd(0).num,seqTgaTgd(0).`type`,seqTgaTgd(0).heure,seqTgaTgd(0).etat, premierAffichage, affichageDuree1, affichageDuree2)
     }
 
-    //ivTgaTgdWithoutReferentiel.take(5).foreach(println)
-
-
-
     // 10) Jointure avec le référentiel
     val dataTgaTgdWithReferentiel = joinReferentiel(ivTgaTgdWithoutReferentiel.toDS(), dataRefGares, sqlContext)
 
-    // 11) Conversion diverses, formatage de la sortie
-    val dataClean = formatData(dataTgaTgdWithReferentiel, sqlContext)
+    // 12) Inscription dans la classe finale TgaTgdOutput avec conversion et formatage
+    val dataTgaTgdOutput = getTgaTgdOutput(dataTgaTgdWithReferentiel, sqlContext)
 
-    // 12) Inscription dans la classe finale TgaTgdOutput
-    val dataTgaTgdOutput = getTgaTgdOutput(dataClean, sqlContext)
-
-
-    dataTgaTgdOutput.show()
-
-
-
+    
     dataTgaTgdOutput
 
   }
@@ -357,10 +346,6 @@ trait SourcePipeline extends Serializable {
 
     val joinedData = dsTgaTgd.toDF().join(refGares.toDF(), dsTgaTgd.toDF().col("gare") === refGares.toDF().col("TVS"))
     joinedData
-  }
-
-  def formatData(dfTgaTgd: DataFrame, sqlContext : SQLContext) : DataFrame = {
-    dfTgaTgd
   }
 
   def getTgaTgdOutput(dfTgaTgd: DataFrame, sqlContext : SQLContext) : Dataset[TgaTgdOutput] = {
