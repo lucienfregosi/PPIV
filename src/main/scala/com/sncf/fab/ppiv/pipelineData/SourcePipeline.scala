@@ -121,7 +121,9 @@ trait SourcePipeline extends Serializable {
 
       // 6) Validation des cycles
       val isCycleValidated  = validateCycle(seqTgaTgd)
-      if(isCycleValidated == false){println("Faire sortir de la boucle")}
+      if(isCycleValidated == false){
+        null
+      }
 
       // 7) Nettoyage et mise en forme
       val dataTgaTgdCycleCleaned    = cleanCycle(seqTgaTgd)
