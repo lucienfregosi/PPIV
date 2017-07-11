@@ -100,7 +100,7 @@ trait SourcePipeline extends Serializable {
     val cycleIdListOver   = filterCycleOver(cycleIdList, sqlContext)
     val tgaTgdCycleOver   = getEventCycleId(cycleIdListOver, sqlContext, sc)
 
-    
+
 
     // 5) Boucle sur les cycles finis
     val ivTgaTgdWithoutReferentiel = tgaTgdCycleOver.select("event").map{ x =>
@@ -138,9 +138,9 @@ trait SourcePipeline extends Serializable {
       // 10) Création d'une classe prenant toutes les règles de gestion (sans les conversions) à joindre au référentiel
       TgaTgdWithoutRef("t",seqTgaTgd(0).gare,seqTgaTgd(0).ordes,seqTgaTgd(0).num,seqTgaTgd(0).`type`,seqTgaTgd(0).heure,seqTgaTgd(0).etat, premierAffichage, affichageDuree1, affichageDuree2)
       */
-    }.toDS()
+    }
 
-    ivTgaTgdWithoutReferentiel.show()
+    ivTgaTgdWithoutReferentiel.take(5).foreach(println)
 
     System.exit(0)
 
