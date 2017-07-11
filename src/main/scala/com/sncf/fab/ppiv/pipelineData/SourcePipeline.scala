@@ -125,6 +125,7 @@ trait SourcePipeline extends Serializable {
 
       // 9) Calcul des différents règles de gestion.
       //val premierAffichage = getPremierAffichage(dataTgaTgdCycleCleaned)
+      val premierAffichage = 4
       val affichageDuree1  = getAffichageDuree1(dataTgaTgdCycleCleaned)
       val affichageDuree2  = getAffichageDuree2(dataTgaTgdCycleCleaned)
 
@@ -357,9 +358,9 @@ trait SourcePipeline extends Serializable {
       row.getString(10),
       row.getString(21),
       row.getString(14),
-      row.getString(10),
-      row.getString(21),
-      row.getString(22),
+      row.getString(12),
+      row.getString(24),
+      row.getString(25),
       row.getString(0),
       row.getString(3),
       row.getString(4),
