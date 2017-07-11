@@ -101,6 +101,7 @@ trait SourcePipeline extends Serializable {
     val tgaTgdCycleOver   = getEventCycleId(cycleIdListOver, sqlContext, sc)
 
 
+    tgaTgdCycleOver.rdd.take(3).foreach(println)
 
     // 5) Boucle sur les cycles finis
     val ivTgaTgdWithoutReferentiel = tgaTgdCycleOver.select("event").map{ x =>
@@ -123,16 +124,18 @@ trait SourcePipeline extends Serializable {
       // 7) Nettoyage et mise en forme
       val dataTgaTgdCycleCleaned    = cleanCycle(seqTgaTgd)
       //dataTgaTgdCycleCleaned
-      dataTgaTgdCycleCleaned
+
       // 8) On sauvegarde un fichier par cycle dans refinery
       // TODO Voir ou G&C veulent qu'on charge leur données
-      //saveCleanData(dataTgaTgdCycleCleaned)
+      saveCleanData(dataTgaTgdCycleCleaned)
 
 
       // 9) Calcul des différents règles de gestion.
-      //val premierAffichage = getPremierAffichage(dataTgaTgdCycleCleaned)
-      //val affichageDuree1  = getAffichageDuree1(dataTgaTgdCycleCleaned)
-      //val affichageDuree2  = getAffichageDuree2(dataTgaTgdCycleCleaned)
+      val premierAffichage = getPremierAffichage(dataTgaTgdCycleCleaned)
+      val affichageDuree1  = getAffichageDuree1(dataTgaTgdCycleCleaned)
+      val affichageDuree2  = getAffichageDuree2(dataTgaTgdCycleCleaned)
+
+      dataTgaTgdCycleCleaned
 
       // 10) Création d'une classe prenant toutes les règles de gestion (sans les conversions) à joindre au référentiel
       //TgaTgdWithoutRef("t",seqTgaTgd(0).gare,seqTgaTgd(0).ordes,seqTgaTgd(0).num,seqTgaTgd(0).`type`,seqTgaTgd(0).heure,seqTgaTgd(0).etat, premierAffichage, affichageDuree1, affichageDuree2)
