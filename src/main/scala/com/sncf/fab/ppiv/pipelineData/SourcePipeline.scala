@@ -100,8 +100,7 @@ trait SourcePipeline extends Serializable {
     val cycleIdListOver   = filterCycleOver(cycleIdList, sqlContext)
     val tgaTgdCycleOver   = getEventCycleId(cycleIdListOver, sqlContext, sc)
 
-
-    tgaTgdCycleOver.show()
+    
 
     // 5) Boucle sur les cycles finis
     val ivTgaTgdWithoutReferentiel = tgaTgdCycleOver.select("event").map{ x =>
@@ -116,13 +115,15 @@ trait SourcePipeline extends Serializable {
         TgaTgdInput(split(0), split(1).toLong, split(2), split(3), split(4), split(5), split(6), split(7), split(8), split(9).toLong, split(10), split(11))
       })
 
+      seqTgaTgd
+
       // 6) Validation des cycles
-      val isCycleValidated  = validateCycle(seqTgaTgd)
-      if(isCycleValidated == false){println("Faire sortir de la boucle")}
+      //val isCycleValidated  = validateCycle(seqTgaTgd)
+      //if(isCycleValidated == false){println("Faire sortir de la boucle")}
 
       // 7) Nettoyage et mise en forme
-      val dataTgaTgdCycleCleaned    = cleanCycle(seqTgaTgd)
-      dataTgaTgdCycleCleaned
+      //val dataTgaTgdCycleCleaned    = cleanCycle(seqTgaTgd)
+      //dataTgaTgdCycleCleaned
       /*
       // 8) On sauvegarde un fichier par cycle dans refinery
       // TODO Voir ou G&C veulent qu'on charge leur données
