@@ -100,126 +100,54 @@ trait SourcePipeline extends Serializable {
     val cycleIdListOver   = filterCycleOver(cycleIdList, sqlContext)
     val tgaTgdCycleOver   = getEventCycleId(cycleIdListOver, sqlContext, sc)
 
-    tgaTgdCycleOver.printSchema()
-
-
 
 
     // 5) Boucle sur les cycles finis
-    tgaTgdCycleOver.select("event").printSchema()
-
-    val t = tgaTgdCycleOver.select("event").map{ x =>
-
-      val rowSeq = x.toSeq
-      val seqTgaTgd = rowSeq.map(x => {
-        // On veut créer notre TgaTgdInput
+    val ivTgaTgdWithoutReferentiel = tgaTgdCycleOver.select("event").map{ x =>
+      // Boucle sur chacun des cycles id terminés
+      val seqTgaTgd = x.toSeq.map(x => {
+        // Boucle sur les évènements pour pouvoir construire des Seq[TgaTgdInput)
         val split = x.toString.split(",")
         TgaTgdInput(split(0), split(1).toLong, split(2), split(3), split(4), split(5), split(6), split(7), split(8), split(9).toLong, split(10), split(11))
       })
 
-
-      val cycleRetard  = getCycleRetard(seqTgaTgd)
-
-      cycleRetard
-    }
-
-
-    t.take(5).foreach(println)
-
-    System.exit(0)
-
-    /*val dataTgaTgdWithReferentiel = tgatgdExploded.map(x => {
-
-      println(x.toString())
-
-
-      val stringLine = x.toString()
-      val stringSplit = stringLine.split(" ").toList
-
-      println(stringSplit)
-
-      // Création d'un RDD
-      val rdd = sqlContext.sparkContext.parallelize(Seq(stringSplit))
-      val rowRdd = rdd.map(v => Row(v: _*))
-
-      //rowRdd.take(10).foreach(println)
-
-      // Création d'un schéma
-      val schemaString = "event"
-      val schema =
-        StructType(
-          schemaString.split(" ").map(fieldName => StructField(fieldName, StringType, true)))
-
-      val df = sqlContext.createDataFrame(rowRdd, schema)
-
-      val dfSplitted = df.withColumn("_tmp", split(col("event"),",")).select(
-        col("_tmp").getItem(0).as("gare"),
-        col("_tmp").getItem(0).as("maj"),
-        col("_tmp").getItem(0).as("train"),
-        col("_tmp").getItem(0).as("ordes"),
-        col("_tmp").getItem(0).as("num"),
-        col("_tmp").getItem(0).as("type"),
-        col("_tmp").getItem(0).as("picto"),
-        col("_tmp").getItem(0).as("attribut_voie"),
-        col("_tmp").getItem(0).as("voie"),
-        col("_tmp").getItem(0).as("heure"),
-        col("_tmp").getItem(0).as("etat"),
-        col("_tmp").getItem(0).as("retard")
-      )
-      dfSplitted.first()
-
-      val dfFinal = dfSplitted.map( x => {
-        TgaTgdInput(x.getString(0), x.getLong(1),x.getString(2),x.getString(3),x.getString(4),x.getString(5),x.getString(6),x.getString(7),x.getString(8),x.getLong(9),x.getString(10),x.getString(11))
-      }).toDS()
-
-      dfFinal.show
-
-
       // 6) Validation des cycles
-
-
-      // TODO trouver un moyen de sortir du map
-      //val isCycleValidated  = validateCycle(dfFinal, sqlContext)
-      //if(isCycleValidated == false){return null}
+      val isCycleValidated  = validateCycle(seqTgaTgd)
+      if(isCycleValidated == false){println("Faire sortir de la boucle")}
 
       // 7) Nettoyage et mise en forme
-      val dataTgaTgdCycleCleaned    = cleanCycle(dfFinal, sqlContext)
+      val dataTgaTgdCycleCleaned    = cleanCycle(seqTgaTgd)
 
-      // 8) Sauvegarde des données propres la ou G&C le souhaite
-      // TO DO : Charger une liste temporaire en append et sauvegarder a la foin
-      saveCleanData(dataTgaTgdCycleCleaned, sqlContext)
+      // 8) On sauvegarde un fichier par cycle dans refinery
+      // TODO Voir ou G&C veulent qu'on charge leur données
+      saveCleanData(dataTgaTgdCycleCleaned)
 
       // 9) Calcul des différents règles de gestion.
-      // TODO tout mettre dans une fonction
-      dataTgaTgdCycleCleaned.show
-      val dataTgaTgdCycleKPI        = computeOutputFields(dataTgaTgdCycleCleaned, sqlContext)
+      val premierAffichage = getPremierAffichage(dataTgaTgdCycleCleaned )
+      val affichageDuree1  = getAffichageDuree1(dataTgaTgdCycleCleaned)
+      val affichageDuree2  = getAffichageDuree2(dataTgaTgdCycleCleaned)
 
-      val premierAffichage = getPremierAffichage(dataTgaTgdCycleCleaned,sqlContext )
-      val affichageDuree1 = getAffichageDuree1(dataTgaTgdCycleCleaned, sqlContext)
-      val affichageDuree2 =getAffichageDuree2(dataTgaTgdCycleCleaned, sqlContext)
 
-      // 10) Jointure avec le référentiel
-      val dataTgaTgdWithReferentiel = joinReferentiel(dataTgaTgdCycleKPI, premierAffichage, affichageDuree1, affichageDuree2,  dataRefGares, sqlContext)
+      // 10) Création d'une classe prenant toutes les règles de gestion (sans les conversions) à joindre au référentiel
+      TgaTgdWithoutRef(seqTgaTgd(0).gare,seqTgaTgd(0).ordes,seqTgaTgd(0).num,seqTgaTgd(0).`type`,seqTgaTgd(0).heure,seqTgaTgd(0).etat, premierAffichage, affichageDuree1, affichageDuree2)
+    }.toDS()
 
-      dataTgaTgdWithReferentiel.show
 
-      System.exit(0)
+    // 10) Jointure avec le référentiel
+    val dataTgaTgdWithReferentiel = joinReferentiel(ivTgaTgdWithoutReferentiel, dataRefGares, sqlContext)
 
-      TgaTgdOutput(dataTgaTgdWithReferentiel.first().nom_de_la_gare, dataTgaTgdWithReferentiel.first().agence,dataTgaTgdWithReferentiel.first().segmentation,dataTgaTgdWithReferentiel.first().uic,
-        dataTgaTgdWithReferentiel.first().x,dataTgaTgdWithReferentiel.first().y,dataTgaTgdWithReferentiel.first().id_train,dataTgaTgdWithReferentiel.first().num_train,
-        dataTgaTgdWithReferentiel.first().`type`,dataTgaTgdWithReferentiel.first().origine_destination,dataTgaTgdWithReferentiel.first().type_panneau,dataTgaTgdWithReferentiel.first().dateheure2,
-        dataTgaTgdWithReferentiel.first().premierAffichage,dataTgaTgdWithReferentiel.first().dureeAffichageDuree1,dataTgaTgdWithReferentiel.first().dureeAffichageDuree2)
+    // 11) Conversion diverses, formatage de la sortie
+    val dataClean = formatData(dataTgaTgdWithReferentiel, sqlContext)
 
-    })*/
+    // 12) Inscription dans la classe finale TgaTgdOutput
+    val dataTgaTgdOutput = getTgaTgdOutput(dataClean, sqlContext)
 
-    //dataTgaTgdWithReferentiel.toDS().show()
 
-    // Reste l'enregistrement que l'on fait a la fin du traitement TGA et TGD (donc un cran plus haut)
-    //dataTgaTgdWithReferentiel.toDS()
+    dataTgaTgdOutput.show()
 
     System.exit(0)
 
-    null
+    dataTgaTgdOutput
   }
 
 
@@ -364,27 +292,30 @@ trait SourcePipeline extends Serializable {
 
 
 
- /* def validateCycle(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext): Boolean = {
-    import sqlContext.implicits._
+  def validateCycle(dsTgaTgdSeq: Seq[TgaTgdInput]): Boolean = {
+
     // Validation des cycles. Un cycle doit comporter au moins une voie et tous ses évènements ne peuvent pas se passer x minutes après le départ du train
     // En entrée la liste des évènements pour un cycle id donné.
-
     // Décompte du nombre de lignes ou il y a une voie
-    //val cntVoieAffiche = dsTgaTgd.toDF().select("voie").filter($"voie".isNotNull.notEqual("").notEqual("0")).count()
-    val cntVoieAffiche = dsTgaTgd.toDF().select("voie").filter($"voie".notEqual(""))
-      .filter($"voie".isNotNull).filter($"voie".notEqual("0")).count()
+
+    //  val cntVoieAffiche = dsTgaTgd.toDF().select("voie").filter($"voie".notEqual("")).filter($"voie".isNotNull).filter($"voie".notEqual("0")).count()
+    val cntVoieAffiche = dsTgaTgdSeq.filter(x => (x.voie!= null ) && (x.voie!= "0")&& (x.voie!= "")).length
 
     // Compter le nombre d'évènements après le départ théroque + retard
-    val departThéorique = dsTgaTgd.toDF().select("heure").first().getAs[Long]("heure")
-    val retard = getCycleRetard(dsTgaTgd, sqlContext)
+
+    // val departThéorique = dsTgaTgd.toDF().select("heure").first().getAs[Long]("heure")
+    val departThéorique = dsTgaTgdSeq(0).heure.toLong
+
+    val retard = getCycleRetard(dsTgaTgdSeq)
     // 10 minutes : pour la marge d'erreur imposé par le métier. A convertir en secondes
     val margeErreur = 10 * 60
     val departReel = departThéorique + retard + margeErreur
 
-    val cntEventApresDepart = dsTgaTgd.toDF().filter($"maj".gt(departReel)).count()
+    // val cntEventApresDepart = dsTgaTgd.toDF().filter($"maj".gt(departReel)).count()
+    val cntEventApresDepart = dsTgaTgdSeq.filter(x=>( x.maj > departReel)).length
 
     // Si le compte de voie est différent de 0 ou le compte des évènement après la date est égale a la somme des event (= tous les évènements postérieurs à la date de départ du train
-    if(cntVoieAffiche != 0 && cntEventApresDepart != dsTgaTgd.count()){
+    if(cntVoieAffiche != 0 && cntEventApresDepart != dsTgaTgdSeq.length ){
       true
     }
     else{
@@ -393,65 +324,48 @@ trait SourcePipeline extends Serializable {
   }
 
 
-  def cleanCycle(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext): Dataset[TgaTgdInput] = {
-    import sqlContext.implicits._
+
+  def cleanCycle(seqTgaTgd: Seq[TgaTgdInput]): Seq[TgaTgdInput] = {
     // Nettoyage, mise en forme des lignes, conversion des heures etc ..
-    dsTgaTgd
+    seqTgaTgd
   }
 
-  def saveCleanData(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext): Unit = {
-    import sqlContext.implicits._
+  def saveCleanData(seqTgaTgd: Seq[TgaTgdInput]): Unit = {
     // Sauvegarde des données pour que G&C ait un historique d'Obier exploitable
     None
   }
 
-  def computeOutputFields(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext): Dataset[TgaTgdInput] = {
-    import sqlContext.implicits._
-    // Calcul des différents indicateurs
-    // On devra surement spliter la fonction en différentes sous fonctions
-    dsTgaTgd
-  }
-
-
-  def joinReferentiel(dsTgaTgd: Dataset[TgaTgdInput], premierAffichage: Long, affichageDuree1: Long, affichageDuree2: Long,  refGares : Dataset[ReferentielGare], sqlContext : SQLContext): Dataset[TgaTgdOutput] = {
+  def joinReferentiel(dsTgaTgd: Dataset[TgaTgdWithoutRef],  refGares : Dataset[ReferentielGare], sqlContext : SQLContext): DataFrame = {
     // Jointure avec le référentiel pour enrichir les lignes
     import sqlContext.implicits._
 
     val joinedData = dsTgaTgd.toDF().join(refGares.toDF(), dsTgaTgd.toDF().col("gare") === refGares.toDF().col("TVS"))
+    joinedData
+  }
 
-    val affichageFinal = joinedData.toDF().map(row => TgaTgdOutput(row.getString(7), row.getString(18),
+  def formatData(dfTgaTgd: DataFrame, sqlContext : SQLContext) : DataFrame = {
+    dfTgaTgd
+  }
+
+  def getTgaTgdOutput(dfTgaTgd: DataFrame, sqlContext : SQLContext) : Dataset[TgaTgdOutput] = {
+    import sqlContext.implicits._
+
+    dfTgaTgd.printSchema()
+
+    val affichageFinal =  dfTgaTgd.map(row => TgaTgdOutput(row.getString(7), row.getString(18),
       row.getString(9), row.getString(10),
       row.getString(21), row.getString(22),row.getString(0),row.getString(3),row.getString(4),
-      row.getString(5), Panneau(), Conversion.unixTimestampToDateTime(row.getLong(1)).toString,premierAffichage, affichageDuree1, affichageDuree2
+      row.getString(5), Panneau(), Conversion.unixTimestampToDateTime(row.getLong(1)).toString, 0, 0, 0
     ))
 
     affichageFinal.toDS().as[TgaTgdOutput]
-  }*/
+
+  }
 
 
 
   /********************** Fonction de calcul des régles métiers qui prennent un data set input ********************/
 
-  // TODO : Faire un test pour cette fonction
-  /*def getCycleRetard(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext) : Long = {
-    import sqlContext.implicits._
-    // Filtre des retard et tri selon la date d'èvènement pour que le retard soit en dernier
-    val dsFiltered = dsTgaTgd.toDF().orderBy($"maj".asc)
-      .filter($"retard".isNotNull)
-      .filter($"retard".notEqual(""))
-      .filter($"retard".notEqual("0"))
-
-    // Si 0 retard on renvoie la valeur 0
-    if(dsFiltered.count() == 0){
-      0
-    } else {
-      // On trie dans le sens décroissant pour prendre le dernier retard
-      val minuteRetard = dsFiltered.orderBy($"maj".desc).first().getString(11).toLong
-
-      // Multipliation par 60 pour renvoyer un résultat en secondes
-      minuteRetard * 60
-    }
-  }*/
 
 
   def getCycleRetard(dsTgaTgd: Seq[TgaTgdInput]) : Long = {
@@ -475,43 +389,37 @@ trait SourcePipeline extends Serializable {
 
 
   // Fonction qui renvoie la date de premier affichage de la voie pour un cycle donné
- /* def getPremierAffichage(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext) : Long = {
-    import sqlContext.implicits._
-    //
-    // Récupération de la date de premier affichage. On cherche le moment ou la bonne voie a été affiché pour la première fois
+  def getPremierAffichage(seqTgaTgd: Seq[TgaTgdInput]) : Long = {
 
-    // Filtre des lignes qui ne contiennent pas de voie. Puis group sur les vois et pour chaque voie on sélectionne le min de maj (le moment ou ell est affichée)
-    val dsVoieGrouped = dsTgaTgd.toDF().orderBy(asc("maj")).filter($"voie".isNotNull).filter($"voie".notEqual("")).filter($"voie".notEqual("0"))
-      .groupBy("voie").agg(min($"maj") as 'premierAffichageParVoie)
+      // Récupération de la date de premier affichage. On cherche le moment ou la bonne voie a été affiché pour la première fois
 
-    //dsVoieGrouped.show()
-
-    // Sélection de la dernière des voie apparaissant et de son timestamp correspondant au premier affichage
-    dsVoieGrouped.orderBy($"premierAffichageParVoie".desc).first().getLong(1)
-
-  }
+          val dsVoieGrouped = seqTgaTgd.sortBy(_.maj ).reverse.filter(x => x.voie != null && x.voie != "" &&  x.voie   != ("0")).groupBy(_.voie).map{ case(_,group)=> ( group.map(_.maj).min)}
+          dsVoieGrouped.head
+     }
 
   // Fonction qui renvoie le temps durant lequel le train est resté affiché. On retourne un timestamp
-  def getAffichageDuree1(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext) : Long = {
-    import sqlContext.implicits._
+  def getAffichageDuree1(dsTgaTgdSeq: Seq[TgaTgdInput]) : Long = {
 
-    val departTheorique = dsTgaTgd.toDF().first().getLong(9)
+    //val departTheorique = dsTgaTgd.toDF().first().getLong(9)
+    val departTheorique = dsTgaTgdSeq(0).heure.toLong
     //println("depart théroique" + departTheorique)
 
 
-    val premierAffichage = getPremierAffichage(dsTgaTgd, sqlContext)
+    val premierAffichage = getPremierAffichage(dsTgaTgdSeq)
     //println("premier affichage" + premierAffichage)
 
     departTheorique - premierAffichage
   }
 
+
   // Fonction qui renvoie le temps durant le quel le train est resté affiché retard compris. On retourne un timestamp
-  def getAffichageDuree2(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext) : Long = {
-    val affichageDuree1 = getAffichageDuree1(dsTgaTgd, sqlContext)
-    val retard = getCycleRetard(dsTgaTgd, sqlContext)
+  def getAffichageDuree2(dsTgaTgdSeq: Seq[TgaTgdInput]) : Long = {
+    val affichageDuree1 = getAffichageDuree1(dsTgaTgdSeq)
+    val retard = getCycleRetard(dsTgaTgdSeq)
 
     affichageDuree1 + retard
-  }*/
+  }
+
 }
 
 

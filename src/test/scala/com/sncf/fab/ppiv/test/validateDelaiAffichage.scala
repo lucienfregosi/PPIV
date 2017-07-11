@@ -10,6 +10,8 @@ import org.apache.spark.sql.SQLContext
 import org.apache.spark.sql.types.LongType
 import org.specs2.Specification
 
+import scala.io.Source
+
 /**
   * Created by ELFI03951 on 04/07/2017.
   */
@@ -28,47 +30,33 @@ The 'getAffichageDuree2'  output   should
   With trajet_avec_retard.csv with delay the result should be 1074             $e6
   """
 
+  def readFile( file : String) = {
+    for {
+      line <- Source.fromFile(file).getLines().drop(1).toVector
+      values = line.split(",").map(_.trim)
+    } yield TgaTgdInput(values(0), values(1).toLong, values(2), values(3), values(4),values(5),values(6),values(7),values(8),values(9).toLong,values(10),values(11))
+  }
 
 
-  val sparkConf = new SparkConf()
-    .setAppName(PPIV)
-    .setMaster(SPARK_MASTER)
-    .set("spark.driver.allowMultipleContexts", "true")
-
-  @transient val sc = new SparkContext(sparkConf)
-  @transient val sqlContext = new SQLContext(sc)
   val sourcePipeline = new TraitementTga
-  import sqlContext.implicits._
 
   val header = Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard")
   val pathSansRetard = new File("src/test/resources/data/trajet_sans_retard.csv").getAbsolutePath
   val pathAvecRetard = new File("src/test/resources/data/trajet_avec_retard.csv").getAbsolutePath()
 
-  val dsSansRetard = sqlContext.read
-    .format("com.databricks.spark.csv")
-    .option("header", "false")
-    .option("delimiter", ",")
-    .load(pathSansRetard).toDF(header: _*)
-    .withColumn("maj", 'maj.cast(LongType))
-    .withColumn("heure", 'heure.cast(LongType))
-    .as[TgaTgdInput];
-
-  val dsAvecRetard = sqlContext.read
-    .format("com.databricks.spark.csv")
-    .option("header", "false")
-    .option("delimiter", ",")
-    .load(pathAvecRetard).toDF(header: _*)
-    .withColumn("maj", 'maj.cast(LongType))
-    .withColumn("heure", 'heure.cast(LongType))
-    .as[TgaTgdInput];
 
 
-  def e1 = sourcePipeline.getAffichageDuree1(dsSansRetard, sqlContext).toInt must be_>= (0)
-  def e2 = sourcePipeline.getAffichageDuree1(dsSansRetard, sqlContext) mustEqual 774
-  def e3 = sourcePipeline.getAffichageDuree1(dsAvecRetard, sqlContext) mustEqual 774
+  val dsSansRetard = readFile(pathSansRetard).toSeq
+  val dsAvecRetard = readFile(pathAvecRetard).toSeq
 
-  def e4 = sourcePipeline.getAffichageDuree2(dsSansRetard, sqlContext).toInt must be_>= (0)
-  def e5 = sourcePipeline.getAffichageDuree2(dsSansRetard, sqlContext) mustEqual 774
-  def e6 = sourcePipeline.getAffichageDuree2(dsAvecRetard, sqlContext) mustEqual 1074
+
+
+  def e1 = sourcePipeline.getAffichageDuree1(dsSansRetard).toInt must be_>= (0)
+  def e2 = sourcePipeline.getAffichageDuree1(dsSansRetard) mustEqual 774
+  def e3 = sourcePipeline.getAffichageDuree1(dsAvecRetard) mustEqual 774
+
+  def e4 = sourcePipeline.getAffichageDuree2(dsSansRetard).toInt must be_>= (0)
+  def e5 = sourcePipeline.getAffichageDuree2(dsSansRetard) mustEqual 774
+  def e6 = sourcePipeline.getAffichageDuree2(dsAvecRetard) mustEqual 1074
 
 }

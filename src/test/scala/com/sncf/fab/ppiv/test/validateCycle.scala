@@ -9,6 +9,7 @@ import com.sncf.fab.ppiv.utils.AppConf._
 import org.apache.spark.sql.{Dataset, SQLContext}
 import org.joda.time.{DateTime, DateTimeZone}
 import org.specs2._
+import scala.io.Source
 
 
 
@@ -27,70 +28,37 @@ The 'validateCycle'  output   should
   Maj at least one before departure plus retard plus 10 should be true  $e4
   """
 
+  def readFile( file : String) = {
+    for {
+      line <- Source.fromFile(file).getLines().drop(1).toVector
+      values = line.split(",").map(_.trim)
+    } yield TgaTgdInput(values(0), values(1).toLong, values(2), values(3), values(4),values(5),values(6),values(7),values(8),values(9).toLong,values(10),values(11))
+  }
 
-
-  val sparkConf = new SparkConf()
-    .setAppName(PPIV)
-    .setMaster(SPARK_MASTER)
-    .set("spark.driver.allowMultipleContexts", "true")
-
-  @transient val sc = new SparkContext(sparkConf)
-  @transient val sqlContext = new SQLContext(sc)
   val sourcePipeline = new TraitementTga
-  import sqlContext.implicits._
 
-  val header = Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard")
+
 
   val pathSansVoie = new File("src/test/resources/data/trajet_sans_voie.csv").getAbsolutePath
   val pathAvecVoie = new File("src/test/resources/data/trajet_avec_voie.csv").getAbsolutePath()
   val pathAvecEventApres = new File("src/test/resources/data/event_apres_depart.csv").getAbsolutePath()
   val pathAvecEventAvant = new File("src/test/resources/data/event_avant_depart.csv").getAbsolutePath()
 
-  val dsSansVoie = sqlContext.read
-    .format("com.databricks.spark.csv")
-    .option("header", "false")
-    .option("delimiter", ",")
-    .load(pathSansVoie).toDF(header: _*)
-    .withColumn("maj", 'maj.cast(LongType))
-    .withColumn("heure", 'heure.cast(LongType))
-    .as[TgaTgdInput];
-
-
-  val dsAvecVoie = sqlContext.read
-    .format("com.databricks.spark.csv")
-    .option("header", "false")
-    .option("delimiter", ",")
-    .load(pathAvecVoie).toDF(header: _*)
-    .withColumn("maj", 'maj.cast(LongType))
-    .withColumn("heure", 'heure.cast(LongType))
-    .as[TgaTgdInput];
-
-
-  val dsAvecEventApres = sqlContext.read
-    .format("com.databricks.spark.csv")
-    .option("header", "false")
-    .option("delimiter", ",")
-    .load(pathAvecEventApres).toDF(header: _*)
-    .withColumn("maj", 'maj.cast(LongType))
-    .withColumn("heure", 'heure.cast(LongType))
-    .as[TgaTgdInput];
-
-  val dsAvecEventAvant = sqlContext.read
-    .format("com.databricks.spark.csv")
-    .option("header", "false")
-    .option("delimiter", ",")
-    .load(pathAvecEventAvant).toDF(header: _*)
-    .withColumn("maj", 'maj.cast(LongType))
-    .withColumn("heure", 'heure.cast(LongType))
-    .as[TgaTgdInput];
 
 
 
 
-  def e1 = sourcePipeline.validateCycle(dsSansVoie, sqlContext) must beFalse
-  def e2 = sourcePipeline.validateCycle(dsAvecVoie, sqlContext) must beTrue
-  def e3 = sourcePipeline.validateCycle(dsAvecEventApres, sqlContext) must beFalse
-  def e4 = sourcePipeline.validateCycle(dsAvecEventAvant, sqlContext) must beTrue
+  val dsSansVoie = readFile(pathSansVoie).toSeq
+  val dsAvecVoie = readFile(pathAvecVoie).toSeq
+  val dsAvecEventApres = readFile(pathAvecEventApres).toSeq
+  val dsAvecEventAvant = readFile(pathAvecEventAvant).toSeq
+
+
+
+  def e1 = sourcePipeline.validateCycle(dsSansVoie) must beFalse
+  def e2 = sourcePipeline.validateCycle(dsAvecVoie) must beTrue
+  def e3 = sourcePipeline.validateCycle(dsAvecEventApres) must beFalse
+  def e4 = sourcePipeline.validateCycle(dsAvecEventAvant) must beTrue
 
 
 }
