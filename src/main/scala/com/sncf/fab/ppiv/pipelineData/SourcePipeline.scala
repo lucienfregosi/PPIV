@@ -150,7 +150,7 @@ trait SourcePipeline extends Serializable {
     // 12) Inscription dans la classe finale TgaTgdOutput avec conversion et formatage
     val dataTgaTgdOutput = getTgaTgdOutput(dataTgaTgdWithReferentiel, sqlContext)
 
-    
+
     dataTgaTgdOutput
 
   }
