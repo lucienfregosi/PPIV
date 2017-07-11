@@ -142,7 +142,7 @@ trait SourcePipeline extends Serializable {
 
     System.exit(0)
 
-
+    /*
     // 10) Jointure avec le référentiel
     val dataTgaTgdWithReferentiel = joinReferentiel(ivTgaTgdWithoutReferentiel, dataRefGares, sqlContext)
 
@@ -158,6 +158,8 @@ trait SourcePipeline extends Serializable {
 
 
     dataTgaTgdOutput
+    */
+    null
   }
 
 
