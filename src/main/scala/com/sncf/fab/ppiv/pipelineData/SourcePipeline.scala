@@ -393,9 +393,11 @@ trait SourcePipeline extends Serializable {
 
       // Récupération de la date de premier affichage. On cherche le moment ou la bonne voie a été affiché pour la première fois
 
-          val dsVoieGrouped = seqTgaTgd.sortBy(_.maj ).reverse.filter(x => x.voie != null && x.voie != "" &&  x.voie   != ("0")).groupBy(_.voie).map{ case(_,group)=> ( group.map(_.maj).min)}
-          dsVoieGrouped.head
-     }
+    seqTgaTgd.take(10).foreach(println)
+
+    val dsVoieGrouped = seqTgaTgd.sortBy(_.maj ).reverse.filter(x => x.voie != null && x.voie != "" &&  x.voie   != ("0")).groupBy(_.voie).map{ case(_,group)=> ( group.map(_.maj).min)}
+    dsVoieGrouped.head
+  }
 
   // Fonction qui renvoie le temps durant lequel le train est resté affiché. On retourne un timestamp
   def getAffichageDuree1(dsTgaTgdSeq: Seq[TgaTgdInput]) : Long = {
