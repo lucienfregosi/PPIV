@@ -102,7 +102,6 @@ trait SourcePipeline extends Serializable {
 
 
 
-    System.exit(0)
 
     // 5) Boucle sur les cycles finis
     val ivTgaTgdWithoutReferentiel = tgaTgdCycleOver.select("event").map{ x =>
@@ -147,7 +146,7 @@ trait SourcePipeline extends Serializable {
 
     }
 
-    println("start")
+
     ivTgaTgdWithoutReferentiel.take(5).foreach(println)
 
 
