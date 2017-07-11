@@ -122,8 +122,9 @@ trait SourcePipeline extends Serializable {
       // TODO Voir ou G&C veulent qu'on charge leur données
       saveCleanData(dataTgaTgdCycleCleaned)
 
+
       // 9) Calcul des différents règles de gestion.
-      val premierAffichage = getPremierAffichage(dataTgaTgdCycleCleaned )
+      //val premierAffichage = getPremierAffichage(dataTgaTgdCycleCleaned)
       val affichageDuree1  = getAffichageDuree1(dataTgaTgdCycleCleaned)
       val affichageDuree2  = getAffichageDuree2(dataTgaTgdCycleCleaned)
 
@@ -352,10 +353,22 @@ trait SourcePipeline extends Serializable {
 
     dfTgaTgd.printSchema()
 
-    val affichageFinal =  dfTgaTgd.map(row => TgaTgdOutput(row.getString(7), row.getString(18),
-      row.getString(9), row.getString(10),
-      row.getString(21), row.getString(22),row.getString(0),row.getString(3),row.getString(4),
-      row.getString(5), Panneau(), Conversion.unixTimestampToDateTime(row.getLong(1)).toString, 0, 0, 0
+    val affichageFinal =  dfTgaTgd.map(row => TgaTgdOutput(
+      row.getString(10),
+      row.getString(21),
+      row.getString(14),
+      row.getString(10),
+      row.getString(21),
+      row.getString(22),
+      row.getString(0),
+      row.getString(3),
+      row.getString(4),
+      row.getString(5),
+      Panneau(),
+      Conversion.unixTimestampToDateTime(row.getLong(1)).toString,
+      0,
+      0,
+      0
     ))
 
     affichageFinal.toDS().as[TgaTgdOutput]
