@@ -101,6 +101,7 @@ trait SourcePipeline extends Serializable {
     val tgaTgdCycleOver   = getEventCycleId(cycleIdListOver, sqlContext, sc)
 
 
+    tgaTgdCycleOver.rdd.take(5).foreach(println)
 
     // 5) Boucle sur les cycles finis
     val ivTgaTgdWithoutReferentiel = tgaTgdCycleOver.select("event").map{ x =>
