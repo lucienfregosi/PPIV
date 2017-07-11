@@ -25,7 +25,7 @@ libraryDependencies ++= Seq(
   "org.specs2" % "specs2-core_2.10" % "3.9.0" % "test",
   "junit" % "junit" % "4.12" % "test",
   "org.scoverage" % "scalac-scoverage-plugin_2.10" % "1.3.0" % "provided",
-  "org.scala-lang" % "scala-library" % "2.10.6
+  "org.scala-lang" % "scala-library" % "2.10.6"
 )
 
 
