@@ -110,7 +110,7 @@ trait SourcePipeline extends Serializable {
       //val cycleId = x.getString(0)
       //val eventTgaTgd = x.getAs[Row(1)
 
-      val array = x.toSeq.toArray.map(_.toString)
+      val array = x.toString().toArray
 
       val seqTgaTgd = array.map(x => {
         // Boucle sur les évènements pour pouvoir construire des Seq[TgaTgdInput)
@@ -119,6 +119,7 @@ trait SourcePipeline extends Serializable {
       })
 
       seqTgaTgd.length
+
 
 
       // 6) Validation des cycles
