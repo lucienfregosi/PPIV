@@ -103,11 +103,11 @@ trait SourcePipeline extends Serializable {
 
 
     // 5) Boucle sur les cycles finis
-    val ivTgaTgdWithoutReferentiel = tgaTgdCycleOver.map{ x =>
+    val ivTgaTgdWithoutReferentiel = tgaTgdCycleOver.select("event").map{ x =>
       // Boucle sur chacun des cycles id terminés
 
-      val cycleId = x.getString(0)
-      val eventTgaTgd = x.getAs[Row](1)
+      //val cycleId = x.getString(0)
+      //val eventTgaTgd = x.getAs[Row(1)
 
       val seqTgaTgd = x.toSeq.map(x => {
         // Boucle sur les évènements pour pouvoir construire des Seq[TgaTgdInput)
@@ -137,7 +137,7 @@ trait SourcePipeline extends Serializable {
 
 
       // 10) Création d'une classe prenant toutes les règles de gestion (sans les conversions) à joindre au référentiel
-      TgaTgdWithoutRef(cycleId, seqTgaTgd(0).gare,seqTgaTgd(0).ordes,seqTgaTgd(0).num,seqTgaTgd(0).`type`,seqTgaTgd(0).heure,seqTgaTgd(0).etat, premierAffichage, affichageDuree1, affichageDuree2)
+      TgaTgdWithoutRef("t",seqTgaTgd(0).gare,seqTgaTgd(0).ordes,seqTgaTgd(0).num,seqTgaTgd(0).`type`,seqTgaTgd(0).heure,seqTgaTgd(0).etat, premierAffichage, affichageDuree1, affichageDuree2)
     }.toDS()
 
 
