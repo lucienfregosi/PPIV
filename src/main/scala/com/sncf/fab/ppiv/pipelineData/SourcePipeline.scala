@@ -114,7 +114,7 @@ trait SourcePipeline extends Serializable {
 
 
 
-      val seqTgaTgd = x.map(x => {
+      val seqTgaTgd = x.toSeq.map(x => {
         // Boucle sur les évènements pour pouvoir construire des Seq[TgaTgdInput)
         val split = x.toString.split(",")
         TgaTgdInput(split(0), split(1).toLong, split(2), split(3), split(4), split(5), split(6), split(7), split(8), split(9).toLong, split(10), split(11))
