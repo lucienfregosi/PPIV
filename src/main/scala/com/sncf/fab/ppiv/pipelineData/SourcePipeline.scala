@@ -142,6 +142,8 @@ trait SourcePipeline extends Serializable {
 
     ivTgaTgdWithoutReferentiel.take(5).foreach(println)
 
+    ivTgaTgdWithoutReferentiel.toDS()
+
     System.exit(0)
 
     /*
