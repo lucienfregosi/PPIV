@@ -22,6 +22,6 @@ case class TgaTgdOutput(nom_de_la_gare: String,
                         origine_destination: String,
                         type_panneau: String,
                         dateheure2: String,
-                        premierAffichage: Long,
-                        dureeAffichageDuree1: Long,
-                        dureeAffichageDuree2: Long)
+                        premierAffichage: String,
+                        dureeAffichageDuree1: String,
+                        dureeAffichageDuree2: String)

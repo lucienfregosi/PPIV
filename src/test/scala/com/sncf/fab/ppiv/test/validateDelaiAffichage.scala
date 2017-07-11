@@ -30,11 +30,12 @@ The 'getAffichageDuree2'  output   should
   With trajet_avec_retard.csv with delay the result should be 1074             $e6
   """
 
+
   def readFile( file : String) = {
     for {
-      line <- Source.fromFile(file).getLines().drop(1).toVector
-      values = line.split(",").map(_.trim)
-    } yield TgaTgdInput(values(0), values(1).toLong, values(2), values(3), values(4),values(5),values(6),values(7),values(8),values(9).toLong,values(10),values(11))
+      line <- Source.fromFile(file).getLines()
+      values = line.split(",",-1)
+     } yield TgaTgdInput(values(0), values(1).toLong, values(2), values(3), values(4),values(5),values(6),values(7),values(8),values(9).toLong,values(10),values(11))
   }
 
 

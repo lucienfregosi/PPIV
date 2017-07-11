@@ -361,21 +361,21 @@ trait SourcePipeline extends Serializable {
     dfTgaTgd.printSchema()
 
     val affichageFinal =  dfTgaTgd.map(row => TgaTgdOutput(
-      row.getString(10),
-      row.getString(21),
-      row.getString(14),
-      row.getString(12),
-      row.getString(24),
+      row.getString(11),
+      row.getString(22),
+      row.getString(15),
+      row.getString(13),
       row.getString(25),
+      row.getString(26),
       row.getString(0),
       row.getString(3),
       row.getString(4),
-      row.getString(5),
+      row.getString(2),
       Panneau(),
-      Conversion.unixTimestampToDateTime(row.getLong(1)).toString,
-      0,
-      0,
-      0
+      Conversion.unixTimestampToDateTime(row.getLong(5)).toString,
+      Conversion.unixTimestampToDateTime(row.getLong(7)).toString,
+      Conversion.unixTimestampToDateTime(row.getLong(8)).toString,
+      Conversion.unixTimestampToDateTime(row.getLong(9)).toString
     ))
 
     affichageFinal.toDS().as[TgaTgdOutput]
@@ -412,8 +412,7 @@ trait SourcePipeline extends Serializable {
   def getPremierAffichage(seqTgaTgd: Seq[TgaTgdInput]) : Long = {
 
       // Récupération de la date de premier affichage. On cherche le moment ou la bonne voie a été affiché pour la première fois
-
-    seqTgaTgd.take(10).foreach(println)
+    
 
     val dsVoieGrouped = seqTgaTgd.sortBy(_.maj ).reverse.filter(x => x.voie != null && x.voie != "" &&  x.voie   != ("0")).groupBy(_.voie).map{ case(_,group)=> ( group.map(_.maj).min)}
     dsVoieGrouped.head

@@ -28,10 +28,13 @@ The 'validateCycle'  output   should
   Maj at least one before departure plus retard plus 10 should be true  $e4
   """
 
+
+
+
   def readFile( file : String) = {
     for {
       line <- Source.fromFile(file).getLines().drop(1).toVector
-      values = line.split(",").map(_.trim)
+      values = line.split(",",-1)
     } yield TgaTgdInput(values(0), values(1).toLong, values(2), values(3), values(4),values(5),values(6),values(7),values(8),values(9).toLong,values(10),values(11))
   }
 
@@ -43,8 +46,6 @@ The 'validateCycle'  output   should
   val pathAvecVoie = new File("src/test/resources/data/trajet_avec_voie.csv").getAbsolutePath()
   val pathAvecEventApres = new File("src/test/resources/data/event_apres_depart.csv").getAbsolutePath()
   val pathAvecEventAvant = new File("src/test/resources/data/event_avant_depart.csv").getAbsolutePath()
-
-
 
 
 
