@@ -132,14 +132,19 @@ trait SourcePipeline extends Serializable {
 
 
       // 9) Calcul des différents règles de gestion.
-      val premierAffichage = getPremierAffichage(dataTgaTgdCycleCleaned)
+      //val premierAffichage = getPremierAffichage(dataTgaTgdCycleCleaned)
+      val dsVoieGrouped = seqTgaTgd.sortBy(_.maj ).reverse.filter(x => x.voie != null && x.voie != "" &&  x.voie   != ("0")).groupBy(_.voie).map{ case(_,group)=> ( group.map(_.maj).min)}
+      dsVoieGrouped.toString()
+
+      /*val premierAffichage = 0
+
       val affichageDuree1  = getAffichageDuree1(dataTgaTgdCycleCleaned)
       val affichageDuree2  = getAffichageDuree2(dataTgaTgdCycleCleaned)
 
       //dataTgaTgdCycleCleaned
 
       // 10) Création d'une classe prenant toutes les règles de gestion (sans les conversions) à joindre au référentiel
-      TgaTgdWithoutRef("t",seqTgaTgd(0).gare,seqTgaTgd(0).ordes,seqTgaTgd(0).num,seqTgaTgd(0).`type`,seqTgaTgd(0).heure,seqTgaTgd(0).etat, premierAffichage, affichageDuree1, affichageDuree2)
+      TgaTgdWithoutRef("t",seqTgaTgd(0).gare,seqTgaTgd(0).ordes,seqTgaTgd(0).num,seqTgaTgd(0).`type`,seqTgaTgd(0).heure,seqTgaTgd(0).etat, premierAffichage, affichageDuree1, affichageDuree2)*/
 
     }
 
@@ -429,7 +434,9 @@ trait SourcePipeline extends Serializable {
 
 
     val dsVoieGrouped = seqTgaTgd.sortBy(_.maj ).reverse.filter(x => x.voie != null && x.voie != "" &&  x.voie   != ("0")).groupBy(_.voie).map{ case(_,group)=> ( group.map(_.maj).min)}
-    dsVoieGrouped.head
+    dsVoieGrouped.take(10).foreach(println)
+
+    null
   }
 
   // Fonction qui renvoie le temps durant lequel le train est resté affiché. On retourne un timestamp
