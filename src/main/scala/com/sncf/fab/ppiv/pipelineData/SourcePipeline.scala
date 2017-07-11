@@ -117,17 +117,14 @@ trait SourcePipeline extends Serializable {
         TgaTgdInput(split(0), split(1).toLong, split(2), split(3), split(4), split(5), split(6), split(7), split(8), split(9).toLong, split(10), split(11))
       })
 
-      seqTgaTgd.length
-
-
 
       // 6) Validation des cycles
-      //val isCycleValidated  = validateCycle(seqTgaTgd)
-      //if(isCycleValidated == false){println("Faire sortir de la boucle")}
+      val isCycleValidated  = validateCycle(seqTgaTgd)
+      if(isCycleValidated == false){println("Faire sortir de la boucle")}
 
       // 7) Nettoyage et mise en forme
-      //val dataTgaTgdCycleCleaned    = cleanCycle(seqTgaTgd)
-      //dataTgaTgdCycleCleaned
+      val dataTgaTgdCycleCleaned    = cleanCycle(seqTgaTgd)
+      dataTgaTgdCycleCleaned
 
       // 8) On sauvegarde un fichier par cycle dans refinery
       // TODO Voir ou G&C veulent qu'on charge leur données
@@ -135,14 +132,14 @@ trait SourcePipeline extends Serializable {
 
 
       // 9) Calcul des différents règles de gestion.
-      //val premierAffichage = getPremierAffichage(dataTgaTgdCycleCleaned)
-      //val affichageDuree1  = getAffichageDuree1(dataTgaTgdCycleCleaned)
-      //val affichageDuree2  = getAffichageDuree2(dataTgaTgdCycleCleaned)
+      val premierAffichage = getPremierAffichage(dataTgaTgdCycleCleaned)
+      val affichageDuree1  = getAffichageDuree1(dataTgaTgdCycleCleaned)
+      val affichageDuree2  = getAffichageDuree2(dataTgaTgdCycleCleaned)
 
       //dataTgaTgdCycleCleaned
 
       // 10) Création d'une classe prenant toutes les règles de gestion (sans les conversions) à joindre au référentiel
-      //TgaTgdWithoutRef("t",seqTgaTgd(0).gare,seqTgaTgd(0).ordes,seqTgaTgd(0).num,seqTgaTgd(0).`type`,seqTgaTgd(0).heure,seqTgaTgd(0).etat, premierAffichage, affichageDuree1, affichageDuree2)
+      TgaTgdWithoutRef("t",seqTgaTgd(0).gare,seqTgaTgd(0).ordes,seqTgaTgd(0).num,seqTgaTgd(0).`type`,seqTgaTgd(0).heure,seqTgaTgd(0).etat, premierAffichage, affichageDuree1, affichageDuree2)
 
     }
 
