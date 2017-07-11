@@ -128,13 +128,9 @@ trait SourcePipeline extends Serializable {
 
 
       // 9) Calcul des différents règles de gestion.
-      //val premierAffichage = getPremierAffichage(dataTgaTgdCycleCleaned)
-      val premierAffichage = 4
-      //val affichageDuree1  = getAffichageDuree1(dataTgaTgdCycleCleaned)
-      val affichageDuree1 = 0
-      //val affichageDuree2  = getAffichageDuree2(dataTgaTgdCycleCleaned)
-      val affichageDuree2 = 36
-
+      val premierAffichage = getPremierAffichage(dataTgaTgdCycleCleaned)
+      val affichageDuree1  = getAffichageDuree1(dataTgaTgdCycleCleaned)
+      val affichageDuree2  = getAffichageDuree2(dataTgaTgdCycleCleaned)
 
       // 10) Création d'une classe prenant toutes les règles de gestion (sans les conversions) à joindre au référentiel
       TgaTgdWithoutRef("t",seqTgaTgd(0).gare,seqTgaTgd(0).ordes,seqTgaTgd(0).num,seqTgaTgd(0).`type`,seqTgaTgd(0).heure,seqTgaTgd(0).etat, premierAffichage, affichageDuree1, affichageDuree2)
@@ -400,6 +396,12 @@ trait SourcePipeline extends Serializable {
     } else {
       // On trie dans le sens décroissant pour prendre le dernier retard
       //  val minuteRetard = dsFiltered.orderBy($"maj".desc).first().getString(11).toLong
+
+      dsFiltered.foreach(println)
+
+      System.exit(0)
+
+
       val minuteRetardFilred = dsFiltered.sortBy(x=>x.maj)
       val  minuteRetard =  minuteRetardFilred(0).retard.toLong
       // Multipliation par 60 pour renvoyer un résultat en secondes
@@ -412,7 +414,7 @@ trait SourcePipeline extends Serializable {
   def getPremierAffichage(seqTgaTgd: Seq[TgaTgdInput]) : Long = {
 
       // Récupération de la date de premier affichage. On cherche le moment ou la bonne voie a été affiché pour la première fois
-    
+
 
     val dsVoieGrouped = seqTgaTgd.sortBy(_.maj ).reverse.filter(x => x.voie != null && x.voie != "" &&  x.voie   != ("0")).groupBy(_.voie).map{ case(_,group)=> ( group.map(_.maj).min)}
     dsVoieGrouped.head
