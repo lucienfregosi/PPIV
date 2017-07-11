@@ -100,16 +100,17 @@ trait SourcePipeline extends Serializable {
     val cycleIdListOver   = filterCycleOver(cycleIdList, sqlContext)
     val tgaTgdCycleOver   = getEventCycleId(cycleIdListOver, sqlContext, sc)
 
-    
+
 
     // 5) Boucle sur les cycles finis
-    val ivTgaTgdWithoutReferentiel = tgaTgdCycleOver.select("event").map{ x =>
+    val ivTgaTgdWithoutReferentiel = tgaTgdCycleOver.map{ x =>
       // Boucle sur chacun des cycles id terminés
 
       //val cycleId = x.getString(0)
       //val eventTgaTgd = x.getAs[Row(1)
 
-      val seq = x.getSeq[String](0)
+      val cycleId = x.getString(0)
+      val seq = x.getSeq[String](1)
 
       val seqTgaTgd = seq.map(x => {
         // Boucle sur les évènements pour pouvoir construire des Seq[TgaTgdInput)
@@ -140,17 +141,15 @@ trait SourcePipeline extends Serializable {
       //dataTgaTgdCycleCleaned
 
       // 10) Création d'une classe prenant toutes les règles de gestion (sans les conversions) à joindre au référentiel
-      TgaTgdWithoutRef("t",seqTgaTgd(0).gare,seqTgaTgd(0).ordes,seqTgaTgd(0).num,seqTgaTgd(0).`type`,seqTgaTgd(0).heure,seqTgaTgd(0).etat, premierAffichage, affichageDuree1, affichageDuree2)
+      TgaTgdWithoutRef(cycleId,seqTgaTgd(0).gare,seqTgaTgd(0).ordes,seqTgaTgd(0).num,seqTgaTgd(0).`type`,seqTgaTgd(0).heure,seqTgaTgd(0).etat, premierAffichage, affichageDuree1, affichageDuree2)
     }
 
-    ivTgaTgdWithoutReferentiel.take(5).foreach(println)
+    //ivTgaTgdWithoutReferentiel.take(5).foreach(println)
 
 
-    System.exit(0)
 
-    /*
     // 10) Jointure avec le référentiel
-    val dataTgaTgdWithReferentiel = joinReferentiel(ivTgaTgdWithoutReferentiel, dataRefGares, sqlContext)
+    val dataTgaTgdWithReferentiel = joinReferentiel(ivTgaTgdWithoutReferentiel.toDS(), dataRefGares, sqlContext)
 
     // 11) Conversion diverses, formatage de la sortie
     val dataClean = formatData(dataTgaTgdWithReferentiel, sqlContext)
@@ -164,8 +163,7 @@ trait SourcePipeline extends Serializable {
 
 
     dataTgaTgdOutput
-    */
-    null
+
   }
 
 
