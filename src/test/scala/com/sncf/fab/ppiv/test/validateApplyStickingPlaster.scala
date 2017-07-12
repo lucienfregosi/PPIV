@@ -1,6 +1,7 @@
 package com.sncf.fab.ppiv.test
 import com.sncf.fab.ppiv.business.TgaTgdInput
 import com.sncf.fab.ppiv.pipelineData.TraitementTga
+import com.sncf.fab.ppiv.pipelineData.libPipeline.Preprocess
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.sql.types.{DoubleType, LongType}
 import com.sncf.fab.ppiv.utils.AppConf._
@@ -40,11 +41,11 @@ The 'validateApplyStickingPlaster'  output   should
   val dsToFail = sc.parallelize(Seq(("ABC", "1498839248", "20", "DEST", "123", "TER", "12345", "I", "A", "1498828542", "IND", "05"))).toDF(newNamesTgaTgd: _*).withColumn("maj", 'maj.cast(LongType)).withColumn("heure", 'heure.cast(LongType)).as[TgaTgdInput]
 
 
-  def e1 = sourcePipeline.applyStickingPlaster(dsToFail, sqlContext) must haveClass[Dataset[TgaTgdInput]]
+  def e1 = Preprocess.applyStickingPlaster(dsToFail, sqlContext) must haveClass[Dataset[TgaTgdInput]]
 
-  def e2 = new DateTime(sourcePipeline.applyStickingPlaster(dsToFail, sqlContext).toDF().head().getLong(1)).getDayOfMonth must be_== (new DateTime(sourcePipeline.applyStickingPlaster(dsToFail, sqlContext).toDF().head().getLong(9)).getDayOfMonth - 1).when((new DateTime(sourcePipeline.applyStickingPlaster(dsToFail, sqlContext).toDF().head().getLong(1)).getHourOfDay) > 18 && (new DateTime(sourcePipeline.applyStickingPlaster(dsToFail, sqlContext).toDF().head().getLong(9)).getHourOfDay) < 12 )
+  def e2 = new DateTime(Preprocess.applyStickingPlaster(dsToFail, sqlContext).toDF().head().getLong(1)).getDayOfMonth must be_== (new DateTime(Preprocess.applyStickingPlaster(dsToFail, sqlContext).toDF().head().getLong(9)).getDayOfMonth - 1).when((new DateTime(Preprocess.applyStickingPlaster(dsToFail, sqlContext).toDF().head().getLong(1)).getHourOfDay) > 18 && (new DateTime(Preprocess.applyStickingPlaster(dsToFail, sqlContext).toDF().head().getLong(9)).getHourOfDay) < 12 )
 
-  def e3 = new DateTime(sourcePipeline.applyStickingPlaster(dsToFail, sqlContext).toDF().head().getLong(1)).getDayOfMonth must be_== (new DateTime(sourcePipeline.applyStickingPlaster(dsToFail, sqlContext).toDF().head().getLong(9)).getDayOfMonth).when((new DateTime(sourcePipeline.applyStickingPlaster(dsToFail, sqlContext).toDF().head().getLong(1)).getHourOfDay) < 18 && (new DateTime(sourcePipeline.applyStickingPlaster(dsToFail, sqlContext).toDF().head().getLong(9)).getHourOfDay) > 12 )
+  def e3 = new DateTime(Preprocess.applyStickingPlaster(dsToFail, sqlContext).toDF().head().getLong(1)).getDayOfMonth must be_== (new DateTime(Preprocess.applyStickingPlaster(dsToFail, sqlContext).toDF().head().getLong(9)).getDayOfMonth).when((new DateTime(Preprocess.applyStickingPlaster(dsToFail, sqlContext).toDF().head().getLong(1)).getHourOfDay) < 18 && (new DateTime(Preprocess.applyStickingPlaster(dsToFail, sqlContext).toDF().head().getLong(9)).getHourOfDay) > 12 )
 
 
 }

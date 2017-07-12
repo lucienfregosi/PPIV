@@ -40,10 +40,10 @@ object TraitementPPIVDriver extends Serializable {
       val persistMethod = args(0)
 
       LOGGER.info("Traitement d'affichage des TGA")
-      val ivTga = TraitementTga.start(args, sc, sqlContext)
+      val ivTga = TraitementTga.start(sc, sqlContext)
 
       LOGGER.info("Traitement d'affichage des TGD")
-      val ivTgd = TraitementTgd.start(args, sc, sqlContext)
+      val ivTgd = TraitementTgd.start(sc, sqlContext)
 
       // 11) Fusion des résultats de TGA et TGD
       val ivTgaTgd = ivTga.union(ivTgd)

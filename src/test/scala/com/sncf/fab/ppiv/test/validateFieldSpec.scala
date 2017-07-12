@@ -1,7 +1,8 @@
 package com.sncf.fab.ppiv.test
 import com.sncf.fab.ppiv.business.TgaTgdInput
 import com.sncf.fab.ppiv.parser.DatasetsParser
-import com.sncf.fab.ppiv.pipelineData.TraitementTga
+import com.sncf.fab.ppiv.pipelineData._
+import com.sncf.fab.ppiv.pipelineData.libPipeline.ValidateData
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.sql.types.{DoubleType, LongType}
 import com.sncf.fab.ppiv.utils.AppConf._
@@ -37,7 +38,7 @@ Voie is in [0-9] or in [A-Z]                                             $e15
 
   @transient val sc = new SparkContext(sparkConf)
   @transient val sqlContext = new SQLContext(sc)
-  val sourcePipeline = new TraitementTga
+  //val sourcePipeline = new TraitementTga
   import sqlContext.implicits._
 
   val newNamesTgaTgd = Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard")
@@ -52,13 +53,13 @@ Voie is in [0-9] or in [A-Z]                                             $e15
 
 
 
-  def e1 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(0) must =~("^[A-Z]{3}$")
-  def e2 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getLong(1) must be_<=(currentTimestamp)
-  def e3 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(2) must =~("^[0-2]{0,1}[0-9]$")
-  def e7 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(5)  must =~ ("^[A-Z]+$")
-  def e12 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(10) must beOneOf("IND", "SUP","ARR","")
-  def e13 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(11) must =~ ("^(([0-9]{4})|([0-9]{2})|$|\\s)$")
-  def e14 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(7) must =~("I|$")
-  def e15 = sourcePipeline.validateField(testrddDs,sqlContext).toDF().head().getString(8) must =~("^[A-Z|1-9|$]{1}$")
+  def e1 = ValidateData.validateField(testrddDs,sqlContext)._1.toDF().head().getString(0) must =~("^[A-Z]{3}$")
+  def e2 = ValidateData.validateField(testrddDs,sqlContext)._1.toDF().head().getLong(1) must be_<=(currentTimestamp)
+  def e3 = ValidateData.validateField(testrddDs,sqlContext)._1.toDF().head().getString(2) must =~("^[0-2]{0,1}[0-9]$")
+  def e7 = ValidateData.validateField(testrddDs,sqlContext)._1.toDF().head().getString(5)  must =~ ("^[A-Z]+$")
+  def e12 = ValidateData.validateField(testrddDs,sqlContext)._1.toDF().head().getString(10) must beOneOf("IND", "SUP","ARR","")
+  def e13 = ValidateData.validateField(testrddDs,sqlContext)._1.toDF().head().getString(11) must =~ ("^(([0-9]{4})|([0-9]{2})|$|\\s)$")
+  def e14 = ValidateData.validateField(testrddDs,sqlContext)._1.toDF().head().getString(7) must =~("I|$")
+  def e15 = ValidateData.validateField(testrddDs,sqlContext)._1.toDF().head().getString(8) must =~("^[A-Z|1-9|$]{1}$")
 
 }

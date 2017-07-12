@@ -1,20 +1,16 @@
 package com.sncf.fab.ppiv.pipelineData
 
-import java.util.Date
 
-import com.sncf.fab.ppiv.Exception.PpivRejectionHandler
 import com.sncf.fab.ppiv.business._
 import com.sncf.fab.ppiv.parser.DatasetsParser
+import com.sncf.fab.ppiv.pipelineData.libPipeline.{BuildCycleOver, LoadData, Preprocess, ValidateData}
+import com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver.LOGGER
 import com.sncf.fab.ppiv.utils.AppConf._
-import org.apache.spark.SparkConf
 import com.sncf.fab.ppiv.utils.Conversion
 import org.apache.spark.sql._
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
-import org.apache.spark.storage.StorageLevel
-import com.sncf.fab.ppiv.persistence.{PersistElastic, PersistHdfs, PersistHive, PersistLocal}
-import com.sncf.fab.ppiv.utils.Conversion.ParisTimeZone
 import org.apache.spark.sql.hive.HiveContext
 import org.joda.time.{DateTime, DateTimeZone}
 
@@ -27,7 +23,6 @@ trait SourcePipeline extends Serializable {
     *
     * @return le nom de l'application spark visible dans historyserver
     */
-
   def getAppName(): String = {
     PPIV
   }
@@ -68,42 +63,37 @@ trait SourcePipeline extends Serializable {
     */
   def Panneau(): String
 
-
-
-  /**
-    * le traitement principal lancé pour chaque data source
-    */
-
-  def start(outputs: Array[String], sc : SparkContext, sqlContext : SQLContext): Dataset[TgaTgdOutput] = {
+  // Lancement du pipeline de traitement pour TGA et TGD
+  def start(sc : SparkContext, sqlContext : SQLContext): Dataset[TgaTgdOutput] = {
 
     import sqlContext.implicits._
-    // Début du Pipeline
 
     // 1) Chargement des fichiers déjà parsé dans leur classe
-    val dataTgaTgd                = loadTgaTgd(sqlContext)
-    val dataRefGares              = loadReferentiel(sqlContext)
+    LOGGER.info("Chargement des fichiers et du référentiel")
+    val dataTgaTgd                = LoadData.loadTgaTgd(sqlContext, getSource())
+    val dataRefGares              = LoadData.loadReferentiel(sqlContext)
 
+    // 2) Application du sparadrap sur les données au cause du Bug lié au passe nuit
+    // On le conditionne a un flag dans app.conf car dans le futur Obier compte patcher le bug
 
-
-
-    // 2) Application du sparadrap sur les données au cause du Bug lié au passe nuit. Flag pour pouvoir le désactiver
-    val dataTgaTgdBugFix = if (STICKING_PLASTER == true) applyStickingPlaster(dataTgaTgd, sqlContext) else dataTgaTgd
+    if (STICKING_PLASTER == true) LOGGER.info("Flag sparadrap activé, application de la correction")
+    val dataTgaTgdBugFix = if (STICKING_PLASTER == true) Preprocess.applyStickingPlaster(dataTgaTgd, sqlContext) else dataTgaTgd
 
     // 3) Validation champ à champ
-    println("CNT initial" + dataTgaTgd.count())
-    val dataTgaTgdFielValidated   = validateField(dataTgaTgdBugFix, sqlContext)
+    LOGGER.info("Validation champ à champ")
+    val (dataTgaTgdFielValidated, dataTgaTgdFielRejected)   = ValidateData.validateField(dataTgaTgdBugFix, sqlContext)
 
 
     // 4) Reconstitution des évènements pour chaque trajet
-      // Récupération de tous les cycles d'un fichier horaire et sélection des terminés
-    val cycleIdList       = buildCycles(dataTgaTgdFielValidated, sqlContext)
-    val cycleIdListOver   = filterCycleOver(cycleIdList, sqlContext)
-    val tgaTgdCycleOver   = getEventCycleId(cycleIdListOver, sqlContext, sc)
+    // L'objectif de cette fonction est de renvoyer (cycleId | Array(TgaTgdInput) pour les cyclesId terminé
+    // Et les TgaTgdInput de tout le cycle de vie du train (toute la journée + journée précédente pour les passe nuits)
+    LOGGER.info("Reconstitution des cycles avec les évènements terminés")
+    val cycleWithEventOver = BuildCycleOver.getCycleOver(dataTgaTgdFielValidated, sc, sqlContext, Panneau())
 
 
 
     // 5) Boucle sur les cycles finis
-    val ivTgaTgdWithoutReferentiel = tgaTgdCycleOver.map{ x =>
+    val ivTgaTgdWithoutReferentiel = cycleWithEventOver.map{ x =>
       // Boucle sur chacun des cycles id terminés
 
       //val cycleId = x.getString(0)
@@ -154,194 +144,6 @@ trait SourcePipeline extends Serializable {
     dataTgaTgdOutput
 
   }
-
-
-  def loadTgaTgd(sqlContext : SQLContext): Dataset[TgaTgdInput] = {
-    import sqlContext.implicits._
-    // Comme pas de header définition du nom des champs
-    val newNamesTgaTgd = Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard","null")
-    // Lecture du CSV avec les bons noms de champs
-    val dsTgaTgd = sqlContext.read
-      .format("com.databricks.spark.csv")
-      .option("header", "false")
-      .option("delimiter", ";")
-      .load(getSource()).toDF(newNamesTgaTgd: _*)
-      .withColumn("maj", 'maj.cast(LongType))
-      .withColumn("heure", 'heure.cast(LongType))
-      .as[TgaTgdInput];
-
-   dsTgaTgd.toDF().map(row => DatasetsParser.parseTgaTgdDataset(row)).toDS()
-  }
-
-  def loadReferentiel(sqlContext : SQLContext) : Dataset[ReferentielGare] = {
-    import sqlContext.implicits._
-    val newNamesRefGares = Seq("CodeGare","IntituleGare","NombrePlateformes","SegmentDRG","UIC","UniteGare","TVS","CodePostal","Commune","DepartementCommune","Departement","Region","AgenceGC","RegionSNCF","NiveauDeService","LongitudeWGS84","LatitudeWGS84","DateFinValiditeGare")
-    val refGares = sqlContext.read
-      .option("delimiter", ";")
-      .option("header", "true")
-      .option("charset", "UTF8")
-      .format("com.databricks.spark.csv")
-      .load(REF_GARES)
-      .toDF(newNamesRefGares: _*)
-      .as[ReferentielGare]
-
-    refGares.toDF().map(DatasetsParser.parseRefGares).toDS()
-
-}
-
-
-  def applyStickingPlaster(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext): Dataset[TgaTgdInput] = {
-    import sqlContext.implicits._
-    // Application du sparadrap
-    // Pour les trains passe nuit, affiché entre après 18h et partant le lendemain il y a un bug connu et identifié dans OBIER
-    // Les évènements de 18à 24h seront a la date N+1. Il faut donc leur retrancher un jour pour la cohérence
-
-    // Si maj > 18 && heure < 12 on retranche un jour a la date de maj
-
-    val dsTgaTgdWithStickingPlaster = dsTgaTgd.map{
-      row =>
-        val hourMaj    = new DateTime(row.maj).toDateTime.toString("hh").toInt
-        val hourHeure  = new DateTime(row.heure).toDateTime.toString("hh").toInt
-        val newMaj = if(hourMaj > 18 && hourHeure < 12){
-          // On retranche un jour
-          new DateTime(row.maj).plusDays(-1).getMillis / 1000
-        } else row.maj
-        TgaTgdInput(row.gare, newMaj, row.train, row.ordes, row.num,row.`type`, row.picto, row.attribut_voie, row.voie, row.heure, row.etat, row.retard)
-    }
-    dsTgaTgdWithStickingPlaster
-  }
-
-  def validateField(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext): Dataset[TgaTgdInput] = {
-    import sqlContext.implicits._
-    // Validation de chaque champ avec les contraintes définies dans le dictionnaire de données
-    val currentTimestamp = DateTime.now(DateTimeZone.UTC).getMillis() / 1000
-
-    // Valid
-
-    //dsTgaTgd.show()
-    val dsTgaTgdValidatedFields = dsTgaTgd
-      .filter(_.gare matches "^[A-Z]{3}$" )
-      .filter(_.maj <= currentTimestamp)
-      .filter(_.train matches  "^[0-2]{0,1}[0-9]$")
-      .filter(_.`type` matches "^([A-Z]+)$")
-      .filter(_.attribut_voie matches "I|$")
-      .filter(_.attribut_voie matches "^(?:[0-9]|[A-Z]|$)$")
-      .filter(_.etat matches "^(?:(IND)|(SUP)|(ARR)|$|(\\s))$")
-      .filter(_.retard matches  "^(([0-9]{4})|([0-9]{2})|$|\\s)$")
-
-    // Rejected
-    val dsTgaTgdRejectedFields = dsTgaTgd.filter(x => (x.gare matches("(?!(^[A-Z]{3})$)")) || (x.maj > currentTimestamp)
-      ||  (x.train matches  "(?!(^[0-2]{0,1}[0-9]$))")
-      ||  (x.`type` matches "(?!(^[A-Z]+$))")
-      ||  (x.attribut_voie matches "!(I|$)")
-      ||  (x.voie matches "(?!(^(?:[0-9]|[A-Z]|$)$))")
-      || (x.etat matches "(?!(^(?:(IND)|(SUP)|(ARR)|$|\\s)$))")
-      || (x.retard matches  "(?!(^(?:[0-9]{2}|[0-9]{4}|$|\\s)$))")
-    )
-    // Sauvegarde des rejets
-    //PersistElastic.persisteTgaTgdParsedIntoEs(dsTgaTgdRejectedFields,"ppiv/rejectedField")
-    dsTgaTgdValidatedFields
-
-  }
-
-
-  def buildCycles(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext) : Dataset[TgaTgdCycle] = {
-    import sqlContext.implicits._
-    dsTgaTgd.toDF().registerTempTable("dataTgaTgd")
-    val dataTgaTgCycles = sqlContext.sql("SELECT concat(gare,'" + Panneau() + "',num,heure) as cycle_id, first(heure) as heure," +
-      " last(retard) as retard" +
-      " from dataTgaTgd group by concat(gare, '" + Panneau() + "',num,heure)")
-      .withColumn("heure", 'heure.cast(LongType))
-      .as[TgaTgdCycle]
-
-    //dataTgaTgCycles.show()
-    dataTgaTgCycles
-  }
-
-  def filterCycleOver(dsTgaTgdCycles : Dataset[TgaTgdCycle], sqlContext : SQLContext):  Dataset[TgaTgdCycle]= {
-    import sqlContext.implicits._
-    val horaireMax = Conversion.nowToDateTime().plusHours(-1)
-
-    val dataTgaTgdCycleOver = dsTgaTgdCycles .filter(x =>
-      ( (new  DateTime(x.heure).plusMinutes(x.retard.toInt)) isBefore(horaireMax) ))
-
-    dsTgaTgdCycles
-
-  }
-
-  // Fonction pour aller chercher tous les évènements d'un cycle
-  def getEventCycleId(dsTgaTgdCyclesOver : Dataset[TgaTgdCycle], sqlContext : SQLContext, sc : SparkContext): DataFrame = {
-
-    val hiveContext = new HiveContext(sc)
-    import sqlContext.implicits._
-
-    // Pour un cycle id renvoyer la liste des évènements trouvé dans les fichiers horaires de la journée
-    val day = 1
-
-    // The Path to Files
-    //remplecer TGA par Panneau qui prend TGA Ou TGD
-    val FileFirstName = LANDING_WORK + Conversion.getYearMonthDay(Conversion.nowToDateTime()) + "/TGA-" + Conversion.getYearMonthDay(Conversion.nowToDateTime()) + "_" + "0" + day.toString + ".csv"
-
-    // Concatenate all files of the current day from midnight to CurrentHour
-    val newNamesTgaTgd = Seq("gare", "maj", "train", "ordes", "num", "type", "picto", "attribut_voie", "voie", "heure", "etat", "retard", "null")
-
-    var tgaTgdRawAllDay = sqlContext.read
-      .format("com.databricks.spark.csv")
-      .option("header", "false")
-      .option("delimiter", ";")
-      .load(FileFirstName).toDF(newNamesTgaTgd: _*)
-      .withColumn("maj", 'maj.cast(LongType))
-      .withColumn("heure", 'heure.cast(LongType))
-      .as[TgaTgdInput];
-
-    tgaTgdRawAllDay.toDF().map(row => DatasetsParser.parseTgaTgdDataset(row)).toDS()
-
-    val currentHour = Conversion.getHour(Conversion.nowToDateTime())
-    val currentHourInt = currentHour.toInt
-
-    // LOOP Over all Files of the current day from midnight to CurrentHour
-    for (x <- 2 to 2) {
-      val day = x
-
-      var FileName = if(x < 10){
-        LANDING_WORK + Conversion.getYearMonthDay(Conversion.nowToDateTime()) + "/TGA-" + Conversion
-          .getYearMonthDay(Conversion.nowToDateTime()) + "_" + "0" + day.toString + ".csv"
-      } else {LANDING_WORK + Conversion.getYearMonthDay(Conversion.nowToDateTime()) + "/TGA-" + Conversion
-        .getYearMonthDay(Conversion.nowToDateTime()) + "_" + day.toString + ".csv" }
-      println ("The Name of the File is " , FileName)
-
-
-      val newNamesTgaTgd = Seq("gare", "maj", "train", "ordes", "num", "type", "picto", "attribut_voie", "voie", "heure", "etat", "retard", "null")
-
-      val FileToAppend = sqlContext.read
-        .format("com.databricks.spark.csv")
-        .option("header", "false")
-        .option("delimiter", ";")
-        .load(FileName).toDF(newNamesTgaTgd: _*)
-        .withColumn("maj", 'maj.cast(LongType))
-        .withColumn("heure", 'heure.cast(LongType))
-        .as[TgaTgdInput];
-
-      FileToAppend.toDF().map(row => DatasetsParser.parseTgaTgdDataset(row)).toDS()
-
-      tgaTgdRawAllDay = tgaTgdRawAllDay.union(FileToAppend)
-    }
-
-    // A partir de la liste des cycles finis, reconstitution d'un DS de la forme cycleId| Seq(gare, maj, ...)
-    val tgaTgdInputAllDay = tgaTgdRawAllDay.toDF().withColumn("cycle_id2", concat(col("gare"), lit(Panneau()), col("num"), col("heure")))
-    // On joint les deux avec un left join pour garder seulement les cycles terminés
-    val dfJoin = dsTgaTgdCyclesOver.toDF().select("cycle_id").join(tgaTgdInputAllDay, $"cycle_id" === $"cycle_id2", "LeftOuter")
-
-    val hiveDataframe = hiveContext.createDataFrame(dfJoin.rdd, dfJoin.schema)
-    // On concatène les colonnes pour pouvoir manipuler plus facilement la colonne dans le group byu
-    // On reconstruiera un TgaTgdInput plus tard
-    val dfGroupByCycleOver = hiveDataframe.drop("cycle_id2").distinct().select($"cycle_id", concat($"gare", lit(","), $"maj", lit(","), $"train", lit(","), $"ordes", lit(","), $"num", lit(","), $"type", lit(","), $"picto", lit(","), $"attribut_voie", lit(","), $"voie", lit(","), $"heure", lit(","), $"etat", lit(","), $"retard") as "event")
-      .groupBy("cycle_id").agg(
-      collect_list($"event") as "event"
-    )
-    dfGroupByCycleOver
-  }
-
 
 
 
