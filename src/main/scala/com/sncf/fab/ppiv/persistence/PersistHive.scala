@@ -2,7 +2,7 @@ package com.sncf.fab.ppiv.persistence
 import com.sncf.fab.ppiv.business.{TgaTgdInput, TgaTgdOutput}
 import com.sncf.fab.ppiv.pipelineData.TraitementTga
 import org.apache.spark.SparkContext
-import org.apache.spark.sql.{Dataset, SQLContext, SaveMode}
+import org.apache.spark.sql.{DataFrame, Dataset, SQLContext, SaveMode}
 import org.apache.spark.sql.hive.HiveContext
 
 
@@ -21,16 +21,16 @@ object PersistHive extends Serializable {
   }
 
   /**
-    * @param ds le dataset issu des fichiers TGA TGD et le referentiel des gares
+    * @param df le dataset issu des fichiers TGA TGD et le referentiel des gares
     */
-  def persisteQualiteAffichageHive(ds: Dataset[TgaTgdOutput], sc : SparkContext): Unit = {
+  def persisteQualiteAffichageHive(df: DataFrame, sc : SparkContext): Unit = {
 
 
     val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
-    val dfHive = hiveContext.createDataFrame(ds.toDF().rdd, ds.toDF().schema)
+    val dfHive = hiveContext.createDataFrame(df.rdd, df.schema)
     // Sauvegarde dans HDFS
     //val hdfsRefineryPath = TraitementTga.getOutputRefineryPath()
-    //ds.toDF().write.format("com.databricks.spark.csv").save(hdfsRefineryPath)
+    //ds.toDF().write.format("com.datasbricks.spark.csv").save(hdfsRefineryPath)
 
 
     dfHive.registerTempTable("dataToSaveHive")

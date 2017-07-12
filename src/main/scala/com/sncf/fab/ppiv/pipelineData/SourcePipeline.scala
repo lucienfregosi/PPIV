@@ -64,7 +64,7 @@ trait SourcePipeline extends Serializable {
   def Panneau(): String
 
   // Lancement du pipeline de traitement pour TGA et TGD
-  def start(sc : SparkContext, sqlContext : SQLContext): Dataset[TgaTgdOutput] = {
+  def start(sc : SparkContext, sqlContext : SQLContext): DataFrame = {
 
     import sqlContext.implicits._
 
@@ -115,7 +115,7 @@ trait SourcePipeline extends Serializable {
       if(isCycleValidated == false){
         // TODO: Enregistrer un TgaTgdWithoutRef avec la mention Invalidated pour filtrage
         LOGGER.info("Cycle invalide pour le cycle Id: " + cycleId)
-        TgaTgdWithoutRef("INV" + cycleId,seqTgaTgd(0).gare,seqTgaTgd(0).ordes,seqTgaTgd(0).num,seqTgaTgd(0).`type`,seqTgaTgd(0).heure,seqTgaTgd(0).etat, 0, 0, 0)
+        TgaTgdWithoutRef("INV_" + cycleId,seqTgaTgd(0).gare,seqTgaTgd(0).ordes,seqTgaTgd(0).num,seqTgaTgd(0).`type`,seqTgaTgd(0).heure,seqTgaTgd(0).etat, 0, 0, 0)
       }
 
       // 7) Nettoyage et mise en forme

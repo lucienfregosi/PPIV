@@ -2,6 +2,7 @@ package com.sncf.fab.ppiv.business
 
 /**
   * Created by ELFI03951 on 10/07/2017.
+  *
   */
 case class TgaTgdWithoutRef(cycleId : String,
                              gare: String,

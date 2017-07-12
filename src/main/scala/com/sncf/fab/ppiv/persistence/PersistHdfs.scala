@@ -1,8 +1,8 @@
 package com.sncf.fab.ppiv.persistence
 
-import com.sncf.fab.ppiv.business.{TgaTgdOutput, TgaTgdInput}
+import com.sncf.fab.ppiv.business.{TgaTgdInput, TgaTgdOutput}
 import com.sncf.fab.ppiv.utils.{AppConf, Conversion}
-import org.apache.spark.sql.{Dataset, SaveMode}
+import org.apache.spark.sql.{DataFrame, Dataset, SaveMode}
 import org.joda.time.DateTime
 
 /**
@@ -20,12 +20,12 @@ object PersistHdfs extends Serializable {
   }
 
   /**
-    * @param ds le dataset issu des fichiers TGA TGD et le referentiel des gares
+    * @param df le dataset issu des fichiers TGA TGD et le referentiel des gares
     */
-  def persisteQualiteAffichageIntoHdfs(ds: Dataset[TgaTgdOutput], hdfsGoldPath:String): Unit = {
+  def persisteQualiteAffichageIntoHdfs(df: DataFrame, hdfsGoldPath:String): Unit = {
 
-    println(hdfsGoldPath)
-    ds.toDF().write.format("com.databricks.spark.csv").save(hdfsGoldPath)
+
+    df.write.format("com.databricks.spark.csv").save(hdfsGoldPath)
   }
 
 }
