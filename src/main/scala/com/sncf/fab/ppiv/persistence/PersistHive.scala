@@ -25,20 +25,15 @@ object PersistHive extends Serializable {
     */
   def persisteQualiteAffichageHive(ds: Dataset[TgaTgdOutput], sc : SparkContext): Unit = {
 
-    /*
-    val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
-    ds.toDF().registerTempTable("dataToSaveHive")
-    hiveContext.sql("create table testHive as select * from dataToSaveHive")
-    */
-
-    ds.show()
 
     val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
-
+    val dfHive = hiveContext.createDataFrame(ds.toDF().rdd, ds.toDF().schema)
     // Sauvegarde dans HDFS
-    val hdfsRefineryPath = TraitementTga.getOutputRefineryPath()
+    //val hdfsRefineryPath = TraitementTga.getOutputRefineryPath()
+    //ds.toDF().write.format("com.databricks.spark.csv").save(hdfsRefineryPath)
 
-    ds.toDF().write.format("com.databricks.spark.csv").save(hdfsRefineryPath)
+
+    dfHive.registerTempTable("dataToSaveHive")
 
     // Chargement des données de HDFS dans Hive
     hiveContext.sql("CREATE EXTERNAL TABLE IF NOT EXISTS ppiv_ref.iv_tgatgd3 (nom_de_la_gare String, agence String," +
@@ -55,11 +50,13 @@ object PersistHive extends Serializable {
 
 
     // Load data to HDFS
-    hiveContext.sql("LOAD DATA INPATH '" + hdfsRefineryPath.replaceAll("hdfs:","") + "' INTO TABLE ppiv_ref.iv_tgatgd3")
+    //hiveContext.sql("LOAD DATA INPATH '" + hdfsRefineryPath.replaceAll("hdfs:","") + "' INTO TABLE ppiv_ref.iv_tgatgd3")
 
     // Affichage pour vérifier que cela a bien marché
-    println("log pour être sur que ca a bien marché")
-    hiveContext.sql("FROM ppiv_ref.iv_tgatgd3 SELECT * LIMIT 10").collect().foreach(println)
+    //println("log pour être sur que ca a bien marché")
+    //hiveContext.sql("FROM ppiv_ref.iv_tgatgd3 SELECT * LIMIT 10").collect().foreach(println)
+
+    dfHive.write.mode("append").saveAsTable("ppiv_ref.iv_tgatgd3")
 
   }
 
