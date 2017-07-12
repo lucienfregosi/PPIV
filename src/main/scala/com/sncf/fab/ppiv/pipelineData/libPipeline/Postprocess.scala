@@ -1,9 +1,10 @@
 package com.sncf.fab.ppiv.pipelineData.libPipeline
 
-import com.sncf.fab.ppiv.business.{ReferentielGare, TgaTgdInput, TgaTgdOutput, TgaTgdWithoutRef}
+import com.sncf.fab.ppiv.business.{ReferentielGare, TgaTgdInput, TgaTgdOutput, TgaTgdWithoutRef, VingPremierChamp, VingtChampsSuivants,NDerniersChamps }
 import com.sncf.fab.ppiv.utils.Conversion
 import org.apache.spark.SparkContext
-import org.apache.spark.sql.{DataFrame, Dataset, SQLContext}
+import org.apache.spark.sql.{DataFrame, Dataset, Row, SQLContext}
+
 
 /**
   * Created by ELFI03951 on 12/07/2017.
@@ -24,25 +25,90 @@ object Postprocess {
     import sqlContext.implicits._
 
 
-    val affichageFinal =  dfTgaTgd.map(row => TgaTgdOutput(
-      row.getString(11),
-      row.getString(22),
-      row.getString(15),
-      row.getString(13),
-      row.getString(25),
-      row.getString(26),
-      row.getString(0),
-      row.getString(3),
-      row.getString(4),
-      row.getString(2),
-      panneau,
-      Conversion.unixTimestampToDateTime(row.getLong(5)).toString,
-      Conversion.unixTimestampToDateTime(row.getLong(7)).toString,
-      Conversion.unixTimestampToDateTime(row.getLong(8)).toString,
-      Conversion.unixTimestampToDateTime(row.getLong(9)).toString
-    ))
+    val affichageFinal =  dfTgaTgd.map(row => {
+      val v1 = VingPremierChamp(
+        row.getString(11),
+        row.getString(22),
+        row.getString(15),
+        row.getString(13),
+        row.getFloat(25),
+        row.getFloat(26),
+        row.getString(0),
+        row.getString(3),
+        row.getString(4),
+        row.getString(2),
+        panneau,
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        0,
+        "",
+        ""
+      )
 
-    affichageFinal.toDS().as[TgaTgdOutput]
+      val v2 = VingtChampsSuivants(
+        "",
+        "",
+        "",
+        0,
+        0,
+        0,
+        "",
+        "",
+        "",
+        "",
+        "",
+        0,
+        0,
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      )
+
+      val v3 = NDerniersChamps(
+        "",
+        "",
+        "",
+        "",
+        "",
+        0,
+        0,
+        0,
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        0
+      )
+      TgaTgdOutput(
+        v1,
+        v2,
+        v3,
+        "",
+        "",
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      )
+    })
+
+    affichageFinal.toDS().show()
+    System.exit(0)
+
+    affichageFinal.toDS()
+
 
   }
 }
