@@ -3,12 +3,14 @@ import java.io.File
 
 import com.sncf.fab.ppiv.business.TgaTgdInput
 import com.sncf.fab.ppiv.pipelineData.TraitementTga
+import com.sncf.fab.ppiv.pipelineData.libPipeline.ValidateData
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.sql.types.{DoubleType, LongType}
 import com.sncf.fab.ppiv.utils.AppConf._
 import org.apache.spark.sql.{Dataset, SQLContext}
 import org.joda.time.{DateTime, DateTimeZone}
 import org.specs2._
+
 import scala.io.Source
 
 
@@ -56,10 +58,10 @@ The 'validateCycle'  output   should
 
 
 
-  def e1 = sourcePipeline.validateCycle(dsSansVoie) must beFalse
-  def e2 = sourcePipeline.validateCycle(dsAvecVoie) must beTrue
-  def e3 = sourcePipeline.validateCycle(dsAvecEventApres) must beFalse
-  def e4 = sourcePipeline.validateCycle(dsAvecEventAvant) must beTrue
+  def e1 = ValidateData.validateCycle(dsSansVoie) must beFalse
+  def e2 = ValidateData.validateCycle(dsAvecVoie) must beTrue
+  def e3 = ValidateData.validateCycle(dsAvecEventApres) must beFalse
+  def e4 = ValidateData.validateCycle(dsAvecEventAvant) must beTrue
 
 
 }

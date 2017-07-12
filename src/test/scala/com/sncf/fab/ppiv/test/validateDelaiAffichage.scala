@@ -4,6 +4,7 @@ import java.io.File
 
 import com.sncf.fab.ppiv.business.TgaTgdInput
 import com.sncf.fab.ppiv.pipelineData.TraitementTga
+import com.sncf.fab.ppiv.pipelineData.libPipeline.BusinessRules
 import com.sncf.fab.ppiv.utils.AppConf.{PPIV, SPARK_MASTER}
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.sql.SQLContext
@@ -52,12 +53,12 @@ The 'getAffichageDuree2'  output   should
 
 
 
-  def e1 = sourcePipeline.getAffichageDuree1(dsSansRetard).toInt must be_>= (0)
-  def e2 = sourcePipeline.getAffichageDuree1(dsSansRetard) mustEqual 774
-  def e3 = sourcePipeline.getAffichageDuree1(dsAvecRetard) mustEqual 774
+  def e1 = BusinessRules.getAffichageDuree1(dsSansRetard).toInt must be_>= (0)
+  def e2 = BusinessRules.getAffichageDuree1(dsSansRetard) mustEqual 774
+  def e3 = BusinessRules.getAffichageDuree1(dsAvecRetard) mustEqual 774
 
-  def e4 = sourcePipeline.getAffichageDuree2(dsSansRetard).toInt must be_>= (0)
-  def e5 = sourcePipeline.getAffichageDuree2(dsSansRetard) mustEqual 774
-  def e6 = sourcePipeline.getAffichageDuree2(dsAvecRetard) mustEqual 1074
+  def e4 = BusinessRules.getAffichageDuree2(dsSansRetard).toInt must be_>= (0)
+  def e5 = BusinessRules.getAffichageDuree2(dsSansRetard) mustEqual 774
+  def e6 = BusinessRules.getAffichageDuree2(dsAvecRetard) mustEqual 1074
 
 }

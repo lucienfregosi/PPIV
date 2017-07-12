@@ -34,4 +34,8 @@ object Preprocess {
     }
     dsTgaTgdWithStickingPlaster
   }
+  def cleanCycle(seqTgaTgd: Seq[TgaTgdInput]): Seq[TgaTgdInput] = {
+    // Nettoyage, mise en forme des lignes, conversion des heures etc ..
+    seqTgaTgd
+  }
 }

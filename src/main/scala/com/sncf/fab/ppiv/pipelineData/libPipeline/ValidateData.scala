@@ -39,4 +39,32 @@ object ValidateData {
     (dsTgaTgdValidatedFields, dsTgaTgdRejectedFields)
   }
 
+  def validateCycle(dsTgaTgdSeq: Seq[TgaTgdInput]): Boolean = {
+
+    // Validation des cycles. Un cycle doit comporter au moins une voie et tous ses évènements ne peuvent pas se passer x minutes après le départ du train
+    // En entrée la liste des évènements pour un cycle id donné.
+
+    // Décompte des évènements ou la voir est renseignée
+    val cntVoieAffiche = dsTgaTgdSeq.filter(x => (x.voie!= null ) && (x.voie!= "0")&& (x.voie!= "")).length
+
+    // Compter le nombre d'évènements après le départ théorique + retard
+    val departThéorique = dsTgaTgdSeq(0).heure.toLong
+
+    val retard = BusinessRules.getCycleRetard(dsTgaTgdSeq)
+    // 10 minutes : pour la marge d'erreur imposé par le métier
+    val margeErreur = 10 * 60
+    val departReel = departThéorique + retard + margeErreur
+
+    // Décompte des évènements se passant après le départ du triain
+    val cntEventApresDepart = dsTgaTgdSeq.filter(x=>( x.maj > departReel)).length
+
+    // Si le compte de voie est différent de 0 ou le compte des évènement après la date est égale a la somme des event (= tous les évènements postérieurs à la date de départ du train
+    if(cntVoieAffiche != 0 && cntEventApresDepart != dsTgaTgdSeq.length ){
+      true
+    }
+    else{
+      false
+    }
+  }
+
 }

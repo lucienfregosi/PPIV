@@ -49,6 +49,8 @@ object PersistHive extends Serializable {
       " row format delimited fields terminated by ','")
 
 
+    hiveContext.sql("CREATE EXTERNAL TABLE IF NOT EXISTS ppiv_ref.iv_tgatgd6 as select * from dataToSaveHive")
+
     // Load data to HDFS
     //hiveContext.sql("LOAD DATA INPATH '" + hdfsRefineryPath.replaceAll("hdfs:","") + "' INTO TABLE ppiv_ref.iv_tgatgd3")
 
@@ -58,7 +60,6 @@ object PersistHive extends Serializable {
 
     // Problème de out of bounds exception créer la structure finale ca marchera mieux
     //hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgd5 select * from dataToSaveHive")
-    hiveContext.sql("CREATE EXTERNAL TABLE IF NOT EXISTS ppiv_ref.iv_tgatgd4 as select * from dataToSaveHive")
 
   }
 
