@@ -36,7 +36,7 @@ object PersistHive extends Serializable {
     dfHive.registerTempTable("dataToSaveHive")
 
     // Chargement des données de HDFS dans Hive
-    /*hiveContext.sql("CREATE EXTERNAL TABLE IF NOT EXISTS ppiv_ref.iv_tgatgd3 (nom_de_la_gare String, agence String," +
+    hiveContext.sql("CREATE EXTERNAL TABLE IF NOT EXISTS ppiv_ref.iv_tgatgd5 (nom_de_la_gare String, agence String," +
       " segmentation  String, uic String, x String, y String, id_train String, num_train String, type String," +
       " origine_destination String, type_panneau String, dateheure2 String,creneau_horaire String, jour_depart_arrivee INT," +
       " jour_depart_arrivee1 String, affichage_duree1 String, affichage_duree1_minutes String, delai_affichage_voie_sans_retard String, " +
@@ -56,7 +56,7 @@ object PersistHive extends Serializable {
     //println("log pour être sur que ca a bien marché")
     //hiveContext.sql("FROM ppiv_ref.iv_tgatgd3 SELECT * LIMIT 10").collect().foreach(println)
 
-    hiveContext.sql("CREATE EXTERNAL TABLE IF NOT EXISTS ppiv_ref.iv_tgatgd4 as select * from dataToSaveHive")
+    hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgd4 select * from dataToSaveHive")
 
   }
 
