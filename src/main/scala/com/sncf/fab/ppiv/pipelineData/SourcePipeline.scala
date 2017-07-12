@@ -269,31 +269,79 @@ trait SourcePipeline extends Serializable {
 
   }
 
+  // Fonction pour aller chercher tous les évènements d'un cycle
   def getEventCycleId(dsTgaTgdCyclesOver : Dataset[TgaTgdCycle], sqlContext : SQLContext, sc : SparkContext): DataFrame = {
 
     val hiveContext = new HiveContext(sc)
     import sqlContext.implicits._
 
+    // Pour un cycle id renvoyer la liste des évènements trouvé dans les fichiers horaires de la journée
+    val day = 1
+
+    // The Path to Files
+    //remplecer TGA par Panneau qui prend TGA Ou TGD
+    val FileFirstName = LANDING_WORK + Conversion.getYearMonthDay(Conversion.nowToDateTime()) + "/TGA-" + Conversion.getYearMonthDay(Conversion.nowToDateTime()) + "_" + "0" + day.toString + ".csv"
+
+    // Concatenate all files of the current day from midnight to CurrentHour
+    val newNamesTgaTgd = Seq("gare", "maj", "train", "ordes", "num", "type", "picto", "attribut_voie", "voie", "heure", "etat", "retard", "null")
+
+    var tgaTgdRawAllDay = sqlContext.read
+      .format("com.databricks.spark.csv")
+      .option("header", "false")
+      .option("delimiter", ";")
+      .load(FileFirstName).toDF(newNamesTgaTgd: _*)
+      .withColumn("maj", 'maj.cast(LongType))
+      .withColumn("heure", 'heure.cast(LongType))
+      .as[TgaTgdInput];
+
+    tgaTgdRawAllDay.toDF().map(row => DatasetsParser.parseTgaTgdDataset(row)).toDS()
+
+    val currentHour = Conversion.getHour(Conversion.nowToDateTime())
+    val currentHourInt = currentHour.toInt
+
+    // LOOP Over all Files of the current day from midnight to CurrentHour
+    for (x <- 2 to 2) {
+      val day = x
+
+      var FileName = if(x < 10){
+        LANDING_WORK + Conversion.getYearMonthDay(Conversion.nowToDateTime()) + "/TGA-" + Conversion
+          .getYearMonthDay(Conversion.nowToDateTime()) + "_" + "0" + day.toString + ".csv"
+      } else {LANDING_WORK + Conversion.getYearMonthDay(Conversion.nowToDateTime()) + "/TGA-" + Conversion
+        .getYearMonthDay(Conversion.nowToDateTime()) + "_" + day.toString + ".csv" }
+      println ("The Name of the File is " , FileName)
+
+
+      val newNamesTgaTgd = Seq("gare", "maj", "train", "ordes", "num", "type", "picto", "attribut_voie", "voie", "heure", "etat", "retard", "null")
+
+      val FileToAppend = sqlContext.read
+        .format("com.databricks.spark.csv")
+        .option("header", "false")
+        .option("delimiter", ";")
+        .load(FileName).toDF(newNamesTgaTgd: _*)
+        .withColumn("maj", 'maj.cast(LongType))
+        .withColumn("heure", 'heure.cast(LongType))
+        .as[TgaTgdInput];
+
+      FileToAppend.toDF().map(row => DatasetsParser.parseTgaTgdDataset(row)).toDS()
+
+      tgaTgdRawAllDay = tgaTgdRawAllDay.union(FileToAppend)
+    }
+
     // A partir de la liste des cycles finis, reconstitution d'un DS de la forme cycleId| Seq(gare, maj, ...)
-    // TODO : Charger les TGA TGD de la journée
-    val tgaTgdInputAllDay = loadTgaTgd(sqlContext).toDF().withColumn("cycle_id2",concat(col("gare"),lit(Panneau()),col("num"), col("heure")))
-
+    val tgaTgdInputAllDay = tgaTgdRawAllDay.toDF().withColumn("cycle_id2", concat(col("gare"), lit(Panneau()), col("num"), col("heure")))
     // On joint les deux avec un left join pour garder seulement les cycles terminés
-    val dfJoin = dsTgaTgdCyclesOver.toDF().select("cycle_id").join(tgaTgdInputAllDay, $"cycle_id" === $"cycle_id2","LeftOuter")
-
+    val dfJoin = dsTgaTgdCyclesOver.toDF().select("cycle_id").join(tgaTgdInputAllDay, $"cycle_id" === $"cycle_id2", "LeftOuter")
 
     val hiveDataframe = hiveContext.createDataFrame(dfJoin.rdd, dfJoin.schema)
-
-   // On concatène les colonnes pour pouvoir manipuler plus facilement la colonne dans le group byu
+    // On concatène les colonnes pour pouvoir manipuler plus facilement la colonne dans le group byu
     // On reconstruiera un TgaTgdInput plus tard
-    val dfGroupByCycleOver = hiveDataframe.drop("cycle_id2").distinct().select($"cycle_id", concat($"gare",lit(","),$"maj",lit(","),$"train",lit(","),$"ordes",lit(","),$"num",lit(","),$"type",lit(","),$"picto",lit(","),$"attribut_voie",lit(","),$"voie",lit(","),$"heure",lit(","),$"etat",lit(","),$"retard") as "event")
-        .groupBy("cycle_id").agg(
-            collect_list($"event") as "event"
-        )
-
-
+    val dfGroupByCycleOver = hiveDataframe.drop("cycle_id2").distinct().select($"cycle_id", concat($"gare", lit(","), $"maj", lit(","), $"train", lit(","), $"ordes", lit(","), $"num", lit(","), $"type", lit(","), $"picto", lit(","), $"attribut_voie", lit(","), $"voie", lit(","), $"heure", lit(","), $"etat", lit(","), $"retard") as "event")
+      .groupBy("cycle_id").agg(
+      collect_list($"event") as "event"
+    )
     dfGroupByCycleOver
   }
+
 
 
 

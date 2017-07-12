@@ -56,7 +56,9 @@ object PersistHive extends Serializable {
     //println("log pour être sur que ca a bien marché")
     //hiveContext.sql("FROM ppiv_ref.iv_tgatgd3 SELECT * LIMIT 10").collect().foreach(println)
 
-    hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgd5 select * from dataToSaveHive")
+    // Problème de out of bounds exception créer la structure finale ca marchera mieux
+    //hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgd5 select * from dataToSaveHive")
+    hiveContext.sql("CREATE EXTERNAL TABLE IF NOT EXISTS ppiv_ref.iv_tgatgd4 as select * from dataToSaveHive")
 
   }
 
