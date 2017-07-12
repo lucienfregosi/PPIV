@@ -16,8 +16,8 @@ object BusinessRules {
     if(seqFiltered.isEmpty){
       0
     } else {
-      // Récupération du dernier retard
-      val  minuteRetard =  seqFiltered(seqFiltered.length).retard.toLong
+      // Récupération du dernier retard. -1 pour aller chercher sur le dernier index
+      val  minuteRetard =  seqFiltered(seqFiltered.length - 1).retard.toLong
       // Multipliation par 60 pour renvoyer un résultat en secondes
       minuteRetard * 60
     }
