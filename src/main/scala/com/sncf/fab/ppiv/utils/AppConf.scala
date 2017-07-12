@@ -30,8 +30,9 @@ object AppConf extends Serializable{
   // elastic confs
   val PORT= conf.getString("port")
   val HOST= conf.getString("host")
-  val QUALITE_INDEX=conf.getString("qualite_index")
-  val TGA_TGD_INDEX=conf.getString("tga_tgd_index")
+  val OUTPUT_INDEX         =conf.getString("ivTgaTgdIndex")
+  val FIELD_REJECTED_INDEX =conf.getString("rejectFieldValidationIndex")
+  val CYCLE_REJECTED_INDEX =conf.getString("rejectCycleValidationIndex")
 
 
 
