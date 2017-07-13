@@ -160,9 +160,9 @@ trait SourcePipeline extends Serializable {
     val cycleValidated    = dsIvTgaTgdWithoutReferentiel.toDF().filter(not($"cycleId".contains("INV"))).as[TgaTgdIntermediate]
 
     println("invalidated:" + cycleInvalidated.count())
-    println("validated:" + cycleValidated.count())
 
-    System.exit(0)
+
+
 
     // 11) Enregistrement des rejets (champs + cycle)
     Reject.saveFieldRejected(dataTgaTgdFielRejected, sc)
@@ -176,6 +176,10 @@ trait SourcePipeline extends Serializable {
 
     // 13) Jointure avec le référentiel
     val dataTgaTgdWithReferentiel = Postprocess.joinReferentiel(cycleValidated, dataRefGares, sqlContext)
+
+    println("ref:" + dataTgaTgdWithReferentiel.count())
+    System.exit(0)
+
 
 
     // 14) Inscription dans la classe finale TgaTgdOutput avec conversion et formatage
