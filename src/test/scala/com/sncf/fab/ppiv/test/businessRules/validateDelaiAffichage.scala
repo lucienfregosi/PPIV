@@ -1,14 +1,10 @@
-package com.sncf.fab.ppiv.test
+package com.sncf.fab.ppiv.test.businessRules
 
 import java.io.File
 
 import com.sncf.fab.ppiv.business.TgaTgdInput
 import com.sncf.fab.ppiv.pipelineData.TraitementTga
 import com.sncf.fab.ppiv.pipelineData.libPipeline.BusinessRules
-import com.sncf.fab.ppiv.utils.AppConf.{PPIV, SPARK_MASTER}
-import org.apache.spark.{SparkConf, SparkContext}
-import org.apache.spark.sql.SQLContext
-import org.apache.spark.sql.types.LongType
 import org.specs2.Specification
 
 import scala.io.Source

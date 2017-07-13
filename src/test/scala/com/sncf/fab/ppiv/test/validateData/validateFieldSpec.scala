@@ -1,12 +1,12 @@
-package com.sncf.fab.ppiv.test
+package com.sncf.fab.ppiv.test.validateData
+
 import com.sncf.fab.ppiv.business.TgaTgdInput
 import com.sncf.fab.ppiv.parser.DatasetsParser
-import com.sncf.fab.ppiv.pipelineData._
 import com.sncf.fab.ppiv.pipelineData.libPipeline.ValidateData
-import org.apache.spark.{SparkConf, SparkContext}
-import org.apache.spark.sql.types.{DoubleType, LongType}
 import com.sncf.fab.ppiv.utils.AppConf._
 import org.apache.spark.sql.SQLContext
+import org.apache.spark.sql.types.LongType
+import org.apache.spark.{SparkConf, SparkContext}
 import org.joda.time.{DateTime, DateTimeZone}
 import org.specs2._
 

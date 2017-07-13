@@ -168,11 +168,6 @@ object Postprocess {
       "taux_affichage_15",
       "taux_affichage2_15"
     )
-
-    dfFinal.show()
-
     dfFinal
-
-
   }
 }

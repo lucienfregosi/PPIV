@@ -113,7 +113,8 @@ trait SourcePipeline extends Serializable {
       // 6) Validation des cycles
       val isCycleValidated  = ValidateData.validateCycle(seqTgaTgd)
       if(isCycleValidated == false){
-        // TODO: Enregistrer un TgaTgdWithoutRef avec la mention Invalidated pour filtrage
+        // TODO : Regarder si il n'a pas un état en IND ou SUP
+        // Si oui on enregistre la ligne avec les infos qu'on a
         LOGGER.info("Cycle invalide pour le cycle Id: " + cycleId)
         TgaTgdIntermediate("INV_" + cycleId,seqTgaTgd(0).gare,seqTgaTgd(0).ordes,seqTgaTgd(0).num,seqTgaTgd(0).`type`,seqTgaTgd(0).heure,seqTgaTgd(0).etat, 0, 0, 0,0,0,0,0,0,"","","","","",0,0)
       }
