@@ -16,8 +16,7 @@ object Postprocess {
 
   def joinReferentiel(dsTgaTgd: Dataset[TgaTgdIntermediate], refGares : Dataset[ReferentielGare], sqlContext : SQLContext): DataFrame = {
     // Jointure entre nos données de sorties et le référentiel
-    val joinedData = dsTgaTgd.toDF().join(refGares.toDF(), dsTgaTgd.toDF().col("gare") === refGares.toDF().col("TVS"))
-
+    val joinedData = dsTgaTgd.toDF().join(refGares.toDF(), dsTgaTgd.toDF().col("gare") === refGares.toDF().col("TVS"),"LeftOuter")
     joinedData
   }
 

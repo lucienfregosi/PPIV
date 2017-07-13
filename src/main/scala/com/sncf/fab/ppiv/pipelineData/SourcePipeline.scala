@@ -178,7 +178,6 @@ trait SourcePipeline extends Serializable {
     val dataTgaTgdWithReferentiel = Postprocess.joinReferentiel(cycleValidated, dataRefGares, sqlContext)
 
     println("ref:" + dataTgaTgdWithReferentiel.count())
-    System.exit(0)
 
 
 
