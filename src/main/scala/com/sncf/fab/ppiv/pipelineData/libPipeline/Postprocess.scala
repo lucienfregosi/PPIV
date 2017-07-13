@@ -46,7 +46,7 @@ object Postprocess {
         "",
         0,
         "",
-        Conversion.getHHmmss(Conversion.unixTimestampToDateTime(row.getLong(8)))
+        Conversion.getHHmmss(row.getLong(8))
       )
 
 
@@ -57,18 +57,18 @@ object Postprocess {
         0,
         0,
         0,
-        Conversion.getHHmmss(Conversion.unixTimestampToDateTime(row.getLong(9))),
+        Conversion.getHHmmss(row.getLong(9)),
         "",
-        Conversion.getHHmmss(Conversion.unixTimestampToDateTime(row.getLong(10))),
+        Conversion.getHHmmss(row.getLong(10)),
         "",
         "",
         0,
         0,
         Conversion.unixTimestampToDateTime(row.getLong(11)).toString,
-        Conversion.getHHmmss(Conversion.unixTimestampToDateTime(row.getLong(12))),
+        Conversion.getHHmmss(row.getLong(12)),
         row.getString(6),
         Conversion.unixTimestampToDateTime(row.getLong(13)).toString,
-        Conversion.getHHmmss(Conversion.unixTimestampToDateTime(row.getLong(14))),
+        Conversion.getHHmmss(row.getLong(14)),
         ""
       )
 
