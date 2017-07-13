@@ -59,15 +59,15 @@ object BusinessRules {
   }
 
   def getDernierRetardAnnonce(dsTgaTgdSeq: Seq[TgaTgdInput]) : Long = {
-    0
+    5
   }
 
   def getAffichageRetard(dsTgaTgdSeq: Seq[TgaTgdInput]) : Long = {
-    0
+    5
   }
 
   def getAffichageDureeRetard(dsTgaTgdSeq: Seq[TgaTgdInput]) : Long = {
-    0
+    5
   }
 
   def getEtatTrain(dsTgaTgdSeq: Seq[TgaTgdInput]) : String = {
@@ -75,11 +75,11 @@ object BusinessRules {
   }
 
   def getDateAffichageEtatTrain(dsTgaTgdSeq: Seq[TgaTgdInput]) : Long = {
-    0
+    5
   }
 
   def getDelaiAffichageEtatTrainAvantDepartArrive(dsTgaTgdSeq: Seq[TgaTgdInput]) : Long = {
-    0
+    5
   }
 
   def getDernierQuaiAffiche(dsTgaTgdSeq: Seq[TgaTgdInput]) : String = {
@@ -103,11 +103,11 @@ object BusinessRules {
   }
 
   def getDernierAffichage(dsTgaTgdSeq: Seq[TgaTgdInput]) : Long = {
-    0
+    5
   }
 
   def getDateProcess(dsTgaTgdSeq: Seq[TgaTgdInput]) : Long = {
-    0
+    5
   }
 
 

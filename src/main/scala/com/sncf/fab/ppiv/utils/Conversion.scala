@@ -146,4 +146,8 @@ object Conversion {
   def escapeSimpleQuote(line: String): String = {
     line.replace("'", "\\'")
   }
+
+  def getHHmmss(date: DateTime): String = {
+    new SimpleDateFormat("HH:mm:ss").format(date)
+  }
 }

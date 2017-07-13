@@ -46,7 +46,7 @@ object Postprocess {
         "",
         0,
         "",
-        Conversion.unixTimestampToDateTime(row.getLong(8)).toString
+        Conversion.getHHmmss(Conversion.unixTimestampToDateTime(row.getLong(8)))
       )
 
       val v2 = VingtChampsSuivants(
@@ -56,18 +56,18 @@ object Postprocess {
         0,
         0,
         0,
-        Conversion.unixTimestampToDateTime(row.getLong(9)).toString,
+        Conversion.getHHmmss(Conversion.unixTimestampToDateTime(row.getLong(9))),
         "",
-        Conversion.unixTimestampToDateTime(row.getLong(10)).toString,
+        Conversion.getHHmmss(Conversion.unixTimestampToDateTime(row.getLong(10))),
         "",
         "",
         0,
         0,
         Conversion.unixTimestampToDateTime(row.getLong(11)).toString,
-        Conversion.unixTimestampToDateTime(row.getLong(12)).toString,
+        Conversion.getHHmmss(Conversion.unixTimestampToDateTime(row.getLong(12))),
         row.getString(6),
         Conversion.unixTimestampToDateTime(row.getLong(13)).toString,
-        Conversion.unixTimestampToDateTime(row.getLong(14)).toString,
+        Conversion.getHHmmss(Conversion.unixTimestampToDateTime(row.getLong(14))),
         ""
       )
 
@@ -81,12 +81,12 @@ object Postprocess {
         0,
         0,
         row.getString(16),
-        row.getString(16),
+        row.getString(17),
+        row.getString(18),
+        row.getString(19),
         "",
-        "",
-        "",
-        "",
-        "",
+        Conversion.unixTimestampToDateTime(row.getLong(20)).toString,
+        Conversion.unixTimestampToDateTime(row.getLong(21)).toString,
         0
       )
       TgaTgdOutput(
@@ -167,7 +167,6 @@ object Postprocess {
       "taux_affichage_15",
       "taux_affichage2_15"
     )
-    dfFinal.show()
 
     dfFinal
 
