@@ -169,6 +169,8 @@ object Postprocess {
       "taux_affichage2_15"
     )
 
+    dfFinal.show()
+
     dfFinal
 
 
