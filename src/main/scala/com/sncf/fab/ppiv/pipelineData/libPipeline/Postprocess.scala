@@ -105,7 +105,6 @@ object Postprocess {
     })
 
     val dfFinal = affichageFinal.toDF().select(
-      "first.agence",
       "first.nom_de_la_gare",
       "first.agence",
       "first.segmentation",

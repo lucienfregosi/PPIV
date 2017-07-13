@@ -49,7 +49,7 @@ object PersistHive extends Serializable {
       " row format delimited fields terminated by ','")
 
 
-    hiveContext.sql("CREATE EXTERNAL TABLE IF NOT EXISTS ppiv_ref.iv_tgatgd7 as select * from dataToSaveHive")
+    hiveContext.sql("CREATE EXTERNAL TABLE IF NOT EXISTS ppiv_ref.iv_tgatgd8 as select * from dataToSaveHive")
 
     // Load data to HDFS
     //hiveContext.sql("LOAD DATA INPATH '" + hdfsRefineryPath.replaceAll("hdfs:","") + "' INTO TABLE ppiv_ref.iv_tgatgd3")
