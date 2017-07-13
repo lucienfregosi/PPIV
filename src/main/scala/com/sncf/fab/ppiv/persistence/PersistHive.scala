@@ -28,24 +28,13 @@ object PersistHive extends Serializable {
 
     val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
     val dfHive = hiveContext.createDataFrame(df.rdd, df.schema)
-    // Sauvegarde dans HDFS
-    //val hdfsRefineryPath = TraitementTga.getOutputRefineryPath()
-    //ds.toDF().write.format("com.datasbricks.spark.csv").save(hdfsRefineryPath)
+
 
 
     dfHive.registerTempTable("dataToSaveHive")
-    hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgdOK select * from dataToSaveHive")
+    hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgdTMP select * from dataToSaveHive")
 
-    //hiveContext.sql("CREATE EXTERNAL TABLE IF NOT EXISTS ppiv_ref.iv_tgatgd9 as select * from dataToSaveHive")
 
-    // Load data to HDFS
-    //hiveContext.sql("LOAD DATA INPATH '" + hdfsRefineryPath.replaceAll("hdfs:","") + "' INTO TABLE ppiv_ref.iv_tgatgd3")
-
-    // Affichage pour vérifier que cela a bien marché
-    //println("log pour être sur que ca a bien marché")
-    //hiveContext.sql("FROM ppiv_ref.iv_tgatgd3 SELECT * LIMIT 10").collect().foreach(println)
-
-    // Problème de out of bounds exception créer la structure finale ca marchera mieux
 
   }
 
