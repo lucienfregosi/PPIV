@@ -5,4 +5,13 @@ package com.sncf.fab.ppiv.pipelineData.libPipeline
   */
 object BusinessConversion {
 
+  def getDateExtract(timestamp: Long) : String = {
+    // Extraction de la date pour l'exemple
+
+    "DATE_EXTRACTED"
+  }
+
+  // Toutes les conversion sur les indicateurs seront la
+
+
 }

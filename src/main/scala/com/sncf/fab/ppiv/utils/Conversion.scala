@@ -147,7 +147,8 @@ object Conversion {
     line.replace("'", "\\'")
   }
 
-  def getHHmmss(date: DateTime): String = {
-    new SimpleDateFormat("HH:mm:ss").format(date)
+  def getHHmmss(timestamp: Long): String = {
+    val dateFormat =  new SimpleDateFormat("HH:mm:ss")
+    dateFormat.format(timestamp)
   }
 }

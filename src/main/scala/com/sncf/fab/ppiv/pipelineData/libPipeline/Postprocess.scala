@@ -39,7 +39,7 @@ object Postprocess {
         row.getString(2),
         panneau,
         Conversion.unixTimestampToDateTime(row.getLong(7)).toString,
-        "",
+        BusinessConversion.getDateExtract(row.getLong(7)),
         "",
         "",
         Conversion.unixTimestampToDateTime(row.getLong(5)).toString,
@@ -48,6 +48,7 @@ object Postprocess {
         "",
         Conversion.getHHmmss(Conversion.unixTimestampToDateTime(row.getLong(8)))
       )
+
 
       val v2 = VingtChampsSuivants(
         "",

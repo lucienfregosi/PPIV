@@ -170,7 +170,7 @@ trait SourcePipeline extends Serializable {
 
     // 13) Jointure avec le référentiel
     val dataTgaTgdWithReferentiel = Postprocess.joinReferentiel(cycleValidated, dataRefGares, sqlContext)
-    
+
 
     // 14) Inscription dans la classe finale TgaTgdOutput avec conversion et formatage
     val dataTgaTgdOutput = Postprocess.formatTgaTgdOuput(dataTgaTgdWithReferentiel, sqlContext, Panneau())
