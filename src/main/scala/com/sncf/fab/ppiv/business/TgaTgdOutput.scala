@@ -77,7 +77,6 @@ case class TgaTgdOutput(
                         second: VingtChampsSuivants,
                         third: NDerniersChamps,
                         delai_affichage_duree_retard: String,
-                        duree_temps_affichage2: String,
                         taux_affichage_30: Int,
                         taux_affichage2_30: Int,
                         taux_affichage_45: Int,
