@@ -1,6 +1,6 @@
 package com.sncf.fab.ppiv.pipelineData.libPipeline
 
-import com.sncf.fab.ppiv.business.{TgaTgdInput, TgaTgdWithoutRef}
+import com.sncf.fab.ppiv.business.{TgaTgdInput, TgaTgdIntermediate}
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.Dataset
 
@@ -13,7 +13,7 @@ object Reject {
     null
   }
 
-  def saveCycleRejected(dsFieldRejected: Dataset[TgaTgdWithoutRef], sparkContext: SparkContext): Unit ={
+  def saveCycleRejected(dsFieldRejected: Dataset[TgaTgdIntermediate], sparkContext: SparkContext): Unit ={
 
     null
   }

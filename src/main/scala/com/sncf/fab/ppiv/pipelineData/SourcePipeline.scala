@@ -115,7 +115,7 @@ trait SourcePipeline extends Serializable {
       if(isCycleValidated == false){
         // TODO: Enregistrer un TgaTgdWithoutRef avec la mention Invalidated pour filtrage
         LOGGER.info("Cycle invalide pour le cycle Id: " + cycleId)
-        TgaTgdWithoutRef("INV_" + cycleId,seqTgaTgd(0).gare,seqTgaTgd(0).ordes,seqTgaTgd(0).num,seqTgaTgd(0).`type`,seqTgaTgd(0).heure,seqTgaTgd(0).etat, 0, 0, 0)
+        TgaTgdIntermediate("INV_" + cycleId,seqTgaTgd(0).gare,seqTgaTgd(0).ordes,seqTgaTgd(0).num,seqTgaTgd(0).`type`,seqTgaTgd(0).heure,seqTgaTgd(0).etat, 0, 0, 0,0,0,0,0,0,"","","","","",0,0)
       }
 
       // 7) Nettoyage et mise en forme
@@ -126,19 +126,37 @@ trait SourcePipeline extends Serializable {
       val premierAffichage = BusinessRules.getPremierAffichage(dataTgaTgdCycleCleaned)
       val affichageDuree1  = BusinessRules.getAffichageDuree1(dataTgaTgdCycleCleaned)
       val affichageDuree2  = BusinessRules.getAffichageDuree2(dataTgaTgdCycleCleaned)
+      val dernier_retard_annonce = BusinessRules.getDernierRetardAnnonce(dataTgaTgdCycleCleaned)
+      val affichage_retard = BusinessRules.getAffichageRetard(dataTgaTgdCycleCleaned)
+      val affichage_duree_retard = BusinessRules.getAffichageDureeRetard(dataTgaTgdCycleCleaned)
+      val etat_train  = BusinessRules.getEtatTrain(dataTgaTgdCycleCleaned)
+      val date_affichage_etat_train = BusinessRules.getDateAffichageEtatTrain(dataTgaTgdCycleCleaned)
+      val delai_affichage_etat_train_avant_depart_arrive = BusinessRules.getDelaiAffichageEtatTrainAvantDepartArrive(dataTgaTgdCycleCleaned)
+      val dernier_quai_affiche = BusinessRules.getDernierQuaiAffiche(dataTgaTgdCycleCleaned)
+      val type_devoiement = BusinessRules.getTypeDevoiement(dataTgaTgdCycleCleaned)
+      val type_devoiement2 = BusinessRules.getTypeDevoiement2(dataTgaTgdCycleCleaned)
+      val type_devoiement3 = BusinessRules.getTypeDevoiement3(dataTgaTgdCycleCleaned)
+      val type_devoiement4 = BusinessRules.getTypeDevoiement4(dataTgaTgdCycleCleaned)
+      val dernier_affichage = BusinessRules.getDernierAffichage(dataTgaTgdCycleCleaned)
+      val date_process = BusinessRules.getDateProcess(dataTgaTgdCycleCleaned)
 
 
       // 9) Création de la classe de sortie sans le référentiel
-      TgaTgdWithoutRef(cycleId,seqTgaTgd(0).gare,seqTgaTgd(0).ordes,seqTgaTgd(0).num,seqTgaTgd(0).`type`,seqTgaTgd(0).heure,seqTgaTgd(0).etat, premierAffichage, affichageDuree1, affichageDuree2)
+      TgaTgdIntermediate(cycleId,seqTgaTgd(0).gare,seqTgaTgd(0).ordes,seqTgaTgd(0).num,seqTgaTgd(0).`type`,seqTgaTgd(0).heure,etat_train,
+        premierAffichage, affichageDuree1,dernier_retard_annonce, affichageDuree2,affichage_retard,affichage_duree_retard,
+        date_affichage_etat_train,delai_affichage_etat_train_avant_depart_arrive, dernier_quai_affiche,type_devoiement,type_devoiement2,
+          type_devoiement3,type_devoiement4, dernier_affichage, date_process )
     }
+
+
 
     // Conversion du résulat en dataset
     val dsIvTgaTgdWithoutReferentiel = rddIvTgaTgdWithoutReferentiel.toDS()
 
 
     // 10) Filtre sur les cyles qui ont été validé ou non
-    val cycleInvalidated = dsIvTgaTgdWithoutReferentiel.toDF().filter($"cycleId".contains("INV")).as[TgaTgdWithoutRef]
-    val cycleValidated    = dsIvTgaTgdWithoutReferentiel.toDF().filter(not($"cycleId".contains("INV"))).as[TgaTgdWithoutRef]
+    val cycleInvalidated = dsIvTgaTgdWithoutReferentiel.toDF().filter($"cycleId".contains("INV")).as[TgaTgdIntermediate]
+    val cycleValidated    = dsIvTgaTgdWithoutReferentiel.toDF().filter(not($"cycleId".contains("INV"))).as[TgaTgdIntermediate]
 
     // 11) Enregistrement des rejets (champs + cycle)
     Reject.saveFieldRejected(dataTgaTgdFielRejected, sc)
@@ -152,6 +170,10 @@ trait SourcePipeline extends Serializable {
 
     // 13) Jointure avec le référentiel
     val dataTgaTgdWithReferentiel = Postprocess.joinReferentiel(cycleValidated, dataRefGares, sqlContext)
+
+    dataTgaTgdWithReferentiel.printSchema()
+
+    System.exit(0)
 
     // 14) Inscription dans la classe finale TgaTgdOutput avec conversion et formatage
     val dataTgaTgdOutput = Postprocess.formatTgaTgdOuput(dataTgaTgdWithReferentiel, sqlContext, Panneau())

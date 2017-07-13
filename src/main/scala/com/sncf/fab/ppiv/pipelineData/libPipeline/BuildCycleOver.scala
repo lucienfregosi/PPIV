@@ -1,6 +1,6 @@
 package com.sncf.fab.ppiv.pipelineData.libPipeline
 
-import com.sncf.fab.ppiv.business.{TgaTgdCycle, TgaTgdInput}
+import com.sncf.fab.ppiv.business.{TgaTgdCycleId, TgaTgdInput}
 import com.sncf.fab.ppiv.parser.DatasetsParser
 import com.sncf.fab.ppiv.utils.AppConf.LANDING_WORK
 import com.sncf.fab.ppiv.utils.Conversion
@@ -31,7 +31,7 @@ object BuildCycleOver {
     tgaTgdCycleOver
   }
 
-  def buildCycles(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext, panneau: String) : Dataset[TgaTgdCycle] = {
+  def buildCycles(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext, panneau: String) : Dataset[TgaTgdCycleId] = {
     import sqlContext.implicits._
 
     // Création d'une table temportaire pour la requête SQL
@@ -42,12 +42,12 @@ object BuildCycleOver {
       " last(retard) as retard" +
       " from dataTgaTgd group by concat(gare, '" + panneau + "',num,heure)")
       .withColumn("heure", 'heure.cast(LongType))
-      .as[TgaTgdCycle]
+      .as[TgaTgdCycleId]
 
     dataTgaTgCycles
   }
 
-  def filterCycleOver(dsTgaTgdCycles : Dataset[TgaTgdCycle], sqlContext : SQLContext):  Dataset[TgaTgdCycle]= {
+  def filterCycleOver(dsTgaTgdCycles : Dataset[TgaTgdCycleId], sqlContext : SQLContext):  Dataset[TgaTgdCycleId]= {
     import sqlContext.implicits._
 
     // Sélection de l'horaire que l'on traite actuellement
@@ -60,7 +60,7 @@ object BuildCycleOver {
   }
 
   // Fonction pour aller chercher tous les évènements d'un cycle
-  def getEventCycleId(dsTgaTgdCyclesOver : Dataset[TgaTgdCycle], sqlContext : SQLContext, sc : SparkContext, panneau: String): DataFrame = {
+  def getEventCycleId(dsTgaTgdCyclesOver : Dataset[TgaTgdCycleId], sqlContext : SQLContext, sc : SparkContext, panneau: String): DataFrame = {
 
     // Définition d'un Hive Context pour utiliser la fonction collect_list
     val hiveContext = new HiveContext(sc)

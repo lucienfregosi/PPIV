@@ -1,6 +1,6 @@
 package com.sncf.fab.ppiv.pipelineData.libPipeline
 
-import com.sncf.fab.ppiv.business.{ReferentielGare, TgaTgdInput, TgaTgdOutput, TgaTgdWithoutRef, VingPremierChamp, VingtChampsSuivants,NDerniersChamps }
+import com.sncf.fab.ppiv.business.{ReferentielGare, TgaTgdInput, TgaTgdOutput, TgaTgdIntermediate, VingPremierChamp, VingtChampsSuivants,NDerniersChamps }
 import com.sncf.fab.ppiv.utils.Conversion
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.{DataFrame, Dataset, Row, SQLContext}
@@ -14,7 +14,7 @@ object Postprocess {
     null
   }
 
-  def joinReferentiel(dsTgaTgd: Dataset[TgaTgdWithoutRef],  refGares : Dataset[ReferentielGare], sqlContext : SQLContext): DataFrame = {
+  def joinReferentiel(dsTgaTgd: Dataset[TgaTgdIntermediate], refGares : Dataset[ReferentielGare], sqlContext : SQLContext): DataFrame = {
     // Jointure entre nos données de sorties et le référentiel
     val joinedData = dsTgaTgd.toDF().join(refGares.toDF(), dsTgaTgd.toDF().col("gare") === refGares.toDF().col("TVS"))
 

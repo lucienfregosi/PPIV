@@ -58,4 +58,57 @@ object BusinessRules {
     affichageDuree1 + retard
   }
 
+  def getDernierRetardAnnonce(dsTgaTgdSeq: Seq[TgaTgdInput]) : Long = {
+    0
+  }
+
+  def getAffichageRetard(dsTgaTgdSeq: Seq[TgaTgdInput]) : Long = {
+    0
+  }
+
+  def getAffichageDureeRetard(dsTgaTgdSeq: Seq[TgaTgdInput]) : Long = {
+    0
+  }
+
+  def getEtatTrain(dsTgaTgdSeq: Seq[TgaTgdInput]) : String = {
+    "TO_COMPUTE"
+  }
+
+  def getDateAffichageEtatTrain(dsTgaTgdSeq: Seq[TgaTgdInput]) : Long = {
+    0
+  }
+
+  def getDelaiAffichageEtatTrainAvantDepartArrive(dsTgaTgdSeq: Seq[TgaTgdInput]) : Long = {
+    0
+  }
+
+  def getDernierQuaiAffiche(dsTgaTgdSeq: Seq[TgaTgdInput]) : String = {
+    "TO_COMPUTE"
+  }
+
+  def getTypeDevoiement(dsTgaTgdSeq: Seq[TgaTgdInput]) : String = {
+    "TO_COMPUTE"
+  }
+
+  def getTypeDevoiement2(dsTgaTgdSeq: Seq[TgaTgdInput]) : String = {
+    "TO_COMPUTE"
+  }
+
+  def getTypeDevoiement3(dsTgaTgdSeq: Seq[TgaTgdInput]) : String = {
+    "TO_COMPUTE"
+  }
+
+  def getTypeDevoiement4(dsTgaTgdSeq: Seq[TgaTgdInput]) : String = {
+    "TO_COMPUTE"
+  }
+
+  def getDernierAffichage(dsTgaTgdSeq: Seq[TgaTgdInput]) : Long = {
+    0
+  }
+
+  def getDateProcess(dsTgaTgdSeq: Seq[TgaTgdInput]) : Long = {
+    0
+  }
+
+
 }
