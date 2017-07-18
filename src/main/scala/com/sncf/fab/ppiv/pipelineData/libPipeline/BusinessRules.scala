@@ -63,7 +63,18 @@ object BusinessRules {
   }
 
   def getAffichageRetard(dsTgaTgdSeq: Seq[TgaTgdInput]) : Long = {
-    5
+    // Tri sur les horaires d'évènements en croissant puis filtre sur la colonne retard
+    val seqFiltered = dsTgaTgd.sortBy(x => x.maj).filter(x => (x.retard !=null) && (x.retard !="") && (x.retard !="0"))
+
+    // Si pas de lignes retournée => pas de retard on revoie 0
+    if(seqFiltered.isEmpty){
+      0
+    } else {
+      // Récupération du permier  retard.
+      val  minuteRetard =  seqFiltered(0).retard.toLong
+      // Multipliation par 60 pour renvoyer un résultat en secondes
+      minuteRetard * 60
+    }
   }
 
   def getAffichageDureeRetard(dsTgaTgdSeq: Seq[TgaTgdInput]) : Long = {
