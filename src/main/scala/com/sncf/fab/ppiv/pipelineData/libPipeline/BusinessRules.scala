@@ -80,6 +80,7 @@ object BusinessRules {
 
   def getAffichageDureeRetard(dsTgaTgdSeq: Seq[TgaTgdInput]) : Long = {
     // heure de Depart reelle - getAffichageRetard
+    5
   }
 
   def getEtatTrain(dsTgaTgdSeq: Seq[TgaTgdInput]) : String = {
