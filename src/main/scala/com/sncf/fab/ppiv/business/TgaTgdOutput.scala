@@ -39,7 +39,7 @@ case class VingtChampsSuivants(
                                 nb_retard1: Int,
                                 dernier_retard_annonce_min: Int,
                                 nb_retard2: Int,
-                                dernier_retard_annonce: Int,
+                                dernier_retard_annonce: String,
                                 affichage_duree_2minutes: String,
                                 affichage_duree_2: String,
                                 delai_affichage_voie_avec_retard: String,
