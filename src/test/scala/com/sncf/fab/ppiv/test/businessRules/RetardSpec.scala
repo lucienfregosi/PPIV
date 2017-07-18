@@ -5,6 +5,7 @@ import java.io.File
 import com.sncf.fab.ppiv.business.TgaTgdInput
 import com.sncf.fab.ppiv.pipelineData.libPipeline.BusinessRules
 import org.specs2.Specification
+import com.sncf.fab.ppiv.utils.Conversion
 
 import scala.io.Source
 
@@ -19,6 +20,7 @@ This is a specification for the "getDernierAffichage" output
 The 'getDernierAffichage'  output   should
   Dernier affichage be a equal to  7 * 60 seconds                             $e1
   Affichage Retard be a equal to 1499077209                                   $e2
+  Affichage Retard be a equal to 1499077209                                   $e3
   """
 
 
@@ -39,10 +41,11 @@ The 'getDernierAffichage'  output   should
  // def e1 = BusinessRules.getDernierAffichage(dsDernierAffichage).toInt must be_>= (0)
 
   val  Retard = (7 * 60).toString
-
+  val DureeAffichageRetard =  Conversion.unixTimestampToDateTime(1499077020).plusSeconds((7*60).toInt).getMillis -   1499077209
 
   def e1 = BusinessRules.getDernierRetardAnnonce(dsRetardSpec).toString must beEqualTo(Retard)
   def e2 = BusinessRules.getAffichageRetard(dsRetardSpec).toString must beEqualTo("1499077209")
+  def e3 = BusinessRules.getAffichageDureeRetard(dsRetardSpec).toString must beEqualTo (DureeAffichageRetard)
 
 
 

@@ -1,6 +1,7 @@
 package com.sncf.fab.ppiv.pipelineData.libPipeline
 
 import com.sncf.fab.ppiv.business.TgaTgdInput
+import com.sncf.fab.ppiv.utils.Conversion
 
 /**
   * Created by ELFI03951 on 12/07/2017.
@@ -82,7 +83,7 @@ object BusinessRules {
     // heure de Depart reelle - getAffichageRetard
     val departTheorique = dsTgaTgdSeq(0).heure.toLong
     val retard          = getCycleRetard(dsTgaTgdSeq)
-    val departReel      = departTheorique + retard
+     val departReel      = (Conversion.unixTimestampToDateTime(departTheorique).plusSeconds(retard.toInt)).getMillis
     val AffichageRetard = getAffichageRetard(dsTgaTgdSeq)
     val AffichageDureeRetard = departReel - AffichageRetard
 
