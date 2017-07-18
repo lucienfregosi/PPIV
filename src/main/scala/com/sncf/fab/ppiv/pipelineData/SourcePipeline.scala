@@ -90,8 +90,7 @@ trait SourcePipeline extends Serializable {
     LOGGER.info("Reconstitution des cycles avec les évènements terminés")
     val cycleWithEventOver = BuildCycleOver.getCycleOver(dataTgaTgdFielValidated, sc, sqlContext, Panneau())
 
-    val path = "hdfs:/data1/GARES/refinery/PPIV_Tables"
-    cycleWithEventOver.toDF().write.format("com.databricks.spark.csv").save(path)
+
     // 5) Boucle sur les cycles finis pour traiter leur liste d'évènements
     LOGGER.info("Traitement des cycles terminés")
 
