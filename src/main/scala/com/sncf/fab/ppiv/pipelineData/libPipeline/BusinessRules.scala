@@ -103,7 +103,13 @@ object BusinessRules {
   }
 
   def getDernierAffichage(dsTgaTgdSeq: Seq[TgaTgdInput]) : Long = {
-    5
+    val dsVoieGrouped = dsTgaTgdSeq.sortBy(_.maj ).reverse.filter(x => x.voie != null && x.voie != "" &&  x.voie   != ("0")).groupBy(_.voie).map{ case(_,group)=> ( group.map(_.maj).min)}
+    if (dsVoieGrouped.size == 0){
+      0
+    }
+    else{
+      dsVoieGrouped.head
+    }
   }
 
   def getDateProcess(dsTgaTgdSeq: Seq[TgaTgdInput]) : Long = {
