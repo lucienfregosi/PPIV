@@ -18,6 +18,7 @@ class RetardSpec extends Specification{
 This is a specification for the "getDernierAffichage" output
 The 'getDernierAffichage'  output   should
   Dernier affichage be a equal to  7 * 60 seconds                             $e1
+  Affichage Retard be a equal to 1499077209                                   $e2
   """
 
 
@@ -41,6 +42,8 @@ The 'getDernierAffichage'  output   should
 
 
   def e1 = BusinessRules.getDernierRetardAnnonce(dsRetardSpec).toString must beEqualTo(Retard)
+  def e2 = BusinessRules.getAffichageRetard(dsRetardSpec).toString must beEqualTo("1499077209")
+
 
 
 
