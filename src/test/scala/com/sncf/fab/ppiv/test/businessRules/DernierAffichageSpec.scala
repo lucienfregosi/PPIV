@@ -18,7 +18,7 @@ class DernierAffichageSpec extends Specification{
   def is = s2"""
 This is a specification for the "getDernierAffichage" output
 The 'getDernierAffichage'  output   should
-  be a the last 1498948063                             $e1
+  be a equal to  1498948063                             $e1
   """
 
 
@@ -37,6 +37,6 @@ The 'getDernierAffichage'  output   should
 
 
  // def e1 = BusinessRules.getDernierAffichage(dsDernierAffichage).toInt must be_>= (0)
-  def e1 = BusinessRules.getAffichageDuree1(dsDernierAffichage).toString must beEqualTo("1498948063")
+  def e1 = BusinessRules.getDernierAffichage(dsDernierAffichage).toString must beEqualTo("1498948063")
 
 }
