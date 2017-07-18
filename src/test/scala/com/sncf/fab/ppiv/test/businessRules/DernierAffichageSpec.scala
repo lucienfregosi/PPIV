@@ -37,6 +37,6 @@ The 'getDernierAffichage'  output   should
 
 
  // def e1 = BusinessRules.getDernierAffichage(dsDernierAffichage).toInt must be_>= (0)
-  def e1 = BusinessRules.getAffichageDuree1(dsDernierAffichage) mustEqual 1498948063
+  def e1 = BusinessRules.getAffichageDuree1(dsDernierAffichage).toString mustEqual "1498948063"
 
 }
