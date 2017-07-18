@@ -64,7 +64,7 @@ object BusinessRules {
 
   def getAffichageRetard(dsTgaTgdSeq: Seq[TgaTgdInput]) : Long = {
     // Tri sur les horaires d'évènements en croissant puis filtre sur la colonne retard
-    val seqFiltered = dsTgaTgd.sortBy(x => x.maj).filter(x => (x.retard !=null) && (x.retard !="") && (x.retard !="0"))
+    val seqFiltered = dsTgaTgdSeq.sortBy(x => x.maj).filter(x => (x.retard !=null) && (x.retard !="") && (x.retard !="0"))
 
     // Si pas de lignes retournée => pas de retard on revoie 0
     if(seqFiltered.isEmpty){
