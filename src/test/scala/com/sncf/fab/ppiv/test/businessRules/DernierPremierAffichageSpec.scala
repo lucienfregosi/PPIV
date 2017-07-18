@@ -12,13 +12,14 @@ import scala.io.Source
 /**
   * Created by ELFI03951 on 04/07/2017.
   */
-class DernierAffichageSpec extends Specification{
+class DernierPremierAffichageSpec extends Specification{
 
 
   def is = s2"""
 This is a specification for the "getDernierAffichage" output
 The 'getDernierAffichage'  output   should
-  be a equal to  1498948063                             $e1
+  Dernier affichage be a equal to  1498948063                             $e1
+  Premier affichage be a equal to  1498946344                             $e2
   """
 
 
@@ -38,5 +39,7 @@ The 'getDernierAffichage'  output   should
 
  // def e1 = BusinessRules.getDernierAffichage(dsDernierAffichage).toInt must be_>= (0)
   def e1 = BusinessRules.getDernierAffichage(dsDernierAffichage).toString must beEqualTo("1498948063")
+  def e2 = BusinessRules.getPremierAffichage(dsDernierAffichage).toString must beEqualTo("1498946344")
+
 
 }
