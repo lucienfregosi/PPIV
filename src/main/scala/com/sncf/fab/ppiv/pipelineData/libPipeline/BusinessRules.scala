@@ -84,12 +84,15 @@ object BusinessRules {
     val retard          = getCycleRetard(dsTgaTgdSeq)
     val departReel      = departTheorique + retard
     val AffichageRetard = getAffichageRetard(dsTgaTgdSeq)
-        val AffichageDureeRetard = departReel - AffichageRetard
+    val AffichageDureeRetard = departReel - AffichageRetard
 
     AffichageDureeRetard
   }
 
   def getEtatTrain(dsTgaTgdSeq: Seq[TgaTgdInput]) : String = {
+    // si au moins une fois IND alors Ind: Retard Inderminé
+    // si une fois SUPP alors Supp: Train supprimé
+   // val seqFiltered = dsTgaTgdSeq.sortBy(x => x.maj).filter(x => (x.etat !=null) && (x.retard !="") && (x.retard !="0"))
     "TO_COMPUTE"
   }
 
