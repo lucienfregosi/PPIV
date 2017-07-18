@@ -56,7 +56,7 @@ object Postprocess {
         0,
         0,
         0,
-        Conversion.getHHmmss(row.getLong(9)),
+        row.getLong(9),
         "",
         Conversion.getHHmmss(row.getLong(10)),
         "",

@@ -73,14 +73,13 @@ object BusinessRules {
       0
     } else {
       // Récupération du permier  retard.
-      val  minuteRetard =  seqFiltered(0).retard.toLong
-      // Multipliation par 60 pour renvoyer un résultat en secondes
-      minuteRetard * 60
+      val  AffichegeRetard =  seqFiltered(0).maj.toLong
+      AffichegeRetard
     }
   }
 
   def getAffichageDureeRetard(dsTgaTgdSeq: Seq[TgaTgdInput]) : Long = {
-    5
+    // heure de Depart reelle - getAffichageRetard
   }
 
   def getEtatTrain(dsTgaTgdSeq: Seq[TgaTgdInput]) : String = {
