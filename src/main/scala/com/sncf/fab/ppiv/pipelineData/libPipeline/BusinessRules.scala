@@ -103,15 +103,7 @@ object BusinessRules {
   }
 
   def getDernierAffichage(dsTgaTgdSeq: Seq[TgaTgdInput]) : Long = {
-
-    // Récupération de la date du dernier affichage. On cherche le moment ou la bonne voie a été affiché pour la dernière fois
-    val dsVoieGrouped = seqTgaTgd.sortBy(_.maj ).reverse.filter(x => x.voie != null && x.voie != "" &&  x.voie   != ("0")).groupBy(_.voie).map{ case(_,group)=> ( group.map(_.maj).max)}
-    if (dsVoieGrouped.size == 0){
-      0
-    }
-    else{
-      dsVoieGrouped.head
-    }
+    5
   }
 
   def getDateProcess(dsTgaTgdSeq: Seq[TgaTgdInput]) : Long = {
