@@ -126,7 +126,7 @@ object BusinessRules {
 
   def getDernierAffichage(dsTgaTgdSeq: Seq[TgaTgdInput]) : Long = {
 
-    val dsVoieGrouped = dsTgaTgdSeq.sortBy(_.maj ).reverse.filter(x => x.voie != null && x.voie != "" &&  x.voie   != ("0")).groupBy(_.voie).map{ case(_,group)=> ( group.map(_.maj).min)}
+    val dsVoieGrouped = dsTgaTgdSeq.sortBy(_.maj ).reverse.filter(x => x.voie != null && x.voie != "" &&  x.voie   != ("0")).groupBy(_.voie).map{ case(_,group)=> ( group.map(_.maj).max)}
     if (dsVoieGrouped.size == 0){
       0
     }
