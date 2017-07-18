@@ -41,7 +41,7 @@ The 'getDernierAffichage'  output   should
  // def e1 = BusinessRules.getDernierAffichage(dsDernierAffichage).toInt must be_>= (0)
 
   val  Retard = (7 * 60).toString
-  val DureeAffichageRetard =  Conversion.unixTimestampToDateTime(1499077020).plusSeconds((7*60).toInt).getMillis -   1499077209
+  val DureeAffichageRetard = ( Conversion.unixTimestampToDateTime(1499077020).plusSeconds((7*60).toInt).getMillis -   1499077209).toString
 
   def e1 = BusinessRules.getDernierRetardAnnonce(dsRetardSpec).toString must beEqualTo(Retard)
   def e2 = BusinessRules.getAffichageRetard(dsRetardSpec).toString must beEqualTo("1499077209")
