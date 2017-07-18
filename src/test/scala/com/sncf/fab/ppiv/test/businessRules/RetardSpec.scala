@@ -40,7 +40,7 @@ The 'getDernierAffichage'  output   should
   val  Retard = (7 * 60).toString
 
 
-  def e1 = BusinessRules.getDernierRetardAnnonce(dsRetardSpec) must beEqualTo(Retard)
+  def e1 = BusinessRules.getDernierRetardAnnonce(dsRetardSpec).toString must beEqualTo(Retard)
 
 
 
