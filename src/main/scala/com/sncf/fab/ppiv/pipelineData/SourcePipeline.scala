@@ -97,7 +97,7 @@ trait SourcePipeline extends Serializable {
     val rddIvTgaTgdWithoutReferentiel = cycleWithEventOver.map{ x =>
 
       // Récupération du cycleId (première colonne)
-      val cycleId = x.getString(0)
+      var cycleId = x.getString(0)
 
       // Récupération de la séquence de String (deuxième colonne)
       val seqString = x.getSeq[String](1)
@@ -116,7 +116,8 @@ trait SourcePipeline extends Serializable {
         // TODO : Regarder si il n'a pas un état en IND ou SUP
         // Si oui on enregistre la ligne avec les infos qu'on a
         LOGGER.info("Cycle invalide pour le cycle Id: " + cycleId)
-        TgaTgdIntermediate("INV_" + cycleId,seqTgaTgd(0).gare,seqTgaTgd(0).ordes,seqTgaTgd(0).num,seqTgaTgd(0).`type`,seqTgaTgd(0).heure,seqTgaTgd(0).etat, 0, 0, 0,0,0,0,0,0,"","","","","",0,0)
+        cycleId = "INV_" + cycleId
+        //TgaTgdIntermediate("INV_" + cycleId,seqTgaTgd(0).gare,seqTgaTgd(0).ordes,seqTgaTgd(0).num,seqTgaTgd(0).`type`,seqTgaTgd(0).heure,seqTgaTgd(0).etat, 0, 0, 0,0,0,0,0,0,"","","","","",0,0)
       }
 
       // 7) Nettoyage et mise en forme
