@@ -131,7 +131,7 @@ object BusinessRules {
       0
     }
     else{
-      dsVoieGrouped.head
+      dsVoieGrouped.last
     }
   }
 
