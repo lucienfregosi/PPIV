@@ -133,7 +133,7 @@ object BusinessRules {
 
   def getTypeDevoiement(dsTgaTgdSeq: Seq[TgaTgdInput]) : String = {
 
-    val dsVoie = dsTgaTgdSeq.sortBy(_.maj ).filter(x => x.voie != null && x.voie != "" &&  x.voie   != ("0")).groupBy(_.voie).map{ case(_,group)=> ( group.map(_.attribut_voie).isEmpty)}
+    val dsVoie = dsTgaTgdSeq.sortBy(_.maj ).filter(x => x.voie != null && x.voie != "" &&  x.voie   != ("0")).groupBy(_.voie).map{ case(_,group)=> ( group.map(_.attribut_voie).contains("I"))}
 
     println ("Test Type devoiement ")
     dsVoie.foreach(println)
@@ -143,10 +143,10 @@ object BusinessRules {
     else {
      val BoolFirstDevoiement = dsVoie.slice(1,1).toList.headOption
       //val typeFirstDev = dsVoie.slice(1,1).toList.headOption
-      if ( BoolFirstDevoiement == true){
+      if ( BoolFirstDevoiement == false){
         "Affiche"
       } else {
-          "Non_Affiche"
+        "Non_Affiche"
         }
       }
   }
