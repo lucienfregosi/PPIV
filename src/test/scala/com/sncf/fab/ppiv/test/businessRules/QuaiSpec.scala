@@ -17,7 +17,7 @@ class QuaiSpec extends Specification{
   def is = s2"""
 This is a specification for the "Quai Spec" output
 The 'Quai spec'  output   should
-  dernier quai affiché should be                                                  $e1
+  dernier quai affiché should be   eual to C                                               $e1
 
   """
 
@@ -32,11 +32,11 @@ The 'Quai spec'  output   should
 
   val header = Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard")
 
-  val pathEtatFile = new File("src/test/resources/data/trajet_avec_etatTrain.csv").getAbsolutePath
+  val pathEtatFile = new File("src/test/resources/data/trajet_avec_Quai.csv").getAbsolutePath
   val dsEtatSpec = readFile(pathEtatFile).toSeq
 
 
 
-  def e1 = BusinessRules.getDernierQuaiAffiche(dsEtatSpec).toString must beEqualTo("SUP")
+  def e1 = BusinessRules.getDernierQuaiAffiche(dsEtatSpec).toString must beEqualTo("C")
 
 }
