@@ -3,6 +3,8 @@ package com.sncf.fab.ppiv.pipelineData.libPipeline
 import com.sncf.fab.ppiv.business.TgaTgdInput
 import com.sncf.fab.ppiv.utils.Conversion
 
+import scala.collection.immutable.SortedMap
+
 /**
   * Created by ELFI03951 on 12/07/2017.
   */
@@ -133,7 +135,9 @@ object BusinessRules {
 
   def getTypeDevoiement(dsTgaTgdSeq: Seq[TgaTgdInput]) : String = {
 
-    val dsVoie = dsTgaTgdSeq.filter(x => x.voie != null && x.voie != "" &&  x.voie   != ("0")).sortBy(_.maj).groupBy(_.voie).toSeq.sortBy(x=> x._2)
+    val dsVoieRow = dsTgaTgdSeq.filter(x => x.voie != null && x.voie != "" &&  x.voie   != ("0")).sortBy(_.maj)
+    val dsVoie = SortedMap(dsVoieRow.groupBy(_.voie).toSeq:_*)
+      //.groupBy(_.voie).toSeq.sortBy(x=> x._2)
 
     dsVoie.foreach(println)
 
