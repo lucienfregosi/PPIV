@@ -158,6 +158,7 @@ trait SourcePipeline extends Serializable {
 
     // 10) Filtre sur les cyles qui ont été validé ou non
     val cycleInvalidated = dsIvTgaTgdWithoutReferentiel.toDF().filter($"cycleId".contains("INV")).as[TgaTgdIntermediate]
+    cycleInvalidated.toDF()
     val cycleValidated    = dsIvTgaTgdWithoutReferentiel.toDF().filter(not($"cycleId".contains("INV"))).as[TgaTgdIntermediate]
 
     println("invalidated:" + cycleInvalidated.count())
