@@ -142,9 +142,11 @@ object BusinessRules {
     }
     else {
      val BoolFirstDevoiement = dsVoie.slice(1,1).toList.headOption
+      val BoolFirstDevoiement2 = dsVoie.drop(1).take(1).toList.headOption
       println ("BoolFirstDevoiement :" + BoolFirstDevoiement)
+      println ("BoolFirstDevoiement2 :" + BoolFirstDevoiement2)
       //val typeFirstDev = dsVoie.slice(1,1).toList.headOption
-      if ( BoolFirstDevoiement == None){
+      if ( BoolFirstDevoiement == false){
         "Affiche"
       } else {
         "Non_Affiche"
