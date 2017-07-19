@@ -135,7 +135,8 @@ object BusinessRules {
 
   def getTypeDevoiement(dsTgaTgdSeq: Seq[TgaTgdInput]) : String = {
 
-    val dsVoie = dsTgaTgdSeq.filter(x => x.voie != null && x.voie != "" &&  x.voie   != ("0")).sortBy(_.maj).groupBy(_.voie).mapValues( v => v.sortBy( _.maj) )
+  /*  val dsVoie = dsTgaTgdSeq.sortBy(_.maj).filter(x => x.voie != null && x.voie != "" &&  x.voie   != ("0")).groupBy(_.voie)
+      //.mapValues( v => v.sortBy( _.maj) )
 
    // val test = ListMap(dsVoie.toList.sortBy(_._1.getMillis):_*)
       //.sortBy(x=>x._2)
@@ -168,6 +169,9 @@ object BusinessRules {
         "Non_Affiche"
         }
       }
+
+      */
+    "TO_COMPUTE"
   }
 
   def getTypeDevoiement2(dsTgaTgdSeq: Seq[TgaTgdInput]) : String = {
