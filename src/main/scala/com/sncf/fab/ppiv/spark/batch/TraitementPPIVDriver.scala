@@ -42,8 +42,6 @@ object TraitementPPIVDriver extends Serializable {
       LOGGER.info("Traitement d'affichage des TGA")
       val ivTga = TraitementTga.start(sc, sqlContext)
 
-      println("Dernier Quai AFfiche avant envoyer a Hive --------------------------------------------------")
-      ivTga.select("dernier_quai_affiche").show()
 
       LOGGER.info("Traitement d'affichage des TGD")
       //val ivTgd = TraitementTgd.start(sc, sqlContext)
