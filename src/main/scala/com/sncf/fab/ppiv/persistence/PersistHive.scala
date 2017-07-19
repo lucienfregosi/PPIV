@@ -27,8 +27,8 @@ object PersistHive extends Serializable {
 
 
     val path= "hdfs:/data1/GARES/refinery/PPIV_PHASE2/QualiteAffichage/monFichier.csv"
-    //df.write.mode(SaveMode.Overwrite).format("com.databricks.spark.csv").save(path)
-    df.write.format("csv").save(path)
+    df.write.mode(SaveMode.Overwrite).format("com.databricks.spark.csv").save(path)
+    //df.write.format("csv").save(path)
 
     /*val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
     val dfHive = hiveContext.createDataFrame(df.rdd, df.schema)
