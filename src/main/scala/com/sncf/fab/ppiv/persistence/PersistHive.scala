@@ -33,7 +33,7 @@ object PersistHive extends Serializable {
 
 
     dfHive.registerTempTable("dataToSaveHive")
-    hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgdtmp3 select * from dataToSaveHive")
+    hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgdtmp4 select * from dataToSaveHive")
 
     val t = hiveContext.sql("select * from dataToSaveHive limit 10")
     t.show()

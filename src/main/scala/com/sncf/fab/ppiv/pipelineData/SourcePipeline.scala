@@ -184,8 +184,8 @@ trait SourcePipeline extends Serializable {
 
     println("ref:" + dataTgaTgdWithReferentiel.count())
 
-
-
+    println("Dernier Quai AFfiche ------------------------------------------------------------------------------")
+    dataTgaTgdWithReferentiel.select("dernier_quai_affiche").show()
     // 14) Inscription dans la classe finale TgaTgdOutput avec conversion et formatage
     val dataTgaTgdOutput = Postprocess.formatTgaTgdOuput(dataTgaTgdWithReferentiel, sqlContext, Panneau())
 
