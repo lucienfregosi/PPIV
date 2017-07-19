@@ -125,7 +125,7 @@ object Conversion {
 
   def getHour(date: DateTime): String = {
     // Retrancher une heure à la date actuelle pour traiter fichier à H-1
-    val HourToProcess = date.plusHours(-4)
+    val HourToProcess = date.plusHours(-2)
     // Convertir sous le format HH type 01 au lieu de 1
     println(new DecimalFormat("00").format(HourToProcess.getHourOfDay))
     new DecimalFormat("00").format(HourToProcess.getHourOfDay)
