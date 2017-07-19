@@ -133,20 +133,26 @@ object BusinessRules {
 
   def getTypeDevoiement(dsTgaTgdSeq: Seq[TgaTgdInput]) : String = {
 
-    val dsVoie = dsTgaTgdSeq.sortBy(_.maj ).filter(x => x.voie != null && x.voie != "" &&  x.voie   != ("0")).groupBy(_.voie).map{ case(_,group)=> ( group.map(_.attribut_voie).contains("I"))}
+    val dsVoie = dsTgaTgdSeq.sortBy(_.maj ).filter(x => x.voie != null && x.voie != "" &&  x.voie   != ("0")).groupBy(_.voie)
+
+    dsVoie.foreach(println)
+
+    val desVoieWithAttVoie = dsVoie.map{ case(_,group)=> ( group.map(_.attribut_voie).contains("I"))}
 
     println ("Test Type devoiement ")
-    dsVoie.foreach(println)
-    if  (dsVoie.size <=1){
+    desVoieWithAttVoie.foreach(println)
+
+
+    if  (desVoieWithAttVoie.size <=1){
       null
     }
     else {
-     val BoolFirstDevoiement = dsVoie.slice(1,1).toList.headOption
-      val BoolFirstDevoiement2 = dsVoie.drop(1).take(1).toList.headOption
-      println ("BoolFirstDevoiement :" + BoolFirstDevoiement)
+
+      val BoolFirstDevoiement2 = desVoieWithAttVoie.drop(1).take(1).toList.headOption
+
       println ("BoolFirstDevoiement2 :" + BoolFirstDevoiement2)
       //val typeFirstDev = dsVoie.slice(1,1).toList.headOption
-      if ( BoolFirstDevoiement == false){
+      if ( BoolFirstDevoiement2 == false){
         "Affiche"
       } else {
         "Non_Affiche"
