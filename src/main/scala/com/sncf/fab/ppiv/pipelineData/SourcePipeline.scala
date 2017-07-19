@@ -189,6 +189,9 @@ trait SourcePipeline extends Serializable {
     // 14) Inscription dans la classe finale TgaTgdOutput avec conversion et formatage
     val dataTgaTgdOutput = Postprocess.formatTgaTgdOuput(dataTgaTgdWithReferentiel, sqlContext, Panneau())
 
+    println("Dernier Quai AFfiche après Fomatage ------------------------------------------------------------------")
+    dataTgaTgdOutput.select("dernier_quai_affiche").show()
+
     // On renvoie le data set final pour un Tga ou un Tgd (qui seront fusionné dans le main)
     dataTgaTgdOutput
   }
