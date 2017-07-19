@@ -32,13 +32,22 @@ object PersistHive extends Serializable {
     val dfHive = hiveContext.createDataFrame(df.rdd, df.schema)
 
 
-
     dfHive.registerTempTable("dataToSaveHive")
-    hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgdtmp2 select * from dataToSaveHive")
+    hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgdtmp3 select * from dataToSaveHive")
 
     val t = hiveContext.sql("select * from dataToSaveHive limit 10")
     t.show()
 
+
+  }
+
+
+  def persisteRejetHive (df: DataFrame, sc : SparkContext): Unit = {
+
+    val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
+    val dfHive = hiveContext.createDataFrame(df.rdd, df.schema)
+    dfHive.registerTempTable("dataToSaveHiveRejet")
+    hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgdtmpRejet select * from dataToSaveHiveRejet")
 
   }
 

@@ -3,6 +3,7 @@ package com.sncf.fab.ppiv.pipelineData
 
 import com.sncf.fab.ppiv.business._
 import com.sncf.fab.ppiv.parser.DatasetsParser
+import com.sncf.fab.ppiv.persistence.Persist
 import com.sncf.fab.ppiv.pipelineData.libPipeline._
 import com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver.LOGGER
 import com.sncf.fab.ppiv.utils.AppConf._
@@ -158,7 +159,9 @@ trait SourcePipeline extends Serializable {
 
     // 10) Filtre sur les cyles qui ont été validé ou non
     val cycleInvalidated = dsIvTgaTgdWithoutReferentiel.toDF().filter($"cycleId".contains("INV")).as[TgaTgdIntermediate]
-    cycleInvalidated.toDF()
+
+    //Persist.save(cycleInvalidated.toDF() , "hiveRejet", sc)
+
     val cycleValidated    = dsIvTgaTgdWithoutReferentiel.toDF().filter(not($"cycleId".contains("INV"))).as[TgaTgdIntermediate]
 
     println("invalidated:" + cycleInvalidated.count())

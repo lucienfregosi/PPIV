@@ -15,6 +15,8 @@ object Persist {
       PersistLocal.persisteQualiteAffichageIntoFs(ivTgaTgd, TraitementTga.getOutputRefineryPath())
     if (persistMethod.contains("hive"))
       PersistHive.persisteQualiteAffichageHive(ivTgaTgd, sc)
+    if (persistMethod.contains("hiveRejet"))
+      PersistHive.persisteRejetHive(ivTgaTgd, sc)
     if (persistMethod.contains("hdfs"))
       PersistHdfs.persisteQualiteAffichageIntoHdfs(ivTgaTgd, TraitementTga.getOutputRefineryPath())
     if (persistMethod.contains("es"))
