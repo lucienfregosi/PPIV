@@ -35,7 +35,7 @@ object PersistHive extends Serializable {
     dfHive.registerTempTable("NewdataToSaveHive")
     val t = hiveContext.sql("select * from NewdataToSaveHive limit 10")
     t.show()
-    hiveContext.sql("INSERT OVERWRITE INTO TABLE ppiv_ref.iv_tgatgdtmp5 select agence from NewdataToSaveHive")
+    hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgdtmp5 select NewdataToSaveHive.agence from NewdataToSaveHive")
 
   }
 
