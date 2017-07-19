@@ -16,8 +16,8 @@ class RetardSpec extends Specification{
 
 
   def is = s2"""
-This is a specification for the "getDernierAffichage" output
-The 'getDernierAffichage'  output   should
+This is a specification for the "Retard Spec" output
+The 'Reatrd Spec'  output   should
   Dernier affichage be a equal to  7 * 60 seconds                             $e1
   Affichage Retard be a equal to 1499077209                                   $e2
   Affichage Retard be a equal to 1499077209                                   $e3

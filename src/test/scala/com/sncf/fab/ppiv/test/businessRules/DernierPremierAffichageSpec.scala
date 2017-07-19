@@ -16,8 +16,8 @@ class DernierPremierAffichageSpec extends Specification{
 
 
   def is = s2"""
-This is a specification for the "getDernierAffichage" output
-The 'getDernierAffichage'  output   should
+This is a specification for the "getDernierPremierAffichage" output
+The 'getDernierPremierAffichage'  output   should
   Dernier affichage be a equal to  1498948063                             $e1
   Premier affichage be a equal to  1498946344                             $e2
   """

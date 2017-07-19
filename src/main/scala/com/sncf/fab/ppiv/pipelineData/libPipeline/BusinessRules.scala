@@ -83,7 +83,7 @@ object BusinessRules {
     // heure de Depart reelle - getAffichageRetard
     val departTheorique = dsTgaTgdSeq(0).heure.toLong
     val retard          = getCycleRetard(dsTgaTgdSeq)
-     val departReel      = (Conversion.unixTimestampToDateTime(departTheorique).plusSeconds(retard.toInt)).getMillis
+    val departReel      = (Conversion.unixTimestampToDateTime(departTheorique).plusSeconds(retard.toInt)).getMillis
     val AffichageRetard = getAffichageRetard(dsTgaTgdSeq)
     val AffichageDureeRetard = departReel - AffichageRetard
 
@@ -93,23 +93,57 @@ object BusinessRules {
   def getEtatTrain(dsTgaTgdSeq: Seq[TgaTgdInput]) : String = {
     // si au moins une fois IND alors Ind: Retard Inderminé
     // si une fois SUPP alors Supp: Train supprimé
-   // val seqFiltered = dsTgaTgdSeq.sortBy(x => x.maj).filter(x => (x.etat !=null) && (x.retard !="") && (x.retard !="0"))
-    "TO_COMPUTE"
+    val seqFiltered = dsTgaTgdSeq.sortBy(x => x.maj).filter(x => (x.etat !=null) && (x.etat !=""))
+    if(seqFiltered.isEmpty){
+      null
+    } else {
+    seqFiltered(0).etat.toString
+    }
   }
 
   def getDateAffichageEtatTrain(dsTgaTgdSeq: Seq[TgaTgdInput]) : Long = {
-    5
+    val seqFiltered = dsTgaTgdSeq.sortBy(x => x.maj).filter(x => (x.etat !=null) && (x.etat !=""))
+    if(seqFiltered.isEmpty){
+      0
+    } else {
+      seqFiltered(0).maj.toLong
+    }
   }
 
   def getDelaiAffichageEtatTrainAvantDepartArrive(dsTgaTgdSeq: Seq[TgaTgdInput]) : Long = {
-    5
+    val departTheorique = dsTgaTgdSeq(0).heure.toLong
+    val DateAffichageEtatTrain = getDateAffichageEtatTrain(dsTgaTgdSeq)
+    if (DateAffichageEtatTrain!= 0) {
+      departTheorique - DateAffichageEtatTrain
+    } else
+    {
+      0
+    }
   }
 
   def getDernierQuaiAffiche(dsTgaTgdSeq: Seq[TgaTgdInput]) : String = {
-    "TO_COMPUTE"
+
+    val dsVoie = dsTgaTgdSeq.sortBy(_.maj ).reverse.filter(x => x.voie != null && x.voie != "" &&  x.voie   != ("0"))
+    if(dsVoie.isEmpty){
+      null
+    } else {
+      dsVoie(0).voie.toString
+    }
   }
 
   def getTypeDevoiement(dsTgaTgdSeq: Seq[TgaTgdInput]) : String = {
+
+    val dsVoie = dsTgaTgdSeq.sortBy(_.maj ).reverse.filter(x => x.voie != null && x.voie != "" &&  x.voie   != ("0")).groupBy(_.voie).map{ case(_,group)=> ( group.map(_.attribut_voie).head)}
+    if  (dsVoie.size <=1){
+      null
+    }
+    else {
+      val typeFirstDev = dsVoie.slice(1,1).toList.headOption
+      typeFirstDev
+    }
+
+
+
     "TO_COMPUTE"
   }
 
