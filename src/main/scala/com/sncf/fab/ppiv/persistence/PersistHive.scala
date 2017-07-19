@@ -25,7 +25,6 @@ object PersistHive extends Serializable {
     */
   def persisteQualiteAffichageHive(df: DataFrame, sc : SparkContext): Unit = {
 
-
     val path= "hdfs:/data1/GARES/refinery/PPIV_PHASE2/QualiteAffichage/monFichier.csv"
     df.write.mode(SaveMode.Overwrite).format("com.databricks.spark.csv").save(path)
     //df.write.format("csv").save(path)
