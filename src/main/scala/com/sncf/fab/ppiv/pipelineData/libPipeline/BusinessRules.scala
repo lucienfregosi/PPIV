@@ -133,7 +133,7 @@ object BusinessRules {
 
   def getTypeDevoiement(dsTgaTgdSeq: Seq[TgaTgdInput]) : String = {
 
-    val dsVoie = dsTgaTgdSeq.filter(x => x.voie != null && x.voie != "" &&  x.voie   != ("0")).sortBy(_.maj).groupBy(_.voie)
+    val dsVoie = dsTgaTgdSeq.filter(x => x.voie != null && x.voie != "" &&  x.voie   != ("0")).sortBy(_.maj).groupBy(_.voie).toSeq.sortBy {case (x, (a,b,c,d,e,f,g,h,i,j,k,l)) => (b) }
 
     dsVoie.foreach(println)
 
