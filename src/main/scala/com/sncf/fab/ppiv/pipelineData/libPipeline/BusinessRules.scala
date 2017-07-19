@@ -134,6 +134,9 @@ object BusinessRules {
   def getTypeDevoiement(dsTgaTgdSeq: Seq[TgaTgdInput]) : String = {
 
     val dsVoie = dsTgaTgdSeq.sortBy(_.maj ).filter(x => x.voie != null && x.voie != "" &&  x.voie   != ("0")).groupBy(_.voie).map{ case(_,group)=> ( group.map(_.attribut_voie).isEmpty)}
+
+    println ("Test Type devoiement ")
+    dsVoie.foreach(println)
     if  (dsVoie.size <=1){
       null
     }
