@@ -25,16 +25,16 @@ object PersistHive extends Serializable {
     */
   def persisteQualiteAffichageHive(df: DataFrame, sc : SparkContext): Unit = {
 
-    //val path= "hdfs:/data1/GARES/refinery/PPIV_PHASE2/QualiteAffichage/FichierValide190717.csv"
-   // df.coalesce(1).write.mode(SaveMode.Overwrite).format("com.databricks.spark.csv").save(path)
+    val path= "hdfs:/data1/GARES/refinery/PPIV_PHASE2/QualiteAffichage/FichierValide_190717.csv"
+    df.coalesce(1).write.mode(SaveMode.Overwrite).format("com.databricks.spark.csv").save(path)
 
     val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
     val dfHive = hiveContext.createDataFrame(df.rdd, df.schema)
 
-    dfHive.registerTempTable("NewdataToSaveHive2")
+    dfHive.registerTempTable("NewdataToSaveHive3")
     //val t = hiveContext.sql("select * from NewdataToSaveHive2 limit 10")
     //t.show()
-    hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgdtmp7 select * from NewdataToSaveHive2")
+    hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgdtmp7 select * from NewdataToSaveHive3")
 
   }
 
