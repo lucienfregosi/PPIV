@@ -160,7 +160,7 @@ trait SourcePipeline extends Serializable {
     // 10) Filtre sur les cyles qui ont été validé ou non
     val cycleInvalidated = dsIvTgaTgdWithoutReferentiel.toDF().filter($"cycleId".contains("INV")).as[TgaTgdIntermediate]
 
-    Persist.save(cycleInvalidated.toDF() , "hiveRejet", sc)
+   // Persist.save(cycleInvalidated.toDF() , "hiveRejet", sc)
 
     val cycleValidated    = dsIvTgaTgdWithoutReferentiel.toDF().filter(not($"cycleId".contains("INV"))).as[TgaTgdIntermediate]
 
