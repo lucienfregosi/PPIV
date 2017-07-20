@@ -31,7 +31,8 @@ object Conversion {
   }
 
   def nowToDateTime(): DateTime = {
-    now().plusDays(-2)
+   // now().plusDays(-2)
+    now()
   }
 
 

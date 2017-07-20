@@ -77,6 +77,7 @@ object BuildCycleOver {
     // LOOP Over all Files of the current day from midnight to CurrentHour
     for (loopHour <- 1 to currentHourInt) {
 
+
       // Créatipon du nom du fichier dans HDFS
       var filePath = LANDING_WORK + Conversion.getYearMonthDay(Conversion.nowToDateTime()) + "/" + panneau + "-" + Conversion
           .getYearMonthDay(Conversion.nowToDateTime()) + "_" + currentHourString + ".csv"
