@@ -31,10 +31,10 @@ object PersistHive extends Serializable {
     val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
     val dfHive = hiveContext.createDataFrame(df.rdd, df.schema)
 
-    dfHive.registerTempTable("NewdataToSaveHive4")
+    dfHive.registerTempTable("NewdataToSaveHive5")
     //val t = hiveContext.sql("select * from NewdataToSaveHive2 limit 10")
     //t.show()
-    hiveContext.sql("LOAD DATA INPATH '/data1/GARES/refinery/PPIV_PHASE2/QualiteAffichage/FichierValide_190717.csv' INTO TABLE iv_tgatgdtmp3")
+    hiveContext.sql("LOAD DATA INPATH '/data1/GARES/refinery/PPIV_PHASE2/QualiteAffichage/FichierValide_190717.csv' INTO TABLE iv_tgatgdtmp9")
     //hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgdtmp7 select * from NewdataToSaveHive3")
 
   }
