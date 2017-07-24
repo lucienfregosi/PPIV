@@ -91,6 +91,9 @@ trait SourcePipeline extends Serializable {
     LOGGER.info("Reconstitution des cycles avec les évènements terminés")
     val cycleWithEventOver = BuildCycleOver.getCycleOver(dataTgaTgdFielValidated, sc, sqlContext, Panneau())
 
+    // Temporary Save Finished cycles in HDFS
+    Persist.save(cycleWithEventOver.toDF() , "CyclesFinistoHDFS", sc)
+
 
     // 5) Boucle sur les cycles finis pour traiter leur liste d'évènements
     LOGGER.info("Traitement des cycles terminés")
