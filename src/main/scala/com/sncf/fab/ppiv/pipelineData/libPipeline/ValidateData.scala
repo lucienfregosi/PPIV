@@ -20,7 +20,7 @@ object ValidateData {
       .filter(_.gare matches "^[A-Z]{3}$" )
       .filter(_.maj <= currentTimestamp)
       .filter(_.train matches  "^[0-2]{0,1}[0-9]$")
-      .filter(_.`type` matches "^([A-Z]+)$")
+      .filter(_.`type` matches "^([A-Z]*)$")
       .filter(_.attribut_voie matches "I|$")
       .filter(_.attribut_voie matches "^(?:[0-9]|[A-Z]|$)$")
       .filter(_.etat matches "^(?:(IND)|(SUP)|(ARR)|$|(\\s))$")
@@ -29,7 +29,7 @@ object ValidateData {
     // Sélection des rejets qui seront enregistrés ailleurs pour analyse
     val dsTgaTgdRejectedFields = dsTgaTgd.filter(x => (x.gare matches("(?!(^[A-Z]{3})$)")) || (x.maj > currentTimestamp)
       ||  (x.train matches  "(?!(^[0-2]{0,1}[0-9]$))")
-      ||  (x.`type` matches "(?!(^[A-Z]+$))")
+      ||  (x.`type` matches "(?!(^[A-Z]*$))")
       ||  (x.attribut_voie matches "!(I|$)")
       ||  (x.voie matches "(?!(^(?:[0-9]|[A-Z]|$)$))")
       || (x.etat matches "(?!(^(?:(IND)|(SUP)|(ARR)|$|\\s)$))")
