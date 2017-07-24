@@ -36,11 +36,11 @@ object ValidateData {
       || (x.retard matches  "(?!(^(?:[0-9]{2}|[0-9]{4}|$|\\s)$))")
     )
 
-    
+
     (dsTgaTgdValidatedFields, dsTgaTgdRejectedFields)
   }
 
-  def validateCycle(dsTgaTgdSeq: Seq[TgaTgdInput]): Boolean = {
+  def validateCycle(dsTgaTgdSeq: Seq[TgaTgdInput]): (Boolean, String) = {
 
     // Validation des cycles. Un cycle doit comporter au moins une voie et tous ses évènements ne peuvent pas se passer x minutes après le départ du train
     // En entrée la liste des évènements pour un cycle id donné.
@@ -61,10 +61,11 @@ object ValidateData {
 
     // Si le compte de voie est différent de 0 ou le compte des évènement après la date est égale a la somme des event (= tous les évènements postérieurs à la date de départ du train
     if(cntVoieAffiche != 0 && cntEventApresDepart != dsTgaTgdSeq.length ){
-      true
+      (true, "ValidCycle")
     }
     else{
-      false
+      if (cntVoieAffiche == 0 ) {(false,"Voie")}
+      else {(false,"EventApresDepart")}
     }
   }
 

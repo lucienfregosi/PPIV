@@ -121,43 +121,45 @@ trait SourcePipeline extends Serializable {
 
 
       // 6) Validation des cycles
-      val isCycleValidated  = ValidateData.validateCycle(seqTgaTgd)
+      val isCycleValidated  = ValidateData.validateCycle(seqTgaTgd)._1
       if(isCycleValidated == false){
+        val rejectReason = ValidateData.validateCycle(seqTgaTgd)._2
         // TODO : Regarder si il n'a pas un état en IND ou SUP
         // Si oui on enregistre la ligne avec les infos qu'on a
         LOGGER.info("Cycle invalide pour le cycle Id: " + cycleId)
         cycleId = "INV_" + cycleId
-        //TgaTgdIntermediate("INV_" + cycleId,seqTgaTgd(0).gare,seqTgaTgd(0).ordes,seqTgaTgd(0).num,seqTgaTgd(0).`type`,seqTgaTgd(0).heure,seqTgaTgd(0).etat, 0, 0, 0,0,0,0,0,0,"","","","","",0,0)
+        TgaTgdIntermediate(cycleId,seqTgaTgd(0).gare,seqTgaTgd(0).ordes,seqTgaTgd(0).num,seqTgaTgd(0).`type`,seqTgaTgd(0).heure,seqTgaTgd(0).etat, 0, 0, 0,0,0,0,0,0,"","","","",rejectReason,0,0)
+      } else {
+
+        // 7) Nettoyage et mise en forme
+        // On se sait pas si on en aura besoin, on la laisse en attendant
+        val dataTgaTgdCycleCleaned = Preprocess.cleanCycle(seqTgaTgd)
+
+        // 8) Calcul des différents règles de gestion.
+        val premierAffichage = BusinessRules.getPremierAffichage(dataTgaTgdCycleCleaned)
+        val affichageDuree1 = BusinessRules.getAffichageDuree1(dataTgaTgdCycleCleaned)
+        val affichageDuree2 = BusinessRules.getAffichageDuree2(dataTgaTgdCycleCleaned)
+        val dernier_retard_annonce = BusinessRules.getDernierRetardAnnonce(dataTgaTgdCycleCleaned)
+        val affichage_retard = BusinessRules.getAffichageRetard(dataTgaTgdCycleCleaned)
+        val affichage_duree_retard = BusinessRules.getAffichageDureeRetard(dataTgaTgdCycleCleaned)
+        val etat_train = BusinessRules.getEtatTrain(dataTgaTgdCycleCleaned)
+        val date_affichage_etat_train = BusinessRules.getDateAffichageEtatTrain(dataTgaTgdCycleCleaned)
+        val delai_affichage_etat_train_avant_depart_arrive = BusinessRules.getDelaiAffichageEtatTrainAvantDepartArrive(dataTgaTgdCycleCleaned)
+        val dernier_quai_affiche = BusinessRules.getDernierQuaiAffiche(dataTgaTgdCycleCleaned)
+        val type_devoiement = BusinessRules.getTypeDevoiement(dataTgaTgdCycleCleaned)
+        val type_devoiement2 = BusinessRules.getTypeDevoiement2(dataTgaTgdCycleCleaned)
+        val type_devoiement3 = BusinessRules.getTypeDevoiement3(dataTgaTgdCycleCleaned)
+        val type_devoiement4 = BusinessRules.getTypeDevoiement4(dataTgaTgdCycleCleaned)
+        val dernier_affichage = BusinessRules.getDernierAffichage(dataTgaTgdCycleCleaned)
+        val date_process = BusinessRules.getDateProcess(dataTgaTgdCycleCleaned)
+
+
+        // 9) Création de la classe de sortie sans le référentiel
+        TgaTgdIntermediate(cycleId, seqTgaTgd(0).gare, seqTgaTgd(0).ordes, seqTgaTgd(0).num, seqTgaTgd(0).`type`, seqTgaTgd(0).heure, etat_train,
+          premierAffichage, affichageDuree1, dernier_retard_annonce, affichageDuree2, affichage_retard, affichage_duree_retard,
+          date_affichage_etat_train, delai_affichage_etat_train_avant_depart_arrive, dernier_quai_affiche, type_devoiement, type_devoiement2,
+          type_devoiement3, type_devoiement4, dernier_affichage, date_process)
       }
-
-      // 7) Nettoyage et mise en forme
-      // On se sait pas si on en aura besoin, on la laisse en attendant
-      val dataTgaTgdCycleCleaned    = Preprocess.cleanCycle(seqTgaTgd)
-
-      // 8) Calcul des différents règles de gestion.
-      val premierAffichage = BusinessRules.getPremierAffichage(dataTgaTgdCycleCleaned)
-      val affichageDuree1  = BusinessRules.getAffichageDuree1(dataTgaTgdCycleCleaned)
-      val affichageDuree2  = BusinessRules.getAffichageDuree2(dataTgaTgdCycleCleaned)
-      val dernier_retard_annonce = BusinessRules.getDernierRetardAnnonce(dataTgaTgdCycleCleaned)
-      val affichage_retard = BusinessRules.getAffichageRetard(dataTgaTgdCycleCleaned)
-      val affichage_duree_retard = BusinessRules.getAffichageDureeRetard(dataTgaTgdCycleCleaned)
-      val etat_train  = BusinessRules.getEtatTrain(dataTgaTgdCycleCleaned)
-      val date_affichage_etat_train = BusinessRules.getDateAffichageEtatTrain(dataTgaTgdCycleCleaned)
-      val delai_affichage_etat_train_avant_depart_arrive = BusinessRules.getDelaiAffichageEtatTrainAvantDepartArrive(dataTgaTgdCycleCleaned)
-      val dernier_quai_affiche = BusinessRules.getDernierQuaiAffiche(dataTgaTgdCycleCleaned)
-      val type_devoiement = BusinessRules.getTypeDevoiement(dataTgaTgdCycleCleaned)
-      val type_devoiement2 = BusinessRules.getTypeDevoiement2(dataTgaTgdCycleCleaned)
-      val type_devoiement3 = BusinessRules.getTypeDevoiement3(dataTgaTgdCycleCleaned)
-      val type_devoiement4 = BusinessRules.getTypeDevoiement4(dataTgaTgdCycleCleaned)
-      val dernier_affichage = BusinessRules.getDernierAffichage(dataTgaTgdCycleCleaned)
-      val date_process = BusinessRules.getDateProcess(dataTgaTgdCycleCleaned)
-
-
-      // 9) Création de la classe de sortie sans le référentiel
-      TgaTgdIntermediate(cycleId,seqTgaTgd(0).gare,seqTgaTgd(0).ordes,seqTgaTgd(0).num,seqTgaTgd(0).`type`,seqTgaTgd(0).heure,etat_train,
-        premierAffichage, affichageDuree1,dernier_retard_annonce, affichageDuree2,affichage_retard,affichage_duree_retard,
-        date_affichage_etat_train,delai_affichage_etat_train_avant_depart_arrive, dernier_quai_affiche,type_devoiement,type_devoiement2,
-          type_devoiement3,type_devoiement4, dernier_affichage, date_process )
     }
 
 
