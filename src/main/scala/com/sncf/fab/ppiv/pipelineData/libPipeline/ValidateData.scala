@@ -36,6 +36,7 @@ object ValidateData {
       || (x.retard matches  "(?!(^(?:[0-9]{2}|[0-9]{4}|$|\\s)$))")
     )
 
+    
     (dsTgaTgdValidatedFields, dsTgaTgdRejectedFields)
   }
 
