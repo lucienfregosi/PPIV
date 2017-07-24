@@ -15,11 +15,14 @@ object Persist {
       PersistLocal.persisteQualiteAffichageIntoFs(ivTgaTgd, TraitementTga.getOutputRefineryPath())
     if (persistMethod.contains("hive"))
       PersistHive.persisteQualiteAffichageHive(ivTgaTgd, sc)
-    if (persistMethod.contains("hiveRejet"))
-      PersistHive.persisteRejetHive(ivTgaTgd, sc)
     if (persistMethod.contains("hdfs"))
       PersistHdfs.persisteQualiteAffichageIntoHdfs(ivTgaTgd, TraitementTga.getOutputRefineryPath())
     if (persistMethod.contains("es"))
       PersistElastic.persisteQualiteAffichageIntoEs(ivTgaTgd, OUTPUT_INDEX)
+    if (persistMethod.contains("CyclFinis"))
+      PersistHdfs.persisteCyclesFinisHdfs(ivTgaTgd)
+    if (persistMethod.contains("Rejet"))
+      PersistHive.persisteRejetHive(ivTgaTgd, sc)
   }
 }
+
