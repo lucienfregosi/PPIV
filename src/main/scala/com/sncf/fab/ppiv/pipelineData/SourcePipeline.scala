@@ -100,6 +100,9 @@ trait SourcePipeline extends Serializable {
     // Temporary Save Finished cycles in HDFS
    Persist.save(cycleWithEventOver.toDF() , "CyclFinistoHDFS", sc)
 
+    //Pick one invalidated Cycle and save it to hdfs
+    val OneInavlidCycl = cycleWithEventOver.toDF().filter("cycle_id = 'LNETGA835024150091368'" )
+    OneInavlidCycl.show()
 
     // 5) Boucle sur les cycles finis pour traiter leur liste d'évènements
     LOGGER.info("Traitement des cycles terminés")
