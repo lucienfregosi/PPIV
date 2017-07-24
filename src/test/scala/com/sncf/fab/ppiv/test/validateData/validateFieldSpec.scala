@@ -44,7 +44,7 @@ Voie is in [0-9] or in [A-Z]                                             $e15
   val newNamesTgaTgd = Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard")
 
   // ("RYT","1500888407","10","MARSEILLE","9861","","","I","","1500894120","","")
-  
+
   val testrddDf = sc.parallelize(Seq(("ABT", "15", "20", "DEST O", "123", "TER", "12345", "I", "A", "12962", "IND", "")))
     .toDF(newNamesTgaTgd: _*)
     .withColumn("maj", 'maj.cast(LongType))

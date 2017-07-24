@@ -98,7 +98,7 @@ trait SourcePipeline extends Serializable {
     val cycleWithEventOver = BuildCycleOver.getCycleOver(dataTgaTgdFielValidated, sc, sqlContext, Panneau())
 
     // Temporary Save Finished cycles in HDFS
-   // Persist.save(cycleWithEventOver.toDF() , "CyclFinistoHDFS", sc)
+   Persist.save(cycleWithEventOver.toDF() , "CyclFinistoHDFS", sc)
 
 
     // 5) Boucle sur les cycles finis pour traiter leur liste d'évènements
@@ -176,8 +176,8 @@ trait SourcePipeline extends Serializable {
     println("validated:" + cycleValidated.count())
 
     // 11) Enregistrement des rejets (champs + cycle)
-    //Reject.saveFieldRejected(dataTgaTgdFielRejected, sc)
-    //Reject.saveCycleRejected(cycleInvalidated, sc)
+    Reject.saveFieldRejected(dataTgaTgdFielRejected, sc)
+    Reject.saveCycleRejected(cycleInvalidated, sc)
 
     // 12) Sauvegarde des cycles d'évènements validés
     // A partir de cycleValidate :
