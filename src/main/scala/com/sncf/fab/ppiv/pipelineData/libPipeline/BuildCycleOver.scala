@@ -63,10 +63,10 @@ object BuildCycleOver {
    // val dataTgaTgdCycleOver = dsTgaTgdCycles.filter(x =>
      // ( (new  DateTime(x.heure).plusMinutes(x.retard.toInt)) isBefore(currentHoraire) ))
 
-   
+
     val dataTgaTgdCycleOver = dsTgaTgdCycles.filter(x =>
       ( (new  DateTime(x.heure).plusMinutes(x.retard.toInt)) isBefore(currentHoraire) ))
-    dsTgaTgdCycles
+    dataTgaTgdCycleOver
   }
 
   // Fonction pour aller chercher tous les évènements d'un cycle
