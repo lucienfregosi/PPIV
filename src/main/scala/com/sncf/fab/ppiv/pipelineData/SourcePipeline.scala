@@ -96,9 +96,9 @@ trait SourcePipeline extends Serializable {
     // Et les TgaTgdInput de tout le cycle de vie du train (toute la journée + journée précédente pour les passe nuits)
     LOGGER.info("Reconstitution des cycles avec les évènements terminés")
     val cycleWithEventOver = BuildCycleOver.getCycleOver(dataTgaTgdFielValidated, sc, sqlContext, Panneau())
-
+    cycleWithEventOver.printSchema()
     // Temporary Save Finished cycles in HDFS
-   Persist.save(cycleWithEventOver.toDF() , "CyclFinistoHDFS", sc)
+   //Persist.save(cycleWithEventOver.toDF() , "CyclFinistoHDFS", sc)
 
     //Pick one invalidated Cycle and save it to hdfs
     val OneInavlidCycl = cycleWithEventOver.toDF().filter("cycle_id = 'LNETGA835024150091368'" )
@@ -181,8 +181,8 @@ trait SourcePipeline extends Serializable {
     println("validated:" + cycleValidated.count())
 
     // 11) Enregistrement des rejets (champs + cycle)
-    Reject.saveFieldRejected(dataTgaTgdFielRejected, sc)
-    Reject.saveCycleRejected(cycleInvalidated, sc)
+    //Reject.saveFieldRejected(dataTgaTgdFielRejected, sc)
+    //Reject.saveCycleRejected(cycleInvalidated, sc)
 
     // 12) Sauvegarde des cycles d'évènements validés
     // A partir de cycleValidate :

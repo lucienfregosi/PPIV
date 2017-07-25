@@ -20,7 +20,7 @@ object Persist {
     if (persistMethod.contains("es"))
       PersistElastic.persisteQualiteAffichageIntoEs(ivTgaTgd, OUTPUT_INDEX)
     if (persistMethod.contains("CyclFinis"))
-      PersistHdfs.persisteCyclesFinisHdfs(ivTgaTgd)
+      PersistHdfs.persisteCyclesFinisHdfs(ivTgaTgd, sc)
    // if (persistMethod.contains("Rejet"))
     //  PersistHive.persisteRejetHive(ivTgaTgd, sc)
     if (persistMethod.contains("RejetField"))

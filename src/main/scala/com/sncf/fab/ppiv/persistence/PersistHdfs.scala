@@ -2,6 +2,7 @@ package com.sncf.fab.ppiv.persistence
 
 import com.sncf.fab.ppiv.business.{TgaTgdInput, TgaTgdOutput}
 import com.sncf.fab.ppiv.utils.{AppConf, Conversion}
+import org.apache.spark.SparkContext
 import org.apache.spark.sql.{DataFrame, Dataset, SaveMode}
 import org.joda.time.DateTime
 
@@ -28,10 +29,12 @@ object PersistHdfs extends Serializable {
     df.write.format("com.databricks.spark.csv").save(hdfsGoldPath)
   }
 
-  def persisteCyclesFinisHdfs (df: DataFrame) : Unit = {
+  def persisteCyclesFinisHdfs (df: DataFrame, sc : SparkContext) : Unit = {
 
     val path= "hdfs:/data1/GARES/refinery/PPIV_PHASE2/REJET/Cyclesfinis.csv"
     df.coalesce(1).write.mode(SaveMode.Overwrite).format("com.databricks.spark.csv").save(path)
+    val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
+    hiveContext.sql("LOAD DATA INPATH '/data1/GARES/refinery/PPIV_PHASE2/REJET/Cyclesfinis.csv' INTO TABLE ppiv_ref.iv_tgatgdCyclesFinis")
 
   }
 
