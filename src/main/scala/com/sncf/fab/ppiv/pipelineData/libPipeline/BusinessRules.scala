@@ -14,22 +14,21 @@ object BusinessRules {
 
     // Tri sur les horaires d'évènements en croissant puis filtre sur la colonne retard
     val seqFiltered = dsTgaTgd.sortBy(x => x.maj).filter(x => (x.retard !=null) && (x.retard !="") && (x.retard !="0"))
-    println("The Sequence filtered is : " )
-    val test = seqFiltered (seqFiltered.length - 1)
+
     // Si pas de lignes retournée => pas de retard on revoie 0
     if(seqFiltered.isEmpty){
       0
     } else {
 
-
+      println("The Sequence filtered is : " )
+      val test = seqFiltered (seqFiltered.length - 1)
+      println("The Sequence filtered is: -----------------------------------------" + test )
       // Récupération du dernier retard. -1 pour aller chercher sur le dernier index
       val  minuteRetard =  seqFiltered(seqFiltered.length - 1).retard.toLong
       println("minuteRetard : -----------------------------------------" + minuteRetard )
       // Multipliation par 60 pour renvoyer un résultat en secondes
       minuteRetard * 60
     }
-
-
   }
 
 
