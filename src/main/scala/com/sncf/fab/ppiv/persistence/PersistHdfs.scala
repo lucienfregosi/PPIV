@@ -48,7 +48,7 @@ object PersistHdfs extends Serializable {
   def persisteRejetCycleHdfs (df: DataFrame) : Unit = {
 
     val path= "hdfs:/data1/GARES/refinery/PPIV_PHASE2/REJET/RejectedCycles.csv"
-    df.write.mode(SaveMode.Overwrite).format("com.databricks.spark.csv").save(path)
+    df.coalesce(1).write.mode(SaveMode.Overwrite).format("com.databricks.spark.csv").save(path)
 
   }
 }
