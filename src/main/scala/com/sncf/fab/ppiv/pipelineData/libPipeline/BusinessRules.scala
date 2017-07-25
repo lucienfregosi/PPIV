@@ -21,7 +21,7 @@ object BusinessRules {
     } else {
 
       println("The Sequence filtered is : " )
-      seqFiltered.foreach(println)
+      val test = seqFiltered (seqFiltered.length - 1)
       // Récupération du dernier retard. -1 pour aller chercher sur le dernier index
       val  minuteRetard =  seqFiltered(seqFiltered.length - 1).retard.toLong
       println("minuteRetard : -----------------------------------------" + minuteRetard )
