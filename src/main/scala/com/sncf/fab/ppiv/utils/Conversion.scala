@@ -124,6 +124,8 @@ object Conversion {
     yearMonthDayFormat.print(date).toInt
   }
 
+
+
   def getHour(date: DateTime): String = {
     // Retrancher une heure à la date actuelle pour traiter fichier à H-1
     val HourToProcess = date.plusHours(-2)
@@ -132,6 +134,14 @@ object Conversion {
     new DecimalFormat("00").format(HourToProcess.getHourOfDay)
   }
 
+
+  def getHourMax(date: DateTime): String = {
+    // Retrancher une heure à la date actuelle pour traiter fichier à H-1
+    val HourToProcess = date.plusHours(-1)
+    // Convertir sous le format HH type 01 au lieu de 1
+    println(new DecimalFormat("00").format(HourToProcess.getHourOfDay))
+    new DecimalFormat("00").format(HourToProcess.getHourOfDay)
+  }
 
 
   def getYesterdaysDate(): Int = {

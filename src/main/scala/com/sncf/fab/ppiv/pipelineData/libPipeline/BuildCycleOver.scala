@@ -4,13 +4,14 @@ import com.sncf.fab.ppiv.business.{TgaTgdCycleId, TgaTgdInput}
 import com.sncf.fab.ppiv.parser.DatasetsParser
 import com.sncf.fab.ppiv.utils.AppConf.LANDING_WORK
 import com.sncf.fab.ppiv.utils.Conversion
+import com.sncf.fab.ppiv.utils.Conversion.ParisTimeZone
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.{Dataset, SQLContext}
 import org.apache.spark.sql._
 import org.apache.spark.sql.functions.{col, collect_list, concat, lit}
 import org.apache.spark.sql.hive.HiveContext
 import org.apache.spark.sql.types.LongType
-import org.joda.time.DateTime
+import org.joda.time.{DateTime, DateTimeZone}
 
 /**
   * Created by ELFI03951 on 12/07/2017.
@@ -51,9 +52,19 @@ object BuildCycleOver {
     import sqlContext.implicits._
 
     // Sélection de l'horaire que l'on traite actuellement
-    val currentHoraire = Conversion.nowToDateTime().plusHours(-1)
+  //  val currentHoraire = Conversion.getHourMax(Conversion.nowToDateTime())
+    //val currentHoraire = Conversion.nowToDateTime().plusHours(-1)
 
+
+
+    val currentHoraire = Conversion.getDateTime(2017,7,25,Conversion.getHourMax(Conversion.nowToDateTime()).toInt,0,0)
+    //(2017, 7, 25, Conversion.getHourMax(Conversion.nowToDateTime()),0, 0)
     // Filtre sur les horaire de départ inférieur a l'heure actuelle
+   // val dataTgaTgdCycleOver = dsTgaTgdCycles.filter(x =>
+     // ( (new  DateTime(x.heure).plusMinutes(x.retard.toInt)) isBefore(currentHoraire) ))
+
+    val t = new  DateTime( dsTgaTgdCycles.first().heure).plusMinutes(dsTgaTgdCycles.first().retard.toInt)
+
     val dataTgaTgdCycleOver = dsTgaTgdCycles.filter(x =>
       ( (new  DateTime(x.heure).plusMinutes(x.retard.toInt)) isBefore(currentHoraire) ))
     dsTgaTgdCycles
