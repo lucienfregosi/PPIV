@@ -11,17 +11,17 @@ import scala.collection.immutable.{ListMap, SortedMap}
 object BusinessRules {
   // Retourne 0 si pas de retard ou le retard dans le cas échéant en secondes
   def getCycleRetard(dsTgaTgd: Seq[TgaTgdInput]) : Long = {
- /*
+
     // Tri sur les horaires d'évènements en croissant puis filtre sur la colonne retard
     val seqFiltered = dsTgaTgd.sortBy(x => x.maj).filter(x => (x.retard !=null) && (x.retard !="") && (x.retard !="0"))
-
+    println("The Sequence filtered is : " )
+    val test = seqFiltered (seqFiltered.length - 1)
     // Si pas de lignes retournée => pas de retard on revoie 0
     if(seqFiltered.isEmpty){
       0
     } else {
 
-      println("The Sequence filtered is : " )
-      val test = seqFiltered (seqFiltered.length - 1)
+
       // Récupération du dernier retard. -1 pour aller chercher sur le dernier index
       val  minuteRetard =  seqFiltered(seqFiltered.length - 1).retard.toLong
       println("minuteRetard : -----------------------------------------" + minuteRetard )
@@ -29,8 +29,7 @@ object BusinessRules {
       minuteRetard * 60
     }
 
-    */
-    0
+
   }
 
 
