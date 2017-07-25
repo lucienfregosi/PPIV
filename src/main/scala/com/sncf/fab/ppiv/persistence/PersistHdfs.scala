@@ -33,8 +33,8 @@ object PersistHdfs extends Serializable {
 
     val path= "hdfs:/data1/GARES/refinery/PPIV_PHASE2/REJET/Cyclesfinis.csv"
     df.coalesce(1).write.mode(SaveMode.Overwrite).format("com.databricks.spark.csv").save(path)
-    val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
-    hiveContext.sql("LOAD DATA INPATH '/data1/GARES/refinery/PPIV_PHASE2/REJET/Cyclesfinis.csv' INTO TABLE ppiv_ref.iv_tgatgdCyclesFinis")
+
+    df.coalesce(1).write.mode(SaveMode.Overwrite).format("com.databricks.spark.csv").save("refinery/PPIV_PHASE2/")
 
   }
 
