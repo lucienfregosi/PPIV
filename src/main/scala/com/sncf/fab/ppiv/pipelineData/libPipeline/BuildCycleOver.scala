@@ -31,11 +31,17 @@ object BuildCycleOver {
 
     println ("-------------------- Count of all Finished cycles :" + cycleIdListOver.count())
 
-
+    
     // Pour chaque cycle terminé récupération des différents évènements au cours de la journée
     val tgaTgdCycleOver   = getEventCycleId(cycleIdListOver, sqlContext, sc, panneau)
 
-    println ("-------------------- Count of all Finished cycles :" + tgaTgdCycleOver.count())
+    println ("-------------------- Count of all Finished cycles events:" + tgaTgdCycleOver.count())
+
+
+   val tgaTgdCycleOverNODuplica = tgaTgdCycleOver.map( x=> ( x(0), x(1))).reduceByKey( (x,y) => x)
+
+    println ("-------------------- Count of all Finished cycles events without Duplica:" + tgaTgdCycleOverNODuplica.count())
+
 
     tgaTgdCycleOver
   }
