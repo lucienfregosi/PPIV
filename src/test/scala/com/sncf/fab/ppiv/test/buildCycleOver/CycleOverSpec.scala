@@ -37,7 +37,7 @@ The 'CycleOver'  output count   should
   @transient val sqlContext = new SQLContext(sc)
 
   import sqlContext.implicits._
-
+/*
   def readFile( file : String) = {
     for {
       line <- Source.fromFile(file).getLines().toVector
@@ -48,6 +48,10 @@ The 'CycleOver'  output count   should
 
   val pathCycleOver = new File("src/test/resources/data/cycles.csv").getAbsolutePath
   val dsCycleOver = readFile(pathCycleOver).toSeq
+
+  */
+
+  val dsCycleOver = Seq(("AMQTGA8600111500997860","1500997860",""), ("AMQTGA8600111500997860","1500997860",""))
 
   val newNamesTgaTgdCycle = Seq("cycle_id","heure","retard")
 
