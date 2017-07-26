@@ -51,7 +51,7 @@ The 'CycleOver'  output count   should
 
   */
 
-  val dsCycleOver = Seq(("AMQTGA8600111500997860","1500997860",""), ("AMQTGA8600111500997860","1500997860",""))
+  val dsCycleOver = Seq(("AMQTGA8600111500997860","1500997860","00"), ("AMQTGA8600111500997860","1500997860","00"))
 
   val newNamesTgaTgdCycle = Seq("cycle_id","heure","retard")
 
