@@ -58,12 +58,13 @@ object BuildCycleOver {
 
     val currentHoraire = Conversion.getDateTime(2017,7,26,Conversion.getHourMax(Conversion.nowToDateTime()).toInt,0,0)
 
-    //println (" currentHoraire :" + Conversion.dateTimeToString(currentHoraire))
+    println (" currentHoraire :" + Conversion.dateTimeToString(currentHoraire))
 
     // Filtre sur les horaire de départ inférieur a l'heure actuelle
 
-   println ( "test first heure in cycle list" +Conversion.dateTimeToString( Conversion.getDateTime( dsTgaTgdCycles.first().heure)))
-    println ( "test first heure in cycle list with unixtimestamp" +Conversion.dateTimeToString( Conversion.unixTimestampToDateTime( dsTgaTgdCycles.first().heure)))
+    println ( "test first heure in cycle list " + dsTgaTgdCycles.first().heure)
+    println ( "test first heure in cycle list with unixtimestamp PARIS Zone" +Conversion.dateTimeToString( Conversion.unixTimestampToDateTime( dsTgaTgdCycles.first().heure)))
+    println ( "test first heure in cycle list with unixtimestamp GMT Zone" +Conversion.dateTimeToString( Conversion.unixTimestampToDateTimeGMT( dsTgaTgdCycles.first().heure)))
 
     val dataTgaTgdCycleOver = dsTgaTgdCycles.filter( x => ( x.retard != "" &&  Conversion.unixTimestampToDateTime(x.heure).plusMinutes(x.retard.toInt).getMillis < currentHoraire.getMillis) ||(x.retard == "" &&  (Conversion.unixTimestampToDateTime(x.heure).getMillis < currentHoraire.getMillis )))
 

@@ -14,13 +14,15 @@ import org.apache.hive.common.util.DateUtils
 object Conversion {
 
   DateTimeZone.setDefault(DateTimeZone.UTC)
-  val timestampFormatWithTZ: DateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ").withZoneUTC()
+
+  val ParisTimeZone: DateTimeZone = DateTimeZone.forID("Europe/Paris")
+  val timestampFormatWithTZ: DateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ").withZone(ParisTimeZone)
   val timestampFormat: DateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss").withZoneUTC()
   val yearMonthFormat: DateTimeFormatter = DateTimeFormat.forPattern("yyyyMM").withZoneUTC()
   val yearMonthDayFormat: DateTimeFormatter = DateTimeFormat.forPattern("yyyyMMdd").withZoneUTC()
   val hoursFormat: DateTimeFormatter = DateTimeFormat.forPattern("HH").withZoneUTC()
   val HourMinuteFormat: DateTimeFormatter = DateTimeFormat.forPattern("HHmm").withZoneUTC()
-  val ParisTimeZone: DateTimeZone = DateTimeZone.forID("Europe/Paris")
+
 
   private def cleanTimeZone(timestamp: String): String = {
     timestamp.split('.')(0)
@@ -152,8 +154,10 @@ object Conversion {
     ft.format(timestamp).toInt
   }
 
-  def unixTimestampToDateTime(time: Long): DateTime = DateTime.parse(timestampFormatWithTZ.print(time * 1000), timestampFormatWithTZ)
+ // def unixTimestampToDateTime(time: Long): DateTime = DateTime.parse(timestampFormatWithTZ.print(time * 1000), timestampFormatWithTZ).withZone(ParisTimeZone)
+ def unixTimestampToDateTime(time: Long): DateTime = new DateTime(time * 1000L, DateTimeZone.forID("Europe/Paris"))
 
+  def unixTimestampToDateTimeGMT(time: Long): DateTime = DateTime.parse(timestampFormatWithTZ.print(time * 1000), timestampFormatWithTZ)
   def escapeSimpleQuote(line: String): String = {
     line.replace("'", "\\'")
   }
