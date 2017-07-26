@@ -38,7 +38,7 @@ object BuildCycleOver {
     println ("-------------------- Count of all Finished cycles events:" + tgaTgdCycleOver.count())
 
 
-   val tgaTgdCycleOverNODuplica =  tgaTgdCycleOver.distinct()
+   val tgaTgdCycleOverNODuplica =  tgaTgdCycleOver.dropDuplicates()
     println ("-------------------- Count of all Finished cycles events without Duplica:" + tgaTgdCycleOverNODuplica.count())
 
 
@@ -70,7 +70,7 @@ object BuildCycleOver {
 
     // Filtre sur les horaire de départ inférieur a l'heure actuelle
 
-    println ( "test first heure in cycle list " + dsTgaTgdCycles.first().heure)
+
     println ( "test first heure in cycle list with unixtimestamp PARIS Zone" +Conversion.dateTimeToString( Conversion.unixTimestampToDateTime( dsTgaTgdCycles.first().heure)))
     println ( "test first heure in cycle list with unixtimestamp GMT Zone" +Conversion.dateTimeToString( Conversion.unixTimestampToDateTimeGMT( dsTgaTgdCycles.first().heure)))
 
