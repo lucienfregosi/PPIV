@@ -40,7 +40,8 @@ The 'CycleOver'  output count   should
 
   def readFile( file : String) = {
     for {
-      line <- Source.fromFile(file).getLines().drop(1).toVector
+      line <- Source.fromFile(file).getLines().toVector
+      //line <- Source.fromFile(file).getLines().drop(1).toVector
       values = line.split(",",-1)
     } yield TgaTgdCycleId(values(0), values(1).toLong, values(2))
   }
