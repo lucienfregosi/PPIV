@@ -23,8 +23,12 @@ object BuildCycleOver {
     // Groupement et création des cycleId (concaténation de gare + panneau + numeroTrain + heureDepart)
     val cycleIdList       = buildCycles(dsTgaTgdInput, sqlContext, panneau)
 
+    println ("-------------------- Count of all cycles :" + cycleIdList.count())
+
     // Parmi les cyclesId généré précédemment on filtre ceux dont l'heure de départ est deja passé
     val cycleIdListOver   = filterCycleOver(cycleIdList, sqlContext)
+
+    println ("-------------------- Count of all Finished cycles :" + cycleIdListOver.count())
 
     // Pour chaque cycle terminé récupération des différents évènements au cours de la journée
     val tgaTgdCycleOver   = getEventCycleId(cycleIdListOver, sqlContext, sc, panneau)
