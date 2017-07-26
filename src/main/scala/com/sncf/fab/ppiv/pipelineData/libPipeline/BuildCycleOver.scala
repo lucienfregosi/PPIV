@@ -37,12 +37,13 @@ object BuildCycleOver {
 
     println ("-------------------- Count of all Finished cycles events:" + tgaTgdCycleOver.count())
 
-
-   val tgaTgdCycleOverNODuplica =  tgaTgdCycleOver.dropDuplicates()
+    tgaTgdCycleOver.printSchema()
+    val col  = Seq("cycle_id")
+   val tgaTgdCycleOverNODuplica =  tgaTgdCycleOver.dropDuplicates( col)
     println ("-------------------- Count of all Finished cycles events without Duplica:" + tgaTgdCycleOverNODuplica.count())
 
 
-    tgaTgdCycleOver
+    tgaTgdCycleOverNODuplica
   }
 
   def buildCycles(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext, panneau: String) : Dataset[TgaTgdCycleId] = {
