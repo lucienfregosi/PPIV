@@ -58,15 +58,11 @@ object BuildCycleOver {
 
     val currentHoraire = Conversion.getDateTime(2017,7,26,Conversion.getHourMax(Conversion.nowToDateTime()).toInt,0,0)
 
-    println (" currentHoraire :" + Conversion.dateTimeToString(currentHoraire))
+    //println (" currentHoraire :" + Conversion.dateTimeToString(currentHoraire))
 
     // Filtre sur les horaire de départ inférieur a l'heure actuelle
-    // val dataTgaTgdCycleOver = dsTgaTgdCycles.filter(x =>
-     // ( (new  DateTime(x.heure).plusMinutes(x.retard.toInt)) isBefore(currentHoraire) ))
-
     val dataTgaTgdCycleOver = dsTgaTgdCycles.filter( x => ( x.retard != "" &&  Conversion.getDateTime(x.heure).plusMinutes(x.retard.toInt).getMillis < currentHoraire.getMillis) ||(x.retard == "" &&  (Conversion.getDateTime(x.heure).getMillis < currentHoraire.getMillis )))
 
-   // val dataTgaTgdCycleOver = dsTgaTgdCycles.filter( x => ( x.retard != "" &&  new DateTime(x.heure).plusMinutes(x.retard.toInt).isBefore(currentHoraire.getMillis)) ||(x.retard == "" &&  new DateTime(x.heure).isBefore(currentHoraire.getMillis)))
 
     dataTgaTgdCycleOver
   }
