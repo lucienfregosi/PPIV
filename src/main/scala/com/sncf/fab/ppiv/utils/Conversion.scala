@@ -54,7 +54,7 @@ object Conversion {
   }
 
   def getDateTime(time: Long): DateTime = {
-    new DateTime(time, DateTimeZone.UTC)
+    new DateTime(time, ParisTimeZone)
   }
 
   def getDateTime(time: Long, dateTimeZone: DateTimeZone): DateTime = {
