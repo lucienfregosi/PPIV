@@ -70,7 +70,7 @@ object BuildCycleOver {
      // ( (new  DateTime(x.heure).plusMinutes(x.retard.toInt)) isBefore(currentHoraire) ))
 
 
-    val dataTgaTgdCycleOver = dsTgaTgdCycles.filter( x => ( x.retard != "" &&  new DateTime(x.heure).plusMinutes(x.retard.toInt).isBefore(currentHoraire)) ||(x.retard == "" &&  new DateTime(x.heure).isBefore(currentHoraire)))
+    val dataTgaTgdCycleOver = dsTgaTgdCycles.filter( x => ( x.retard != "" &&  new DateTime(x.heure).plusMinutes(x.retard.toInt).isBefore(currentHoraire.getMillis)) ||(x.retard == "" &&  new DateTime(x.heure).isBefore(currentHoraire.getMillis)))
 
     dataTgaTgdCycleOver
   }
