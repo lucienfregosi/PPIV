@@ -132,7 +132,7 @@ object BuildCycleOver {
 
      )
 
-    val groupedtest = temp.groupBy("$cycle_id").agg(collect_list($"event"))
+    val groupedtest = temp.groupBy("cycle_id").agg(collect_list("event"))
 
     groupedtest.show()
 
