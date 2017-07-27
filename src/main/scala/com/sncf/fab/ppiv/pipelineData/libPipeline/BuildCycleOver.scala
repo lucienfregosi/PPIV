@@ -112,8 +112,9 @@ object BuildCycleOver {
 
    // val dfJoin = dsTgaTgdCyclesOver.toDF().select("cycle_id").join(tgaTgdInputAllDay, $"cycle_id" === $"cycle_id2", "left")
 
-    val dfJoin = dsTgaTgdCyclesOver.toDF().select("cycle_id").join(tgaTgdInputAllDay, $"cycle_id" === $"cycle_id2")
+    val dfJoin = dsTgaTgdCyclesOver.toDF().select("cycle_id").join(tgaTgdInputAllDay, $"cycle_id" === $"cycle_id2", "inner")
 
+    dfJoin.printSchema()
     println("After Jointure with cycle Over : " + dfJoin.count)
     // Création d'une dataframe hive pour pouvoir utiliser la fonction collect_list
     val hiveDataframe = hiveContext.createDataFrame(dfJoin.rdd, dfJoin.schema)
@@ -126,13 +127,14 @@ object BuildCycleOver {
     println ( " group by in a select : ")
     dfJoin.registerTempTable("dfjointemp")
     val temp =  sqlContext.sql(
-      "SELECT cycle_id as cycle_id,  concat (gare,'" + "," + "',maj,'" + "," + "',num ) as event "+
-        "from  dfjointemp "  +
-         " group by cycle_id")
+      "SELECT cycle_id as cycle_id,  concat (gare,'" + "," + "',maj,'" + "," + "',num) as event "+
+        "from  dfjointemp "
 
-    temp.show()
+     )
 
+    val groupedtest = temp.groupBy("$cycle_id").agg(collect_list($"event"))
 
+    groupedtest.show()
 
 
     val dfGroupByCycleOver = hiveDataframe.drop("cycle_id2").distinct().dropDuplicates().select($"cycle_id", concat($"gare", lit(","), $"maj", lit(","), $"train", lit(","), $"ordes", lit(","), $"num", lit(","), $"type", lit(","), $"picto", lit(","), $"attribut_voie", lit(","), $"voie", lit(","), $"heure", lit(","), $"etat", lit(","), $"retard") as "event").groupBy("cycle_id").agg(collect_list($"event") as "event"
