@@ -86,10 +86,6 @@ trait SourcePipeline extends Serializable {
 
     LOGGER.info("Validation champ à champ counts")
 
-    println (" Validation champ a champ" )
-    println("Before Field Validation " + dataTgaTgdBugFix.count())
-    println("After Field Validation" + dataTgaTgdFielValidated.count())
-
 
     // 4) Reconstitution des évènements pour chaque trajet
     // L'objectif de cette fonction est de renvoyer (cycleId | Array(TgaTgdInput) pour les cyclesId terminé
@@ -98,9 +94,7 @@ trait SourcePipeline extends Serializable {
     val cycleWithEventOver = BuildCycleOver.getCycleOver(dataTgaTgdFielValidated, sc, sqlContext, Panneau())
 
     // Temporary Save Finished cycles in HDFS
-   Persist.save(cycleWithEventOver.toDF() , "CyclFinistoHDFS", sc)
-
-
+   Persist.save(cycleWithEventOver.toDF() , "CyclFinistoH", sc)
 
     // 5) Boucle sur les cycles finis pour traiter leur liste d'évènements
     LOGGER.info("Traitement des cycles terminés")
@@ -164,17 +158,16 @@ trait SourcePipeline extends Serializable {
     }
 
 
-
     // Conversion du résulat en dataset
     val dsIvTgaTgdWithoutReferentiel = rddIvTgaTgdWithoutReferentiel.toDS()
 
 
     // 10) Filtre sur les cyles qui ont été validé ou non
-    val cycleInvalidated = dsIvTgaTgdWithoutReferentiel.toDF().filter($"cycleId".contains("INV")).as[TgaTgdIntermediate]
+    val cycleInvalidated = dsIvTgaTgdWithoutReferentiel.toDF().filter($"cycleId".contains("INV_")).as[TgaTgdIntermediate]
+    val cycleValidated    = dsIvTgaTgdWithoutReferentiel.toDF().filter(not($"cycleId".contains("INV_"))).as[TgaTgdIntermediate]
 
 
-    val cycleValidated    = dsIvTgaTgdWithoutReferentiel.toDF().filter(not($"cycleId".contains("INV"))).as[TgaTgdIntermediate]
-
+    println(" total cucle count : " + dsIvTgaTgdWithoutReferentiel.toDF().count())
     println("invalidated:" + cycleInvalidated.count())
     println("validated:" + cycleValidated.count())
 
@@ -188,6 +181,14 @@ trait SourcePipeline extends Serializable {
     // Puis enregistrer dans l'object PostProcess
     //PostProcess.saveCleanData(DataSet[TgaTgdInput], sc)
 
+
+
+
+
+
+
+
+
     // 13) Jointure avec le référentiel
     val dataTgaTgdWithReferentiel = Postprocess.joinReferentiel(cycleValidated, dataRefGares, sqlContext)
 
@@ -198,6 +199,8 @@ trait SourcePipeline extends Serializable {
 
     // On renvoie le data set final pour un Tga ou un Tgd (qui seront fusionné dans le main)
     dataTgaTgdOutput
+
+
   }
 }
 

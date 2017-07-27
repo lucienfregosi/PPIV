@@ -23,32 +23,20 @@ object BuildCycleOver {
 
     // Groupement et création des cycleId (concaténation de gare + panneau + numeroTrain + heureDepart)
     val cycleIdList       = buildCycles(dsTgaTgdInput, sqlContext, panneau)
-
     println ("-------------------- Count of all cycles :" + cycleIdList.count())
 
     // Parmi les cyclesId généré précédemment on filtre ceux dont l'heure de départ est deja passé
     val cycleIdListOver   = filterCycleOver(cycleIdList, sqlContext)
-
     println ("-------------------- Count of all Finished cycles :" + cycleIdListOver.count())
 
 
     // Pour chaque cycle terminé récupération des différents évènements au cours de la journée
     val tgaTgdCycleOver   = getEventCycleId(cycleIdListOver, sqlContext, sc, panneau)
 
-    println ("-------------------- Count of all Finished cycles events:" + tgaTgdCycleOver.count())
-
-    tgaTgdCycleOver.printSchema()
-
-     // tgaTgdCycleOver.registerTempTable("x")
-     //val tgatgdNoDupicawithSql = sqlContext.sql("SELECT DISTINCT(cycle_id) , heure, retard  FROM x")
-    //println ("------ :" + tgatgdNoDupicawithSql.count())
-
-    val col  = Seq("cycle_id")
-   val tgaTgdCycleOverNODuplica =  tgaTgdCycleOver.dropDuplicates( col)
-    println ("-------------------- Count of all Finished cycles events without Duplica:" + tgaTgdCycleOverNODuplica.count())
-
-
-    tgaTgdCycleOverNODuplica
+     /*val col  = Seq("cycle_id")
+     val tgaTgdCycleOverNODuplica =  tgaTgdCycleOver.dropDuplicates( col)
+      */
+    tgaTgdCycleOver
   }
 
   def buildCycles(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext, panneau: String) : Dataset[TgaTgdCycleId] = {
@@ -70,26 +58,13 @@ object BuildCycleOver {
   def filterCycleOver(dsTgaTgdCycles : Dataset[TgaTgdCycleId], sqlContext : SQLContext):  Dataset[TgaTgdCycleId]= {
     import sqlContext.implicits._
 
-    println ( " Before reduce by key  : " + dsTgaTgdCycles.count ())
-    val a =  dsTgaTgdCycles.toDF().map(x => (x (0),(x(1), x (2)) )).reduceByKey((x, y) => x)
-      //.map (x => (x._1, x._2._1, x._2._1)).toDF()
-      //.as[TgaTgdCycleId]
-
-   println ( " AFter reduce by key  : " + a.count () )
 
     val currentHoraire = Conversion.getDateTime(2017,7,27,Conversion.getHourMax(Conversion.nowToDateTime()).toInt,0,0)
 
-    println (" currentHoraire :" + Conversion.dateTimeToString(currentHoraire))
-
     // Filtre sur les horaire de départ inférieur a l'heure actuelle
 
-
-    println ( "test first heure in cycle list with unixtimestamp PARIS Zone" +Conversion.dateTimeToString( Conversion.unixTimestampToDateTime( dsTgaTgdCycles.first().heure)))
-    println ( "test first heure in cycle list with unixtimestamp GMT Zone" +Conversion.dateTimeToString( Conversion.unixTimestampToDateTimeGMT( dsTgaTgdCycles.first().heure)))
-
-    val dataTgaTgdCycleOver = dsTgaTgdCycles.filter( x => ( x.retard != "" &&  Conversion.unixTimestampToDateTime(x.heure).plusMinutes(x.retard.toInt).getMillis < currentHoraire.getMillis) ||(x.retard == "" &&  (Conversion.unixTimestampToDateTime(x.heure).getMillis < currentHoraire.getMillis )))
-
-
+       val dataTgaTgdCycleOver = dsTgaTgdCycles.filter( x => ( x.retard != "" &&  Conversion.unixTimestampToDateTime(x.heure).plusMinutes(x.retard.toInt).getMillis < currentHoraire.getMillis) ||(x.retard == "" &&  (Conversion.unixTimestampToDateTime(x.heure).getMillis < currentHoraire.getMillis )))
+    
     dataTgaTgdCycleOver
   }
 

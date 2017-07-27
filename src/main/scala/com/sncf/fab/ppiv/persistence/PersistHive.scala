@@ -33,6 +33,7 @@ object PersistHive extends Serializable {
     val dfHive = hiveContext.createDataFrame(df.rdd, df.schema)
 
     dfHive.registerTempTable("NewdataToSaveHive5")
+
     //val t = hiveContext.sql("select * from NewdataToSaveHive2 limit 10")
     //t.show()
 

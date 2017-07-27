@@ -60,8 +60,6 @@ object ValidateData {
    // val departReel = departThéorique + retard + margeErreur
    val departReel = (Conversion.unixTimestampToDateTime(departThéorique).plusSeconds(retard.toInt).plusMinutes(10).getMillis)/1000
 
-    println ( "-----------------departReel"+ departReel)
-    println ( "----------------Mise a jour en timestamp " +dsTgaTgdSeq.head.maj)
 
     // Décompte des évènements se passant après le départ du triain
     val cntEventApresDepart = dsTgaTgdSeq.filter(x=>( x.maj > departReel)).length
