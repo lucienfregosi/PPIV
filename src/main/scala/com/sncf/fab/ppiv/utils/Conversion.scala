@@ -166,4 +166,9 @@ object Conversion {
     val dateFormat =  new SimpleDateFormat("HH:mm:ss")
     dateFormat.format(timestamp)
   }
+
+
+  def HourFormat  ( hour : Int ): String= {
+    new DecimalFormat("00").format(hour)
+  }
 }

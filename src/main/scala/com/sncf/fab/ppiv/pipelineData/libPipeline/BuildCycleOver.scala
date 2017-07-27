@@ -88,8 +88,9 @@ object BuildCycleOver {
 
 
       // Créatipon du nom du fichier dans HDFS
-      var filePath = LANDING_WORK + Conversion.getYearMonthDay(Conversion.nowToDateTime()) + "/" + panneau + "-" + Conversion
-          .getYearMonthDay(Conversion.nowToDateTime()) + "_" + currentHourString + ".csv"
+      //var filePath = LANDING_WORK + Conversion.getYearMonthDay(Conversion.nowToDateTime()) + "/" + panneau + "-" + Conversion.getYearMonthDay(Conversion.nowToDateTime()) + "_" + currentHourString + ".csv"
+
+      var filePath = LANDING_WORK + Conversion.getYearMonthDay(Conversion.nowToDateTime()) + "/" + panneau + "-" + Conversion.getYearMonthDay(Conversion.nowToDateTime()) + "_" + Conversion.HourFormat (loopHour)  + ".csv"
 
       // Chargement effectif du fichier
       val tgaTgdHour = LoadData.loadTgaTgd(sqlContext, filePath)
@@ -123,15 +124,17 @@ object BuildCycleOver {
     println("dfGroupByCycleOver after reducing 2 " + b.count())
     println( b.take(10))
 
-    val c =  dfGroupByCycleOver.map(row => {
+   /* val c =  dfGroupByCycleOver.map(row => {
       val cycle_id = row.getString(0)
-      val event = row.getString(1)
+      val event = row.getSeq[String](1)
 
       (cycle_id , event)
     })
-    println("dfGroupByCycleOver after reducing 3 " + c.count())
-    println( c.take(10))
-    
+    val d =  c.reduceByKey((x,y) => x)
+    println("dfGroupByCycleOver after reducing 3 " + d.count())
+    println( d.take(10))
+    */
+
     dfGroupByCycleOver
 
   }
