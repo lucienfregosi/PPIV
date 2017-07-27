@@ -103,13 +103,20 @@ object BuildCycleOver {
     val tgaTgdInputAllDay = tgaTgdRawAllDay.toDF().withColumn("cycle_id2", concat(col("gare"), lit(panneau), col("num"), col("heure")))
 
     // On joint les deux avec un left join pour garder seulement les cycles terminés et leurs évènements
+
+
+   val dsTgaTgdCyclesOverDF = dsTgaTgdCyclesOver.toDF()
+    println("Cycle Over : " + dsTgaTgdCyclesOverDF.count)
+
     val dfJoin = dsTgaTgdCyclesOver.toDF().select("cycle_id").join(tgaTgdInputAllDay, $"cycle_id" === $"cycle_id2", "left")
 
+
+    println("After Jointure with cycle Over : " + dfJoin.count)
     // Création d'une dataframe hive pour pouvoir utiliser la fonction collect_list
     val hiveDataframe = hiveContext.createDataFrame(dfJoin.rdd, dfJoin.schema)
 
     // On concatène toutes les colonnes en une pour pouvoir les manipuler plus facilement (en spark 1.6 pas possible de recréer un tgaTgdInput dans le collect list
-    val dfGroupByCycleOver = hiveDataframe.drop("cycle_id2").distinct().select($"cycle_id", concat($"gare", lit(","), $"maj", lit(","), $"train", lit(","), $"ordes", lit(","), $"num", lit(","), $"type", lit(","), $"picto", lit(","), $"attribut_voie", lit(","), $"voie", lit(","), $"heure", lit(","), $"etat", lit(","), $"retard") as "event")
+    val dfGroupByCycleOver = hiveDataframe.drop("cycle_id2").distinct().dropDuplicates().select($"cycle_id", concat($"gare", lit(","), $"maj", lit(","), $"train", lit(","), $"ordes", lit(","), $"num", lit(","), $"type", lit(","), $"picto", lit(","), $"attribut_voie", lit(","), $"voie", lit(","), $"heure", lit(","), $"etat", lit(","), $"retard") as "event")
       .groupBy("cycle_id").agg(
       collect_list($"event") as "event"
     )
