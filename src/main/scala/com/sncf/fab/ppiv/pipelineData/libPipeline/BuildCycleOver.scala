@@ -38,6 +38,12 @@ object BuildCycleOver {
     println ("-------------------- Count of all Finished cycles events:" + tgaTgdCycleOver.count())
 
     tgaTgdCycleOver.printSchema()
+
+    tgaTgdCycleOver .registerTempTable("x")
+     val tgatgdNoDupicawithSql = sqlContext.sql("SELECT DISTINCT(cycle_id) , heure, retard  FROM x")
+
+    println ("------ :" + tgatgdNoDupicawithSql.count())
+
     val col  = Seq("cycle_id")
    val tgaTgdCycleOverNODuplica =  tgaTgdCycleOver.dropDuplicates( col)
     println ("-------------------- Count of all Finished cycles events without Duplica:" + tgaTgdCycleOverNODuplica.count())
@@ -65,7 +71,7 @@ object BuildCycleOver {
   def filterCycleOver(dsTgaTgdCycles : Dataset[TgaTgdCycleId], sqlContext : SQLContext):  Dataset[TgaTgdCycleId]= {
     import sqlContext.implicits._
 
-    val currentHoraire = Conversion.getDateTime(2017,7,26,Conversion.getHourMax(Conversion.nowToDateTime()).toInt,0,0)
+    val currentHoraire = Conversion.getDateTime(2017,7,27,Conversion.getHourMax(Conversion.nowToDateTime()).toInt,0,0)
 
     println (" currentHoraire :" + Conversion.dateTimeToString(currentHoraire))
 
