@@ -108,17 +108,34 @@ object BuildCycleOver {
    val dsTgaTgdCyclesOverDF = dsTgaTgdCyclesOver.toDF()
     println("Cycle Over : " + dsTgaTgdCyclesOverDF.count)
 
-    val dfJoin = dsTgaTgdCyclesOver.toDF().select("cycle_id").join(tgaTgdInputAllDay, $"cycle_id" === $"cycle_id2", "left")
 
+
+   // val dfJoin = dsTgaTgdCyclesOver.toDF().select("cycle_id").join(tgaTgdInputAllDay, $"cycle_id" === $"cycle_id2", "left")
+
+    val dfJoin = dsTgaTgdCyclesOver.toDF().select("cycle_id").join(tgaTgdInputAllDay, $"cycle_id" === $"cycle_id2")
 
     println("After Jointure with cycle Over : " + dfJoin.count)
     // Création d'une dataframe hive pour pouvoir utiliser la fonction collect_list
     val hiveDataframe = hiveContext.createDataFrame(dfJoin.rdd, dfJoin.schema)
 
     // On concatène toutes les colonnes en une pour pouvoir les manipuler plus facilement (en spark 1.6 pas possible de recréer un tgaTgdInput dans le collect list
-    val dfGroupByCycleOver = hiveDataframe.drop("cycle_id2").distinct().dropDuplicates().select($"cycle_id", concat($"gare", lit(","), $"maj", lit(","), $"train", lit(","), $"ordes", lit(","), $"num", lit(","), $"type", lit(","), $"picto", lit(","), $"attribut_voie", lit(","), $"voie", lit(","), $"heure", lit(","), $"etat", lit(","), $"retard") as "event")
-      .groupBy("cycle_id").agg(
-      collect_list($"event") as "event"
+    println ( " test without group by  : ")
+   val  test = hiveDataframe.drop("cycle_id2").distinct().dropDuplicates().select($"cycle_id" as "cycle_id" , concat($"gare", lit(","), $"maj", lit(","), $"train") as "event")
+    test.show()
+
+    println ( " group by in a select : ")
+    dfJoin.registerTempTable("dfjointemp")
+    val temp =  sqlContext.sql(
+      "SELECT cycle_id as cycle_id,  concat (gare,'" + "," + "',maj,'" + "," + "',num ) as event "+
+        "from  dfjointemp "  +
+         " group by cycle_id")
+
+    temp.show()
+
+
+
+
+    val dfGroupByCycleOver = hiveDataframe.drop("cycle_id2").distinct().dropDuplicates().select($"cycle_id", concat($"gare", lit(","), $"maj", lit(","), $"train", lit(","), $"ordes", lit(","), $"num", lit(","), $"type", lit(","), $"picto", lit(","), $"attribut_voie", lit(","), $"voie", lit(","), $"heure", lit(","), $"etat", lit(","), $"retard") as "event").groupBy("cycle_id").agg(collect_list($"event") as "event"
     )
 
     val newNames = Seq("cycle_id", "event")
