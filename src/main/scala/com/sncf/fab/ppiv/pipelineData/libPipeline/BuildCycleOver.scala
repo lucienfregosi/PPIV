@@ -114,11 +114,10 @@ object BuildCycleOver {
     )
 
     val newNames = Seq("cycle_id", "event")
-    val a = dfGroupByCycleOver .map(x=> (x(0) ,(x(1)))).reduceByKey((x, y) => x).map(x=> (x._1, x._2)).toDF()
+    val a = dfGroupByCycleOver .map(x=> (x(0) ,(x(1)))).reduceByKey((x, y) => x).map(x=> (x._1, x._2))
 
     println("dfGroupByCycleOver after reducing " + a.count())
-    a.printSchema()
-
+  
     dfGroupByCycleOver
   }
 
