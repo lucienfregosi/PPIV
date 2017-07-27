@@ -2,6 +2,7 @@ package com.sncf.fab.ppiv.pipelineData.libPipeline
 
 import com.sncf.fab.ppiv.business.{TgaTgdCycleId, TgaTgdInput}
 import com.sncf.fab.ppiv.parser.DatasetsParser
+import com.sncf.fab.ppiv.persistence.Persist
 import com.sncf.fab.ppiv.utils.AppConf.LANDING_WORK
 import com.sncf.fab.ppiv.utils.Conversion
 import com.sncf.fab.ppiv.utils.Conversion.ParisTimeZone
@@ -29,9 +30,15 @@ object BuildCycleOver {
     val cycleIdListOver   = filterCycleOver(cycleIdList, sqlContext)
     println ("-------------------- Count of all Finished cycles :" + cycleIdListOver.count())
 
+    //Load les evenements  du jour j
+    val  tgaTgdRawToDay    = loadTgaTgdCurrentDay(sc, sqlContext,panneau)
+    //Load les evenements du jour j -1
+    val  tgaTgdRawYesterDay = loadTgaTgdYesterDay(sc, sqlContext,panneau)
+   // Union des evenement  de jour j et jour j -1
+    val  tgaTgdRawAllDay = tgaTgdRawToDay.union(tgaTgdRawYesterDay)
 
     // Pour chaque cycle terminé récupération des différents évènements au cours de la journée
-    val tgaTgdCycleOver   = getEventCycleId(cycleIdListOver, sqlContext, sc, panneau)
+    val tgaTgdCycleOver   = getEventCycleId(tgaTgdRawAllDay, cycleIdListOver, sqlContext, sc, panneau)
 
      /*val col  = Seq("cycle_id")
      val tgaTgdCycleOverNODuplica =  tgaTgdCycleOver.dropDuplicates( col)
@@ -69,77 +76,50 @@ object BuildCycleOver {
   }
 
   // Fonction pour aller chercher tous les évènements d'un cycle
-  def getEventCycleId(dsTgaTgdCyclesOver : Dataset[TgaTgdCycleId], sqlContext : SQLContext, sc : SparkContext, panneau: String): DataFrame = {
+  def getEventCycleId(tgaTgdRawAllDay: Dataset[TgaTgdInput], dsTgaTgdCyclesOver : Dataset[TgaTgdCycleId], sqlContext : SQLContext, sc : SparkContext, panneau: String): DataFrame = {
 
     // Définition d'un Hive Context pour utiliser la fonction collect_list
     val hiveContext = new HiveContext(sc)
     import sqlContext.implicits._
-
-    // Déclaration de notre variable de sortie contenant tous les event de la journée
-    var tgaTgdRawAllDay = sc.emptyRDD[TgaTgdInput].toDS()
-
-    // Définition de l'heure actuelle que l'on a processé
-    // TODO: Modifier par une variable globale
-    val currentHourString = Conversion.getHour(Conversion.nowToDateTime())
-    val currentHourInt = Conversion.getHour(Conversion.nowToDateTime()).toInt
-
-    // LOOP Over all Files of the current day from midnight to CurrentHour
-    for (loopHour <- 1 to currentHourInt) {
-
-
-      // Créatipon du nom du fichier dans HDFS
-      //var filePath = LANDING_WORK + Conversion.getYearMonthDay(Conversion.nowToDateTime()) + "/" + panneau + "-" + Conversion.getYearMonthDay(Conversion.nowToDateTime()) + "_" + currentHourString + ".csv"
-
-      var filePath = LANDING_WORK + Conversion.getYearMonthDay(Conversion.nowToDateTime()) + "/" + panneau + "-" + Conversion.getYearMonthDay(Conversion.nowToDateTime()) + "_" + Conversion.HourFormat (loopHour)  + ".csv"
-
-      // Chargement effectif du fichier
-      val tgaTgdHour = LoadData.loadTgaTgd(sqlContext, filePath)
-
-      // Ajout dans notre variabel de sortie
-      tgaTgdRawAllDay = tgaTgdRawAllDay.union(tgaTgdHour)
-    }
 
     // Sur le dataset Complet de la journée création d'une colonne cycle_id2 en vue de la jointure
     val tgaTgdInputAllDay = tgaTgdRawAllDay.toDF().withColumn("cycle_id2", concat(col("gare"), lit(panneau), col("num"), col("heure")))
 
     // On joint les deux avec un left join pour garder seulement les cycles terminés et leurs évènements
 
-
-   val dsTgaTgdCyclesOverDF = dsTgaTgdCyclesOver.toDF()
+    val dsTgaTgdCyclesOverDF = dsTgaTgdCyclesOver.toDF()
     println("Cycle Over : " + dsTgaTgdCyclesOverDF.count)
-
-
 
    // val dfJoin = dsTgaTgdCyclesOver.toDF().select("cycle_id").join(tgaTgdInputAllDay, $"cycle_id" === $"cycle_id2", "left")
 
     val dfJoin = dsTgaTgdCyclesOver.toDF().select("cycle_id").join(tgaTgdInputAllDay, $"cycle_id" === $"cycle_id2", "inner")
 
-    dfJoin.printSchema()
-    println("After Jointure with cycle Over : " + dfJoin.count)
     // Création d'une dataframe hive pour pouvoir utiliser la fonction collect_list
     val hiveDataframe = hiveContext.createDataFrame(dfJoin.rdd, dfJoin.schema)
 
     // On concatène toutes les colonnes en une pour pouvoir les manipuler plus facilement (en spark 1.6 pas possible de recréer un tgaTgdInput dans le collect list
+
+    // Test : Should be removed
+        /*
     println ( " test without group by  : ")
    val  test = hiveDataframe.drop("cycle_id2").distinct().dropDuplicates().select($"cycle_id" as "cycle_id" , concat($"gare", lit(","), $"maj", lit(","), $"train") as "event")
     test.show()
-
     println ( " group by in a select : ")
     dfJoin.registerTempTable("dfjointemp")
     val temp =  sqlContext.sql(
       "SELECT cycle_id as cycle_id,  concat (gare,'" + "," + "',maj,'" + "," + "',num) as event "+
         "from  dfjointemp "
-
      )
-
     val groupedtest = temp.groupBy("cycle_id").agg(collect_list("event"))
-
     groupedtest.show()
-
+*/
 
     val dfGroupByCycleOver = hiveDataframe.drop("cycle_id2").distinct().dropDuplicates().select($"cycle_id", concat($"gare", lit(","), $"maj", lit(","), $"train", lit(","), $"ordes", lit(","), $"num", lit(","), $"type", lit(","), $"picto", lit(","), $"attribut_voie", lit(","), $"voie", lit(","), $"heure", lit(","), $"etat", lit(","), $"retard") as "event").groupBy("cycle_id").agg(collect_list($"event") as "event"
     )
 
+
+    // test : should be removed
+   /*
     val newNames = Seq("cycle_id", "event")
     val a = dfGroupByCycleOver.map(x=> (x(0) ,(x(1)))).reduceByKey((x, y) => x)
     println("dfGroupByCycleOver after reducing " + a.count())
@@ -149,6 +129,8 @@ object BuildCycleOver {
     val b = dfGroupByCycleOver.dropDuplicates(colId)
     println("dfGroupByCycleOver after reducing 2 " + b.count())
     println( b.take(10))
+
+    */
 
    /* val c =  dfGroupByCycleOver.map(row => {
       val cycle_id = row.getString(0)
@@ -161,8 +143,61 @@ object BuildCycleOver {
     println( d.take(10))
     */
 
-    dfGroupByCycleOver
+   
+       dfGroupByCycleOver
 
+  }
+
+
+  def loadTgaTgdCurrentDay(sc: SparkContext, sqlContext: SQLContext, panneau: String) : Dataset[TgaTgdInput] = {
+
+    import sqlContext.implicits._
+
+   // Déclaration de notre variable de sortie contenant tous les event de la journée
+    var tgaTgdRawAllDay = sc.emptyRDD[TgaTgdInput].toDS()
+
+    // Définition de l'heure actuelle que l'on a processé
+    // TODO: Modifier par une variable globale
+    val currentHourString = Conversion.getHour(Conversion.nowToDateTime())
+    val currentHourInt = Conversion.getHour(Conversion.nowToDateTime()).toInt
+
+    // LOOP Over all Files of the current day from midnight to CurrentHour
+    for (loopHour <- 0 to currentHourInt) {
+
+
+      // Créatipon du nom du fichier dans HDFS
+          var filePath = LANDING_WORK + Conversion.getYearMonthDay(Conversion.nowToDateTime()) + "/" + panneau + "-" + Conversion.getYearMonthDay(Conversion.nowToDateTime()) + "_" + Conversion.HourFormat (loopHour)  + ".csv"
+
+      // Chargement effectif du fichier
+      val tgaTgdHour = LoadData.loadTgaTgd(sqlContext, filePath)
+
+      // Ajout dans notre variabel de sortie
+      tgaTgdRawAllDay = tgaTgdRawAllDay.union(tgaTgdHour)
+    }
+    tgaTgdRawAllDay
+  }
+
+  def loadTgaTgdYesterDay(sc: SparkContext, sqlContext: SQLContext, panneau: String) : Dataset[TgaTgdInput] = {
+
+    import sqlContext.implicits._
+
+    // Déclaration de notre variable de sortie contenant tous les event de la journée
+    var tgaTgdRawAllDay = sc.emptyRDD[TgaTgdInput].toDS()
+
+
+    // LOOP Over all Files of  yesterday
+    for (loopHour <- 0 to 23) {
+
+      // Créatipon du nom du fichier dans HDFS
+         var filePath = LANDING_WORK + Conversion.getYearMonthDay(Conversion.nowToDateTime().plusDays(-1)) + "/" + panneau + "-" + Conversion.getYearMonthDay(Conversion.nowToDateTime().plusDays(-1)) + "_" + Conversion.HourFormat (loopHour)  + ".csv"
+
+      // Chargement effectif du fichier
+      val tgaTgdHour = LoadData.loadTgaTgd(sqlContext, filePath)
+
+      // Ajout dans notre variabel de sortie
+      tgaTgdRawAllDay = tgaTgdRawAllDay.union(tgaTgdHour)
+    }
+    tgaTgdRawAllDay
   }
 
 }
