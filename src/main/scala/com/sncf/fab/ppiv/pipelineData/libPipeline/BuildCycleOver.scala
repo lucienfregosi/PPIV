@@ -128,10 +128,8 @@ object BuildCycleOver {
         .map(r => (r.getString(0), r.getString(1)))
         .groupByKey()
         .mapValues(_.toSet.toList)
-        .reduceByKey((x,y) =>x)
+       // .reduceByKey((x,y) =>x)
         .toDF("cycle_id", "event")
-
-
 
 
 
