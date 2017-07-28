@@ -50,4 +50,12 @@ object PersistHdfs extends Serializable {
     df.coalesce(1).write.mode(SaveMode.Overwrite).format("com.databricks.spark.csv").save(path)
 
   }
+
+  def persisteEventsNotGroupedHdfs (df: DataFrame) : Unit = {
+
+    val path= "hdfs:/data1/GARES/refinery/PPIV_PHASE2/REJET/EventsNotGrouped.csv"
+    df.coalesce(1).write.mode(SaveMode.Overwrite).format("com.databricks.spark.csv").save(path)
+
+  }
+
 }

@@ -27,6 +27,10 @@ object Persist {
       PersistHdfs.persisteRejetFieldHdfs(ivTgaTgd)
     if (persistMethod.contains("RejetCycle"))
       PersistHdfs.persisteRejetCycleHdfs(ivTgaTgd)
+    if (persistMethod.contains("Eventsnotgrouped"))
+      PersistHdfs.persisteEventsNotGroupedHdfs(ivTgaTgd)
+
+
 
   }
 }
