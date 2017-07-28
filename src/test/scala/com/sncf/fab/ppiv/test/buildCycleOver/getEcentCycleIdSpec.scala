@@ -68,8 +68,7 @@ The 'getEcentCycleIdSpec'  output count   should
     .withColumn("heure", 'heure.cast(LongType))
     .as[TgaTgdInput]
 
-
-  val test = BuildCycleOver.getEventCycleId(eventDf, cycleDf, sqlContext, sc, "TGA").select("event")
+  
 
   def e1 ="true" must beEqualTo("true")
 
