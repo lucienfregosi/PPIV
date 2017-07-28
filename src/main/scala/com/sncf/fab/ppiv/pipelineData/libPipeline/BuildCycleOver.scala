@@ -114,6 +114,10 @@ object BuildCycleOver {
     groupedtest.show()
 */
 
+    val test1  = hiveDataframe.drop("cycle_id2").distinct().dropDuplicates().select($"cycle_id", concat($"gare", lit(","), $"maj", lit(","), $"train", lit(","), $"ordes", lit(","), $"num", lit(","), $"type", lit(","), $"picto", lit(","), $"attribut_voie", lit(","), $"voie", lit(","), $"heure", lit(","), $"etat", lit(","), $"retard") as "event")
+
+
+
     val dfGroupByCycleOver = hiveDataframe.drop("cycle_id2").distinct().dropDuplicates().select($"cycle_id", concat($"gare", lit(","), $"maj", lit(","), $"train", lit(","), $"ordes", lit(","), $"num", lit(","), $"type", lit(","), $"picto", lit(","), $"attribut_voie", lit(","), $"voie", lit(","), $"heure", lit(","), $"etat", lit(","), $"retard") as "event").groupBy("cycle_id").agg(collect_list($"event") as "event"
     )
 
@@ -143,8 +147,7 @@ object BuildCycleOver {
     println( d.take(10))
     */
 
-   
-       dfGroupByCycleOver
+          dfGroupByCycleOver
 
   }
 
