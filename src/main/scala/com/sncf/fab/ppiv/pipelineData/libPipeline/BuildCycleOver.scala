@@ -43,7 +43,10 @@ object BuildCycleOver {
      /*val col  = Seq("cycle_id")
      val tgaTgdCycleOverNODuplica =  tgaTgdCycleOver.dropDuplicates( col)
       */
-    tgaTgdCycleOver
+
+    Persist.save(tgaTgdCycleOver._2.toDF() , "Eventsnotgrouped", sc)
+
+    tgaTgdCycleOver._1
   }
 
   def buildCycles(dsTgaTgd: Dataset[TgaTgdInput], sqlContext : SQLContext, panneau: String) : Dataset[TgaTgdCycleId] = {
@@ -60,6 +63,8 @@ object BuildCycleOver {
       .as[TgaTgdCycleId]
 
     dataTgaTgCycles
+
+
   }
 
   def filterCycleOver(dsTgaTgdCycles : Dataset[TgaTgdCycleId], sqlContext : SQLContext):  Dataset[TgaTgdCycleId]= {
@@ -76,7 +81,7 @@ object BuildCycleOver {
   }
 
   // Fonction pour aller chercher tous les évènements d'un cycle
-  def getEventCycleId(tgaTgdRawAllDay: Dataset[TgaTgdInput], dsTgaTgdCyclesOver : Dataset[TgaTgdCycleId], sqlContext : SQLContext, sc : SparkContext, panneau: String): DataFrame = {
+  def getEventCycleId(tgaTgdRawAllDay: Dataset[TgaTgdInput], dsTgaTgdCyclesOver : Dataset[TgaTgdCycleId], sqlContext : SQLContext, sc : SparkContext, panneau: String): (DataFrame, DataFrame) = {
 
     // Définition d'un Hive Context pour utiliser la fonction collect_list
     val hiveContext = new HiveContext(sc)
@@ -114,8 +119,8 @@ object BuildCycleOver {
     groupedtest.show()
 */
 
-    val test1  = hiveDataframe.drop("cycle_id2").distinct().dropDuplicates().select($"cycle_id", concat($"gare", lit(","), $"maj", lit(","), $"train", lit(","), $"ordes", lit(","), $"num", lit(","), $"type", lit(","), $"picto", lit(","), $"attribut_voie", lit(","), $"voie", lit(","), $"heure", lit(","), $"etat", lit(","), $"retard") as "event")
-    
+    val dfeventsGrouped  = hiveDataframe.drop("cycle_id2").distinct().dropDuplicates().select($"cycle_id", concat($"gare", lit(","), $"maj", lit(","), $"train", lit(","), $"ordes", lit(","), $"num", lit(","), $"type", lit(","), $"picto", lit(","), $"attribut_voie", lit(","), $"voie", lit(","), $"heure", lit(","), $"etat", lit(","), $"retard") as "event")
+
 
 
     val dfGroupByCycleOver = hiveDataframe.drop("cycle_id2").distinct().dropDuplicates().select($"cycle_id", concat($"gare", lit(";"), $"maj", lit(";"), $"train", lit(";"), $"ordes", lit(";"), $"num", lit(";"), $"type", lit(";"), $"picto", lit(";"), $"attribut_voie", lit(";"), $"voie", lit(";"), $"heure", lit(";"), $"etat", lit(";"), $"retard") as "event").groupBy("cycle_id").agg(collect_list($"event") as "event"
@@ -147,7 +152,7 @@ object BuildCycleOver {
     println( d.take(10))
     */
 
-          dfGroupByCycleOver
+    ( dfGroupByCycleOver, dfeventsGrouped)
 
   }
 
