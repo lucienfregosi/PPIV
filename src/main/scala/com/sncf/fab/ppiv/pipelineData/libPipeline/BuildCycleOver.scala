@@ -127,8 +127,7 @@ object BuildCycleOver {
     def collectSet(df: DataFrame, k: Column, v: Column) = df.select(k.as("k"), v.as("v"))
         .map(r => (r.getString(0), r.getString(1)))
         .groupByKey()
-        .mapValues(_.toSet.toList)
-       // .reduceByKey((x,y) =>x)
+        .mapValues(_.toSet.mkString("//////"))
         .toDF("cycle_id", "event")
 
 
