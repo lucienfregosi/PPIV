@@ -68,7 +68,7 @@ The 'getEcentCycleIdSpec'  output count   should
     .withColumn("heure", 'heure.cast(LongType))
     .as[TgaTgdInput]
 
-  
+
 
   def e1 ="true" must beEqualTo("true")
 

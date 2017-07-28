@@ -9,7 +9,7 @@ import com.sncf.fab.ppiv.utils.Conversion.ParisTimeZone
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.{Dataset, SQLContext}
 import org.apache.spark.sql._
-import org.apache.spark.sql.functions.{col, collect_list, concat, lit}
+import org.apache.spark.sql.functions.{col, collect_list, collect_set, concat, lit}
 import org.apache.spark.sql.hive.HiveContext
 import org.apache.spark.sql.types.LongType
 import org.joda.time.{DateTime, DateTimeZone}
@@ -123,7 +123,7 @@ object BuildCycleOver {
 
 
 
-    val dfGroupByCycleOver = hiveDataframe.drop("cycle_id2").distinct().dropDuplicates().select($"cycle_id", concat($"gare", lit(";"), $"maj", lit(";"), $"train", lit(";"), $"ordes", lit(";"), $"num", lit(";"), $"type", lit(";"), $"picto", lit(";"), $"attribut_voie", lit(";"), $"voie", lit(";"), $"heure", lit(";"), $"etat", lit(";"), $"retard") as "event").groupBy("cycle_id").agg(collect_list($"event") as "event"
+    val dfGroupByCycleOver = hiveDataframe.drop("cycle_id2").distinct().dropDuplicates().select($"cycle_id", concat($"gare", lit(";"), $"maj", lit(";"), $"train", lit(";"), $"ordes", lit(";"), $"num", lit(";"), $"type", lit(";"), $"picto", lit(";"), $"attribut_voie", lit(";"), $"voie", lit(";"), $"heure", lit(";"), $"etat", lit(";"), $"retard") as "event").groupBy("cycle_id").agg(collect_set($"event") as "event"
     )
 
 
