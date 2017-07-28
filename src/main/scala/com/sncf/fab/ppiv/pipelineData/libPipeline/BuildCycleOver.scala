@@ -123,9 +123,18 @@ object BuildCycleOver {
 
 
 
-    val dfGroupByCycleOver = hiveDataframe.drop("cycle_id2").distinct().dropDuplicates().select($"cycle_id", concat($"gare", lit(";"), $"maj", lit(";"), $"train", lit(";"), $"ordes", lit(";"), $"num", lit(";"), $"type", lit(";"), $"picto", lit(";"), $"attribut_voie", lit(";"), $"voie", lit(";"), $"heure", lit(";"), $"etat", lit(";"), $"retard") as "event").groupBy("cycle_id").agg(collect_set($"event") as "events"
-    )
+    //val dfGroupByCycleOver = hiveDataframe.drop("cycle_id2").distinct().dropDuplicates().select($"cycle_id", concat($"gare", lit(";"), $"maj", lit(";"), $"train", lit(";"), $"ordes", lit(";"), $"num", lit(";"), $"type", lit(";"), $"picto", lit(";"), $"attribut_voie", lit(";"), $"voie", lit(";"), $"heure", lit(";"), $"etat", lit(";"), $"retard") as "event").groupBy("cycle_id").agg(collect_set($"event") as "events")
 
+    def collectSet(df: DataFrame, k: Column, v: Column) = df
+      .select(k.as("k"),v.as("v"))
+      .map( r => (r.getInt(0),r.getInt(1)))
+      .groupByKey()
+      .mapValues(_.toSet.toList)
+      .toDF("cycle_id","event")
+
+
+
+    val testCollection  = collectSet(dfeventsGrouped,dfeventsGrouped("cycle_id"),dfeventsGrouped("event") )
 
     // test : should be removed
    /*
@@ -152,7 +161,8 @@ object BuildCycleOver {
     println( d.take(10))
     */
 
-    ( dfGroupByCycleOver, dfeventsGrouped)
+   // ( dfGroupByCycleOver, dfeventsGrouped)
+      ( testCollection, dfeventsGrouped)
 
   }
 
