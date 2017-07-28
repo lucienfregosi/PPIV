@@ -136,6 +136,13 @@ object BuildCycleOver {
 
     val testCollection  = collectSet(dfeventsGrouped,dfeventsGrouped("cycle_id"),dfeventsGrouped("event") )
 
+   val count1 =  testCollection.count()
+    println(" Before Duplica Removing "+ count1)
+
+    val count2 =  testCollection.distinct().count()
+    println(" After Duplica Removing "+ count2)
+
+    val testCollectionWithoutDuplica = testCollection.distinct()
     // test : should be removed
    /*
     val newNames = Seq("cycle_id", "event")
@@ -162,7 +169,7 @@ object BuildCycleOver {
     */
 
    // ( dfGroupByCycleOver, dfeventsGrouped)
-      ( testCollection, dfeventsGrouped)
+      ( testCollectionWithoutDuplica, dfeventsGrouped)
 
   }
 
