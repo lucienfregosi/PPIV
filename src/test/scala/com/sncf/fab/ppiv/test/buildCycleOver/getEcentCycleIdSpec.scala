@@ -57,7 +57,7 @@ The 'getEcentCycleIdSpec'  output count   should
     .as[TgaTgdCycleId]
 
 // Read TgaTgd Input File
-  val eventsFile = new File("PPIV/src/test/resources/data/events.csv").getAbsolutePath
+  val eventsFile = new File("src/test/resources/data/events.csv").getAbsolutePath
 
   val events = readFile(eventsFile ).toSeq
 
