@@ -27,7 +27,7 @@ object BuildCycleOver {
     println ("-------------------- Count of all cycles :" + cycleIdList.count())
 
     // Parmi les cyclesId généré précédemment on filtre ceux dont l'heure de départ est deja passé
-    val cycleIdListOver   = filterCycleOver(cycleIdList, sqlContext)
+    val cycleIdListOver   = filterCycleOver(cycleIdList, sqlContext,sc)
     println ("-------------------- Count of all Finished cycles :" + cycleIdListOver.count())
 
     //Load les evenements  du jour j
@@ -68,7 +68,7 @@ object BuildCycleOver {
 
   }
 
-  def filterCycleOver(dsTgaTgdCycles : Dataset[TgaTgdCycleId], sqlContext : SQLContext):  Dataset[TgaTgdCycleId]= {
+  def filterCycleOver(dsTgaTgdCycles : Dataset[TgaTgdCycleId], sqlContext : SQLContext, sc : SparkContext):  Dataset[TgaTgdCycleId]= {
     import sqlContext.implicits._
 
 
@@ -77,6 +77,8 @@ object BuildCycleOver {
     // Filtre sur les horaire de départ inférieur a l'heure actuelle
 
        val dataTgaTgdCycleOver = dsTgaTgdCycles.filter( x => ( x.retard != "" &&  Conversion.unixTimestampToDateTime(x.heure).plusMinutes(x.retard.toInt).getMillis < currentHoraire.getMillis) ||(x.retard == "" &&  (Conversion.unixTimestampToDateTime(x.heure).getMillis < currentHoraire.getMillis )))
+
+    Persist.save(dataTgaTgdCycleOver.toDF() , "ALLCycle", sc)
 
     dataTgaTgdCycleOver
   }

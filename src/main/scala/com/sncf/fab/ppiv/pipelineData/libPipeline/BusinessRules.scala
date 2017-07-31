@@ -140,19 +140,10 @@ object BusinessRules {
 
   def getTypeDevoiement(dsTgaTgdSeq: Seq[TgaTgdInput]) : String = {
 
-   //val dsVoie = dsTgaTgdSeq.sortBy(_.maj).filter(x => x.voie != null && x.voie != "" &&  x.voie   != ("0")).groupBy(_.voie).toSeq.sortBy(x=>x._2(1))
-    //.mapValues(x=>x.map(x=>(x.maj, x.attribut_voie)))
-    /*  //.mapValues( v => v.sortBy( _.maj) )
+   val dsVoie = dsTgaTgdSeq.sortBy(_.maj).filter(x => x.voie != null && x.voie != "" &&  x.voie   != ("0")).groupBy(_.voie)
+    //.mapValues(x=>x.map(x=>(x.maj, x.attribut_voie))).toSeq.sortBy(x=>x._2.ma)
+      //.mapValues( v => v.sortBy( _.maj) )
 
-   // val test = ListMap(dsVoie.toList.sortBy(_._1.getMillis):_*)
-      //.sortBy(x=>x._2)
-
-   // dsVoieRow.foreach(println)
-
-    //val dsVoie = SortedMap(dsVoieRow.groupBy(_.voie).toSeq:_*)
-      //.groupBy(_.voie).toSeq.sortBy(x=> x._2)
-
-    dsVoie.foreach(println)
 
     val desVoieWithAttVoie = dsVoie.map{ case(_,group)=> ( group.map(_.attribut_voie).contains("I"))}
 
@@ -176,8 +167,8 @@ object BusinessRules {
         }
       }
 
-      */
-    "TO_COMPUTE"
+
+
   }
 
   def getTypeDevoiement2(dsTgaTgdSeq: Seq[TgaTgdInput]) : String = {
