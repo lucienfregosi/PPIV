@@ -38,15 +38,15 @@ The 'getEcentCycleIdSpec'  output count   should
   @transient val sc = new SparkContext(sparkConf)
   @transient val sqlContext = new SQLContext(sc)
 
-  import sqlContext.implicits._
+     import sqlContext.implicits._
 
 
-  val path = "PPIV/src/test/resources/data/events"
-  val eventdf = sqlContext.read.format("com.databricks.spark.csv").load(path).as[TgaTgdInput]
+ // val path = "PPIV/src/test/resources/data/eventsfromhdfs.deflate"
+  //val eventdf = sqlContext.read.format("com.databricks.spark.csv").load(path).as[TgaTgdInput]
 
 
-  val path2 = "PPIV/src/test/resources/data/cycles"
-  val cycledf = sqlContext.read.format("com.databricks.spark.csv").load(path2).as[TgaTgdCycleId]
+  //val path2 = "PPIV/src/test/resources/data/cyclesfromhdfs.deflate"
+  //val cycledf = sqlContext.read.format("com.databricks.spark.csv").load(path2).as[TgaTgdCycleId]
 
 /*
 
@@ -82,7 +82,7 @@ The 'getEcentCycleIdSpec'  output count   should
 
   */
   //BuildCycleOver.getEventCycleId (eventDf, cycleDf, sqlContext, sc, "TGA")
-  BuildCycleOver.getEventCycleId (eventdf, cycledf, sqlContext, sc, "TGA")
+  //BuildCycleOver.getEventCycleId (eventdf, cycledf, sqlContext, sc, "TGA")
 
   def e1 ="true" must beEqualTo("true")
 

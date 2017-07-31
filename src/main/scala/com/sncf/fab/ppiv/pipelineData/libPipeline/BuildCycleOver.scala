@@ -104,6 +104,8 @@ object BuildCycleOver {
 
     val dfJoin = dsTgaTgdCyclesOver.toDF().select("cycle_id").join(tgaTgdInputAllDay, $"cycle_id" === $"cycle_id2", "inner")
 
+
+
     // Création d'une dataframe hive pour pouvoir utiliser la fonction collect_list
     val hiveDataframe = hiveContext.createDataFrame(dfJoin.rdd, dfJoin.schema)
 
@@ -155,7 +157,7 @@ object BuildCycleOver {
     */
 
    // ( dfGroupByCycleOver, dfeventsGrouped)
-      ( testCollectionWithoutDuplica, dfeventsGrouped)
+      ( testCollectionWithoutDuplica, dfJoin)
 
   }
 
