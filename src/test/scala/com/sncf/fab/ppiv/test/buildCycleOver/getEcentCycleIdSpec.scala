@@ -68,7 +68,7 @@ The 'getEcentCycleIdSpec'  output count   should
     .withColumn("heure", 'heure.cast(LongType))
     .as[TgaTgdInput]
 
-  BuildCycleOver.getEventCycleId (eventDf, cycleDf, sqlContext, sc, "TGA")
+  //BuildCycleOver.getEventCycleId (eventDf, cycleDf, sqlContext, sc, "TGA")
 
   def e1 ="true" must beEqualTo("true")
 
