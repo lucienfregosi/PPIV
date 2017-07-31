@@ -141,11 +141,16 @@ object BusinessRules {
   def getTypeDevoiement(dsTgaTgdSeq: Seq[TgaTgdInput]) : String = {
 
    val dsVoie = dsTgaTgdSeq.sortBy(_.maj).filter(x => x.voie != null && x.voie != "" &&  x.voie   != ("0")).groupBy(_.voie)
-    //.mapValues(x=>x.map(x=>(x.maj, x.attribut_voie))).toSeq.sortBy(x=>x._2.ma)
+   // .mapValues(x=>x.map(x=>x.maj))
+
+
+     val desVoieOrdred = dsVoie.values
+
+
       //.mapValues( v => v.sortBy( _.maj) )
 
 
-    val desVoieWithAttVoie = dsVoie.map{ case(_,group)=> ( group.map(_.attribut_voie).contains("I"))}
+   /* val desVoieWithAttVoie = dsVoie.map{ case(_,group)=> ( group.map(_.attribut_voie).contains("I"))}
 
     println ("Test Type devoiement ")
     desVoieWithAttVoie.foreach(println)
@@ -167,7 +172,8 @@ object BusinessRules {
         }
       }
 
-
+*/
+    "To_compute"
 
   }
 

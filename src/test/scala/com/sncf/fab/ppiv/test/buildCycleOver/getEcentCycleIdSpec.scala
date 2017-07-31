@@ -5,7 +5,7 @@ import java.io.File
 import com.sncf.fab.ppiv.business.{TgaTgdCycleId, TgaTgdInput}
 import com.sncf.fab.ppiv.pipelineData.libPipeline.BuildCycleOver
 import com.sncf.fab.ppiv.utils.AppConf.{PPIV, SPARK_MASTER}
-import org.apache.spark.sql.SQLContext
+import org.apache.spark.sql.{SQLContext, SaveMode}
 import org.apache.spark.sql.types.LongType
 import org.apache.spark.{SparkConf, SparkContext}
 import org.specs2._
@@ -27,6 +27,7 @@ The 'getEcentCycleIdSpec'  output count   should
 
 
 
+
   
   val sparkConf = new SparkConf()
     .setAppName(PPIV)
@@ -38,6 +39,16 @@ The 'getEcentCycleIdSpec'  output count   should
   @transient val sqlContext = new SQLContext(sc)
 
   import sqlContext.implicits._
+
+
+  val path = "PPIV/src/test/resources/data/events"
+  val eventdf = sqlContext.read.format("com.databricks.spark.csv").load(path).as[TgaTgdInput]
+
+
+  val path2 = "PPIV/src/test/resources/data/cycles"
+  val cycledf = sqlContext.read.format("com.databricks.spark.csv").load(path2).as[TgaTgdCycleId]
+
+/*
 
   def readFile( file : String) = {
     for {
@@ -68,7 +79,10 @@ The 'getEcentCycleIdSpec'  output count   should
     .withColumn("heure", 'heure.cast(LongType))
     .as[TgaTgdInput]
 
-  BuildCycleOver.getEventCycleId (eventDf, cycleDf, sqlContext, sc, "TGA")
+
+  */
+  //BuildCycleOver.getEventCycleId (eventDf, cycleDf, sqlContext, sc, "TGA")
+  BuildCycleOver.getEventCycleId (eventdf, cycledf, sqlContext, sc, "TGA")
 
   def e1 ="true" must beEqualTo("true")
 
