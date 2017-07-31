@@ -85,7 +85,7 @@ object BuildCycleOver {
   def getEventCycleId(tgaTgdRawAllDay: Dataset[TgaTgdInput], dsTgaTgdCyclesOver : Dataset[TgaTgdCycleId], sqlContext : SQLContext, sc : SparkContext, panneau: String): (DataFrame, DataFrame) = {
 
     // Définition d'un Hive Context pour utiliser la fonction collect_list
-  //  val hiveContext = new HiveContext(sc)
+   val hiveContext = new HiveContext(sc)
     import sqlContext.implicits._
 
     // Sur le dataset Complet de la journée création d'une colonne cycle_id2 en vue de la jointure
@@ -101,15 +101,14 @@ object BuildCycleOver {
     val dfJoin = dsTgaTgdCyclesOver.toDF().select("cycle_id").join(tgaTgdInputAllDay, $"cycle_id" === $"cycle_id2", "inner")
 
     // Création d'une dataframe hive pour pouvoir utiliser la fonction collect_list
-   // val hiveDataframe = hiveContext.createDataFrame(dfJoin.rdd, dfJoin.schema)
+    val hiveDataframe = hiveContext.createDataFrame(dfJoin.rdd, dfJoin.schema)
 
 
     // On concatène toutes les colonnes en une pour pouvoir les manipuler plus facilement (en spark 1.6 pas possible de recréer un tgaTgdInput dans le collect list
 
 
-
-   // val dfeventsGrouped = hiveDataframe.drop("cycle_id2").distinct().dropDuplicates().select($"cycle_id", concat($"gare", lit(";"), $"maj", lit(";"), $"train", lit(";"), $"ordes", lit(";"), $"num", lit(";"), $"type", lit(";"), $"picto", lit(";"), $"attribut_voie", lit(";"), $"voie", lit(";"), $"heure", lit(";"), $"etat", lit(";"), $"retard") as "event")
-   val dfeventsGrouped = dfJoin.drop("cycle_id2").distinct().dropDuplicates().select($"cycle_id", concat($"gare", lit(";"), $"maj", lit(";"), $"train", lit(";"), $"ordes", lit(";"), $"num", lit(";"), $"type", lit(";"), $"picto", lit(";"), $"attribut_voie", lit(";"), $"voie", lit(";"), $"heure", lit(";"), $"etat", lit(";"), $"retard") as "event")
+  val dfeventsGrouped = hiveDataframe.drop("cycle_id2").distinct().dropDuplicates().select($"cycle_id", concat($"gare", lit(";"), $"maj", lit(";"), $"train", lit(";"), $"ordes", lit(";"), $"num", lit(";"), $"type", lit(";"), $"picto", lit(";"), $"attribut_voie", lit(";"), $"voie", lit(";"), $"heure", lit(";"), $"etat", lit(";"), $"retard") as "event")
+  // val dfeventsGrouped = dfJoin.drop("cycle_id2").distinct().dropDuplicates().select($"cycle_id", concat($"gare", lit(";"), $"maj", lit(";"), $"train", lit(";"), $"ordes", lit(";"), $"num", lit(";"), $"type", lit(";"), $"picto", lit(";"), $"attribut_voie", lit(";"), $"voie", lit(";"), $"heure", lit(";"), $"etat", lit(";"), $"retard") as "event")
 
 
     //val dfGroupByCycleOver = hiveDataframe.drop("cycle_id2").distinct().dropDuplicates().select($"cycle_id", concat($"gare", lit(";"), $"maj", lit(";"), $"train", lit(";"), $"ordes", lit(";"), $"num", lit(";"), $"type", lit(";"), $"picto", lit(";"), $"attribut_voie", lit(";"), $"voie", lit(";"), $"heure", lit(";"), $"etat", lit(";"), $"retard") as "event").groupBy("cycle_id").agg(collect_set($"event") as "events")
