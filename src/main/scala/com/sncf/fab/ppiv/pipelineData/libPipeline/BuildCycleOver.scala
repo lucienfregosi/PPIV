@@ -45,7 +45,7 @@ object BuildCycleOver {
       */
 
 
-    //Persist.save(tgaTgdCycleOver._2.toDF() , "Eventsnotgrouped", sc)
+    Persist.save(tgaTgdCycleOver._2.toDF() , "Eventsnotgrouped", sc)
 
     tgaTgdCycleOver._1
   }
