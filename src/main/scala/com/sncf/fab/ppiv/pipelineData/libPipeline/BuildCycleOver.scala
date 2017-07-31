@@ -44,6 +44,7 @@ object BuildCycleOver {
      val tgaTgdCycleOverNODuplica =  tgaTgdCycleOver.dropDuplicates( col)
       */
 
+    
     Persist.save(tgaTgdCycleOver._2.toDF() , "Eventsnotgrouped", sc)
 
     tgaTgdCycleOver._1
