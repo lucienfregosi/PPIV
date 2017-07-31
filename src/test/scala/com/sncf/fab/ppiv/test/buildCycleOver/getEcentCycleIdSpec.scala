@@ -57,7 +57,7 @@ The 'getEcentCycleIdSpec'  output count   should
     .as[TgaTgdCycleId]
 
 // Read TgaTgd Input File
-  val eventsFile = new File("src/test/resources/data/events.csv").getAbsolutePath
+  val eventsFile = new File("C:/Users/kaoula_ghribi/Desktop/PPIV/PPIV/src/test/resources/data/events.csv").getAbsolutePath
 
   val events = readFile(eventsFile ).toSeq
 
@@ -68,7 +68,7 @@ The 'getEcentCycleIdSpec'  output count   should
     .withColumn("heure", 'heure.cast(LongType))
     .as[TgaTgdInput]
 
-
+  BuildCycleOver.getEventCycleId (eventDf, cycleDf, sqlContext, sc, "TGA")
 
   def e1 ="true" must beEqualTo("true")
 

@@ -44,7 +44,7 @@ object BuildCycleOver {
      val tgaTgdCycleOverNODuplica =  tgaTgdCycleOver.dropDuplicates( col)
       */
 
-    
+
     Persist.save(tgaTgdCycleOver._2.toDF() , "Eventsnotgrouped", sc)
 
     tgaTgdCycleOver._1
@@ -72,7 +72,7 @@ object BuildCycleOver {
     import sqlContext.implicits._
 
 
-    val currentHoraire = Conversion.getDateTime(2017,7,28,Conversion.getHourMax(Conversion.nowToDateTime()).toInt,0,0)
+    val currentHoraire = Conversion.getDateTime(2017,7,31,Conversion.getHourMax(Conversion.nowToDateTime()).toInt,0,0)
 
     // Filtre sur les horaire de départ inférieur a l'heure actuelle
 
