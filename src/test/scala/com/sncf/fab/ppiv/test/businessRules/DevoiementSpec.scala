@@ -32,15 +32,15 @@ The 'Devoiement Spec'  output   should
 
   val header = Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard")
 
-  val pathDevoiFile = new File("src/test/resources/data/trajet_Devoiement.csv").getAbsolutePath
+  val pathDevoiFile = new File("PPIV/src/test/resources/data/trajet_Devoiement.csv").getAbsolutePath
   val dsDevoiSpec = readFile(pathDevoiFile).toSeq
 
 
 
   //BusinessRules.getTypeDevoiement(dsDevoiSpec).toString
 
-  // def e1 = BusinessRules.getTypeDevoiement(dsDevoiSpec).toString must beEqualTo("Affiche")
+  def e1 = BusinessRules.getTypeDevoiement(dsDevoiSpec).toString must beEqualTo("Affiche")
 
-  def e1 = "true" must beEqualTo("true")
+ // def e1 = "true" must beEqualTo("true")
 
 }
