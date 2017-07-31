@@ -32,7 +32,7 @@ The 'Devoiement Spec'  output   should
 
   val header = Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard")
 
-  val pathDevoiFile = new File("/src/test/resources/data/trajet_Devoiement.csv").getAbsolutePath
+  val pathDevoiFile = new File("src/test/resources/data/trajet_Devoiement.csv").getAbsolutePath
   val dsDevoiSpec = readFile(pathDevoiFile).toSeq
 
 
