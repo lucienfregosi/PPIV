@@ -219,6 +219,13 @@ object BuildCycleOver {
     tgaTgdRawAllDay
   }
 
+  /**
+    *
+    * @param sc
+    * @param sqlContext
+    * @param panneau
+    * @return
+    */
   def loadTgaTgdYesterDay(sc: SparkContext,
                           sqlContext: SQLContext,
                           panneau: String): Dataset[TgaTgdInput] = {

@@ -38,7 +38,7 @@ object PersistHive extends Serializable {
     //t.show()
 
     hiveContext.sql("LOAD DATA INPATH '/data1/GARES/refinery/PPIV_PHASE2/QualiteAffichage/FichierValide_190717.csv' INTO TABLE ppiv_ref.iv_tgatgdtmp9")
-    //hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgdtmp7 select * from NewdataToSaveHive3")
+    //hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgdtmp7 select * from NewdataToSaveHive5")
 
   }
 

@@ -42,7 +42,7 @@ The 'getEcentCycleIdSpec'  output count   should
      import sqlContext.implicits._
 
 
-  //val path = "PPIV/src/test/resources/data/eventsfromhdfs.deflate"
+  // val path = "PPIV/src/test/resources/data/eventsfromhdfs.deflate"
   val path = "src/test/resources/data/eventsfromhdfs.deflate"
   val eventdf = sqlContext.read.format("com.databricks.spark.csv").load(path).map{x=>
         val seqString = x.getString(1)

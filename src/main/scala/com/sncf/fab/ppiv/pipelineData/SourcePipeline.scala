@@ -13,6 +13,7 @@ import org.apache.spark.SparkContext
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.hive.HiveContext
+import org.apache.spark.storage.StorageLevel
 import org.joda.time.{DateTime, DateTimeZone}
 
 /**
@@ -72,6 +73,8 @@ trait SourcePipeline extends Serializable {
     // 1) Chargement des fichiers déjà parsé dans leur classe
     LOGGER.info("Chargement des fichiers et du référentiel")
     val dataTgaTgd                = LoadData.loadTgaTgd(sqlContext, getSource())
+   // dataTgaTgd.persist(StorageLevel.DISK_ONLY)
+    //dataTgaTgd.unpersist()
     val dataRefGares              = LoadData.loadReferentiel(sqlContext)
 
     // 2) Application du sparadrap sur les données au cause du Bug lié au passe nuit
@@ -94,13 +97,10 @@ trait SourcePipeline extends Serializable {
     val cycleWithEventOver = BuildCycleOver.getCycleOver(dataTgaTgdFielValidated, sc, sqlContext, Panneau())
 
     // Temporary Save Finished cycles in HDFS
-   //Persist.save(cycleWithEventOver.toDF() , "CyclFinistoH", sc)
+  // Persist.save(cycleWithEventOver.toDF() , "CyclFinistoH", sc)
 
     // 5) Boucle sur les cycles finis pour traiter leur liste d'évènements
     LOGGER.info("Traitement des cycles terminés")
-
-
-    println ("--------------------------- end Reduce bY key------------------------")
 
     val rddIvTgaTgdWithoutReferentiel = cycleWithEventOver.map{ x =>
 
@@ -108,7 +108,8 @@ trait SourcePipeline extends Serializable {
       var cycleId = x.getString(0)
 
       // Récupération de la séquence de String (deuxième colonne)
-      val seqString = x.getSeq[String](1)
+      //val seqString = x.getSeq[String](1)
+      val seqString = x.getString(1).split(",").toSeq
 
       // Transsformation des séquences de string en Seq[TgaTgdInput)
       val seqTgaTgd = seqString.map(x => {
