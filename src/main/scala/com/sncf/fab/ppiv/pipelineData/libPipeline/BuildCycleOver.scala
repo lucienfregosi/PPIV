@@ -89,7 +89,7 @@ object BuildCycleOver {
 
     // On joint les deux avec un left join pour garder seulement les cycles terminés et leurs évènements
     val dsTgaTgdCyclesOverDF = dsTgaTgdCyclesOver.toDF()
-    println("Cycle Over : " + dsTgaTgdCyclesOverDF.count)
+
 
     // val dfJoin = dsTgaTgdCyclesOver.toDF().select("cycle_id").join(tgaTgdInputAllDay, $"cycle_id" === $"cycle_id2", "left")
     val dfJoin = dsTgaTgdCyclesOver.toDF().select("cycle_id").join(tgaTgdInputAllDay, $"cycle_id" === $"cycle_id2", "inner")
