@@ -17,11 +17,12 @@ object GetSparkEnv {
       .set("es.index.auto.create", "true")
   }
   @transient val sparkConf = getSparkConf()
+
   @transient val sc = new SparkContext(sparkConf)
   @transient val sqlContext = new SQLContext(sc)
 
   def getSparkContext(): SparkContext = {
-    return sc
+        return sc
   }
 
   def getSqlContext(): SQLContext = {
