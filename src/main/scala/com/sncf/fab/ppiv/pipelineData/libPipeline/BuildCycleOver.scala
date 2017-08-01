@@ -108,8 +108,8 @@ object BuildCycleOver {
 
     def collectSet(df: DataFrame, k: Column, v: Column) = df.select(k.as("k"), v.as("v"))
         .map(r => (r.getString(0), r.getString(1)))
-        .reduceByKey((x,y) => x + ", " + y)
-        .mapValues(_.toList)
+        .reduceByKey((x,y) => x + "," + y)
+        .mapValues(_.mkString(","))
         .toDF("cycle_id", "event")
 
     val testCollection  = collectSet(dfeventsGrouped,dfeventsGrouped("cycle_id"),dfeventsGrouped("event") )
