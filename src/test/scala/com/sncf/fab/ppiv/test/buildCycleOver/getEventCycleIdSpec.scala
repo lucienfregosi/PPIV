@@ -7,6 +7,7 @@ import com.sncf.fab.ppiv.pipelineData.libPipeline.BuildCycleOver
 import com.sncf.fab.ppiv.utils.AppConf.{PPIV, SPARK_MASTER}
 import org.apache.spark.sql.{SQLContext, SaveMode}
 import org.apache.spark.sql.types.LongType
+import org.apache.spark.sql.functions.{col, collect_list, collect_set, concat, lit}
 import org.apache.spark.{SparkConf, SparkContext}
 import org.specs2._
 
