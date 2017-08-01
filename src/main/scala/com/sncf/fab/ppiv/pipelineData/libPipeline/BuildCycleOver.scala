@@ -66,7 +66,7 @@ object BuildCycleOver {
     import sqlContext.implicits._
 
 
-    val currentHoraire = Conversion.getDateTime(2017,7,31,Conversion.getHourMax(Conversion.nowToDateTime()).toInt,0,0)
+    val currentHoraire = Conversion.getDateTime(2017,8,1,Conversion.getHourMax(Conversion.nowToDateTime()).toInt,0,0)
 
     // Filtre sur les horaire de départ inférieur a l'heure actuelle
 
@@ -100,9 +100,11 @@ object BuildCycleOver {
 
     // On concatène toutes les colonnes en une pour pouvoir les manipuler plus facilement (en spark 1.6 pas possible de recréer un tgaTgdInput dans le collect list
     //val dfeventsGrouped = hiveDataframe.drop("cycle_id2").distinct().dropDuplicates().select($"cycle_id", concat($"gare", lit(";"), $"maj", lit(";"), $"train", lit(";"), $"ordes", lit(";"), $"num", lit(";"), $"type", lit(";"), $"picto", lit(";"), $"attribut_voie", lit(";"), $"voie", lit(";"), $"heure", lit(";"), $"etat", lit(";"), $"retard") as "event")
-    val dfeventsGrouped = dfJoin.drop("cycle_id2").distinct().dropDuplicates().select($"cycle_id", concat($"gare", lit(";"), $"maj", lit(";"), $"train", lit(";"), $"ordes", lit(";"), $"num", lit(";"), $"type", lit(";"), $"picto", lit(";"), $"attribut_voie", lit(";"), $"voie", lit(";"), $"heure", lit(";"), $"etat", lit(";"), $"retard") as "event")
 
-    //val dfGroupByCycleOver = hiveDataframe.drop("cycle_id2").distinct().dropDuplicates().select($"cycle_id", concat($"gare", lit(";"), $"maj", lit(";"), $"train", lit(";"), $"ordes", lit(";"), $"num", lit(";"), $"type", lit(";"), $"picto", lit(";"), $"attribut_voie", lit(";"), $"voie", lit(";"), $"heure", lit(";"), $"etat", lit(";"), $"retard") as "event").groupBy("cycle_id").agg(collect_set($"event") as "events")
+
+   // val dfeventsGrouped = dfJoin.drop("cycle_id2").distinct().dropDuplicates().select($"cycle_id", concat($"gare", lit(";"), $"maj", lit(";"), $"train", lit(";"), $"ordes", lit(";"), $"num", lit(";"), $"type", lit(";"), $"picto", lit(";"), $"attribut_voie", lit(";"), $"voie", lit(";"), $"heure", lit(";"), $"etat", lit(";"), $"retard") as "event")
+
+    val dfGroupByCycleOver = dfJoin.drop("cycle_id2").distinct().dropDuplicates().select($"cycle_id", concat($"gare", lit(";"), $"maj", lit(";"), $"train", lit(";"), $"ordes", lit(";"), $"num", lit(";"), $"type", lit(";"), $"picto", lit(";"), $"attribut_voie", lit(";"), $"voie", lit(";"), $"heure", lit(";"), $"etat", lit(";"), $"retard") as "event").groupBy("cycle_id").agg(collect_set($"event") as "events")
 
     def collectSet(df: DataFrame, k: Column, v: Column) = df.select(k.as("k"), v.as("v"))
         .map(r => (r.getString(0), r.getString(1)))
@@ -110,12 +112,12 @@ object BuildCycleOver {
         .mapValues(_.toSet.toList)
         .toDF("cycle_id", "event")
 
-    val testCollection  = collectSet(dfeventsGrouped,dfeventsGrouped("cycle_id"),dfeventsGrouped("event") )
+  //  val testCollection  = collectSet(dfeventsGrouped,dfeventsGrouped("cycle_id"),dfeventsGrouped("event") )
 
 
-    val testCollectionWithoutDuplica = testCollection.distinct()
+   // val testCollectionWithoutDuplica = testCollection.distinct()
 
-      ( testCollectionWithoutDuplica, dfJoin)
+      ( dfGroupByCycleOver, dfJoin)
 
   }
 
