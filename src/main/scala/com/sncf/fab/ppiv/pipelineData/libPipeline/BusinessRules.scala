@@ -138,60 +138,86 @@ object BusinessRules {
     }
   }
 
-  def getTypeDevoiement(dsTgaTgdSeq: Seq[TgaTgdInput]) : String = {
 
-  // val dsVoie = dsTgaTgdSeq
-    // .sortBy(_.maj).filter(x => x.voie != null && x.voie != "" &&  x.voie   != ("0"))
-     //.groupBy(_.voie)
+  def allDevoimentInfo (dsTgaTgdSeq: Seq[TgaTgdInput]) : Seq[(String,TgaTgdInput,Int )]={
+    val dsVoie = dsTgaTgdSeq
+      .sortBy(_.maj).filter(x => x.voie != null && x.voie != "" &&  x.voie   != ("0"))
+      .groupBy(_.voie)
 
-   // .mapValues(x=>x.map(x=>x.maj))
+      val dvInfo = dsVoie.toSeq.map(row=> (row._1, row._2.maxBy(_.maj),row._2.filter(_.attribut_voie != "I").length )).sortBy(_._2.maj)
+     dvInfo
+  }
+  def getTypeDevoiement(dsTgaTgdSeq: Seq[TgaTgdInput]) : (String,String,String) = {
 
-
-  //  dsVoie.toSeq.map(row=> (row._1, row._2.maxBy(_.maj))).sortBy(_._2.maj)
-
-   //  val desVoieOrdred = dsVoie.values
-
-
-      //.mapValues( v => v.sortBy( _.maj) )
-
-
-   /* val desVoieWithAttVoie = dsVoie.map{ case(_,group)=> ( group.map(_.attribut_voie).contains("I"))}
-
-    println ("Test Type devoiement ")
-    desVoieWithAttVoie.foreach(println)
-
-
-    if  (desVoieWithAttVoie.size <=1){
+  val dvInfo = allDevoimentInfo(dsTgaTgdSeq)
+    if  (dvInfo.size <=1){
       null
     }
     else {
+      val Voie_1 = dvInfo(0)._2.voie
+      val Voie_2 = dvInfo(1)._2.voie
+      val lengthOfNonHidden_Voie = dvInfo(1)._3
 
-      val BoolFirstDevoiement2 = desVoieWithAttVoie.drop(1).take(1).toList.headOption
-
-      println ("BoolFirstDevoiement2 :" + BoolFirstDevoiement2)
-      //val typeFirstDev = dsVoie.slice(1,1).toList.headOption
-      if ( BoolFirstDevoiement2 == false){
-        "Affiche"
+      if ( lengthOfNonHidden_Voie >=1){
+        ( Voie_1,Voie_2,"Affiche")
       } else {
-        "Non_Affiche"
+        ( Voie_1,Voie_2,"Non_Affiche")
         }
       }
-
-*/
-    "To_compute"
-
   }
 
-  def getTypeDevoiement2(dsTgaTgdSeq: Seq[TgaTgdInput]) : String = {
-    "TO_COMPUTE"
+  def getTypeDevoiement2(dsTgaTgdSeq: Seq[TgaTgdInput]) : (String, String,String) = {
+    val dvInfo = allDevoimentInfo(dsTgaTgdSeq)
+    if  (dvInfo.size <=2){
+      null
+    }
+    else {
+      val Voie_1 = dvInfo(1)._2.voie
+      val Voie_2 = dvInfo(2)._2.voie
+      val lengthOfNonHidden_Voie = dvInfo(2)._3
+
+      if ( lengthOfNonHidden_Voie >=1){
+        ( Voie_1,Voie_2,"Affiche")
+      } else {
+        ( Voie_1,Voie_2,"Non_Affiche")
+      }
+    }
   }
 
-  def getTypeDevoiement3(dsTgaTgdSeq: Seq[TgaTgdInput]) : String = {
-    "TO_COMPUTE"
+  def getTypeDevoiement3(dsTgaTgdSeq: Seq[TgaTgdInput]) : (String,String,String) = {
+    val dvInfo = allDevoimentInfo(dsTgaTgdSeq)
+    if  (dvInfo.size <=3){
+      null
+    }
+    else {
+      val Voie_1 = dvInfo(2)._2.voie
+      val Voie_2 = dvInfo(3)._2.voie
+      val lengthOfNonHidden_Voie = dvInfo(3)._3
+
+      if ( lengthOfNonHidden_Voie >=1){
+        ( Voie_1,Voie_2,"Affiche")
+      } else {
+        ( Voie_1,Voie_2,"Non_Affiche")
+      }
+    }
   }
 
-  def getTypeDevoiement4(dsTgaTgdSeq: Seq[TgaTgdInput]) : String = {
-    "TO_COMPUTE"
+  def getTypeDevoiement4(dsTgaTgdSeq: Seq[TgaTgdInput]) : (String,String,String) = {
+    val dvInfo = allDevoimentInfo(dsTgaTgdSeq)
+    if  (dvInfo.size <=4){
+      null
+    }
+    else {
+      val Voie_1 = dvInfo(3)._2.voie
+      val Voie_2 = dvInfo(4)._2.voie
+      val lengthOfNonHidden_Voie = dvInfo(4)._3
+
+      if ( lengthOfNonHidden_Voie >=1){
+        ( Voie_1,Voie_2,"Affiche")
+      } else {
+        ( Voie_1,Voie_2,"Non_Affiche")
+      }
+    }
   }
 
   def getDernierAffichage(dsTgaTgdSeq: Seq[TgaTgdInput]) : Long = {

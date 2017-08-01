@@ -141,10 +141,10 @@ trait SourcePipeline extends Serializable {
         val date_affichage_etat_train = BusinessRules.getDateAffichageEtatTrain(dataTgaTgdCycleCleaned)
         val delai_affichage_etat_train_avant_depart_arrive = BusinessRules.getDelaiAffichageEtatTrainAvantDepartArrive(dataTgaTgdCycleCleaned)
         val dernier_quai_affiche = BusinessRules.getDernierQuaiAffiche(dataTgaTgdCycleCleaned)
-        val type_devoiement = BusinessRules.getTypeDevoiement(dataTgaTgdCycleCleaned)
-        val type_devoiement2 = BusinessRules.getTypeDevoiement2(dataTgaTgdCycleCleaned)
-        val type_devoiement3 = BusinessRules.getTypeDevoiement3(dataTgaTgdCycleCleaned)
-        val type_devoiement4 = BusinessRules.getTypeDevoiement4(dataTgaTgdCycleCleaned)
+        val type_devoiement = BusinessRules.getTypeDevoiement(dataTgaTgdCycleCleaned)._3
+        val type_devoiement2 = BusinessRules.getTypeDevoiement2(dataTgaTgdCycleCleaned)._3
+        val type_devoiement3 = BusinessRules.getTypeDevoiement3(dataTgaTgdCycleCleaned)._3
+        val type_devoiement4 = BusinessRules.getTypeDevoiement4(dataTgaTgdCycleCleaned)._3
         val dernier_affichage = BusinessRules.getDernierAffichage(dataTgaTgdCycleCleaned)
         val date_process = BusinessRules.getDateProcess(dataTgaTgdCycleCleaned)
 

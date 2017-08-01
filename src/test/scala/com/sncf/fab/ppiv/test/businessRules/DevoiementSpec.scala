@@ -17,7 +17,8 @@ class DevoiementSpec extends Specification{
   def is = s2"""
 This is a specification for the "Devoiement Spec" output
 The 'Devoiement Spec'  output   should
-  Dernier affichage be a equal to  Affiche                           $e1
+  premier devoiement must be a equal to  Affiche                           $e1
+  second devoiement be a equal to  Affiche                                 $e2
 
   """
 
@@ -32,15 +33,20 @@ The 'Devoiement Spec'  output   should
 
   val header = Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard")
 
- // val pathDevoiFile = new File("PPIV/src/test/resources/data/trajet_Devoiement.csv").getAbsolutePath
-  //val dsDevoiSpec = readFile(pathDevoiFile).toSeq
+  //val pathDevoiFile = new File("PPIV/src/test/resources/data/trajet_Devoiement.csv").getAbsolutePath
+  val pathDevoiFile = new File("src/test/resources/data/trajet_Devoiement.csv").getAbsolutePath
+  val dsDevoiSpec = readFile(pathDevoiFile).toSeq
 
 
 
   //BusinessRules.getTypeDevoiement(dsDevoiSpec).toString
 
-  //def e1 = BusinessRules.getTypeDevoiement(dsDevoiSpec).toString must beEqualTo("Affiche")
+  def e1 = BusinessRules.getTypeDevoiement(dsDevoiSpec)._3.toString must beEqualTo("Affiche")
 
-  def e1 = "true" must beEqualTo("true")
+  def e2 = BusinessRules.getTypeDevoiement2(dsDevoiSpec)._3.toString must beEqualTo("Affiche")
+
+
+
+  //def e1 = "true" must beEqualTo("true")
 
 }
