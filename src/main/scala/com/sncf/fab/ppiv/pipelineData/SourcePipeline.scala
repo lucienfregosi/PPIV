@@ -99,6 +99,9 @@ trait SourcePipeline extends Serializable {
     // 5) Boucle sur les cycles finis pour traiter leur liste d'évènements
     LOGGER.info("Traitement des cycles terminés")
 
+
+    println ("--------------------------- end Reduce bY key------------------------")
+
     val rddIvTgaTgdWithoutReferentiel = cycleWithEventOver.map{ x =>
 
       // Récupération du cycleId (première colonne)
