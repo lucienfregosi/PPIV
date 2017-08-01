@@ -114,7 +114,6 @@ object BuildCycleOver {
 
     val testCollection  = collectSet(dfeventsGrouped,dfeventsGrouped("cycle_id"),dfeventsGrouped("event") )
 
-
    val testCollectionWithoutDuplica = testCollection.distinct()
 
       ( testCollectionWithoutDuplica, dfJoin)
