@@ -30,8 +30,6 @@ object TraitementPPIVDriver extends Serializable {
     else {
 
       // Définition du Spark Context et SQL Context à partir de utils/GetSparkEnv
-      val a = GetSparkEnv.getSparkConf().getAll
-      println(a)
       val sc         = GetSparkEnv.getSparkContext()
       val sqlContext = GetSparkEnv.getSqlContext()
 

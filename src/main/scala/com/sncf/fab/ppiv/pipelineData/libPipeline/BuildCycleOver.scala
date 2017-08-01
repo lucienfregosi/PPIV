@@ -106,12 +106,15 @@ object BuildCycleOver {
 
     //val dfGroupByCycleOver = dfJoin.drop("cycle_id2").distinct().dropDuplicates().select($"cycle_id", concat($"gare", lit(";"), $"maj", lit(";"), $"train", lit(";"), $"ordes", lit(";"), $"num", lit(";"), $"type", lit(";"), $"picto", lit(";"), $"attribut_voie", lit(";"), $"voie", lit(";"), $"heure", lit(";"), $"etat", lit(";"), $"retard") as "event").groupBy("cycle_id").agg(collect_set($"event") as "events")
 
-    def collectSet(df: DataFrame, k: Column, v: Column) = df.select(k.as("k"), v.as("v"))
+    def collectSet(df: DataFrame, k: Column, v: Column) : DataFrame= {
+     val intermediatedf =  df.select(k.as("k"), v.as("v"))
         .map(r => (r.getString(0), r.getString(1)))
-        .reduceByKey((x,y) => x + "," + y)
-        .mapValues(_.mkString(","))
+        //.groupByKey()
+        .reduceByKey((x, y) => x + "," + y)
+       // .mapValues(_.toSet.toList)
         .toDF("cycle_id", "event")
-
+      intermediatedf
+    }
     val testCollection  = collectSet(dfeventsGrouped,dfeventsGrouped("cycle_id"),dfeventsGrouped("event") )
 
    val testCollectionWithoutDuplica = testCollection.distinct()
