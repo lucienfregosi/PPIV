@@ -112,8 +112,8 @@ trait SourcePipeline extends Serializable {
 
 
     // 11) Enregistrement des rejets (champs + cycle)
-    Reject.saveFieldRejected(dataTgaTgdFielRejected, sc)
-    Reject.saveCycleRejected(cycleInvalidated, sc)
+    //Reject.saveFieldRejected(dataTgaTgdFielRejected, sc)
+    //Reject.saveCycleRejected(cycleInvalidated, sc)
 
     val cycleInvalidatedDf = cycleInvalidated.toDF()
     val cycleValidatedDf   =  cycleValidated.toDF()
