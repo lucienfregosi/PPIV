@@ -6,25 +6,20 @@ import com.sncf.fab.ppiv.persistence.Persist
 import com.sncf.fab.ppiv.utils.AppConf.LANDING_WORK
 import com.sncf.fab.ppiv.utils.Conversion
 import com.sncf.fab.ppiv.utils.Conversion.ParisTimeZone
+import groovy.sql.DataSet
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.{Dataset, SQLContext}
 import org.apache.spark.sql._
-import org.apache.spark.sql.functions.{
-  col,
-  collect_list,
-  collect_set,
-  concat,
-  lit
-}
+import org.apache.spark.sql.functions.{col, collect_list, collect_set, concat, lit}
 import org.apache.spark.sql.hive.HiveContext
 import org.apache.spark.sql.types.LongType
+import org.apache.spark.storage.StorageLevel
 import org.joda.time.{DateTime, DateTimeZone}
 
 /**
   * Created by ELFI03951 on 12/07/2017.
   */
 object BuildCycleOver {
-
   def getCycleOver(dsTgaTgdInput: Dataset[TgaTgdInput],
                    sc: SparkContext,
                    sqlContext: SQLContext,
@@ -35,7 +30,8 @@ object BuildCycleOver {
 
     // Parmi les cyclesId généré précédemment on filtre ceux dont l'heure de départ est deja passé
     val cycleIdListOver = filterCycleOver(cycleIdList, sqlContext)
-    Persist.save(cycleIdListOver.toDF(), "ALLCycle", sc)
+    //Persist.save(cycleIdListOver.toDF(), "ALLCycle", sc)
+    //cycleIdListOver.persist(StorageLevel.DISK_ONLY)
 
     //Load les evenements  du jour j
     val tgaTgdRawToDay = loadTgaTgdCurrentDay(sc, sqlContext, panneau)
@@ -48,9 +44,11 @@ object BuildCycleOver {
     val tgaTgdCycleOver =
       getEventCycleId(tgaTgdRawAllDay, cycleIdListOver, sqlContext, sc, panneau)
 
-    //Save  the dataframe of (cycle id , event) in HDFS before group by cycleid
-    Persist.save(tgaTgdCycleOver._2.toDF(), "Eventsnotgrouped", sc)
 
+
+    //Save  the dataframe of (cycle id , event) in HDFS before group by cycleid
+   // Persist.save(tgaTgdCycleOver._2.toDF(), "Eventsnotgrouped", sc)
+    //cycleIdListOver.unpersist()
     tgaTgdCycleOver._1
   }
 
