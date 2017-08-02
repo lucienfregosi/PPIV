@@ -98,7 +98,10 @@ trait SourcePipeline extends Serializable {
 
     // Temporary Save Finished cycles in HDFS
      Persist.save(cycleWithEventOver.toDF() , "CyclFinistoH", sc)
+    cycleWithEventOver
 
+
+    /*
     // 5) Boucle sur les cycles finis pour traiter leur liste d'évènements
     LOGGER.info("Traitement des cycles terminés")
     val rddIvTgaTgdWithoutReferentiel = BusinessRules.computeBusinessRules(cycleWithEventOver)
@@ -143,7 +146,7 @@ trait SourcePipeline extends Serializable {
     // On renvoie le data set final pour un Tga ou un Tgd (qui seront fusionné dans le main)
     dataTgaTgdOutput
 
-
+*/
   }
 }
 
