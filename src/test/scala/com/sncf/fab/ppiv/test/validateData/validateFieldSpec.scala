@@ -59,7 +59,7 @@ Voie is in [0-9] or in [A-Z]                                             $e15
   def e1 = ValidateData.validateField(testrddDs,sqlContext)._1.toDF().head().getString(0) must =~("^[A-Z]{3}$")
   def e2 = ValidateData.validateField(testrddDs,sqlContext)._1.toDF().head().getLong(1) must be_<=(currentTimestamp)
   def e3 = ValidateData.validateField(testrddDs,sqlContext)._1.toDF().head().getString(2) must =~("^[0-2]{0,1}[0-9]$")
-  def e7 = ValidateData.validateField(testrddDs,sqlContext)._1.toDF().head().getString(5)  must =~ ("^[A-Z]+$")
+  def e7 = ValidateData.validateField(testrddDs,sqlContext)._1.toDF().head().getString(5)  must =~ ("^[A-Z]*$")
   def e12 = ValidateData.validateField(testrddDs,sqlContext)._1.toDF().head().getString(10) must beOneOf("IND", "SUP","ARR","")
   def e13 = ValidateData.validateField(testrddDs,sqlContext)._1.toDF().head().getString(11) must =~ ("^(([0-9]{4})|([0-9]{2})|$|\\s)$")
   def e14 = ValidateData.validateField(testrddDs,sqlContext)._1.toDF().head().getString(7) must =~("I|$")

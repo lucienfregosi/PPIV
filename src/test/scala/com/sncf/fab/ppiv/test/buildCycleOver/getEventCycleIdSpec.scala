@@ -62,14 +62,24 @@ The 'getEcentCycleIdSpec'  output count   should
 
   //BuildCycleOver.getEventCycleId (eventDf, cycleDf, sqlContext, sc, "TGA")
    val eventsGroupedByCycleId =  BuildCycleOver.getEventCycleId (eventdf, cycledf, sqlContext, sc, "TGA")._1
-/*
+
+
+  eventsGroupedByCycleId.map{
+    x=>
+      val gareIncycleId = testRow.getString(0).substring(0,3)
+      val gareOftheLastevents  = testRow.getString(1).split(",")
+
+      for ( events <- gareOftheLastevents)
+        events.split(";") (0).equals(gareIncycleId)
+      }
+
   val testRow = eventsGroupedByCycleId.head()
   val gareIncycleId = testRow.getString(0).substring(0,3)
   val gareOftheLastevents  = testRow.getString(1).split(",").last.split(";").head
 
 
   def  e1 = gareIncycleId must beEqualTo(gareOftheLastevents)
-*/
+
 
   def  e1 = "true" must beEqualTo("true")
 }
