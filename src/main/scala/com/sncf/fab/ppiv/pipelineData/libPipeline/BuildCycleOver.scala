@@ -79,13 +79,15 @@ object BuildCycleOver {
     import sqlContext.implicits._
 
     val currentHoraire = Conversion.getDateTime(
-      2017,
-      8,
-      1,
+      Conversion.nowToDateTime().getYear,
+      Conversion.nowToDateTime().getMonthOfYear,
+      Conversion.nowToDateTime().getDayOfMonth,
       Conversion.getHourMax(Conversion.nowToDateTime()).toInt,
       0,
       0)
 
+
+    println (Conversion.dateTimeToString(currentHoraire))
     // Filtre sur les horaire de départ inférieur a l'heure actuelle
 
     val dataTgaTgdCycleOver = dsTgaTgdCycles.filter(x =>

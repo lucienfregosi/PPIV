@@ -42,7 +42,7 @@ The 'getEcentCycleIdSpec'  output count   should
      import sqlContext.implicits._
 
 
-  // val path = "PPIV/src/test/resources/data/eventsfromhdfs.deflate"
+   //val path = "PPIV/src/test/resources/data/eventsfromhdfs.deflate"
   val path = "src/test/resources/data/eventsfromhdfs.deflate"
   val eventdf = sqlContext.read.format("com.databricks.spark.csv").load(path).map{x=>
         val seqString = x.getString(1)
@@ -60,10 +60,14 @@ The 'getEcentCycleIdSpec'  output count   should
   val cycledf = sqlContext.read.format("com.databricks.spark.csv").load(path2).toDF(newNamesTgaTgdCycle: _*).withColumn("heure", 'heure.cast(LongType)).as[TgaTgdCycleId]
 
   //BuildCycleOver.getEventCycleId (eventDf, cycleDf, sqlContext, sc, "TGA")
-  BuildCycleOver.getEventCycleId (eventdf, cycledf, sqlContext, sc, "TGA")
+   val eventsGroupedByCycleId =  BuildCycleOver.getEventCycleId (eventdf, cycledf, sqlContext, sc, "TGA")._1
+
+  val testRow = eventsGroupedByCycleId.head()
+  val gareIncycleId = testRow.getString(0).substring(0,3)
+  val gareOftheLastevents  = testRow.getString(1).split(",").last.split(";").head
 
 
-  def e1 ="true" must beEqualTo("true")
+  def  e1 = gareIncycleId must beEqualTo(gareOftheLastevents)
 
 
 }
