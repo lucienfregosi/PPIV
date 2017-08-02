@@ -105,22 +105,28 @@ trait SourcePipeline extends Serializable {
     val rddIvTgaTgdWithoutReferentiel = BusinessRules.computeBusinessRules(cycleWithEventOver)
 
 
+    println ("Businiss  compute rules output  "+ rddIvTgaTgdWithoutReferentiel.count()+ "--------------")
+
     // Conversion du résulat en dataset
     val dsIvTgaTgdWithoutReferentiel = rddIvTgaTgdWithoutReferentiel.toDS()
 
-
+    println ("Businiss  compute rules output  in DS"+ rddIvTgaTgdWithoutReferentiel.count()+ "--------------")
     // 10) Filtre sur les cyles qui ont été validé ou non
     val cycleInvalidated = dsIvTgaTgdWithoutReferentiel.toDF().filter($"cycleId".contains("INV_")).as[TgaTgdIntermediate]
     val cycleValidated    = dsIvTgaTgdWithoutReferentiel.toDF().filter(not($"cycleId".contains("INV_"))).as[TgaTgdIntermediate]
 
 
-    //println(" total cycle count : " + dsIvTgaTgdWithoutReferentiel.count())
-    println("invalidated:" + cycleInvalidated.count())
-    println("validated:" + cycleValidated.count())
-
     // 11) Enregistrement des rejets (champs + cycle)
     Reject.saveFieldRejected(dataTgaTgdFielRejected, sc)
     Reject.saveCycleRejected(cycleInvalidated, sc)
+
+    val cycleInvalidatedDf = cycleInvalidated.toDF()
+    val cycleValidatedDf   =  cycleValidated.toDF()
+
+    println("invalidated:" + cycleInvalidatedDf.count())
+    println("validated:" + cycleValidatedDf.count())
+
+    
 
     // 12) Sauvegarde des cycles d'évènements validés
     // A partir de cycleValidate :
