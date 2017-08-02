@@ -154,7 +154,7 @@ object BusinessRules {
 
   val dvInfo = allDevoimentInfo(dsTgaTgdSeq)
     if  (dvInfo.size <=1){
-      null
+      Seq("NO DEV", "NO DEV", "NO DEV")
     }
     else {
       val Voie_1 = dvInfo(0)._2.voie
@@ -172,7 +172,7 @@ object BusinessRules {
   def getTypeDevoiement2(dsTgaTgdSeq: Seq[TgaTgdInput]) :  Seq[String]  = {
     val dvInfo = allDevoimentInfo(dsTgaTgdSeq)
     if  (dvInfo.size <=2){
-      null
+      Seq("NO DEV", "NO DEV", "NO DEV")
     }
     else {
       val Voie_1 = dvInfo(1)._2.voie
@@ -190,7 +190,7 @@ object BusinessRules {
   def getTypeDevoiement3(dsTgaTgdSeq: Seq[TgaTgdInput]) : Seq[String] = {
     val dvInfo = allDevoimentInfo(dsTgaTgdSeq)
     if  (dvInfo.size <=3){
-      null
+      Seq("NO DEV", "NO DEV", "NO DEV")
     }
     else {
       val Voie_1 = dvInfo(2)._2.voie
@@ -208,7 +208,7 @@ object BusinessRules {
   def getTypeDevoiement4(dsTgaTgdSeq: Seq[TgaTgdInput]) : Seq[String] = {
     val dvInfo = allDevoimentInfo(dsTgaTgdSeq)
     if  (dvInfo.size <=4){
-      null
+      Seq("NO DEV", "NO DEV", "NO DEV")
     }
     else {
       val Voie_1 = dvInfo(3)._2.voie
@@ -285,10 +285,10 @@ object BusinessRules {
         val date_affichage_etat_train = BusinessRules.getDateAffichageEtatTrain(dataTgaTgdCycleCleaned)
         val delai_affichage_etat_train_avant_depart_arrive = BusinessRules.getDelaiAffichageEtatTrainAvantDepartArrive(dataTgaTgdCycleCleaned)
         val dernier_quai_affiche = BusinessRules.getDernierQuaiAffiche(dataTgaTgdCycleCleaned)
-        val type_devoiement = BusinessRules.getTypeDevoiement(dataTgaTgdCycleCleaned) (2)
-        val type_devoiement2 = BusinessRules.getTypeDevoiement2(dataTgaTgdCycleCleaned) (2)
-        val type_devoiement3 = BusinessRules.getTypeDevoiement3(dataTgaTgdCycleCleaned) (2)
-        val type_devoiement4 = BusinessRules.getTypeDevoiement4(dataTgaTgdCycleCleaned) (2)
+        val type_devoiement = BusinessRules.getTypeDevoiement(dataTgaTgdCycleCleaned)(2)
+        val type_devoiement2 = BusinessRules.getTypeDevoiement2(dataTgaTgdCycleCleaned)(2)
+        val type_devoiement3 = BusinessRules.getTypeDevoiement3(dataTgaTgdCycleCleaned)(2)
+        val type_devoiement4 = BusinessRules.getTypeDevoiement4(dataTgaTgdCycleCleaned)(2)
         val dernier_affichage = BusinessRules.getDernierAffichage(dataTgaTgdCycleCleaned)
         val date_process = BusinessRules.getDateProcess(dataTgaTgdCycleCleaned)
 
