@@ -126,17 +126,13 @@ trait SourcePipeline extends Serializable {
     println("invalidated:" + cycleInvalidatedDf.count())
     println("validated:" + cycleValidatedDf.count())
 
-    
+
 
     // 12) Sauvegarde des cycles d'évènements validés
     // A partir de cycleValidate :
     // Dataset[TgaTgdWithoutRef] -> DataSet[TgaTgdInput]
     // Puis enregistrer dans l'object PostProcess
     //PostProcess.saveCleanData(DataSet[TgaTgdInput], sc)
-
-
-
-
 
 
 

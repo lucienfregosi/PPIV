@@ -150,7 +150,7 @@ object BusinessRules {
       val dvInfo = dsVoie.toSeq.map(row=> (row._1, row._2.maxBy(_.maj),row._2.filter(_.attribut_voie != "I").length )).sortBy(_._2.maj)
      dvInfo
   }
-  def getTypeDevoiement(dsTgaTgdSeq: Seq[TgaTgdInput]) : (String,String,String) = {
+  def getTypeDevoiement(dsTgaTgdSeq: Seq[TgaTgdInput]) :  Seq[String]  = {
 
   val dvInfo = allDevoimentInfo(dsTgaTgdSeq)
     if  (dvInfo.size <=1){
@@ -162,14 +162,14 @@ object BusinessRules {
       val lengthOfNonHidden_Voie = dvInfo(1)._3
 
       if ( lengthOfNonHidden_Voie >=1){
-        ( Voie_1,Voie_2,"Affiche")
+        Seq( Voie_1,Voie_2,"Affiche")
       } else {
-        ( Voie_1,Voie_2,"Non_Affiche")
+        Seq( Voie_1,Voie_2,"Non_Affiche")
         }
       }
   }
 
-  def getTypeDevoiement2(dsTgaTgdSeq: Seq[TgaTgdInput]) : (String, String,String) = {
+  def getTypeDevoiement2(dsTgaTgdSeq: Seq[TgaTgdInput]) :  Seq[String]  = {
     val dvInfo = allDevoimentInfo(dsTgaTgdSeq)
     if  (dvInfo.size <=2){
       null
@@ -180,14 +180,14 @@ object BusinessRules {
       val lengthOfNonHidden_Voie = dvInfo(2)._3
 
       if ( lengthOfNonHidden_Voie >=1){
-        ( Voie_1,Voie_2,"Affiche")
+        Seq( Voie_1,Voie_2,"Affiche")
       } else {
-        ( Voie_1,Voie_2,"Non_Affiche")
+        Seq( Voie_1,Voie_2,"Non_Affiche")
       }
     }
   }
 
-  def getTypeDevoiement3(dsTgaTgdSeq: Seq[TgaTgdInput]) : (String,String,String) = {
+  def getTypeDevoiement3(dsTgaTgdSeq: Seq[TgaTgdInput]) : Seq[String] = {
     val dvInfo = allDevoimentInfo(dsTgaTgdSeq)
     if  (dvInfo.size <=3){
       null
@@ -198,14 +198,14 @@ object BusinessRules {
       val lengthOfNonHidden_Voie = dvInfo(3)._3
 
       if ( lengthOfNonHidden_Voie >=1){
-        ( Voie_1,Voie_2,"Affiche")
+        Seq( Voie_1,Voie_2,"Affiche")
       } else {
-        ( Voie_1,Voie_2,"Non_Affiche")
+        Seq( Voie_1,Voie_2,"Non_Affiche")
       }
     }
   }
 
-  def getTypeDevoiement4(dsTgaTgdSeq: Seq[TgaTgdInput]) : (String,String,String) = {
+  def getTypeDevoiement4(dsTgaTgdSeq: Seq[TgaTgdInput]) : Seq[String] = {
     val dvInfo = allDevoimentInfo(dsTgaTgdSeq)
     if  (dvInfo.size <=4){
       null
@@ -216,9 +216,9 @@ object BusinessRules {
       val lengthOfNonHidden_Voie = dvInfo(4)._3
 
       if ( lengthOfNonHidden_Voie >=1){
-        ( Voie_1,Voie_2,"Affiche")
+        Seq( Voie_1,Voie_2,"Affiche")
       } else {
-        ( Voie_1,Voie_2,"Non_Affiche")
+        Seq( Voie_1,Voie_2,"Non_Affiche")
       }
     }
   }
@@ -285,10 +285,10 @@ object BusinessRules {
         val date_affichage_etat_train = BusinessRules.getDateAffichageEtatTrain(dataTgaTgdCycleCleaned)
         val delai_affichage_etat_train_avant_depart_arrive = BusinessRules.getDelaiAffichageEtatTrainAvantDepartArrive(dataTgaTgdCycleCleaned)
         val dernier_quai_affiche = BusinessRules.getDernierQuaiAffiche(dataTgaTgdCycleCleaned)
-        val type_devoiement = BusinessRules.getTypeDevoiement(dataTgaTgdCycleCleaned)._3
-        val type_devoiement2 = BusinessRules.getTypeDevoiement2(dataTgaTgdCycleCleaned)._3
-        val type_devoiement3 = BusinessRules.getTypeDevoiement3(dataTgaTgdCycleCleaned)._3
-        val type_devoiement4 = BusinessRules.getTypeDevoiement4(dataTgaTgdCycleCleaned)._3
+        val type_devoiement = BusinessRules.getTypeDevoiement(dataTgaTgdCycleCleaned) (2)
+        val type_devoiement2 = BusinessRules.getTypeDevoiement2(dataTgaTgdCycleCleaned) (2)
+        val type_devoiement3 = BusinessRules.getTypeDevoiement3(dataTgaTgdCycleCleaned) (2)
+        val type_devoiement4 = BusinessRules.getTypeDevoiement4(dataTgaTgdCycleCleaned) (2)
         val dernier_affichage = BusinessRules.getDernierAffichage(dataTgaTgdCycleCleaned)
         val date_process = BusinessRules.getDateProcess(dataTgaTgdCycleCleaned)
 
@@ -302,6 +302,5 @@ object BusinessRules {
     }
     rddIvTgaTgdWithoutReferentiel
   }
-
 
 }
