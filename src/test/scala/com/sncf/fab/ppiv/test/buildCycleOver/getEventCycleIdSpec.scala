@@ -38,58 +38,81 @@ The 'getEventCycleIdSpec'  output count   should
 
   @transient val sc = new SparkContext(sparkConf)
   @transient val sqlContext = new SQLContext(sc)
-
-
   /*
    import sqlContext.implicits._
 
+   val newNamesTgaTgdCycle = Seq("cycle_id","events")
+ val path = "PPIV/src/test/resources/data/eventsPb.deflate"
+ val output = sqlContext.read.format("com.databricks.spark.csv").load(path).map { x =>
+   val id = x.getString(0)
+   val events = x.getString(1)
+   (id,events)
+ }.toDF(newNamesTgaTgdCycle: _*)
+
+   val TestBug = output.map{ x=>
+     val id = x.getString(0)
+     val events = x.getString(1).split(",")
+     val listIsNormal = events.map{ x=>
+       val isnormal = (x.substring(0,3) == id)
+       isnormal
+     }
+     val abnormal = listIsNormal.contains(false)
+     abnormal
+   }
 
 
- //val path = "PPIV/src/test/resources/data/eventsfromhdfs.deflate"
-val path = "PPIV/src/test/resources/data/eventsfromhdfs.deflate"
-val eventdf = sqlContext.read.format("com.databricks.spark.csv").load(path).map{x=>
-      val seqString = x.getString(1)
- val split = seqString.toString.split(";", -1)
- TgaTgdInput(split(0), split(1).toLong, split(2), split(3), split(4), split(5), split(6), split(7), split(8), split(9).toLong, split(10), split(11))
-
-}.toDS()
 
 
 
-//val path2 = "PPIV/src/test/resources/data/cyclesfromhdfs.deflate"
-val path2 = "PPIV/src/test/resources/data/cyclesfromhdfs.deflate"
+    import sqlContext.implicits._
 
-val newNamesTgaTgdCycle = Seq("cycle_id","heure","retard")
-val cycledf = sqlContext.read.format("com.databricks.spark.csv").load(path2).toDF(newNamesTgaTgdCycle: _*).withColumn("heure", 'heure.cast(LongType)).as[TgaTgdCycleId]
 
-// test the input File : Bug Incoherent gare
-val dfJoin =  BuildCycleOver.getEventCycleId (eventdf, cycledf, sqlContext, sc, "TGA")._2
-val a = dfJoin.map { x =>
-  val id = x.getString(0).substring(0,3)
-  val gare = x.getString(1)
-  if (id == gare)  true else false
-}
-//val distinct = a.distinct().count()
 
-//BuildCycleOver.getEventCycleId (eventDf, cycleDf, sqlContext, sc, "TGA")
- val eventsGroupedByCycleId =  BuildCycleOver.getEventCycleId (eventdf, cycledf, sqlContext, sc, "TGA")._1
+  //val path = "PPIV/src/test/resources/data/eventsfromhdfs.deflate"
+ val path = "PPIV/src/test/resources/data/eventsfromhdfs.deflate"
+ val eventdf = sqlContext.read.format("com.databricks.spark.csv").load(path).map{x=>
+       val seqString = x.getString(1)
+  val split = seqString.toString.split(";", -1)
+  TgaTgdInput(split(0), split(1).toLong, split(2), split(3), split(4), split(5), split(6), split(7), split(8), split(9).toLong, split(10), split(11))
 
-// Test Output File : Bug Incoherent gare
-val TestBug = eventsGroupedByCycleId.map{ x=>
-  val id = x.getString(0)
-  val events = x.getString(1).split(",")
-  val listIsNormal = events.map{ x=>
-    val isnormal = (x.substring(0,3) == id)
-    isnormal
-  }
-  val abnormal = listIsNormal.contains(false)
-  abnormal
-}
-//val result = TestBug.distinct().count()
+ }.toDS()
 
-//def  e1 = gareIncycleId must beEqualTo(gareOftheLastevents)
 
-*/
+
+ //val path2 = "PPIV/src/test/resources/data/cyclesfromhdfs.deflate"
+ val path2 = "PPIV/src/test/resources/data/cyclesfromhdfs.deflate"
+
+ val newNamesTgaTgdCycle = Seq("cycle_id","heure","retard")
+ val cycledf = sqlContext.read.format("com.databricks.spark.csv").load(path2).toDF(newNamesTgaTgdCycle: _*).withColumn("heure", 'heure.cast(LongType)).as[TgaTgdCycleId]
+
+ // test the input File : Bug Incoherent gare
+ val dfJoin =  BuildCycleOver.getEventCycleId (eventdf, cycledf, sqlContext, sc, "TGA")._2
+ val a = dfJoin.map { x =>
+   val id = x.getString(0).substring(0,3)
+   val gare = x.getString(1)
+   if (id == gare)  true else false
+ }
+ //val distinct = a.distinct().count()
+
+ //BuildCycleOver.getEventCycleId (eventDf, cycleDf, sqlContext, sc, "TGA")
+  val eventsGroupedByCycleId =  BuildCycleOver.getEventCycleId (eventdf, cycledf, sqlContext, sc, "TGA")._1
+
+ // Test Output File : Bug Incoherent gare
+ val TestBug = eventsGroupedByCycleId.map{ x=>
+   val id = x.getString(0)
+   val events = x.getString(1).split(",")
+   val listIsNormal = events.map{ x=>
+     val isnormal = (x.substring(0,3) == id)
+     isnormal
+   }
+   val abnormal = listIsNormal.contains(false)
+   abnormal
+ }
+ //val result = TestBug.distinct().count()
+
+ //def  e1 = gareIncycleId must beEqualTo(gareOftheLastevents)
+
+ */
  // def  e1 = result.toString must beEqualTo("1")
   def e1 = "true" must beEqualTo("true")
 }
