@@ -25,8 +25,9 @@ object PersistHdfs extends Serializable {
     */
   def persisteQualiteAffichageIntoHdfs(df: DataFrame, hdfsGoldPath:String): Unit = {
 
-
-    df.write.format("com.databricks.spark.csv").save(hdfsGoldPath)
+   // df.write.format("com.databricks.spark.csv").save(hdfsGoldPath)
+    val temporaryPath = "hdfs:/data1/GARES/refinery/PPIV_PHASE2/QualiteAffichage/DataBeforePostprocess"
+    df.write.format("com.databricks.spark.csv").save(temporaryPath)
   }
 
   def persisteCyclesFinisHdfs (df: DataFrame, sc : SparkContext) : Unit = {

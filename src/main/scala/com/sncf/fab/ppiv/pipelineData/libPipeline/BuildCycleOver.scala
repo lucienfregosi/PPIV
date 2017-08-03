@@ -30,7 +30,7 @@ object BuildCycleOver {
 
     // Parmi les cyclesId généré précédemment on filtre ceux dont l'heure de départ est deja passé
     val cycleIdListOver = filterCycleOver(cycleIdList, sqlContext)
-    //Persist.save(cycleIdListOver.toDF(), "ALLCycle", sc)
+    Persist.save(cycleIdListOver.toDF(), "ALLCycle", sc)
     //cycleIdListOver.persist(StorageLevel.DISK_ONLY)
 
     //Load les evenements  du jour j

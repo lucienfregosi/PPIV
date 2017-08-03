@@ -11,10 +11,16 @@ import org.apache.spark.sql.{DataFrame, Dataset, Row, SQLContext}
   */
 object Postprocess {
 
- // def postprocess (dsTgaTgd: Dataset[TgaTgdIntermediate], refGares : Dataset[ReferentielGare], sqlContext : SQLContext, Panneau: String):DataFrame = {
+ def postprocess (dsTgaTgd: Dataset[TgaTgdIntermediate], refGares : Dataset[ReferentielGare], sqlContext : SQLContext, Panneau: String):DataFrame = {
 
+ // Jointure avec le référentiel
+   val dataTgaTgdWithReferentiel = Postprocess.joinReferentiel(dsTgaTgd, refGares, sqlContext)
 
-  //}
+ // Inscription dans la classe finale TgaTgdOutput avec conversion et formatage
+   val dataTgaTgdOutput = Postprocess.formatTgaTgdOuput(dataTgaTgdWithReferentiel, sqlContext, Panneau)
+   dataTgaTgdOutput
+  }
+
   def saveCleanData(dsToSave: Dataset[TgaTgdInput], sc: SparkContext) : Unit = {
     null
   }
