@@ -124,7 +124,7 @@ trait SourcePipeline extends Serializable {
     println("invalidated:" + cycleInvalidatedDf.count())
     println("validated:" + cycleValidatedDf.count())
 
-    Persist.save(cycleValidatedDf  , "hdfs", sc)
+    Persist.save(cycleValidatedDf  , "InputPostprocss", sc)
 
     // 12) Sauvegarde des cycles d'évènements validés
     // A partir de cycleValidate :

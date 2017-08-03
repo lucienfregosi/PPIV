@@ -32,8 +32,8 @@ object Persist {
       PersistHdfs.persisteEventsNotGroupedHdfs(ivTgaTgd)
 
     if (persistMethod.contains("ALLCycle"))
-      PersistHdfs.persisteALLCycle(ivTgaTgd)
-
+      PersistHdfs.persisteALLCycle(ivTgaTgd)if (persistMethod.contains("InputPostprocss"))
+          PersistHdfs.persistBeforePostprocess(ivTgaTgd)
 
   }
 }
