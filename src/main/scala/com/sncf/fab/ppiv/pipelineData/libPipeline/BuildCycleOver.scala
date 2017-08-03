@@ -52,6 +52,7 @@ object BuildCycleOver {
     tgaTgdCycleOver._1
   }
 
+  
   def buildCycles(dsTgaTgd: Dataset[TgaTgdInput],
                   sqlContext: SQLContext,
                   panneau: String): Dataset[TgaTgdCycleId] = {
