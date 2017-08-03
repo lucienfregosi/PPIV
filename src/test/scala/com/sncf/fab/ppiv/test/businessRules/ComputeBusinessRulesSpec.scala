@@ -35,6 +35,7 @@ The ' computeBusinessRules'  output   should
   @transient val sc = new SparkContext(sparkConf)
   @transient val sqlContext = new SQLContext(sc)
 
+  /*
   def readFile( file : String) = {
     for {
       line <- Source.fromFile(file).getLines()
@@ -52,7 +53,7 @@ The ' computeBusinessRules'  output   should
 
   val tgatgdIntermediate = BusinessRules.computeBusinessRules(EventsGroupedByCycleId)
 
-
+*/
 
   def e1 = "true" must beEqualTo("true")
 
