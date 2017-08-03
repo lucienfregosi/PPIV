@@ -30,9 +30,9 @@ object PersistHive extends Serializable {
     // To save in a single part we can add coalesce(1) to df.write
 
     val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
-    val dfHive = hiveContext.createDataFrame(df.rdd, df.schema)
+    //val dfHive = hiveContext.createDataFrame(df.rdd, df.schema)
 
-    dfHive.registerTempTable("NewdataToSaveHive5")
+    //dfHive.registerTempTable("NewdataToSaveHive5")
 
     //val t = hiveContext.sql("select * from NewdataToSaveHive2 limit 10")
     //t.show()

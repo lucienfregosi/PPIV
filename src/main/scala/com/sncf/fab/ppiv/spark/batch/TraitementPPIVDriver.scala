@@ -50,7 +50,7 @@ object TraitementPPIVDriver extends Serializable {
       //val ivTgaTgd = ivTga.union(ivTgd)
 
       // 12) Persistence dans la brique demandé
-      /*
+
       try {
         Persist.save(ivTga, persistMethod, sc)
       }
@@ -62,7 +62,7 @@ object TraitementPPIVDriver extends Serializable {
         }
       }
 
-      */
+
 
 
     }

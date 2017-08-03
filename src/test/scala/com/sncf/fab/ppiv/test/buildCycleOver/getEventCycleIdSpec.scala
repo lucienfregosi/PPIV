@@ -21,9 +21,9 @@ class getEventCycleIdSpec extends Specification{
 
   def is = s2"""
 
-This is a specification fot the "getEcentCycleIdSpec" output
-The 'getEcentCycleIdSpec'  output count   should
-  be equal to 2                                   $e1
+This is a specification fot the "getEventCycleIdSpec"
+The 'getEventCycleIdSpec'  output count   should
+  be equal to 1                                   $e1
   """
 
 
@@ -42,7 +42,7 @@ The 'getEcentCycleIdSpec'  output count   should
      import sqlContext.implicits._
 
 
-  // val path = "PPIV/src/test/resources/data/eventsfromhdfs.deflate"
+   //val path = "PPIV/src/test/resources/data/eventsfromhdfs.deflate"
   val path = "src/test/resources/data/eventsfromhdfs.deflate"
   val eventdf = sqlContext.read.format("com.databricks.spark.csv").load(path).map{x=>
         val seqString = x.getString(1)
@@ -59,27 +59,33 @@ The 'getEcentCycleIdSpec'  output count   should
   val newNamesTgaTgdCycle = Seq("cycle_id","heure","retard")
   val cycledf = sqlContext.read.format("com.databricks.spark.csv").load(path2).toDF(newNamesTgaTgdCycle: _*).withColumn("heure", 'heure.cast(LongType)).as[TgaTgdCycleId]
 
+// test the input File : Bug Incoherent gare
+val dfJoin =  BuildCycleOver.getEventCycleId (eventdf, cycledf, sqlContext, sc, "TGA")._2
+  val a = dfJoin.map { x =>
+    val id = x.getString(0).substring(0,3)
+    val gare = x.getString(1)
+    if (id == gare)  true else false
+  }
+ val distinct = a.distinct().count()
 
   //BuildCycleOver.getEventCycleId (eventDf, cycleDf, sqlContext, sc, "TGA")
    val eventsGroupedByCycleId =  BuildCycleOver.getEventCycleId (eventdf, cycledf, sqlContext, sc, "TGA")._1
 
+// Test Output File : Bug Incoherent gare
+  val TestBug = eventsGroupedByCycleId.map{ x=>
+    val id = x.getString(0)
+    val events = x.getString(1).split(",")
+    val listIsNormal = events.map{ x=>
+      val isnormal = (x.substring(0,3) == id)
+      isnormal
+    }
+    val abnormal = listIsNormal.contains(false)
+    abnormal
+  }
+  val result = TestBug.distinct().count()
 
-  eventsGroupedByCycleId.map{
-    x=>
-      val gareIncycleId = testRow.getString(0).substring(0,3)
-      val gareOftheLastevents  = testRow.getString(1).split(",")
-
-      for ( events <- gareOftheLastevents)
-        events.split(";") (0).equals(gareIncycleId)
-      }
-
-  val testRow = eventsGroupedByCycleId.head()
-  val gareIncycleId = testRow.getString(0).substring(0,3)
-  val gareOftheLastevents  = testRow.getString(1).split(",").last.split(";").head
-
-
-  def  e1 = gareIncycleId must beEqualTo(gareOftheLastevents)
+  //def  e1 = gareIncycleId must beEqualTo(gareOftheLastevents)
 
 
-  def  e1 = "true" must beEqualTo("true")
+  def  e1 = result.toString must beEqualTo("1")
 }
