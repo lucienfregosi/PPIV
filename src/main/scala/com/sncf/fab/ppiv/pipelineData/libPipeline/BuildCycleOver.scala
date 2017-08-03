@@ -45,9 +45,8 @@ object BuildCycleOver {
       getEventCycleId(tgaTgdRawAllDay, cycleIdListOver, sqlContext, sc, panneau)
 
 
-
     //Save  the dataframe of (cycle id , event) in HDFS before group by cycleid
-    Persist.save(tgaTgdCycleOver._2.toDF(), "Eventsnotgrouped", sc)
+    //Persist.save(tgaTgdCycleOver._2.toDF(), "Eventsnotgrouped", sc)
     //cycleIdListOver.unpersist()
     tgaTgdCycleOver._1
   }

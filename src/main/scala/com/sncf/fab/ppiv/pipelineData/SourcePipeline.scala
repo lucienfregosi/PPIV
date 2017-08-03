@@ -100,7 +100,7 @@ trait SourcePipeline extends Serializable {
      //Persist.save(cycleWithEventOver.toDF() , "CyclFinistoH", sc)
     cycleWithEventOver
 
-/*
+
 
     // 5) Boucle sur les cycles finis pour traiter leur liste d'évènements
     LOGGER.info("Traitement des cycles terminés")
@@ -124,7 +124,7 @@ trait SourcePipeline extends Serializable {
     println("invalidated:" + cycleInvalidatedDf.count())
     println("validated:" + cycleValidatedDf.count())
 
-    //Persist.save(cycleValidatedDf  , "hdfs", sc)
+    Persist.save(cycleValidatedDf  , "hdfs", sc)
 
     // 12) Sauvegarde des cycles d'évènements validés
     // A partir de cycleValidate :
@@ -137,7 +137,7 @@ trait SourcePipeline extends Serializable {
 
     // On renvoie le data set final pour un Tga ou un Tgd (qui seront fusionné dans le main)
     dataTgaTgdOutput
-*/
+
 
   }
 }
