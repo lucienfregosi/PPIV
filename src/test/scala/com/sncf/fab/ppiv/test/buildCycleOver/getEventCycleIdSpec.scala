@@ -36,11 +36,11 @@ The 'getEventCycleIdSpec'  output count   should
 
   @transient val sc = new SparkContext(sparkConf)
   @transient val sqlContext = new SQLContext(sc)
-
+/*
   import sqlContext.implicits._
 
   val newNamesTgaTgdCycle = Seq("cycle_id", "events")
-  val path = "PPIV/src/test/resources/data/eventsPb.deflate"
+  val path = "src/test/resources/data/eventsPb.deflate"
 
   val output = sqlContext.read.format("com.databricks.spark.csv").load(path).map { x =>
     val id = x.getString(0)
@@ -50,8 +50,10 @@ The 'getEventCycleIdSpec'  output count   should
 
 
   val result = output.filter($"cycle_id" === "GGPTGA86201501756020")
+  */
 
   def e1 = "true" must beEqualTo("true")
+
 
 }
 /*
