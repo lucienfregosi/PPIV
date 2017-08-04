@@ -17,9 +17,10 @@ import scala.io.Source
 /**
   * Created by ELFI03951 on 30/06/2017.
   */
-class getEventCycleIdSpec extends Specification{
+class getEventCycleIdSpec extends Specification {
 
-  def is = s2"""
+  def is =
+    s2"""
 
 This is a specification fot the "getEventCycleIdSpec"
 The 'getEventCycleIdSpec'  output count   should
@@ -27,9 +28,6 @@ The 'getEventCycleIdSpec'  output count   should
   """
 
 
-
-
-  
   val sparkConf = new SparkConf()
     .setAppName(PPIV)
     .setMaster(SPARK_MASTER)
@@ -38,22 +36,31 @@ The 'getEventCycleIdSpec'  output count   should
 
   @transient val sc = new SparkContext(sparkConf)
   @transient val sqlContext = new SQLContext(sc)
-  /*
-   import sqlContext.implicits._
 
-   val newNamesTgaTgdCycle = Seq("cycle_id","events")
- val path = "PPIV/src/test/resources/data/eventsPb.deflate"
- val output = sqlContext.read.format("com.databricks.spark.csv").load(path).map { x =>
-   val id = x.getString(0)
-   val events = x.getString(1)
-   (id,events)
- }.toDF(newNamesTgaTgdCycle: _*)
+  import sqlContext.implicits._
 
+  val newNamesTgaTgdCycle = Seq("cycle_id", "events")
+  val path = "PPIV/src/test/resources/data/eventsPb.deflate"
+
+  val output = sqlContext.read.format("com.databricks.spark.csv").load(path).map { x =>
+    val id = x.getString(0)
+    val events = x.getString(1)
+    (id, events)
+  }.toDF(newNamesTgaTgdCycle: _*)
+
+
+  val result = output.filter($"cycle_id" === "GGPTGA86201501756020")
+
+  def e1 = "true" must beEqualTo("true")
+
+}
+/*
    val TestBug = output.map{ x=>
      val id = x.getString(0)
      val events = x.getString(1).split(",")
+
      val listIsNormal = events.map{ x=>
-       val isnormal = (x.substring(0,3) == id)
+       val isnormal = (x.substring(0,3).equals(id.substring(0,3)))
        isnormal
      }
      val abnormal = listIsNormal.contains(false)
@@ -61,8 +68,7 @@ The 'getEventCycleIdSpec'  output count   should
    }
 
 
-
-
+/*
 
     import sqlContext.implicits._
 
@@ -112,7 +118,10 @@ The 'getEventCycleIdSpec'  output count   should
 
  //def  e1 = gareIncycleId must beEqualTo(gareOftheLastevents)
 
- */
+
  // def  e1 = result.toString must beEqualTo("1")
   def e1 = "true" must beEqualTo("true")
+  */
+
 }
+*/

@@ -162,11 +162,18 @@ object Conversion {
     line.replace("'", "\\'")
   }
 
+
   def getHHmmss(timestamp: Long): String = {
-    val dateFormat =  new SimpleDateFormat("HH:mm:ss")
-    dateFormat.format(timestamp)
+    val dateTime = Conversion.unixTimestampToDateTime(timestamp)
+    val fmt = DateTimeFormat.forPattern("HH:mm:ss")
+    val HHmmss = fmt.print(dateTime)
+    HHmmss
   }
 
+  def getYYYYmmdd(timestamp: Long): String = {
+    val dateFormat =  new SimpleDateFormat("YYYY-MM-DD")
+    dateFormat.format(timestamp)
+  }
 
   def HourFormat  ( hour : Int ): String= {
     new DecimalFormat("00").format(hour)
