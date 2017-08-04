@@ -70,7 +70,10 @@ object BusinessConversion {
   //TODO  if duree_affichage is gretaer that 20 then 1 else 0
     0
   }
-
+ def getAffichageRetard(timestamp : Long): String = {
+   if (timestamp == 0) "0"
+   else Conversion.unixTimestampToDateTime(timestamp).toString()
+    }
   // TODO trouver pourquoi la conversion des float se fait aussi mal
   def getFloat(str : String): Float = {
       5

@@ -31,9 +31,9 @@ The 'postprocess'  output count   should
 
   @transient val sc = new SparkContext(sparkConf)
   @transient val sqlContext = new SQLContext(sc)
-
-  import sqlContext.implicits._
 /*
+  import sqlContext.implicits._
+
 // Load the input of Postprocess
   val path = "PPIV/src/test/resources/data/BeforePostprocess.deflate"
   val newNamesTgaTgdInter = Seq("cycleId" ,
