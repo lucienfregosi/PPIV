@@ -67,3 +67,19 @@ FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
 STORED AS TEXTFILE
 LOCATION '/data1/GARES/refinery/PPIV_PHASE2/hive/'
+
+ALTER TABLE ppiv_ref.iv_tgatgdTMP8 SET TBLPROPERTIES ('SASFMT: nom_de_la_gare '='CHAR(100)');
+ALTER TABLE ppiv_ref.iv_tgatgdTMP8 SET TBLPROPERTIES ('SASFMT:agence'='CHAR(100)');
+ALTER TABLE ppiv_ref.iv_tgatgdTMP8 SET TBLPROPERTIES ('SASFMT:segmentation'='CHAR(100)');
+ALTER TABLE ppiv_ref.iv_tgatgdTMP8 SET TBLPROPERTIES ('SASFMT:uic'='CHAR(25)');
+ALTER TABLE ppiv_ref.iv_tgatgdTMP8 SET TBLPROPERTIES ('SASFMT:id_train'='CHAR(100)');
+ALTER TABLE ppiv_ref.iv_tgatgdTMP8 SET TBLPROPERTIES ('SASFMT:num_train'='CHAR(25)');
+ALTER TABLE ppiv_ref.iv_tgatgdTMP8 SET TBLPROPERTIES ('SASFMT:type'='CHAR(25)')
+ALTER TABLE ppiv_ref.iv_tgatgd SET TBLPROPERTIES ('SASFMT:dateheure2'='DATETIME(25.6)');
+ALTER TABLE ppiv_ref.iv_tgatgd SET TBLPROPERTIES ('SASFMT:affichage_duree1'='DATETIME(25.6)');
+ALTER TABLE ppiv_ref.iv_tgatgd SET TBLPROPERTIES ('SASFMT:affichage_duree2'='DATETIME(25.6)');
+ALTER TABLE ppiv_ref.iv_tgatgd SET TBLPROPERTIES ('SASFMT:delai_affichage_voie_avec_retard'='DATETIME(25.6)');
+ALTER TABLE ppiv_ref.iv_tgatgd SET TBLPROPERTIES ('SASFMT:affichage_duree_retard'='DATETIME(25.6)');
+ALTER TABLE ppiv_ref.iv_tgatgd SET TBLPROPERTIES ('SASFMT:date_affichage_etat_train'='DATETIME(25.6)');
+ALTER TABLE ppiv_ref.iv_tgatgd SET TBLPROPERTIES ('SASFMT:delai_affichage_voie_avec_retard'='DATETIME(25.6)');
+ALTER TABLE ppiv_ref.iv_tgatgd SET TBLPROPERTIES ('SASFMT:delai_affichage_voie_avec_retard'='DATETIME(25.6)');

@@ -26,6 +26,7 @@ object PersistLocal extends Serializable {
     */
   def persisteQualiteAffichageIntoFs(df: DataFrame, tgType:String): Unit = {
 
+
     df.write.format("com.databricks.spark.csv").save(AppConf.GOLD + Conversion.getYearMonthDay(new DateTime()) + tgType)
 
   }

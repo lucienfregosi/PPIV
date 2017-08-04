@@ -14,13 +14,15 @@ import org.apache.hive.common.util.DateUtils
 object Conversion {
 
   DateTimeZone.setDefault(DateTimeZone.UTC)
-  val timestampFormatWithTZ: DateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ").withZoneUTC()
+
+  val ParisTimeZone: DateTimeZone = DateTimeZone.forID("Europe/Paris")
+  val timestampFormatWithTZ: DateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ").withZone(ParisTimeZone)
   val timestampFormat: DateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss").withZoneUTC()
   val yearMonthFormat: DateTimeFormatter = DateTimeFormat.forPattern("yyyyMM").withZoneUTC()
   val yearMonthDayFormat: DateTimeFormatter = DateTimeFormat.forPattern("yyyyMMdd").withZoneUTC()
   val hoursFormat: DateTimeFormatter = DateTimeFormat.forPattern("HH").withZoneUTC()
   val HourMinuteFormat: DateTimeFormatter = DateTimeFormat.forPattern("HHmm").withZoneUTC()
-  val ParisTimeZone: DateTimeZone = DateTimeZone.forID("Europe/Paris")
+
 
   private def cleanTimeZone(timestamp: String): String = {
     timestamp.split('.')(0)
@@ -31,7 +33,8 @@ object Conversion {
   }
 
   def nowToDateTime(): DateTime = {
-    now().plusDays(-2)
+   // now().plusDays(-2)
+    now()
   }
 
 
@@ -53,7 +56,7 @@ object Conversion {
   }
 
   def getDateTime(time: Long): DateTime = {
-    new DateTime(time, DateTimeZone.UTC)
+    new DateTime(time, ParisTimeZone)
   }
 
   def getDateTime(time: Long, dateTimeZone: DateTimeZone): DateTime = {
@@ -123,6 +126,8 @@ object Conversion {
     yearMonthDayFormat.print(date).toInt
   }
 
+
+
   def getHour(date: DateTime): String = {
     // Retrancher une heure à la date actuelle pour traiter fichier à H-1
     val HourToProcess = date.plusHours(-2)
@@ -131,6 +136,14 @@ object Conversion {
     new DecimalFormat("00").format(HourToProcess.getHourOfDay)
   }
 
+
+  def getHourMax(date: DateTime): String = {
+    // Retrancher une heure à la date actuelle pour traiter fichier à H-1
+    val HourToProcess = date.plusHours(-3)
+    // Convertir sous le format HH type 01 au lieu de 1
+    println(new DecimalFormat("00").format(HourToProcess.getHourOfDay))
+    new DecimalFormat("00").format(HourToProcess.getHourOfDay)
+  }
 
 
   def getYesterdaysDate(): Int = {
@@ -141,14 +154,28 @@ object Conversion {
     ft.format(timestamp).toInt
   }
 
-  def unixTimestampToDateTime(time: Long): DateTime = DateTime.parse(timestampFormatWithTZ.print(time * 1000), timestampFormatWithTZ)
+ // def unixTimestampToDateTime(time: Long): DateTime = DateTime.parse(timestampFormatWithTZ.print(time * 1000), timestampFormatWithTZ).withZone(ParisTimeZone)
+ def unixTimestampToDateTime(time: Long): DateTime = new DateTime(time * 1000L, DateTimeZone.forID("Europe/Paris"))
 
+  def unixTimestampToDateTimeGMT(time: Long): DateTime = DateTime.parse(timestampFormatWithTZ.print(time * 1000), timestampFormatWithTZ)
   def escapeSimpleQuote(line: String): String = {
     line.replace("'", "\\'")
   }
 
+
   def getHHmmss(timestamp: Long): String = {
-    val dateFormat =  new SimpleDateFormat("HH:mm:ss")
+    val dateTime = Conversion.unixTimestampToDateTime(timestamp)
+    val fmt = DateTimeFormat.forPattern("HH:mm:ss")
+    val HHmmss = fmt.print(dateTime)
+    HHmmss
+  }
+
+  def getYYYYmmdd(timestamp: Long): String = {
+    val dateFormat =  new SimpleDateFormat("YYYY-MM-DD")
     dateFormat.format(timestamp)
+  }
+
+  def HourFormat  ( hour : Int ): String= {
+    new DecimalFormat("00").format(hour)
   }
 }

@@ -2,6 +2,7 @@ package com.sncf.fab.ppiv.persistence
 
 import com.sncf.fab.ppiv.business.{TgaTgdInput, TgaTgdOutput}
 import com.sncf.fab.ppiv.utils.{AppConf, Conversion}
+import org.apache.spark.SparkContext
 import org.apache.spark.sql.{DataFrame, Dataset, SaveMode}
 import org.joda.time.DateTime
 
@@ -24,8 +25,49 @@ object PersistHdfs extends Serializable {
     */
   def persisteQualiteAffichageIntoHdfs(df: DataFrame, hdfsGoldPath:String): Unit = {
 
-
     df.write.format("com.databricks.spark.csv").save(hdfsGoldPath)
+
   }
+
+  def persisteCyclesFinisHdfs (df: DataFrame, sc : SparkContext) : Unit = {
+
+    val path= "hdfs:/data1/GARES/refinery/PPIV_PHASE2/REJET/Cyclesfinis2"
+    df.coalesce(1).write.mode(SaveMode.Overwrite).format("com.databricks.spark.csv").save(path)
+
+  }
+
+  def persisteRejetFieldHdfs (df: DataFrame) : Unit = {
+
+    val path= "hdfs:/data1/GARES/refinery/PPIV_PHASE2/REJET/RejectedField.csv"
+    df.write.mode(SaveMode.Overwrite).format("com.databricks.spark.csv").save(path)
+
+  }
+
+  def persisteRejetCycleHdfs (df: DataFrame) : Unit = {
+
+    val path= "hdfs:/data1/GARES/refinery/PPIV_PHASE2/REJET/RejectedCycles.csv"
+    df.coalesce(1).write.mode(SaveMode.Overwrite).format("com.databricks.spark.csv").save(path)
+
+  }
+
+  def persisteEventsNotGroupedHdfs (df: DataFrame) : Unit = {
+
+    val path= "hdfs:/data1/GARES/refinery/PPIV_PHASE2/REJET/EventsNotGrouped.csv"
+    df.coalesce(1).write.mode(SaveMode.Overwrite).format("com.databricks.spark.csv").save(path)
+
+  }
+  def  persisteALLCycle (df: DataFrame) : Unit = {
+
+    val path= "hdfs:/data1/GARES/refinery/PPIV_PHASE2/REJET/ALLcycle.csv"
+    df.coalesce(1).write.mode(SaveMode.Overwrite).format("com.databricks.spark.csv").save(path)
+
+  }
+
+  def persistBeforePostprocess(df: DataFrame) : Unit  = {
+    val path= "hdfs:/data1/GARES/refinery/PPIV_PHASE2/REJET/DataBeforePostprocess.csv"
+    df.coalesce(1).write.mode(SaveMode.Overwrite).format("com.databricks.spark.csv").save(path)
+
+      }
+
 
 }

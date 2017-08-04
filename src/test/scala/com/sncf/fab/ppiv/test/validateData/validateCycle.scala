@@ -54,10 +54,10 @@ The 'validateCycle'  output   should
 
 
 
-  def e1 = ValidateData.validateCycle(dsSansVoie) must beFalse
-  def e2 = ValidateData.validateCycle(dsAvecVoie) must beTrue
-  def e3 = ValidateData.validateCycle(dsAvecEventApres) must beFalse
-  def e4 = ValidateData.validateCycle(dsAvecEventAvant) must beTrue
+  def e1 = ValidateData.validateCycle(dsSansVoie)._1 must beFalse
+  def e2 = ValidateData.validateCycle(dsAvecVoie)._1 must beTrue
+  def e3 = ValidateData.validateCycle(dsAvecEventApres)._1 must beFalse
+  def e4 = ValidateData.validateCycle(dsAvecEventAvant)._1 must beTrue
 
 
 }

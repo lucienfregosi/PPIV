@@ -1,6 +1,7 @@
 package com.sncf.fab.ppiv.pipelineData.libPipeline
 
 import com.sncf.fab.ppiv.business.{TgaTgdInput, TgaTgdIntermediate}
+import com.sncf.fab.ppiv.persistence.Persist
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.Dataset
 
@@ -10,12 +11,12 @@ import org.apache.spark.sql.Dataset
 object Reject {
   def saveFieldRejected(dsFieldRejected: Dataset[TgaTgdInput], sparkContext: SparkContext): Unit ={
 
-    null
+    Persist.save(dsFieldRejected.toDF() , "RejetField", sparkContext)
   }
 
   def saveCycleRejected(dsFieldRejected: Dataset[TgaTgdIntermediate], sparkContext: SparkContext): Unit ={
 
-    null
+    Persist.save(dsFieldRejected.toDF() , "RejetCycle", sparkContext)
   }
 
 }

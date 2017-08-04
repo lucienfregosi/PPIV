@@ -3,6 +3,7 @@ package com.sncf.fab.ppiv.pipelineData
 
 import com.sncf.fab.ppiv.business._
 import com.sncf.fab.ppiv.parser.DatasetsParser
+import com.sncf.fab.ppiv.persistence.Persist
 import com.sncf.fab.ppiv.pipelineData.libPipeline._
 import com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver.LOGGER
 import com.sncf.fab.ppiv.utils.AppConf._
@@ -12,6 +13,7 @@ import org.apache.spark.SparkContext
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.hive.HiveContext
+import org.apache.spark.storage.StorageLevel
 import org.joda.time.{DateTime, DateTimeZone}
 
 /**
@@ -71,6 +73,8 @@ trait SourcePipeline extends Serializable {
     // 1) Chargement des fichiers déjà parsé dans leur classe
     LOGGER.info("Chargement des fichiers et du référentiel")
     val dataTgaTgd                = LoadData.loadTgaTgd(sqlContext, getSource())
+   // dataTgaTgd.persist(StorageLevel.DISK_ONLY)
+    //dataTgaTgd.unpersist()
     val dataRefGares              = LoadData.loadReferentiel(sqlContext)
 
     // 2) Application du sparadrap sur les données au cause du Bug lié au passe nuit
@@ -83,6 +87,8 @@ trait SourcePipeline extends Serializable {
     LOGGER.info("Validation champ à champ")
     val (dataTgaTgdFielValidated, dataTgaTgdFielRejected)   = ValidateData.validateField(dataTgaTgdBugFix, sqlContext)
 
+    LOGGER.info("Validation champ à champ counts")
+
 
     // 4) Reconstitution des évènements pour chaque trajet
     // L'objectif de cette fonction est de renvoyer (cycleId | Array(TgaTgdInput) pour les cyclesId terminé
@@ -90,86 +96,37 @@ trait SourcePipeline extends Serializable {
     LOGGER.info("Reconstitution des cycles avec les évènements terminés")
     val cycleWithEventOver = BuildCycleOver.getCycleOver(dataTgaTgdFielValidated, sc, sqlContext, Panneau())
 
-    val path = "hdfs:/data1/GARES/refinery/PPIV_PHASE2/"
-    cycleWithEventOver.toDF().write.format("com.databricks.spark.csv").save(path)
+    
+    // Temporary Save Finished cycles in HDFS
+     //Persist.save(cycleWithEventOver.toDF() , "CyclFinistoH", sc)
+
+
+
+
 
     // 5) Boucle sur les cycles finis pour traiter leur liste d'évènements
     LOGGER.info("Traitement des cycles terminés")
-
-    val rddIvTgaTgdWithoutReferentiel = cycleWithEventOver.map{ x =>
-
-      // Récupération du cycleId (première colonne)
-      var cycleId = x.getString(0)
-
-      // Récupération de la séquence de String (deuxième colonne)
-      val seqString = x.getSeq[String](1)
-
-      // Transsformation des séquences de string en Seq[TgaTgdInput)
-      val seqTgaTgd = seqString.map(x => {
-        // Les champs sont séparés par des virgules
-        val split = x.toString.split(",",-1)
-        TgaTgdInput(split(0), split(1).toLong, split(2), split(3), split(4), split(5), split(6), split(7), split(8), split(9).toLong, split(10), split(11))
-      })
-
-
-      // 6) Validation des cycles
-      val isCycleValidated  = ValidateData.validateCycle(seqTgaTgd)
-      if(isCycleValidated == false){
-        // TODO : Regarder si il n'a pas un état en IND ou SUP
-        // Si oui on enregistre la ligne avec les infos qu'on a
-        LOGGER.info("Cycle invalide pour le cycle Id: " + cycleId)
-        cycleId = "INV_" + cycleId
-        //TgaTgdIntermediate("INV_" + cycleId,seqTgaTgd(0).gare,seqTgaTgd(0).ordes,seqTgaTgd(0).num,seqTgaTgd(0).`type`,seqTgaTgd(0).heure,seqTgaTgd(0).etat, 0, 0, 0,0,0,0,0,0,"","","","","",0,0)
-      }
-
-      // 7) Nettoyage et mise en forme
-      // On se sait pas si on en aura besoin, on la laisse en attendant
-      val dataTgaTgdCycleCleaned    = Preprocess.cleanCycle(seqTgaTgd)
-
-      // 8) Calcul des différents règles de gestion.
-      val premierAffichage = BusinessRules.getPremierAffichage(dataTgaTgdCycleCleaned)
-      val affichageDuree1  = BusinessRules.getAffichageDuree1(dataTgaTgdCycleCleaned)
-      val affichageDuree2  = BusinessRules.getAffichageDuree2(dataTgaTgdCycleCleaned)
-      val dernier_retard_annonce = BusinessRules.getDernierRetardAnnonce(dataTgaTgdCycleCleaned)
-      val affichage_retard = BusinessRules.getAffichageRetard(dataTgaTgdCycleCleaned)
-      val affichage_duree_retard = BusinessRules.getAffichageDureeRetard(dataTgaTgdCycleCleaned)
-      val etat_train  = BusinessRules.getEtatTrain(dataTgaTgdCycleCleaned)
-      val date_affichage_etat_train = BusinessRules.getDateAffichageEtatTrain(dataTgaTgdCycleCleaned)
-      val delai_affichage_etat_train_avant_depart_arrive = BusinessRules.getDelaiAffichageEtatTrainAvantDepartArrive(dataTgaTgdCycleCleaned)
-      val dernier_quai_affiche = BusinessRules.getDernierQuaiAffiche(dataTgaTgdCycleCleaned)
-      val type_devoiement = BusinessRules.getTypeDevoiement(dataTgaTgdCycleCleaned)
-      val type_devoiement2 = BusinessRules.getTypeDevoiement2(dataTgaTgdCycleCleaned)
-      val type_devoiement3 = BusinessRules.getTypeDevoiement3(dataTgaTgdCycleCleaned)
-      val type_devoiement4 = BusinessRules.getTypeDevoiement4(dataTgaTgdCycleCleaned)
-      val dernier_affichage = BusinessRules.getDernierAffichage(dataTgaTgdCycleCleaned)
-      val date_process = BusinessRules.getDateProcess(dataTgaTgdCycleCleaned)
-
-
-      // 9) Création de la classe de sortie sans le référentiel
-      TgaTgdIntermediate(cycleId,seqTgaTgd(0).gare,seqTgaTgd(0).ordes,seqTgaTgd(0).num,seqTgaTgd(0).`type`,seqTgaTgd(0).heure,etat_train,
-        premierAffichage, affichageDuree1,dernier_retard_annonce, affichageDuree2,affichage_retard,affichage_duree_retard,
-        date_affichage_etat_train,delai_affichage_etat_train_avant_depart_arrive, dernier_quai_affiche,type_devoiement,type_devoiement2,
-          type_devoiement3,type_devoiement4, dernier_affichage, date_process )
-    }
-
-
+    val rddIvTgaTgdWithoutReferentiel = BusinessRules.computeBusinessRules(cycleWithEventOver)
 
     // Conversion du résulat en dataset
     val dsIvTgaTgdWithoutReferentiel = rddIvTgaTgdWithoutReferentiel.toDS()
 
-
     // 10) Filtre sur les cyles qui ont été validé ou non
-    val cycleInvalidated = dsIvTgaTgdWithoutReferentiel.toDF().filter($"cycleId".contains("INV")).as[TgaTgdIntermediate]
-    val cycleValidated    = dsIvTgaTgdWithoutReferentiel.toDF().filter(not($"cycleId".contains("INV"))).as[TgaTgdIntermediate]
-
-    println("invalidated:" + cycleInvalidated.count())
-
-
+    val cycleInvalidated = dsIvTgaTgdWithoutReferentiel.toDF().filter($"cycleId".contains("INV_")).as[TgaTgdIntermediate]
+    val cycleValidated    = dsIvTgaTgdWithoutReferentiel.toDF().filter(not($"cycleId".contains("INV_"))).as[TgaTgdIntermediate]
 
 
     // 11) Enregistrement des rejets (champs + cycle)
-    Reject.saveFieldRejected(dataTgaTgdFielRejected, sc)
-    Reject.saveCycleRejected(cycleInvalidated, sc)
+    //Reject.saveFieldRejected(dataTgaTgdFielRejected, sc)
+    //Reject.saveCycleRejected(cycleInvalidated, sc)
+
+    val cycleInvalidatedDf = cycleInvalidated.toDF()
+    val cycleValidatedDf   =  cycleValidated.toDF()
+
+    println("invalidated:" + cycleInvalidatedDf.count())
+    println("validated:" + cycleValidatedDf.count())
+
+   //Persist.save(cycleValidatedDf  , "InputPostprocss", sc)
 
     // 12) Sauvegarde des cycles d'évènements validés
     // A partir de cycleValidate :
@@ -177,18 +134,13 @@ trait SourcePipeline extends Serializable {
     // Puis enregistrer dans l'object PostProcess
     //PostProcess.saveCleanData(DataSet[TgaTgdInput], sc)
 
-    // 13) Jointure avec le référentiel
-    val dataTgaTgdWithReferentiel = Postprocess.joinReferentiel(cycleValidated, dataRefGares, sqlContext)
-
-    println("ref:" + dataTgaTgdWithReferentiel.count())
-
-
-
-    // 14) Inscription dans la classe finale TgaTgdOutput avec conversion et formatage
-    val dataTgaTgdOutput = Postprocess.formatTgaTgdOuput(dataTgaTgdWithReferentiel, sqlContext, Panneau())
+    // 13) Jointure avec le référentiel et nscription dans la classe finale TgaTgdOutput avec conversion et formatage
+    val dataTgaTgdOutput = Postprocess.postprocess (cycleValidated, dataRefGares, sqlContext, Panneau())
 
     // On renvoie le data set final pour un Tga ou un Tgd (qui seront fusionné dans le main)
     dataTgaTgdOutput
+
+
   }
 }
 

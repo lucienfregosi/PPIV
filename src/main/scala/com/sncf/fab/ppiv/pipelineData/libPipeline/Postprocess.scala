@@ -10,13 +10,25 @@ import org.apache.spark.sql.{DataFrame, Dataset, Row, SQLContext}
   * Created by ELFI03951 on 12/07/2017.
   */
 object Postprocess {
+
+ def postprocess (dsTgaTgd: Dataset[TgaTgdIntermediate], refGares : Dataset[ReferentielGare], sqlContext : SQLContext, Panneau: String):DataFrame = {
+
+ // Jointure avec le référentiel
+   //TODO : Nettoyage du reférentil (supprimer doublons+ supperimer les lignes avec la colonne TGS vide)
+   val dataTgaTgdWithReferentiel = Postprocess.joinReferentiel(dsTgaTgd, refGares, sqlContext)
+
+ // Inscription dans la classe finale TgaTgdOutput avec conversion et formatage
+   val dataTgaTgdOutput = Postprocess.formatTgaTgdOuput(dataTgaTgdWithReferentiel, sqlContext, Panneau)
+   dataTgaTgdOutput
+  }
+
   def saveCleanData(dsToSave: Dataset[TgaTgdInput], sc: SparkContext) : Unit = {
     null
   }
 
   def joinReferentiel(dsTgaTgd: Dataset[TgaTgdIntermediate], refGares : Dataset[ReferentielGare], sqlContext : SQLContext): DataFrame = {
     // Jointure entre nos données de sorties et le référentiel
-    val joinedData = dsTgaTgd.toDF().join(refGares.toDF(), dsTgaTgd.toDF().col("gare") === refGares.toDF().col("TVS"),"left")
+    val joinedData = dsTgaTgd.toDF().join(refGares.toDF(), dsTgaTgd.toDF().col("gare") === refGares.toDF().col("TVS"),"inner")
     joinedData
   }
 
@@ -38,30 +50,30 @@ object Postprocess {
         row.getString(2),
         panneau,
         Conversion.unixTimestampToDateTime(row.getLong(7)).toString,
-        BusinessConversion.getDateExtract(row.getLong(7)),
-        "",
-        "",
+        BusinessConversion.getDateExtract(row.getLong(20)),
+        BusinessConversion.getMois(row.getLong(20)),
+        BusinessConversion.getAnnee(row.getLong(20)),
         Conversion.unixTimestampToDateTime(row.getLong(5)).toString,
-        "",
-        0,
-        "",
+        BusinessConversion.getCreneau_horaire(row.getLong(5)),
+        BusinessConversion.getNumberoftheday(row.getLong(5)),
+        BusinessConversion.getThreeFirstLettersOftheday(row.getLong(5)) ,
         Conversion.getHHmmss(row.getLong(8))
       )
 
 
       val v2 = VingtChampsSuivants(
         "",
-        "",
-        "",
-        0,
-        0,
+        BusinessConversion.getDelai_affichage_voie_sans_retard (row.getLong(8)),
+        BusinessConversion.getDuree_temps_affichage(row.getLong(8)),
+        BusinessConversion.getNbretard1(row.getLong(9)),
+        BusinessConversion.getDernier_retard_annonce_min(row.getLong(9)),
         0,
         Conversion.getHHmmss(row.getLong(9)),
         "",
         Conversion.getHHmmss(row.getLong(10)),
         "",
         "",
-        0,
+        BusinessConversion.getTauxAffichage(row.getLong(8)),
         0,
         Conversion.unixTimestampToDateTime(row.getLong(11)).toString,
         Conversion.getHHmmss(row.getLong(12)),

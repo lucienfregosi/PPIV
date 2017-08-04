@@ -1,6 +1,7 @@
 package com.sncf.fab.ppiv.pipelineData.libPipeline
 
 import com.sncf.fab.ppiv.business.TgaTgdInput
+import com.sncf.fab.ppiv.utils.Conversion
 import org.apache.spark.sql.{Dataset, SQLContext}
 import org.joda.time.{DateTime, DateTimeZone}
 
@@ -20,7 +21,7 @@ object ValidateData {
       .filter(_.gare matches "^[A-Z]{3}$" )
       .filter(_.maj <= currentTimestamp)
       .filter(_.train matches  "^[0-2]{0,1}[0-9]$")
-      .filter(_.`type` matches "^([A-Z]+)$")
+      .filter(_.`type` matches "^([A-Z]*)$")
       .filter(_.attribut_voie matches "I|$")
       .filter(_.attribut_voie matches "^(?:[0-9]|[A-Z]|$)$")
       .filter(_.etat matches "^(?:(IND)|(SUP)|(ARR)|$|(\\s))$")
@@ -29,17 +30,18 @@ object ValidateData {
     // Sélection des rejets qui seront enregistrés ailleurs pour analyse
     val dsTgaTgdRejectedFields = dsTgaTgd.filter(x => (x.gare matches("(?!(^[A-Z]{3})$)")) || (x.maj > currentTimestamp)
       ||  (x.train matches  "(?!(^[0-2]{0,1}[0-9]$))")
-      ||  (x.`type` matches "(?!(^[A-Z]+$))")
+      ||  (x.`type` matches "(?!(^[A-Z]*$))")
       ||  (x.attribut_voie matches "!(I|$)")
       ||  (x.voie matches "(?!(^(?:[0-9]|[A-Z]|$)$))")
       || (x.etat matches "(?!(^(?:(IND)|(SUP)|(ARR)|$|\\s)$))")
       || (x.retard matches  "(?!(^(?:[0-9]{2}|[0-9]{4}|$|\\s)$))")
     )
 
+
     (dsTgaTgdValidatedFields, dsTgaTgdRejectedFields)
   }
 
-  def validateCycle(dsTgaTgdSeq: Seq[TgaTgdInput]): Boolean = {
+  def validateCycle(dsTgaTgdSeq: Seq[TgaTgdInput]): (Boolean, String) = {
 
     // Validation des cycles. Un cycle doit comporter au moins une voie et tous ses évènements ne peuvent pas se passer x minutes après le départ du train
     // En entrée la liste des évènements pour un cycle id donné.
@@ -53,17 +55,22 @@ object ValidateData {
     val retard = BusinessRules.getCycleRetard(dsTgaTgdSeq)
     // 10 minutes : pour la marge d'erreur imposé par le métier
     val margeErreur = 10 * 60
-    val departReel = departThéorique + retard + margeErreur
+
+
+   // val departReel = departThéorique + retard + margeErreur
+   val departReel = (Conversion.unixTimestampToDateTime(departThéorique).plusSeconds(retard.toInt).plusMinutes(10).getMillis)/1000
+
 
     // Décompte des évènements se passant après le départ du triain
     val cntEventApresDepart = dsTgaTgdSeq.filter(x=>( x.maj > departReel)).length
 
     // Si le compte de voie est différent de 0 ou le compte des évènement après la date est égale a la somme des event (= tous les évènements postérieurs à la date de départ du train
     if(cntVoieAffiche != 0 && cntEventApresDepart != dsTgaTgdSeq.length ){
-      true
+      (true, "ValidCycle")
     }
     else{
-      false
+      if (cntVoieAffiche == 0 ) {(false,"Voie")}
+      else {(false,"EventApresDepart")}
     }
   }
 

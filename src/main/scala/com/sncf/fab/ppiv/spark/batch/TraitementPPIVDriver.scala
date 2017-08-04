@@ -42,6 +42,7 @@ object TraitementPPIVDriver extends Serializable {
       LOGGER.info("Traitement d'affichage des TGA")
       val ivTga = TraitementTga.start(sc, sqlContext)
 
+
       LOGGER.info("Traitement d'affichage des TGD")
       //val ivTgd = TraitementTgd.start(sc, sqlContext)
 
@@ -49,6 +50,7 @@ object TraitementPPIVDriver extends Serializable {
       //val ivTgaTgd = ivTga.union(ivTgd)
 
       // 12) Persistence dans la brique demandé
+
       try {
         Persist.save(ivTga, persistMethod, sc)
       }
@@ -59,6 +61,8 @@ object TraitementPPIVDriver extends Serializable {
           None
         }
       }
+
+
     }
   }
 }
