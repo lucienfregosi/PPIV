@@ -75,18 +75,18 @@ object BusinessConversion {
    else Conversion.unixTimestampToDateTime(timestamp).toString()
     }
 
-  def getQuaiDevoiement ( devoiementInfo : Seq[String]) : String = {
-    val quai1 = devoiementInfo(0)
-    val quai2 = devoiementInfo(1)
+  def getQuaiDevoiement ( devoiementInfo : String) : String = {
+    val quai1 = devoiementInfo.split("-")(0)
+    val quai2 = devoiementInfo.split("-")(1)
     quai1 + "=>" + quai2
   }
 
 
-  def getNbTotaldevoiement (devoiementInfo1 : Seq[String], devoiementInfo2 : Seq[String], devoiementInfo3 : Seq[String], devoiementInfo4 : Seq[String] ): Int = {
-    val firstDevoiement  = devoiementInfo1  (2)
-    val secondDevoiement = devoiementInfo2  (2)
-    val thirdDevoiement  = devoiementInfo3  (2)
-    val fourthDevoiement = devoiementInfo4  (2)
+  def getNbTotaldevoiement (devoiementInfo1 : String, devoiementInfo2 : String, devoiementInfo3 : String, devoiementInfo4 : String ): Int = {
+    val firstDevoiement  = devoiementInfo1.split("-")  (2)
+    val secondDevoiement = devoiementInfo2.split("-")  (2)
+    val thirdDevoiement  = devoiementInfo3.split("-")  (2)
+    val fourthDevoiement = devoiementInfo4.split("-")  (2)
 
     val list_type_devoiement =List (firstDevoiement, secondDevoiement, thirdDevoiement, fourthDevoiement )
 
@@ -94,29 +94,29 @@ object BusinessConversion {
     nb_devoiement
   }
 
-  def getNbDevoiement_affiche(devoiementInfo1 : Seq[String], devoiementInfo2 : Seq[String], devoiementInfo3 : Seq[String], devoiementInfo4 : Seq[String] ): Int = {
-     val firstDevoiement  = devoiementInfo1  (2)
-     val secondDevoiement = devoiementInfo2  (2)
-     val thirdDevoiement  = devoiementInfo3  (2)
-     val fourthDevoiement = devoiementInfo4  (2)
+  def getNbDevoiement_affiche(devoiementInfo1 :String, devoiementInfo2 : String, devoiementInfo3 : String, devoiementInfo4 : String ): Int = {
+     val firstDevoiement  = devoiementInfo1.split("-")  (2)
+     val secondDevoiement = devoiementInfo2.split("-")  (2)
+     val thirdDevoiement  = devoiementInfo3.split("-")  (2)
+     val fourthDevoiement = devoiementInfo4.split("-")  (2)
 
     val list_type_devoiement =List (firstDevoiement, secondDevoiement, thirdDevoiement, fourthDevoiement )
 
     list_type_devoiement.count(_ == "Affiche")
   }
 
-  def getNvDevoiement_non_affiche(devoiementInfo1 : Seq[String], devoiementInfo2 : Seq[String], devoiementInfo3 : Seq[String], devoiementInfo4 : Seq[String] ): Int = {
-    val firstDevoiement  = devoiementInfo1  (2)
-    val secondDevoiement = devoiementInfo2  (2)
-    val thirdDevoiement  = devoiementInfo3  (2)
-    val fourthDevoiement = devoiementInfo4  (2)
+  def getNvDevoiement_non_affiche(devoiementInfo1 : String, devoiementInfo2 : String, devoiementInfo3 : String, devoiementInfo4 : String ): Int = {
+    val firstDevoiement  = devoiementInfo1.split("-")  (2)
+    val secondDevoiement = devoiementInfo2.split("-")  (2)
+    val thirdDevoiement  = devoiementInfo3.split("-")  (2)
+    val fourthDevoiement = devoiementInfo4.split("-")  (2)
 
     val list_type_devoiement =List (firstDevoiement, secondDevoiement, thirdDevoiement, fourthDevoiement )
 
     list_type_devoiement.count(_ == "Non_Affiche")
   }
 
-  def getCracDevoiement (devoiementInfo1 : Seq[String], devoiementInfo2 : Seq[String], devoiementInfo3 : Seq[String], devoiementInfo4 : Seq[String] ): String = {
+  def getCracDevoiement (devoiementInfo1 : String, devoiementInfo2 : String, devoiementInfo3 :String, devoiementInfo4 : String ): String = {
 
     val nbTotalDevoiement = getNbTotaldevoiement(devoiementInfo1, devoiementInfo2, devoiementInfo3, devoiementInfo4)
 

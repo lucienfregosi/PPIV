@@ -43,7 +43,7 @@ object BusinessRules {
         LOGGER.info("Cycle invalide pour le cycle Id: " + cycleId)
         cycleId = "INV_" + cycleId
         val devoiement = Seq("")
-        TgaTgdIntermediate(cycleId, seqTgaTgd(0).gare, seqTgaTgd(0).ordes, seqTgaTgd(0).num, seqTgaTgd(0).`type`, seqTgaTgd(0).heure, seqTgaTgd(0).etat, 0, 0, 0, 0, 0, 0, 0, 0, rejectReason, devoiement, devoiement, devoiement, devoiement, 0, 0)
+        TgaTgdIntermediate(cycleId, seqTgaTgd(0).gare, seqTgaTgd(0).ordes, seqTgaTgd(0).num, seqTgaTgd(0).`type`, seqTgaTgd(0).heure, seqTgaTgd(0).etat, 0, 0, 0, 0, 0, 0, 0, 0, rejectReason, "", devoiement, devoiement, devoiement, 0, 0)
       } else {
 
         // 7) Nettoyage et mise en forme
@@ -216,11 +216,11 @@ object BusinessRules {
       val dvInfo = dsVoie.toSeq.map(row=> (row._1, row._2.maxBy(_.maj),row._2.filter(_.attribut_voie != "I").length )).sortBy(_._2.maj)
      dvInfo
   }
-  def getTypeDevoiement(dsTgaTgdSeq: Seq[TgaTgdInput]) :  Seq[String]  = {
+  def getTypeDevoiement(dsTgaTgdSeq: Seq[TgaTgdInput]) :  String = {
 
   val dvInfo = allDevoimentInfo(dsTgaTgdSeq)
     if  (dvInfo.size <=1){
-      Seq("NO DEV", "NO DEV", "NO DEV")
+     "NO DEV - NO DEV -  NO DEV"
     }
     else {
       val Voie_1 = dvInfo(0)._2.voie
@@ -228,17 +228,17 @@ object BusinessRules {
       val lengthOfNonHidden_Voie = dvInfo(1)._3
 
       if ( lengthOfNonHidden_Voie >=1){
-        Seq( Voie_1,Voie_2,"Affiche")
+         Voie_1+ " - " + Voie_2 + " - " + "Affiche"
       } else {
-        Seq( Voie_1,Voie_2,"Non_Affiche")
-        }
+        Voie_1+ " - " + Voie_2 + " - " + "Non_Affiche"
+             }
       }
   }
 
-  def getTypeDevoiement2(dsTgaTgdSeq: Seq[TgaTgdInput]) :  Seq[String]  = {
+  def getTypeDevoiement2(dsTgaTgdSeq: Seq[TgaTgdInput]) :  String  = {
     val dvInfo = allDevoimentInfo(dsTgaTgdSeq)
     if  (dvInfo.size <=2){
-      Seq("NO DEV", "NO DEV", "NO DEV")
+      "NO DEV - NO DEV -  NO DEV"
     }
     else {
       val Voie_1 = dvInfo(1)._2.voie
@@ -246,17 +246,17 @@ object BusinessRules {
       val lengthOfNonHidden_Voie = dvInfo(2)._3
 
       if ( lengthOfNonHidden_Voie >=1){
-        Seq( Voie_1,Voie_2,"Affiche")
+        Voie_1+ " - " + Voie_2 + " - " + "Affiche"
       } else {
-        Seq( Voie_1,Voie_2,"Non_Affiche")
+        Voie_1+ " - " + Voie_2 + " - " + "Non_Affiche"
       }
     }
   }
 
-  def getTypeDevoiement3(dsTgaTgdSeq: Seq[TgaTgdInput]) : Seq[String] = {
+  def getTypeDevoiement3(dsTgaTgdSeq: Seq[TgaTgdInput]) : String = {
     val dvInfo = allDevoimentInfo(dsTgaTgdSeq)
     if  (dvInfo.size <=3){
-      Seq("NO DEV", "NO DEV", "NO DEV")
+      "NO DEV - NO DEV -  NO DEV"
     }
     else {
       val Voie_1 = dvInfo(2)._2.voie
@@ -264,17 +264,17 @@ object BusinessRules {
       val lengthOfNonHidden_Voie = dvInfo(3)._3
 
       if ( lengthOfNonHidden_Voie >=1){
-        Seq( Voie_1,Voie_2,"Affiche")
+        Voie_1+ " - " + Voie_2 + " - " + "Affiche"
       } else {
-        Seq( Voie_1,Voie_2,"Non_Affiche")
+        Voie_1+ " - " + Voie_2 + " - " + "Non_Affiche"
       }
     }
   }
 
-  def getTypeDevoiement4(dsTgaTgdSeq: Seq[TgaTgdInput]) : Seq[String] = {
+  def getTypeDevoiement4(dsTgaTgdSeq: Seq[TgaTgdInput]) : String = {
     val dvInfo = allDevoimentInfo(dsTgaTgdSeq)
     if  (dvInfo.size <=4){
-      Seq("NO DEV", "NO DEV", "NO DEV")
+      "NO DEV - NO DEV -  NO DEV"
     }
     else {
       val Voie_1 = dvInfo(3)._2.voie
@@ -282,9 +282,9 @@ object BusinessRules {
       val lengthOfNonHidden_Voie = dvInfo(4)._3
 
       if ( lengthOfNonHidden_Voie >=1){
-        Seq( Voie_1,Voie_2,"Affiche")
+        Voie_1+ " - " + Voie_2 + " - " + "Affiche"
       } else {
-        Seq( Voie_1,Voie_2,"Non_Affiche")
+        Voie_1+ " - " + Voie_2 + " - " + "Non_Affiche"
       }
     }
   }

@@ -40,8 +40,8 @@ The 'Devoiement Spec'  output   should
 
 
   //BusinessRules.getTypeDevoiement(dsDevoiSpec).toString
-
-  def e1 = BusinessRules.getTypeDevoiement(dsDevoiSpec) (2).toString must beEqualTo("Affiche")
+ val test = BusinessRules.getTypeDevoiement(dsDevoiSpec).split("-") (2)
+  def e1 = BusinessRules.getTypeDevoiement(dsDevoiSpec).split("-") (2).toString must beEqualTo("Affiche")
 
   def e2 = BusinessRules.getTypeDevoiement2(dsDevoiSpec) (2).toString must beEqualTo("Affiche")
 

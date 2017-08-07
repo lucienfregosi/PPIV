@@ -4,6 +4,7 @@ import com.sncf.fab.ppiv.business.{ReferentielGare, TgaTgdCycleId, TgaTgdInterme
 import com.sncf.fab.ppiv.parser.DatasetsParser
 import com.sncf.fab.ppiv.pipelineData.libPipeline.{BuildCycleOver, LoadData, Postprocess}
 import com.sncf.fab.ppiv.utils.AppConf.{PPIV, REF_GARES, SPARK_MASTER}
+import org.apache.avro.generic.GenericData.StringType
 import org.apache.spark.sql.SQLContext
 import org.apache.spark.sql.types.LongType
 import org.apache.spark.{SparkConf, SparkContext}
@@ -31,12 +32,15 @@ The 'postprocess'  output count   should
 
   @transient val sc = new SparkContext(sparkConf)
   @transient val sqlContext = new SQLContext(sc)
+
   /*
 
   import sqlContext.implicits._
 
 // Load the input of Postprocess
-  val path = "PPIV/src/test/resources/data/BeforePostprocess.deflate"
+  //val path = "PPIV/src/test/resources/data/BeforePostprocess.deflate"
+  val path = "PPIV/src/test/resources/data/BeforePostPro2.deflate"
+
   val newNamesTgaTgdInter = Seq("cycleId" ,
     "gare",
     "origine_destination",
