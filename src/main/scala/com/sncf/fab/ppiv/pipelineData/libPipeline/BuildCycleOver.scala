@@ -80,7 +80,7 @@ object BuildCycleOver {
     val currentHoraire = Conversion.getDateTime(
       Conversion.nowToDateTime().getYear,
       Conversion.nowToDateTime().getMonthOfYear,
-      Conversion.nowToDateTime().getDayOfMonth,
+      Conversion.nowToDateTime().plusDays(-1).getDayOfMonth,
       Conversion.getHourMax(Conversion.nowToDateTime()).toInt,
       0,
       0)

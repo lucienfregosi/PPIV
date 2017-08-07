@@ -34,7 +34,7 @@ object Conversion {
   }
 
   def nowToDateTime(): DateTime = {
-   // now().plusDays(-2)
+    now().plusDays(-1)
     now()
   }
 
@@ -140,7 +140,8 @@ object Conversion {
 
   def getHourMax(date: DateTime): String = {
     // Retrancher une heure à la date actuelle pour traiter fichier à H-1
-    val HourToProcess = date.plusHours(-3)
+    //val HourToProcess = date.plusHours(-3)
+    val HourToProcess = date.plusHours(-1)
     // Convertir sous le format HH type 01 au lieu de 1
     println(new DecimalFormat("00").format(HourToProcess.getHourOfDay))
     new DecimalFormat("00").format(HourToProcess.getHourOfDay)
