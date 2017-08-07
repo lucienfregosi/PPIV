@@ -43,7 +43,7 @@ object BusinessRules {
         LOGGER.info("Cycle invalide pour le cycle Id: " + cycleId)
         cycleId = "INV_" + cycleId
         val devoiement = Seq("")
-        TgaTgdIntermediate(cycleId, seqTgaTgd(0).gare, seqTgaTgd(0).ordes, seqTgaTgd(0).num, seqTgaTgd(0).`type`, seqTgaTgd(0).heure, seqTgaTgd(0).etat, 0, 0, 0, 0, 0, 0, 0, 0, rejectReason, "", devoiement, devoiement, devoiement, 0, 0)
+        TgaTgdIntermediate(cycleId, seqTgaTgd(0).gare, seqTgaTgd(0).ordes, seqTgaTgd(0).num, seqTgaTgd(0).`type`, seqTgaTgd(0).heure, seqTgaTgd(0).etat, 0, 0, 0, 0, 0, 0, 0, 0, rejectReason, "", "", "", "", 0, 0)
       } else {
 
         // 7) Nettoyage et mise en forme
