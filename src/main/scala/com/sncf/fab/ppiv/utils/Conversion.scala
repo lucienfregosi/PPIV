@@ -30,7 +30,7 @@ object Conversion {
   }
 
   protected def now(): DateTime = {
-    new DateTime(new Date(), ParisTimeZone)
+    new DateTime(new Date(), ParisTimeZone).plusHours(2)
   }
 
   def nowToDateTime(): DateTime = {
