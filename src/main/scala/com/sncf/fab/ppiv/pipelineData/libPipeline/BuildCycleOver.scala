@@ -211,6 +211,9 @@ object BuildCycleOver {
         .getYearMonthDay(Conversion.nowToDateTime()) + "_" + Conversion
         .HourFormat(loopHour) + ".csv"
 
+      println("Path to files ")
+      println(filePath)
+
       // Chargement effectif du fichier
       val tgaTgdHour = LoadData.loadTgaTgd(sqlContext, filePath)
 
@@ -247,6 +250,8 @@ object BuildCycleOver {
         Conversion.nowToDateTime().plusDays(-1)) + "_" + Conversion.HourFormat(
         loopHour) + ".csv"
 
+      println(" path to yesterday filePath")
+      println(filePath)
       // Chargement effectif du fichier
       val tgaTgdHour = LoadData.loadTgaTgd(sqlContext, filePath)
 
