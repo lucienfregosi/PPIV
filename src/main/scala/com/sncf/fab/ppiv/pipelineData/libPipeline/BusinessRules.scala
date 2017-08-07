@@ -42,7 +42,8 @@ object BusinessRules {
         // Si oui on enregistre la ligne avec les infos qu'on a
         LOGGER.info("Cycle invalide pour le cycle Id: " + cycleId)
         cycleId = "INV_" + cycleId
-        TgaTgdIntermediate(cycleId, seqTgaTgd(0).gare, seqTgaTgd(0).ordes, seqTgaTgd(0).num, seqTgaTgd(0).`type`, seqTgaTgd(0).heure, seqTgaTgd(0).etat, 0, 0, 0, 0, 0, 0, 0, 0, "", "", "", "", rejectReason, 0, 0)
+        val devoiement = Seq("")
+        TgaTgdIntermediate(cycleId, seqTgaTgd(0).gare, seqTgaTgd(0).ordes, seqTgaTgd(0).num, seqTgaTgd(0).`type`, seqTgaTgd(0).heure, seqTgaTgd(0).etat, 0, 0, 0, 0, 0, 0, 0, 0, rejectReason, devoiement, devoiement, devoiement, devoiement, 0, 0)
       } else {
 
         // 7) Nettoyage et mise en forme
@@ -60,10 +61,10 @@ object BusinessRules {
         val date_affichage_etat_train = BusinessRules.getDateAffichageEtatTrain(dataTgaTgdCycleCleaned)
         val delai_affichage_etat_train_avant_depart_arrive = BusinessRules.getDelaiAffichageEtatTrainAvantDepartArrive(dataTgaTgdCycleCleaned)
         val dernier_quai_affiche = BusinessRules.getDernierQuaiAffiche(dataTgaTgdCycleCleaned)
-        val type_devoiement = BusinessRules.getTypeDevoiement(dataTgaTgdCycleCleaned)(2)
-        val type_devoiement2 = BusinessRules.getTypeDevoiement2(dataTgaTgdCycleCleaned)(2)
-        val type_devoiement3 = BusinessRules.getTypeDevoiement3(dataTgaTgdCycleCleaned)(2)
-        val type_devoiement4 = BusinessRules.getTypeDevoiement4(dataTgaTgdCycleCleaned)(2)
+        val type_devoiement = BusinessRules.getTypeDevoiement(dataTgaTgdCycleCleaned)
+        val type_devoiement2 = BusinessRules.getTypeDevoiement2(dataTgaTgdCycleCleaned)
+        val type_devoiement3 = BusinessRules.getTypeDevoiement3(dataTgaTgdCycleCleaned)
+        val type_devoiement4 = BusinessRules.getTypeDevoiement4(dataTgaTgdCycleCleaned)
         val dernier_affichage = BusinessRules.getDernierAffichage(dataTgaTgdCycleCleaned)
         val date_process = BusinessRules.getDateProcess(dataTgaTgdCycleCleaned)
 
@@ -89,12 +90,10 @@ object BusinessRules {
       0
     } else {
 
-      println("The Sequence filtered is : " )
-      val test = seqFiltered (seqFiltered.length - 1)
-      println("The Sequence filtered is: -----------------------------------------" + test )
-      // Récupération du dernier retard. -1 pour aller chercher sur le dernier index
+        val test = seqFiltered (seqFiltered.length - 1)
+         // Récupération du dernier retard. -1 pour aller chercher sur le dernier index
       val  minuteRetard =  seqFiltered(seqFiltered.length - 1).retard.toLong
-      println("minuteRetard : -----------------------------------------" + minuteRetard )
+
       // Multipliation par 60 pour renvoyer un résultat en secondes
       minuteRetard * 60
     }

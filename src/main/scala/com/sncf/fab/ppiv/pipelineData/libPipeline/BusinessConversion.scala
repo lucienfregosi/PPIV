@@ -74,7 +74,65 @@ object BusinessConversion {
    if (timestamp == 0) "0"
    else Conversion.unixTimestampToDateTime(timestamp).toString()
     }
-  // TODO trouver pourquoi la conversion des float se fait aussi mal
+
+  def getQuaiDevoiement ( devoiementInfo : Seq[String]) : String = {
+    val quai1 = devoiementInfo(0)
+    val quai2 = devoiementInfo(1)
+    quai1 + "=>" + quai2
+  }
+
+
+  def getNbTotaldevoiement (devoiementInfo1 : Seq[String], devoiementInfo2 : Seq[String], devoiementInfo3 : Seq[String], devoiementInfo4 : Seq[String] ): Int = {
+    val firstDevoiement  = devoiementInfo1  (2)
+    val secondDevoiement = devoiementInfo2  (2)
+    val thirdDevoiement  = devoiementInfo3  (2)
+    val fourthDevoiement = devoiementInfo4  (2)
+
+    val list_type_devoiement =List (firstDevoiement, secondDevoiement, thirdDevoiement, fourthDevoiement )
+
+    val nb_devoiement = 4 - list_type_devoiement.count(_ == "NO DEV")
+    nb_devoiement
+  }
+
+  def getNbDevoiement_affiche(devoiementInfo1 : Seq[String], devoiementInfo2 : Seq[String], devoiementInfo3 : Seq[String], devoiementInfo4 : Seq[String] ): Int = {
+     val firstDevoiement  = devoiementInfo1  (2)
+     val secondDevoiement = devoiementInfo2  (2)
+     val thirdDevoiement  = devoiementInfo3  (2)
+     val fourthDevoiement = devoiementInfo4  (2)
+
+    val list_type_devoiement =List (firstDevoiement, secondDevoiement, thirdDevoiement, fourthDevoiement )
+
+    list_type_devoiement.count(_ == "Affiche")
+  }
+
+  def getNvDevoiement_non_affiche(devoiementInfo1 : Seq[String], devoiementInfo2 : Seq[String], devoiementInfo3 : Seq[String], devoiementInfo4 : Seq[String] ): Int = {
+    val firstDevoiement  = devoiementInfo1  (2)
+    val secondDevoiement = devoiementInfo2  (2)
+    val thirdDevoiement  = devoiementInfo3  (2)
+    val fourthDevoiement = devoiementInfo4  (2)
+
+    val list_type_devoiement =List (firstDevoiement, secondDevoiement, thirdDevoiement, fourthDevoiement )
+
+    list_type_devoiement.count(_ == "Non_Affiche")
+  }
+
+  def getCracDevoiement (devoiementInfo1 : Seq[String], devoiementInfo2 : Seq[String], devoiementInfo3 : Seq[String], devoiementInfo4 : Seq[String] ): String = {
+
+    val nbTotalDevoiement = getNbTotaldevoiement(devoiementInfo1, devoiementInfo2, devoiementInfo3, devoiementInfo4)
+
+    if (nbTotalDevoiement != 0) {
+
+      val nbDevoiementAffiche = getNbDevoiement_affiche(devoiementInfo1, devoiementInfo2, devoiementInfo3, devoiementInfo4)
+      if (nbDevoiementAffiche != 0) "Devoiement affiche "
+      else "Devoiement non affiche"
+    }
+    else {
+
+      "No DEV"
+    }
+
+  }
+    // TODO trouver pourquoi la conversion des float se fait aussi mal
   def getFloat(str : String): Float = {
       5
   }
