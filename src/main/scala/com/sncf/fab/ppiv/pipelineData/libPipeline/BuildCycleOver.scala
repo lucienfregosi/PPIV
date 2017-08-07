@@ -90,6 +90,11 @@ object BuildCycleOver {
     println ("Filter Cycle : Current hour " + Conversion.dateTimeToString(currentHoraire))
     // Filtre sur les horaire de départ inférieur a l'heure actuelle
 
+    println("Test la conversion " )
+    println("timestamp is " + dsTgaTgdCycles.first().heure)
+    println("timestamp Conversion is  " + Conversion
+      .unixTimestampToDateTime (dsTgaTgdCycles.first().heure))
+
     val dataTgaTgdCycleOver = dsTgaTgdCycles.filter(x =>
       (x.retard != "" && Conversion
         .unixTimestampToDateTime(x.heure)
@@ -212,8 +217,6 @@ object BuildCycleOver {
         .getYearMonthDay(Conversion.nowToDateTime()) + "_" + Conversion
         .HourFormat(loopHour) + ".csv"
 
-      println("Path to files ")
-      println(filePath)
 
       // Chargement effectif du fichier
       val tgaTgdHour = LoadData.loadTgaTgd(sqlContext, filePath)
@@ -251,8 +254,6 @@ object BuildCycleOver {
         Conversion.nowToDateTime().plusDays(-1)) + "_" + Conversion.HourFormat(
         loopHour) + ".csv"
 
-      println(" path to yesterday filePath")
-      println(filePath)
       // Chargement effectif du fichier
       val tgaTgdHour = LoadData.loadTgaTgd(sqlContext, filePath)
 
