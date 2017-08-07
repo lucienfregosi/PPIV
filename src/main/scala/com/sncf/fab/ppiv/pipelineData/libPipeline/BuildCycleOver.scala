@@ -28,7 +28,7 @@ object BuildCycleOver {
     // Groupement et création des cycleId (concaténation de gare + panneau + numeroTrain + heureDepart)
     val cycleIdList = buildCycles(dsTgaTgdInput, sqlContext, panneau)
 
-    Persist.save(cycleIdList.toDF() , "InputFilterCycle", sc)
+    //Persist.save(cycleIdList.toDF() , "InputFilterCycle", sc)
     // Parmi les cyclesId généré précédemment on filtre ceux dont l'heure de départ est deja passé
     val cycleIdListOver = filterCycleOver(cycleIdList, sqlContext)
     //Persist.save(cycleIdListOver.toDF(), "ALLCycle", sc)

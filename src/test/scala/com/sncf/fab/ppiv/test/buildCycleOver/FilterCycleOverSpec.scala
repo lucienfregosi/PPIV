@@ -33,7 +33,7 @@ The 'CycleOver'  output count   should
 
   import sqlContext.implicits._
 /*
-  val path = "PPIV/src/test/resources/data/cyclesfromhdfs.deflate"
+  val path = "PPIV/src/test/resources/data/filtercycle.deflate"
   val newNamesTgaTgdCycle = Seq("cycle_id","heure","retard")
   val cycledf = sqlContext.read.format("com.databricks.spark.csv").load(path).toDF(newNamesTgaTgdCycle: _*).withColumn("heure", 'heure.cast(LongType)).as[TgaTgdCycleId]
 
