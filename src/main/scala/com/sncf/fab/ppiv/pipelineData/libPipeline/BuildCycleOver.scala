@@ -28,6 +28,7 @@ object BuildCycleOver {
     // Groupement et création des cycleId (concaténation de gare + panneau + numeroTrain + heureDepart)
     val cycleIdList = buildCycles(dsTgaTgdInput, sqlContext, panneau)
 
+    Persist.save(cycleIdList.toDF() , "InputFilterCycle", sc)
     // Parmi les cyclesId généré précédemment on filtre ceux dont l'heure de départ est deja passé
     val cycleIdListOver = filterCycleOver(cycleIdList, sqlContext)
     //Persist.save(cycleIdListOver.toDF(), "ALLCycle", sc)
@@ -86,7 +87,7 @@ object BuildCycleOver {
       0)
 
 
-    println ("Current hour " + Conversion.dateTimeToString(currentHoraire))
+    println ("Filter Cycle : Current hour " + Conversion.dateTimeToString(currentHoraire))
     // Filtre sur les horaire de départ inférieur a l'heure actuelle
 
     val dataTgaTgdCycleOver = dsTgaTgdCycles.filter(x =>

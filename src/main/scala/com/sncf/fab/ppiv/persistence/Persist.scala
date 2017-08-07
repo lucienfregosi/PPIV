@@ -33,6 +33,8 @@ object Persist {
       PersistHdfs.persisteALLCycle(ivTgaTgd)
     if (persistMethod.contains("InputPostprocss"))
           PersistHdfs.persistBeforePostprocess(ivTgaTgd)
+      if (persistMethod.contains("InputFilterCycle"))
+          PersistHdfs.persistBeforeFilterCycle(ivTgaTgd)
 
   }
 }

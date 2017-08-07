@@ -89,6 +89,10 @@ trait SourcePipeline extends Serializable {
     LOGGER.info("Validation champ à champ")
     val (dataTgaTgdFielValidated, dataTgaTgdFielRejected)   = ValidateData.validateField(dataTgaTgdBugFix, sqlContext)
 
+    println("Validation field to Field statics")
+    println("Field reject: Rejected" +dataTgaTgdFielRejected.count())
+    println("Field reject: Validated" + dataTgaTgdFielValidated.count())
+
     LOGGER.info("Validation champ à champ counts")
 
 
@@ -125,7 +129,7 @@ trait SourcePipeline extends Serializable {
     println("invalidated:" + cycleInvalidatedDf.count())
     println("validated:" + cycleValidatedDf.count())
 
-   Persist.save(cycleValidatedDf  , "InputPostprocss", sc)
+   //Persist.save(cycleValidatedDf  , "InputPostprocss", sc)
 
     // 12) Sauvegarde des cycles d'évènements validés
     // A partir de cycleValidate :
