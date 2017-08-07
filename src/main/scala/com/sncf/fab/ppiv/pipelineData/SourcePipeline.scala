@@ -72,6 +72,8 @@ trait SourcePipeline extends Serializable {
 
     // 1) Chargement des fichiers déjà parsé dans leur classe
     LOGGER.info("Chargement des fichiers et du référentiel")
+
+    println("This script is currently running in data of " + Conversion.getHour(Conversion.nowToDateTime()))
     val dataTgaTgd                = LoadData.loadTgaTgd(sqlContext, getSource())
    // dataTgaTgd.persist(StorageLevel.DISK_ONLY)
     //dataTgaTgd.unpersist()

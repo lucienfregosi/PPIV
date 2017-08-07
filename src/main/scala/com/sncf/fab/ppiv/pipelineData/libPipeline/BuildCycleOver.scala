@@ -86,7 +86,7 @@ object BuildCycleOver {
       0)
 
 
-    println (Conversion.dateTimeToString(currentHoraire))
+    println ("Current hour " + Conversion.dateTimeToString(currentHoraire))
     // Filtre sur les horaire de départ inférieur a l'heure actuelle
 
     val dataTgaTgdCycleOver = dsTgaTgdCycles.filter(x =>
