@@ -207,8 +207,8 @@ object BuildCycleOver {
 
       // Créatipon du nom du fichier dans HDFS
       var filePath = LANDING_WORK + Conversion.getYearMonthDay(
-        Conversion.nowToDateTime().plusDays(-1)) + "/" + panneau + "-" + Conversion
-        .getYearMonthDay(Conversion.nowToDateTime().plusDays(-1)) + "_" + Conversion
+        Conversion.nowToDateTime()) + "/" + panneau + "-" + Conversion
+        .getYearMonthDay(Conversion.nowToDateTime()) + "_" + Conversion
         .HourFormat(loopHour) + ".csv"
 
       println("Path to files ")
@@ -246,8 +246,8 @@ object BuildCycleOver {
       var filePath = LANDING_WORK + Conversion.getYearMonthDay(
         Conversion
           .nowToDateTime()
-          .plusDays(-2)) + "/" + panneau + "-" + Conversion.getYearMonthDay(
-        Conversion.nowToDateTime().plusDays(-2)) + "_" + Conversion.HourFormat(
+          .plusDays(-1)) + "/" + panneau + "-" + Conversion.getYearMonthDay(
+        Conversion.nowToDateTime().plusDays(-1)) + "_" + Conversion.HourFormat(
         loopHour) + ".csv"
 
       println(" path to yesterday filePath")
