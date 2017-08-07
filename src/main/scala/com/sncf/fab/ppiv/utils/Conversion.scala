@@ -13,7 +13,8 @@ import org.apache.hive.common.util.DateUtils
   */
 object Conversion {
 
-  DateTimeZone.setDefault(DateTimeZone.UTC)
+  //DateTimeZone.setDefault(DateTimeZone.UTC)
+  DateTimeZone.setDefault(DateTimeZone.forID("Europe/Paris"))
 
   val ParisTimeZone: DateTimeZone = DateTimeZone.forID("Europe/Paris")
   val timestampFormatWithTZ: DateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ").withZone(ParisTimeZone)
