@@ -181,7 +181,7 @@ object Conversion {
     val HH =  new DecimalFormat("00").format(H)
     val mm =  new DecimalFormat("00").format(m)
     val ss =  new DecimalFormat("00").format(s)
-    HH+":"+mm+":"+"ss"
+    HH+":"+mm+":"+ss
   }
 
 

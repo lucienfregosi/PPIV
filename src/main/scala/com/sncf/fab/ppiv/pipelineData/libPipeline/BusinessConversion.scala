@@ -252,6 +252,13 @@ object BusinessConversion {
     devoiementInfo.split("-")(2)
    else null
   }
+
+  def getDateAffichageEtatTrain (timestamp : Long) : String = {
+
+    if (timestamp == 0) null
+    else
+    Conversion.unixTimestampToDateTime(timestamp).toString
+  }
     // TODO trouver pourquoi la conversion des float se fait aussi mal
   def getFloat(str : String): Float = {
      5

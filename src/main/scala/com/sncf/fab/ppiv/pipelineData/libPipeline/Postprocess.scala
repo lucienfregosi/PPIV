@@ -80,7 +80,7 @@ object Postprocess {
         BusinessConversion.getAffichageRetard(row.getLong(11)),
         Conversion.getHHmmssFromMillis(row.getLong(12)),
         row.getString(6),
-        Conversion.unixTimestampToDateTime(row.getLong(13)).toString,
+        BusinessConversion.getDateAffichageEtatTrain(row.getLong(13)),
         Conversion.getHHmmssFromMillis(row.getLong(14)),
         TimeUnit.MILLISECONDS.toMinutes(row.getLong(14) * 1000 ).toString
       )
