@@ -173,6 +173,7 @@ object BuildCycleOver {
 
     //val dfGroupByCycleOver = dfJoin.drop("cycle_id2").distinct().dropDuplicates().select($"cycle_id", concat($"gare", lit(";"), $"maj", lit(";"), $"train", lit(";"), $"ordes", lit(";"), $"num", lit(";"), $"type", lit(";"), $"picto", lit(";"), $"attribut_voie", lit(";"), $"voie", lit(";"), $"heure", lit(";"), $"etat", lit(";"), $"retard") as "event").groupBy("cycle_id").agg(collect_set($"event") as "events")
 
+    // Remplace le collect_list
     def collectSet(df: DataFrame, k: Column, v: Column): DataFrame = {
       val intermediatedf = df
         .select(k.as("k"), v.as("v"))

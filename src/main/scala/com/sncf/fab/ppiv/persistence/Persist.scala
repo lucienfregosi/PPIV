@@ -9,6 +9,7 @@ import com.sncf.fab.ppiv.utils.AppConf._
 /**
   * Created by ELFI03951 on 12/07/2017.
   */
+// TODO: Améliorer ca avec un switch
 object Persist {
   def save(ivTgaTgd: DataFrame, persistMethod: String, sc: SparkContext) : Unit ={
     if (persistMethod.contains("fs"))
