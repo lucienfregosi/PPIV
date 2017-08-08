@@ -254,7 +254,7 @@ object BusinessConversion {
   }
     // TODO trouver pourquoi la conversion des float se fait aussi mal
   def getFloat(str : String): Float = {
-      str.toFloat
+     5
   }
 
 }
