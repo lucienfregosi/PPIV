@@ -34,14 +34,14 @@ object PersistHive extends Serializable {
     println("fini de sauvegarder, enregistrement dans hive")
     // To save in a single part we can add coalesce(1) to df.write
 
-    val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
+    //val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
     //val dfHive = hiveContext.createDataFrame(df.rdd, df.schema)
 
     //dfHive.registerTempTable("NewdataToSaveHive5")
 
     //val t = hiveContext.sql("select * from NewdataToSaveHive2 limit 10")
     //t.show()
-    hiveContext.sql("LOAD DATA INPATH '/data1/GARES/refinery/PPIV_PHASE2/QualiteAffichage/FichierValide.csv' INTO TABLE ppiv_ref.iv_tgatgd")
+    //hiveContext.sql("LOAD DATA INPATH '/data1/GARES/refinery/PPIV_PHASE2/QualiteAffichage/FichierValide.csv' INTO TABLE ppiv_ref.iv_tgatgd")
     //hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgdtmp7 select * from NewdataToSaveHive5")
 
   }
