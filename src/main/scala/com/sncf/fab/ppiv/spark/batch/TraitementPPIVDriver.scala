@@ -24,7 +24,7 @@ object TraitementPPIVDriver extends Serializable {
       System.exit(1)
     }
     else if(!(args(0).contains("hdfs") || args(0).contains("fs") || args(0).contains("es") || args(0).contains("hive")) ){
-      LOGGER.error("Pas de méthode de persistence (hdfs, fs, hive ou es")
+      LOGGER.error("Pas de méthode de persistence (hdfs, fs, hive ou es pour l'agument" + args(0).toString)
       System.exit(1)
     }
     else {

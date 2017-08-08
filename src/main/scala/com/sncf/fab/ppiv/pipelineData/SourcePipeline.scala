@@ -75,8 +75,7 @@ trait SourcePipeline extends Serializable {
 
     println("This script is currently running in data of " +Conversion.getYearMonthDay(Conversion.nowToDateTime()) +""+ Conversion.getHour(Conversion.nowToDateTime()))
     val dataTgaTgd                = LoadData.loadTgaTgd(sqlContext, getSource())
-   // dataTgaTgd.persist(StorageLevel.DISK_ONLY)
-    //dataTgaTgd.unpersist()
+
     val dataRefGares              = LoadData.loadReferentiel(sqlContext)
 
     // 2) Application du sparadrap sur les données au cause du Bug lié au passe nuit
@@ -131,7 +130,7 @@ trait SourcePipeline extends Serializable {
 
    //Persist.save(cycleValidatedDf  , "InputPostprocss", sc)
 
-    
+
     // 12) Sauvegarde des cycles d'évènements validés
     // A partir de cycleValidate :
     // Dataset[TgaTgdWithoutRef] -> DataSet[TgaTgdInput]
