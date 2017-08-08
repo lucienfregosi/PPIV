@@ -1,6 +1,8 @@
 package com.sncf.fab.ppiv.pipelineData.libPipeline
 
-import com.sncf.fab.ppiv.business.{ReferentielGare, TgaTgdInput, TgaTgdOutput, TgaTgdIntermediate, VingPremierChamp, VingtChampsSuivants,NDerniersChamps }
+import java.util.concurrent.TimeUnit
+
+import com.sncf.fab.ppiv.business.{NDerniersChamps, ReferentielGare, TgaTgdInput, TgaTgdIntermediate, TgaTgdOutput, VingPremierChamp, VingtChampsSuivants}
 import com.sncf.fab.ppiv.utils.Conversion
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.{DataFrame, Dataset, Row, SQLContext}
@@ -42,8 +44,8 @@ object Postprocess {
         row.getString(34),
         row.getString(25),
         row.getString(26),
-        BusinessConversion.getFloat(row.getString(37)),
-        BusinessConversion.getFloat(row.getString(38)),
+        row.getFloat(37),
+        row.getFloat(38),
         row.getString(0),
         row.getString(3),
         row.getString(4),
@@ -57,31 +59,30 @@ object Postprocess {
         BusinessConversion.getCreneau_horaire(row.getLong(5)),
         BusinessConversion.getNumberoftheday(row.getLong(5)),
         BusinessConversion.getThreeFirstLettersOftheday(row.getLong(5)) ,
-        Conversion.getHHmmss(row.getLong(8))
+        Conversion.getHHmmssFromMillis(row.getLong(8))
       )
 
 
       val v2 = VingtChampsSuivants(
-        "",
+        TimeUnit.MILLISECONDS.toMinutes(row.getLong(8) * 1000 ).toString,
         BusinessConversion.getDelai_affichage_voie_sans_retard (row.getLong(8)),
         BusinessConversion.getDuree_temps_affichage(row.getLong(8)),
         BusinessConversion.getNbretard1(row.getLong(9)),
         BusinessConversion.getDernier_retard_annonce_min(row.getLong(9)),
         0,
-        Conversion.getHHmmss(row.getLong(9)),
-        "",
-        Conversion.getHHmmss(row.getLong(10)),
-        "",
-        "",
+        Conversion.getHHmmssFromMillis(row.getLong(9) * 1000) ,
+        TimeUnit.MILLISECONDS.toMinutes(row.getLong(10) * 1000 ).toString,
+        Conversion.getHHmmssFromMillis(row.getLong(10)),
+        BusinessConversion.getDelai_affichage_voie_avec_retard(row.getLong(10)),
+        BusinessConversion.getDuree_temps_affichage2(row.getLong(10)),
         BusinessConversion.getTauxAffichage(row.getLong(8)),
-        0,
-        //Conversion.unixTimestampToDateTime(row.getLong(11)).toString,
+        BusinessConversion.getTauxAffichage(row.getLong(10)),
         BusinessConversion.getAffichageRetard(row.getLong(11)),
-        Conversion.getHHmmss(row.getLong(12)),
+        Conversion.getHHmmssFromMillis(row.getLong(12)),
         row.getString(6),
         Conversion.unixTimestampToDateTime(row.getLong(13)).toString,
-        Conversion.getHHmmss(row.getLong(14)),
-        ""
+        Conversion.getHHmmssFromMillis(row.getLong(14)),
+        TimeUnit.MILLISECONDS.toMinutes(row.getLong(14) * 1000 ).toString
       )
 
       val v3 = NDerniersChamps(
@@ -100,19 +101,19 @@ object Postprocess {
         BusinessConversion.getCracDevoiement (row.getString(16), row.getString(17), row.getString(18),row.getString(19)),
         Conversion.unixTimestampToDateTime(row.getLong(20)).toString,
         Conversion.unixTimestampToDateTime(row.getLong(21)).toString,
-        0
+        TimeUnit.MILLISECONDS.toMinutes(row.getLong(12) * 1000 ).toInt
       )
       TgaTgdOutput(
         v1,
         v2,
         v3,
-        "",
-        0,
-        0,
-        0,
-        0,
-        0,
-        0
+        BusinessConversion.getDelai_affichage_duree_retard(row.getLong(12)),
+        BusinessConversion.geTaux_affichage_30 (row.getLong(8)),
+        BusinessConversion.geTaux_affichage_30(row.getLong(10)),
+        BusinessConversion.geTaux_affichage_45 (row.getLong(8)),
+        BusinessConversion.geTaux_affichage_45 (row.getLong(10)),
+        BusinessConversion.geTaux_affichage_15 (row.getLong(8)),
+        BusinessConversion.geTaux_affichage_15 (row.getLong(10))
       )
     })
 

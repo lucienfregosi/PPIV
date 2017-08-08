@@ -1,9 +1,10 @@
 package com.sncf.fab.ppiv.pipelineData.libPipeline
 
 import java.text.SimpleDateFormat
+import java.util.concurrent.TimeUnit
+
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
-
 import com.sncf.fab.ppiv.utils.Conversion
 import com.sncf.fab.ppiv.utils.Conversion.ParisTimeZone
 import org.joda.time.format.{DateTimeFormat, DateTimeFormatter}
@@ -68,11 +69,14 @@ object BusinessConversion {
 
   def getTauxAffichage (duree_affichage: Long): Int ={
   //TODO  if duree_affichage is gretaer that 20 then 1 else 0
-    0
+    val dureeAffichage = TimeUnit.MILLISECONDS.toMinutes(duree_affichage * 1000 )
+    if (dureeAffichage>=19) 1
+    else 0
   }
- def getAffichageRetard(timestamp : Long): String = {
-   if (timestamp == 0) "0"
-   else Conversion.unixTimestampToDateTime(timestamp).toString()
+
+ def getAffichageRetard(timestamp_affichage_retard : Long): String = {
+   if (timestamp_affichage_retard == 0) "0"
+   else Conversion.unixTimestampToDateTime(timestamp_affichage_retard).toString()
     }
 
   def getQuaiDevoiement ( devoiementInfo : String) : String = {
@@ -132,6 +136,65 @@ object BusinessConversion {
     }
 
   }
+
+  def getDelai_affichage_voie_avec_retard (timestamp : Long) : String = {
+    "H-"+Conversion.getHHmmssFromMillis(timestamp)
+  }
+
+  def getDuree_temps_affichage2 (timestamp : Long): String = {
+    val duree_temps_affichage2 = TimeUnit.MILLISECONDS.toMinutes(timestamp * 1000 )
+
+
+    if (duree_temps_affichage2 <= 5) {
+      "[0-5]"
+    }
+    else if (duree_temps_affichage2 > 5 && duree_temps_affichage2 <= 10) {
+      "[5-10]"
+    }
+    else if (duree_temps_affichage2 > 10 && duree_temps_affichage2 <= 20) {
+      "[10-20]"
+    }
+    else if (duree_temps_affichage2 > 20 && duree_temps_affichage2 <= 30) {
+       "[20-30]"
+    }
+    else if (duree_temps_affichage2 > 30 && duree_temps_affichage2 <= 40) {
+       "[30-40]"
+    }
+    else if (duree_temps_affichage2 > 40 && duree_temps_affichage2 <= 50) {
+      "[40-50]"
+    }
+    else if (duree_temps_affichage2 > 50 && duree_temps_affichage2 <= 60) {
+      "[50-60]"
+    }
+    else {
+      "Plus de 60 mn"
+    }
+
+  }
+
+  def getDelai_affichage_duree_retard (timestamp:Long) : String = {
+
+    "H-"+Conversion.getHHmmssFromMillis(timestamp)
+  }
+
+  def geTaux_affichage_30 (duree_affichage : Long) : Int = {
+    val dureeAffichage = TimeUnit.MILLISECONDS.toMinutes(duree_affichage * 1000 )
+    if (dureeAffichage>=29) 1
+    else 0
+  }
+
+  def geTaux_affichage_45 (duree_affichage : Long) : Int = {
+    val dureeAffichage = TimeUnit.MILLISECONDS.toMinutes(duree_affichage * 1000 )
+    if (dureeAffichage>=44) 1
+    else 0
+  }
+
+  def geTaux_affichage_15 (duree_affichage : Long) : Int = {
+    val dureeAffichage = TimeUnit.MILLISECONDS.toMinutes(duree_affichage * 1000 )
+    if (dureeAffichage>=14) 1
+    else 0
+  }
+
     // TODO trouver pourquoi la conversion des float se fait aussi mal
   def getFloat(str : String): Float = {
       5

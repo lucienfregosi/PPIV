@@ -1,6 +1,7 @@
 package com.sncf.fab.ppiv.test.businessRules
 
 import java.io.File
+import java.util.concurrent.TimeUnit
 
 import com.sncf.fab.ppiv.business.TgaTgdInput
 import com.sncf.fab.ppiv.pipelineData.TraitementTga
@@ -19,7 +20,7 @@ class DernierPremierAffichageSpec extends Specification{
 This is a specification for the "getDernierPremierAffichage" output
 The 'getDernierPremierAffichage'  output   should
   Dernier affichage be a equal to  1498948063                             $e1
-  Premier affichage be a equal to  1498946344                             $e2
+  Premier affichage be a equal to  1498947708                             $e2
   """
 
 
@@ -34,12 +35,16 @@ The 'getDernierPremierAffichage'  output   should
   val header = Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard")
 
   val pathDernierAffichage = new File("src/test/resources/data/trajet_dernier_Affichage.csv").getAbsolutePath
+ // val pathDernierAffichage = new File("PPIV/src/test/resources/data/trajet_dernier_Affichage.csv").getAbsolutePath
   val dsDernierAffichage = readFile(pathDernierAffichage).toSeq
+
+ val  test = BusinessRules.getAffichageDuree1 (dsDernierAffichage)
 
 
  // def e1 = BusinessRules.getDernierAffichage(dsDernierAffichage).toInt must be_>= (0)
   def e1 = BusinessRules.getDernierAffichage(dsDernierAffichage).toString must beEqualTo("1498948063")
-  def e2 = BusinessRules.getPremierAffichage(dsDernierAffichage).toString must beEqualTo("1498946344")
+  def e2 = BusinessRules.getPremierAffichage(dsDernierAffichage).toString must beEqualTo("1498947708")
+
 
 
 }

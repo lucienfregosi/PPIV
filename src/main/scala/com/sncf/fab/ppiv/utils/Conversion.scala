@@ -1,6 +1,7 @@
 package com.sncf.fab.ppiv.utils
 
 import java.text.{DecimalFormat, SimpleDateFormat}
+import java.util.concurrent.TimeUnit
 
 import org.joda.time.{DateTime, DateTimeZone}
 import org.joda.time.format.{DateTimeFormat, DateTimeFormatter, ISODateTimeFormat}
@@ -35,7 +36,7 @@ object Conversion {
 
   def nowToDateTime(): DateTime = {
 
-    now().plusDays(-1)
+    now()
   }
 
 
@@ -171,6 +172,18 @@ object Conversion {
     val HHmmss = fmt.print(dateTime)
     HHmmss
   }
+
+
+  def getHHmmssFromMillis(timestamp: Long): String = {
+    val H = TimeUnit.MILLISECONDS.toHours(timestamp * 1000)
+    val m = TimeUnit.MILLISECONDS.toMinutes(timestamp * 1000  - H * 60 * 60 * 1000)
+    val s = TimeUnit.MILLISECONDS.toSeconds(timestamp * 1000- H * 60 * 60 * 1000 - m * 60 * 1000)
+    val HH =  new DecimalFormat("00").format(H)
+    val mm =  new DecimalFormat("00").format(m)
+    val ss =  new DecimalFormat("00").format(s)
+    HH+":"+mm+":"+"ss"
+  }
+
 
   def getYYYYmmdd(timestamp: Long): String = {
     val dateFormat =  new SimpleDateFormat("YYYY-MM-DD")

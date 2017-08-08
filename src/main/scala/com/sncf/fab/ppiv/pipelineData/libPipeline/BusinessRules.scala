@@ -90,8 +90,7 @@ object BusinessRules {
       0
     } else {
 
-        val test = seqFiltered (seqFiltered.length - 1)
-         // Récupération du dernier retard. -1 pour aller chercher sur le dernier index
+       // Récupération du dernier retard. -1 pour aller chercher sur le dernier index
       val  minuteRetard =  seqFiltered(seqFiltered.length - 1).retard.toLong
 
       // Multipliation par 60 pour renvoyer un résultat en secondes
@@ -104,14 +103,9 @@ object BusinessRules {
   def getPremierAffichage(seqTgaTgd: Seq[TgaTgdInput]) : Long = {
 
     // Récupération de la date de premier affichage. On cherche le moment ou la bonne voie a été affiché pour la première fois
-    val dsVoieGrouped = seqTgaTgd.sortBy(_.maj ).reverse.filter(x => x.voie != null && x.voie != "" &&  x.voie   != ("0")).groupBy(_.voie)
-   .map{ case(_,group)=> ( group.map(_.maj).min)}
-    if (dsVoieGrouped.size == 0){
-      0
-    }
-    else{
-      dsVoieGrouped.head
-    }
+    val premier_affichage = seqTgaTgd.sortBy(_.maj ).reverse.filter(x => x.voie != null && x.voie != "" &&  x.voie   != ("0")).groupBy(_.voie)
+      .toSeq.map(row=> (row._1, row._2.maxBy(_.maj), row._2.minBy(_.maj))).sortBy(_._2.maj).last._3.maj
+    premier_affichage
   }
 
   // Fonction qui renvoie le timestamp durant lequel le train est resté affiché
@@ -143,7 +137,7 @@ object BusinessRules {
 
   def getAffichageRetard(dsTgaTgdSeq: Seq[TgaTgdInput]) : Long = {
     // Tri sur les horaires d'évènements en croissant puis filtre sur la colonne retard
-    val seqFiltered = dsTgaTgdSeq.sortBy(x => x.maj).filter(x => (x.retard !=null) && (x.retard !="") && (x.retard !="0"))
+    val seqFiltered = dsTgaTgdSeq.sortBy(x => x.maj).filter(x => (x.retard !=null) && (x.retard !="") && (x.retard !="0")).sortBy(x=>x.maj)
 
     // Si pas de lignes retournée => pas de retard on revoie 0
     if(seqFiltered.isEmpty){
@@ -159,7 +153,7 @@ object BusinessRules {
     // heure de Depart reelle - getAffichageRetard
     val departTheorique = dsTgaTgdSeq(0).heure.toLong
     val retard          = getCycleRetard(dsTgaTgdSeq)
-    val departReel      = (Conversion.unixTimestampToDateTime(departTheorique).plusSeconds(retard.toInt)).getMillis
+    val departReel      = (Conversion.unixTimestampToDateTime(departTheorique).plusSeconds(retard.toInt)).getMillis/1000
     val AffichageRetard = getAffichageRetard(dsTgaTgdSeq)
     val AffichageDureeRetard = departReel - AffichageRetard
 
@@ -291,17 +285,13 @@ object BusinessRules {
 
   def getDernierAffichage(dsTgaTgdSeq: Seq[TgaTgdInput]) : Long = {
 
-    val dsVoieGrouped = dsTgaTgdSeq.sortBy(_.maj ).reverse.filter(x => x.voie != null && x.voie != "" &&  x.voie   != ("0")).groupBy(_.voie).map{ case(_,group)=> ( group.map(_.maj).max)}
-    if (dsVoieGrouped.size == 0){
-      0
-    }
-    else{
-      dsVoieGrouped.last
-    }
+    val dernier_affichage = dsTgaTgdSeq.sortBy(_.maj ).filter(x => x.voie != null && x.voie != "" &&  x.voie   != ("0")).groupBy(_.voie)
+      .toSeq.map(row=> (row._1, row._2.maxBy(_.maj))).sortBy(_._2.maj).last._2.maj
+    dernier_affichage
   }
 
   def getDateProcess(dsTgaTgdSeq: Seq[TgaTgdInput]) : Long = {
-    5
+    Conversion.nowToDateTime().getMillis /1000
   }
 
 

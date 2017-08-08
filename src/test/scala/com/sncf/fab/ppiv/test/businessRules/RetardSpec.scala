@@ -18,7 +18,7 @@ class RetardSpec extends Specification{
   def is = s2"""
 This is a specification for the "Retard Spec" output
 The 'Reatrd Spec'  output   should
-  Dernier affichage be a equal to  7 * 60 seconds                             $e1
+  Dernier affichage retard is  equal to  7 * 60 seconds                             $e1
   Affichage Retard be a equal to 1499077209                                   $e2
   Affichage Retard be a equal to 1499077209                                   $e3
   """
@@ -33,7 +33,7 @@ The 'Reatrd Spec'  output   should
 
 
   val header = Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard")
-
+ // val pathRetardFile = new File("PPIV/src/test/resources/data/trajet_avec_retard_Spec.csv").getAbsolutePath
   val pathRetardFile = new File("src/test/resources/data/trajet_avec_retard_Spec.csv").getAbsolutePath
   val dsRetardSpec = readFile(pathRetardFile).toSeq
 
