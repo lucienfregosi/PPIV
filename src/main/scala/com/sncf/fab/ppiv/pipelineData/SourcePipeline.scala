@@ -131,6 +131,7 @@ trait SourcePipeline extends Serializable {
 
    //Persist.save(cycleValidatedDf  , "InputPostprocss", sc)
 
+    
     // 12) Sauvegarde des cycles d'évènements validés
     // A partir de cycleValidate :
     // Dataset[TgaTgdWithoutRef] -> DataSet[TgaTgdInput]
