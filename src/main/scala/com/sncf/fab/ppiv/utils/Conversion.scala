@@ -1,6 +1,6 @@
 package com.sncf.fab.ppiv.utils
 
-import java.text.{DecimalFormat, SimpleDateFormat}
+import java.text.{DecimalFormat, ParseException, SimpleDateFormat}
 import java.util.concurrent.TimeUnit
 
 import org.joda.time.{DateTime, DateTimeZone}
@@ -192,5 +192,13 @@ object Conversion {
 
   def HourFormat  ( hour : Int ): String= {
     new DecimalFormat("00").format(hour)
+  }
+
+  def validateDateInputFormat(date: String): Boolean = try {
+    val df = new SimpleDateFormat("yyyyMMdd_HH")
+    df.parse(date)
+    true
+  } catch {
+    case e: ParseException => false
   }
 }

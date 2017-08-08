@@ -8,6 +8,7 @@ import com.sncf.fab.ppiv.utils.AppConf._
 import com.sncf.fab.ppiv.utils.{Conversion, GetSparkEnv}
 import org.apache.spark.sql.SQLContext
 import org.apache.spark.{SparkConf, SparkContext}
+import org.joda.time.DateTime
 
 /**
 //  * Created by simoh-labdoui on 11/05/2017.
@@ -15,8 +16,10 @@ import org.apache.spark.{SparkConf, SparkContext}
 
 // Classe main, lancement du programme
 object TraitementPPIVDriver extends Serializable {
+
   var LOGGER = Logger.getLogger(TraitementPPIVDriver.getClass)
   LOGGER.info("Lancement du batch PPIV")
+
   def main(args: Array[String]): Unit = {
     // Test des arguments d'entrée, on attend la brique sur laquelle persister (hdfs, hive, es ...)
     if (args.length == 0){
@@ -39,34 +42,50 @@ object TraitementPPIVDriver extends Serializable {
       // Sauvegarde de l'heure de début du programme dans une variable
       val startTimePipeline = Conversion.nowToDateTime()
 
-      // Définition argument d'entrée
-      val persistMethod = args(0)
-
-      LOGGER.info("Traitement d'affichage des TGA")
-      val ivTga = TraitementTga.start(sc, sqlContext,startTimePipeline)
-
-
-      LOGGER.info("Traitement d'affichage des TGD")
-      //val ivTgd = TraitementTgd.start(sc, sqlContext)
-
-      // 11) Fusion des résultats de TGA et TGD
-      //val ivTgaTgd = ivTga.union(ivTgd)
-
-      // 12) Persistence dans la brique demandé
-
-      try {
-        Persist.save(ivTga, persistMethod, sc, startTimePipeline)
+      // Lancement du pipeline en fonction du mode choisi
+      if(args.length == 1){
+        // Fonctionnement nominal du programme on utilise l'heure actuelle
+        LOGGER.info("Fonctionnement nominal du pipeline pour l'heure n-1")
+        //startPipeline(args, sc, sqlContext, startTimePipeline)
+    }
+      else if(Conversion.validateDateInputFormat(args(1)) && Conversion.validateDateInputFormat(args(2))){
+        LOGGER.info("Fonctionnement entre deux plages horaires")
+        // TODO: Boucler sur toutes les dates qui nous intéressent
       }
-      catch {
-        case e: Throwable => {
-          e.printStackTrace()
-          PpivRejectionHandler.handleRejection(e.getMessage, PpivRejectionHandler.PROCESSING_ERROR)
-          None
-        }
+      else{
+        LOGGER.error("Les dates de plage horaire ne sont pas dans le bon format yyyyMMdd_HH pour " + args(1) + " ou " + args(2))
+        System.exit(1)
       }
-
-
     }
   }
+
+  def startPipeline(argsArray: Array[String], sc: SparkContext, sqlContext: SQLContext, dateTimeToProcess: DateTime): Unit = {
+    // Définition argument d'entrée
+    val persistMethod = argsArray(0)
+
+    LOGGER.info("Traitement d'affichage des TGA")
+    val ivTga = TraitementTga.start(sc, sqlContext, dateTimeToProcess)
+
+
+    LOGGER.info("Traitement d'affichage des TGD")
+    //val ivTgd = TraitementTgd.start(sc, sqlContext)
+
+    // 11) Fusion des résultats de TGA et TGD
+    //val ivTgaTgd = ivTga.union(ivTgd)
+
+    // 12) Persistence dans la brique demandé
+
+    try {
+      Persist.save(ivTga, persistMethod, sc, dateTimeToProcess)
+    }
+    catch {
+      case e: Throwable => {
+        e.printStackTrace()
+        PpivRejectionHandler.handleRejection(e.getMessage, PpivRejectionHandler.PROCESSING_ERROR)
+        None
+      }
+    }
+  }
+
 }
 
