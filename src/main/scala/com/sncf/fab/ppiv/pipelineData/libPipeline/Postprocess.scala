@@ -16,8 +16,8 @@ object Postprocess {
  def postprocess (dsTgaTgd: Dataset[TgaTgdIntermediate], refGares : Dataset[ReferentielGare], sqlContext : SQLContext, Panneau: String):DataFrame = {
 
  // Jointure avec le référentiel
-   //TODO : Nettoyage du reférentil (supprimer doublons+ supperimer les lignes avec la colonne TGS vide)
-   val dataTgaTgdWithReferentiel = Postprocess.joinReferentiel(dsTgaTgd, refGares, sqlContext)
+   val cleanedRefGares = refGares.filter(x=> (x.TVS != null && x.TVS != "" ) ).distinct
+   val dataTgaTgdWithReferentiel = Postprocess.joinReferentiel(dsTgaTgd, cleanedRefGares, sqlContext)
 
  // Inscription dans la classe finale TgaTgdOutput avec conversion et formatage
    val dataTgaTgdOutput = Postprocess.formatTgaTgdOuput(dataTgaTgdWithReferentiel, sqlContext, Panneau)
