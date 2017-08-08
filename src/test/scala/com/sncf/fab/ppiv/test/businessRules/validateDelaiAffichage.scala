@@ -39,10 +39,10 @@ The 'getAffichageDuree2'  output   should
   val sourcePipeline = new TraitementTga
 
   val header = Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard")
- // val pathSansRetard = new File("src/test/resources/data/trajet_sans_retard.csv").getAbsolutePath
-   val pathSansRetard = new File("PPIV/src/test/resources/data/trajet_sans_retard.csv").getAbsolutePath
-  //val pathAvecRetard = new File("src/test/resources/data/trajet_avec_retard.csv").getAbsolutePath()
-  val pathAvecRetard = new File("PPIV/src/test/resources/data/trajet_avec_retard.csv").getAbsolutePath()
+    val pathSansRetard = new File("src/test/resources/data/trajet_sans_retard.csv").getAbsolutePath
+  // val pathSansRetard = new File("PPIV/src/test/resources/data/trajet_sans_retard.csv").getAbsolutePath
+  val pathAvecRetard = new File("src/test/resources/data/trajet_avec_retard.csv").getAbsolutePath()
+  //val pathAvecRetard = new File("PPIV/src/test/resources/data/trajet_avec_retard.csv").getAbsolutePath()
 
 
 
