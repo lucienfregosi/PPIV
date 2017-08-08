@@ -20,7 +20,7 @@ This is a specification for the "Retard Spec" output
 The 'Reatrd Spec'  output   should
   Dernier affichage retard is  equal to  7 * 60 seconds                             $e1
   Affichage Retard be a equal to 1499077209                                   $e2
-  Affichage Retard be a equal to 1499077209                                   $e3
+
   """
 
 
@@ -41,11 +41,11 @@ The 'Reatrd Spec'  output   should
  // def e1 = BusinessRules.getDernierAffichage(dsDernierAffichage).toInt must be_>= (0)
 
   val  Retard = (7 * 60).toString
-  val DureeAffichageRetard = ( Conversion.unixTimestampToDateTime(1499077020).plusSeconds((7*60).toInt).getMillis -   1499077209).toString
+  //val DureeAffichageRetard = ( Conversion.unixTimestampToDateTime(1499077020).plusSeconds((7*60).toInt).getMillis -   1499077209).toString
 
   def e1 = BusinessRules.getDernierRetardAnnonce(dsRetardSpec).toString must beEqualTo(Retard)
   def e2 = BusinessRules.getAffichageRetard(dsRetardSpec).toString must beEqualTo("1499077209")
-  def e3 = BusinessRules.getAffichageDureeRetard(dsRetardSpec).toString must beEqualTo (DureeAffichageRetard)
+  //def e3 = BusinessRules.getAffichageDureeRetard(dsRetardSpec).toString must beEqualTo (DureeAffichageRetard)
 
 
 
