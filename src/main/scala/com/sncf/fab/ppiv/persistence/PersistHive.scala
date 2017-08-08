@@ -28,7 +28,7 @@ object PersistHive extends Serializable {
     println("This Table will be saved in HDFS")
    df.show()
     val path= "hdfs:/data1/GARES/refinery/PPIV_PHASE2/QualiteAffichage/FichierValide.csv"
-    df.coalesce(1).write.mode(SaveMode.Overwrite).format("com.databricks.spark.csv").save(path)
+    df.write.mode(SaveMode.Overwrite).format("com.databricks.spark.csv").save(path)
     // To save in a single part we can add coalesce(1) to df.write
 
     val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
