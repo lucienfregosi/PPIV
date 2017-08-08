@@ -32,19 +32,19 @@ trait SourcePipeline extends Serializable {
   /**
     * @return le chemin de la source de données brute
     */
-  def getSource(): String
+  def getSource(timeToProcess: DateTime): String
   /**
     *
     * @return le chemin de l'output qualité
     */
-  def getOutputGoldPath(): String
+  def getOutputGoldPath(timeToProcess: DateTime): String
 
   /**
     *
     * @return the path used to store the cleaned TgaTgaPased
     */
 
-  def getOutputRefineryPath(): String
+  def getOutputRefineryPath(timeToProcess: DateTime): String
 
 
   /**
@@ -66,15 +66,15 @@ trait SourcePipeline extends Serializable {
   def Panneau(): String
 
   // Lancement du pipeline de traitement pour TGA et TGD
-  def start(sc : SparkContext, sqlContext : SQLContext): DataFrame = {
+  def start(sc : SparkContext, sqlContext : SQLContext, timeToProcess: DateTime): DataFrame = {
 
     import sqlContext.implicits._
 
+    println("This script is currently running in data of " + Conversion.getYearMonthDay(timeToProcess) +""+ Conversion.getHour(timeToProcess))
+
     // 1) Chargement des fichiers déjà parsé dans leur classe
     LOGGER.info("Chargement des fichiers et du référentiel")
-
-    println("This script is currently running in data of " +Conversion.getYearMonthDay(Conversion.nowToDateTime()) +""+ Conversion.getHour(Conversion.nowToDateTime()))
-    val dataTgaTgd                = LoadData.loadTgaTgd(sqlContext, getSource())
+    val dataTgaTgd                = LoadData.loadTgaTgd(sqlContext, getSource(timeToProcess))
    // dataTgaTgd.persist(StorageLevel.DISK_ONLY)
     //dataTgaTgd.unpersist()
     val dataRefGares              = LoadData.loadReferentiel(sqlContext)
@@ -120,8 +120,8 @@ trait SourcePipeline extends Serializable {
 
 
     // 11) Enregistrement des rejets (champs + cycle)
-    //Reject.saveFieldRejected(dataTgaTgdFielRejected, sc)
-    //Reject.saveCycleRejected(cycleInvalidated, sc)
+    //Reject.saveFieldRejected(dataTgaTgdFielRejected, sc, timeToProcess)
+    //Reject.saveCycleRejected(cycleInvalidated, sc, timeToProcess)
 
     val cycleInvalidatedDf = cycleInvalidated.toDF()
     val cycleValidatedDf   =  cycleValidated.toDF()

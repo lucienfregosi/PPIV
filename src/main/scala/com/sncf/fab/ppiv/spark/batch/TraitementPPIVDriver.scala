@@ -5,7 +5,7 @@ import com.sncf.fab.ppiv.persistence._
 import com.sncf.fab.ppiv.pipelineData.{SourcePipeline, TraitementTga, TraitementTgd}
 import org.apache.log4j.Logger
 import com.sncf.fab.ppiv.utils.AppConf._
-import com.sncf.fab.ppiv.utils.GetSparkEnv
+import com.sncf.fab.ppiv.utils.{Conversion, GetSparkEnv}
 import org.apache.spark.sql.SQLContext
 import org.apache.spark.{SparkConf, SparkContext}
 
@@ -36,11 +36,14 @@ object TraitementPPIVDriver extends Serializable {
       // Set du niveau de log pour ne pas être envahi par les messages
       sc.setLogLevel("ERROR")
 
+      // Sauvegarde de l'heure de début du programme dans une variable
+      val startTimePipeline = Conversion.nowToDateTime()
+
       // Définition argument d'entrée
       val persistMethod = args(0)
 
       LOGGER.info("Traitement d'affichage des TGA")
-      val ivTga = TraitementTga.start(sc, sqlContext)
+      val ivTga = TraitementTga.start(sc, sqlContext,startTimePipeline)
 
 
       LOGGER.info("Traitement d'affichage des TGD")
@@ -52,7 +55,7 @@ object TraitementPPIVDriver extends Serializable {
       // 12) Persistence dans la brique demandé
 
       try {
-        Persist.save(ivTga, persistMethod, sc)
+        Persist.save(ivTga, persistMethod, sc, startTimePipeline)
       }
       catch {
         case e: Throwable => {
