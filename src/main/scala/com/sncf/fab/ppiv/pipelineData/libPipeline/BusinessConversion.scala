@@ -44,8 +44,7 @@ object BusinessConversion {
   }
 
   def getThreeFirstLettersOftheday (timestamp:Long) : String = {
-    //TODO: Formatter: Mois  (en anglais et sur trois lettres)
-    val dernier_affichage = Conversion.unixTimestampToDateTime (timestamp).monthOfYear().getAsShortText
+      val dernier_affichage = Conversion.unixTimestampToDateTime (timestamp).monthOfYear().getAsShortText
       dernier_affichage
   }
 
@@ -55,8 +54,32 @@ object BusinessConversion {
   }
 
   def getDuree_temps_affichage(timestamp:Long): String = {
-    //TODO segementation 0-5, 5-10 .. a parir de affichage durée 1 _minutes
-    ""
+    val duree_temps_affichage = TimeUnit.MILLISECONDS.toMinutes(timestamp * 1000 )
+
+    if (duree_temps_affichage <= 5) {
+      "[0-5]"
+    }
+    else if (duree_temps_affichage > 5 && duree_temps_affichage <= 10) {
+      "[5-10]"
+    }
+    else if (duree_temps_affichage > 10 && duree_temps_affichage <= 20) {
+      "[10-20]"
+    }
+    else if (duree_temps_affichage > 20 && duree_temps_affichage <= 30) {
+      "[20-30]"
+    }
+    else if (duree_temps_affichage > 30 && duree_temps_affichage <= 40) {
+      "[30-40]"
+    }
+    else if (duree_temps_affichage > 40 && duree_temps_affichage <= 50) {
+      "[40-50]"
+    }
+    else if (duree_temps_affichage > 50 && duree_temps_affichage <= 60) {
+      "[50-60]"
+    }
+    else {
+      "Plus de 60 mn"
+    }
   }
   def  getNbretard1(retard: Long) : Int= {
      if (retard != 0) 1
@@ -231,7 +254,7 @@ object BusinessConversion {
   }
     // TODO trouver pourquoi la conversion des float se fait aussi mal
   def getFloat(str : String): Float = {
-      5
+     5
   }
 
 }
