@@ -38,7 +38,7 @@ object PersistHive extends Serializable {
     dfHive.registerTempTable("dataToSaveHive")
 
     //hiveContext.sql("LOAD DATA INPATH '/data1/GARES/refinery/PPIV_PHASE2/QualiteAffichage/FichierValide.csv' INTO TABLE ppiv_ref.iv_tgatgd")
-    hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgd7 select * from dataToSaveHive")
+    hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgd20170808 select * from dataToSaveHive")
 
   }
 
