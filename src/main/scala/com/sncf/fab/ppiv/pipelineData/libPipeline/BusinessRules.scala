@@ -155,9 +155,11 @@ object BusinessRules {
     val retard          = getCycleRetard(dsTgaTgdSeq)
     val departReel      = (Conversion.unixTimestampToDateTime(departTheorique).plusSeconds(retard.toInt)).getMillis/1000
     val AffichageRetard = getAffichageRetard(dsTgaTgdSeq)
-    val AffichageDureeRetard = departReel - AffichageRetard
 
-    AffichageDureeRetard
+    if (AffichageRetard !=0) departReel - AffichageRetard
+     else 0
+
+
   }
 
   def getEtatTrain(dsTgaTgdSeq: Seq[TgaTgdInput]) : String = {

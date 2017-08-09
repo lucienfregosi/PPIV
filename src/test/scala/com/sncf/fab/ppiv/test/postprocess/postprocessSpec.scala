@@ -39,7 +39,7 @@ The 'postprocess'  output count   should
 
 // Load the input of Postprocess
   //val path = "PPIV/src/test/resources/data/BeforePostprocess.deflate"
-  val path = "PPIV/src/test/resources/data/BeforePostPro2.deflate"
+  val path = "PPIV/src/test/resources/data/pre_postprocess.deflate"
 
   val newNamesTgaTgdInter = Seq("cycleId" ,
     "gare",
