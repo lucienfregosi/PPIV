@@ -1,5 +1,7 @@
 package com.sncf.fab.ppiv.spark.batch
 
+import java.time.Period
+
 import com.sncf.fab.ppiv.Exception.PpivRejectionHandler
 import com.sncf.fab.ppiv.persistence._
 import com.sncf.fab.ppiv.pipelineData.{SourcePipeline, TraitementTga, TraitementTgd}
@@ -8,7 +10,7 @@ import com.sncf.fab.ppiv.utils.AppConf._
 import com.sncf.fab.ppiv.utils.{Conversion, GetSparkEnv}
 import org.apache.spark.sql.SQLContext
 import org.apache.spark.{SparkConf, SparkContext}
-import org.joda.time.DateTime
+import org.joda.time.{DateTime, Duration}
 
 /**
 //  * Created by simoh-labdoui on 11/05/2017.
@@ -32,6 +34,7 @@ object TraitementPPIVDriver extends Serializable {
     }
     else {
 
+
       // Définition du Spark Context et SQL Context à partir de utils/GetSparkEnv
       val sc         = GetSparkEnv.getSparkContext()
       val sqlContext = GetSparkEnv.getSqlContext()
@@ -46,11 +49,26 @@ object TraitementPPIVDriver extends Serializable {
       if(args.length == 1){
         // Fonctionnement nominal du programme on utilise l'heure actuelle
         LOGGER.info("Fonctionnement nominal du pipeline pour l'heure n-1")
-        //startPipeline(args, sc, sqlContext, startTimePipeline)
-    }
-      else if(Conversion.validateDateInputFormat(args(1)) && Conversion.validateDateInputFormat(args(2))){
+        startPipeline(args, sc, sqlContext, startTimePipeline)
+      }
+      else if(Conversion.validateDateInputFormat(args(1)) == true && Conversion.validateDateInputFormat(args(2)) == true){
         LOGGER.info("Fonctionnement entre deux plages horaires")
         // TODO: Boucler sur toutes les dates qui nous intéressent
+
+        val startTimeToProcess = Conversion.getDateTimeFromArgument(args(1))
+        val endTimeToProcess   = Conversion.getDateTimeFromArgument(args(2))
+
+        val period = new Duration(startTimeToProcess, endTimeToProcess)
+
+        // Renvoie le nombre d'heures
+        val nbHours = period.toStandardHours.getHours()
+
+        var hoursIterator = 0
+        for(hoursIterator <- 0 to nbHours){
+          // Calcul de la dateTime pour lequel il faut processer
+          val newDateTime = startTimeToProcess.plusHours(hoursIterator)
+          startPipeline(args, sc, sqlContext, newDateTime)
+        }
       }
       else{
         LOGGER.error("Les dates de plage horaire ne sont pas dans le bon format yyyyMMdd_HH pour " + args(1) + " ou " + args(2))

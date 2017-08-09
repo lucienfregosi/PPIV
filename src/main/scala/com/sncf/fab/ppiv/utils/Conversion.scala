@@ -195,10 +195,23 @@ object Conversion {
   }
 
   def validateDateInputFormat(date: String): Boolean = try {
+    // Création du dateFormat adapté au format que l'on veut voir en entrée
     val df = new SimpleDateFormat("yyyyMMdd_HH")
+
+    // Pour que la vérification soit plus stricte
+    df.setLenient(false)
     df.parse(date)
+
     true
   } catch {
     case e: ParseException => false
   }
+
+
+  def getDateTimeFromArgument(date: String):DateTime = {
+    val df = DateTimeFormat.forPattern("yyyyMMdd_HH")
+    // On renvoie le dateTime
+    df.parseDateTime(date)
+  }
+
 }
