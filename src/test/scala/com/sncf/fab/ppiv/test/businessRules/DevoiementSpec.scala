@@ -39,12 +39,6 @@ The 'Devoiement Spec'  output   should
 
 
 
-  //BusinessRules.getTypeDevoiement(dsDevoiSpec).toString
-  val test0 = BusinessRules.getTypeDevoiement(dsDevoiSpec)
-
-  if ( test0 != null) {
-    val test1 = BusinessRules.getTypeDevoiement(dsDevoiSpec).split("-")
-  }
 
   def e1 = BusinessRules.getTypeDevoiement(dsDevoiSpec).split("-") (2).toString.replaceAll("\\s", "") must beEqualTo("Affiche")
 
