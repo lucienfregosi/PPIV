@@ -33,13 +33,14 @@ The 'postprocess'  output count   should
   @transient val sc = new SparkContext(sparkConf)
   @transient val sqlContext = new SQLContext(sc)
 
+  /*
 
 
   import sqlContext.implicits._
 
 // Load the input of Postprocess
    // val path = "src/test/resources/data/pre_postprocess.deflate"
-  //val path = "PPIV/src/test/resources/data/pre_postprocess.deflate"
+  val path = "PPIV/src/test/resources/data/pre_postprocess.deflate"
 
   val newNamesTgaTgdInter = Seq("cycleId" ,
     "gare",
@@ -97,6 +98,7 @@ val DataBeforepreprocess= sqlContext.read.format("com.databricks.spark.csv").loa
 
  Postprocess.postprocess(DataBeforepreprocess, refGares, sqlContext, "TGA")
 
+*/
   def e1 = "true" must beEqualTo("true")
 
 
