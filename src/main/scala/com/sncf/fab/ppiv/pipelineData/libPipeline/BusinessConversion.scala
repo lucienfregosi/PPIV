@@ -104,7 +104,8 @@ object BusinessConversion {
 
   def getQuaiDevoiement ( devoiementInfo : String) : String = {
 
-    if (devoiementInfo!= null) {
+
+    if (devoiementInfo != null)  {
       val quai1 = devoiementInfo.split("-")(0)
       val quai2 = devoiementInfo.split("-")(1)
       quai1 + "=>" + quai2
