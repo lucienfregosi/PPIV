@@ -1,4 +1,4 @@
-CREATE EXTERNAL TABLE IF NOT EXISTS ppiv_ref.iv_tgatgdTMP2(
+CREATE EXTERNAL TABLE IF NOT EXISTS ppiv_ref.iv_tgatgd(
                             nom_de_la_gare String,
                             agence String,
                             segmentation String,
