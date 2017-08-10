@@ -46,6 +46,9 @@ object ValidateData {
     // Validation des cycles. Un cycle doit comporter au moins une voie et tous ses évènements ne peuvent pas se passer x minutes après le départ du train
     // En entrée la liste des évènements pour un cycle id donné.
 
+    // TODO: Prendre en compte les SUP et IND pour les valider
+
+
     // Décompte des évènements ou la voir est renseignée
     val cntVoieAffiche = dsTgaTgdSeq.filter(x => (x.voie!= null ) && (x.voie!= "0")&& (x.voie!= "")).length
 
@@ -66,7 +69,7 @@ object ValidateData {
       (true, "ValidCycle")
     }
     else{
-      if (cntVoieAffiche == 0 ) {(false,"Voie")}
+      if (cntVoieAffiche == 0 ) {(false,"VoieManquante")}
       else {(false,"EventApresDepart")}
     }
   }

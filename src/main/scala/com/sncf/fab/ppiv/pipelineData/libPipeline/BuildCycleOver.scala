@@ -23,28 +23,36 @@ object BuildCycleOver {
   def getCycleOver(dsTgaTgdInput: Dataset[TgaTgdInput],
                    sc: SparkContext,
                    sqlContext: SQLContext,
-                   panneau: String): DataFrame = {
+                   panneau: String,
+                   timeToProcess: DateTime): DataFrame = {
 
     // Groupement et création des cycleId (concaténation de gare + panneau + numeroTrain + heureDepart)
+    // (cycle_id{gare,panneau,numeroTrain,heureDepart}, heureDepart, retard)
     val cycleIdList = buildCycles(dsTgaTgdInput, sqlContext, panneau)
 
     // Parmi les cyclesId généré précédemment on filtre ceux dont l'heure de départ est deja passé
-    val cycleIdListOver = filterCycleOver(cycleIdList, sqlContext)
+    // On renvoie le même format de données (cycle_id{gare,panneau,numeroTrain,heureDepart}, heureDepart, retard)
+    val cycleIdListOver = filterCycleOver(cycleIdList, sqlContext, timeToProcess)
 
-    //Load les evenements  du jour j
-    val tgaTgdRawToDay = loadTgaTgdCurrentDay(sc, sqlContext, panneau)
+    //Load les evenements  du jour j. Le 5ème paramètre sert a définir la journée qui nous intéresse 0 = jour J
+    val tgaTgdRawToDay = loadDataEntireDay(sc, sqlContext, panneau, timeToProcess, 0)
 
-    //Load les evenements du jour j -1
-    val tgaTgdRawYesterDay = loadTgaTgdYesterDay(sc, sqlContext, panneau)
+    //Load les evenements du jour j -1. Le 5ème paramètre sert a définir la journée qui nous intéresse -1 = jour J-1
+    // TODO : Amélioration :
+    // - à J-1 aller chercher les données seulement à partir de 18h
+    // - Appeler cette fonction uniquement dans le case des trains passe nuits (qui partent avant 12)
+    val tgaTgdRawYesterDay = loadDataEntireDay(sc, sqlContext, panneau, timeToProcess, -1)
 
     // Union des evenement  de jour j et jour j -1
     val tgaTgdRawAllDay = tgaTgdRawToDay.union(tgaTgdRawYesterDay)
 
-    // Pour chaque cycle terminé récupération des différents évènements au cours de la journée
-    val tgaTgdCycleOver =
-      getEventCycleId(tgaTgdRawAllDay, cycleIdListOver, sqlContext, sc, panneau)
+    // TODO: Ajout d'une étape nettoyage (sparadrap + validation champ a champ (sans enregistrement des rejets)
 
-    tgaTgdCycleOver._1
+    // Pour chaque cycle terminé récupération des différents évènements au cours de la journée
+    // sous la forme d'une structure (cycle_id | Array(TgaTgdInput)
+    val tgaTgdCycleOver = getEventCycleId(tgaTgdRawAllDay, cycleIdListOver, sqlContext, sc, panneau)
+
+    tgaTgdCycleOver
   }
 
  // Fonction pour construire les cycles
@@ -73,27 +81,67 @@ object BuildCycleOver {
   // TODO faire passer l'heure a jouer en paramètre
 
   def filterCycleOver(dsTgaTgdCycles: Dataset[TgaTgdCycleId],
-                      sqlContext: SQLContext): Dataset[TgaTgdCycleId] = {
+                      sqlContext: SQLContext,
+                      timeToProcess: DateTime): Dataset[TgaTgdCycleId] = {
     import sqlContext.implicits._
 
-    val currentHoraire = Conversion.getDateTime(
-      Conversion.nowToDateTime().getYear,
-      Conversion.nowToDateTime().getMonthOfYear,
-      Conversion.nowToDateTime().getDayOfMonth,
-      Conversion.getHourMax(Conversion.nowToDateTime()).toInt,
+    val heureLimiteCycleFini = Conversion.getDateTime(
+      timeToProcess.getYear,
+      timeToProcess.getMonthOfYear,
+      timeToProcess.getDayOfMonth,
+      Conversion.getHourFinPlageHoraire(timeToProcess).toInt,
       0,
       0)
 
     // Filtre sur les horaire de départ inférieur a l'heure actuelle
     val dataTgaTgdCycleOver = dsTgaTgdCycles.filter(x =>
-      (x.retard != "" && Conversion
-        .unixTimestampToDateTime(x.heure)
-        .plusMinutes(x.retard.toInt)
-        .getMillis < currentHoraire.getMillis) || (x.retard == "" && (Conversion
-        .unixTimestampToDateTime(x.heure)
-        .getMillis < currentHoraire.getMillis)))
-
+         (
+           // Cas avec retard on prend en compte le retard pour voir si le train est déja parti
+            x.retard != "" &&
+            Conversion.unixTimestampToDateTime(x.heure).plusMinutes(x.retard.toInt).getMillis < heureLimiteCycleFini.getMillis
+          ) ||
+          (
+            // Cas sans retard on se tient a la date de départ théorique du train
+            x.retard == "" &&
+              Conversion.unixTimestampToDateTime(x.heure).getMillis < heureLimiteCycleFini.getMillis
+            )
+    )
     dataTgaTgdCycleOver
+  }
+
+
+
+  def loadDataEntireDay(sc: SparkContext,
+                           sqlContext: SQLContext,
+                           panneau: String,
+                           timeToProcess: DateTime,
+                           dayBeforeToProcess: Int): Dataset[TgaTgdInput] = {
+
+    import sqlContext.implicits._
+
+    // Déclaration de notre variable de sortie contenant tous les event de la journée
+    // TODO Peut etre optimisable pour éviter 24 append
+    var tgaTgdRawAllDay = sc.emptyRDD[TgaTgdInput].toDS()
+
+    // 2 cas de figure :
+    // - Le 5ème argument vaut 0, on va chercher dans les évènements de la journée, on s'arrête a l'heure actuelle
+    // - Le 5ème argument inférieur à 0, on va chercher dans les jours précédents, on process toutes les heures de la journée
+    val currentHourInt = if(dayBeforeToProcess == 0) Conversion.getHourDebutPlageHoraire(timeToProcess).toInt else 23
+
+    // Boucle sur les heures de la journée à traiter
+    for (loopHour <- 0 to currentHourInt) {
+
+      // Construction du nom du fichier a aller chercher dans HDFS
+      var filePath = LANDING_WORK + Conversion.getYearMonthDay(timeToProcess.plusDays(dayBeforeToProcess)) + "/" + panneau + "-" +
+        Conversion.getYearMonthDay(timeToProcess.plusDays(dayBeforeToProcess)) + "_" + Conversion.HourFormat(loopHour) + ".csv"
+
+      // Chargement effectif du fichier
+      val tgaTgdHour = LoadData.loadTgaTgd(sqlContext, filePath)
+
+      // Ajout dans notre variable de sortie
+      tgaTgdRawAllDay = tgaTgdRawAllDay.union(tgaTgdHour)
+    }
+    tgaTgdRawAllDay
   }
 
   // Fonction pour aller chercher tous les évènements d'un cycle
@@ -101,7 +149,7 @@ object BuildCycleOver {
                       dsTgaTgdCyclesOver: Dataset[TgaTgdCycleId],
                       sqlContext: SQLContext,
                       sc: SparkContext,
-                      panneau: String): (DataFrame, DataFrame) = {
+                      panneau: String): DataFrame = {
 
 
     import sqlContext.implicits._
@@ -110,19 +158,20 @@ object BuildCycleOver {
     val tgaTgdInputAllDay = tgaTgdRawAllDay
       .toDF()
       .withColumn("cycle_id2",
-                  concat(col("gare"), lit(panneau), col("num"), col("heure")))
+        concat(col("gare"), lit(panneau), col("num"), col("heure")))
 
-    // On joint les deux avec un left join pour garder seulement les cycles terminés et leurs évènements
+    // On joint les deux avec un inner join pour garder seulement les cycles terminés et leurs évènements
+    // On se retrouve avec une structure de la forme (cycle_Id | TgaTgdInput)
     val dfJoin = dsTgaTgdCyclesOver
       .toDF()
       .select("cycle_id")
       .join(tgaTgdInputAllDay, $"cycle_id" === $"cycle_id2", "inner")
 
+    // TODO : En parler a Mohamed
     // On concatène toutes les colonnes en une pour pouvoir les manipuler plus facilement (en spark 1.6 pas possible de recréer un tgaTgdInput dans le collect list)
     val dfeventsAsString = dfJoin
       .drop("cycle_id2")
       .distinct()
-      .dropDuplicates()
       .select(
         $"cycle_id",
         concat(
@@ -153,7 +202,7 @@ object BuildCycleOver {
       )
 
     // collect set: la fonction qui regroupe les evenements  qui appartiennent au meme cycle Id
-    def collectSet(df: DataFrame, k: Column, v: Column): DataFrame = {
+    def collectList(df: DataFrame, k: Column, v: Column): DataFrame = {
       val transformedDf= df
         .select(k.as("k"), v.as("v"))
         .map(r => (r.getString(0), r.getString(1)))
@@ -162,90 +211,12 @@ object BuildCycleOver {
       transformedDf
     }
     // application de la fonction collect set sur la table dfeventsGrouped
-    val testCollection = collectSet(dfeventsAsString,
-                                    dfeventsAsString("cycle_id"),
-                                    dfeventsAsString("event"))
-    //suppression des lignes en double
-    val testCollectionWithoutDuplica = testCollection.distinct()
+    val groupedDfEventAsString = collectList(dfeventsAsString,
+      dfeventsAsString("cycle_id"),
+      dfeventsAsString("event"))
 
     // return la table des cycles finis avec evenement groupés + la table des  des cycles finis  evenements non groupés
-    (testCollectionWithoutDuplica, dfJoin)
+    groupedDfEventAsString
 
   }
-
-    /**
-    *Fonction pour charger les données de toute la journée1
-    * @param sc
-    * @param sqlContext
-    * @param panneau
-    * @return La table des evenement de toute la journée
-    */
-  def loadTgaTgdCurrentDay(sc: SparkContext,
-                           sqlContext: SQLContext,
-                           panneau: String): Dataset[TgaTgdInput] = {
-
-    import sqlContext.implicits._
-
-    // Déclaration de notre variable de sortie contenant tous les event de la journée
-    var tgaTgdRawAllDay = sc.emptyRDD[TgaTgdInput].toDS()
-
-    // Définition de l'heure actuelle que l'on a processé
-    // TODO: Modifier par une variable globale
-    val currentHourInt = Conversion.getHour(Conversion.nowToDateTime()).toInt
-
-    // LOOP Over all Files of the current day from midnight to CurrentHour
-    for (loopHour <- 0 to currentHourInt) {
-
-      // Créatipon du nom du fichier dans HDFS
-      var filePath = LANDING_WORK + Conversion.getYearMonthDay(
-        Conversion.nowToDateTime()) + "/" + panneau + "-" + Conversion
-        .getYearMonthDay(Conversion.nowToDateTime()) + "_" + Conversion
-        .HourFormat(loopHour) + ".csv"
-
-
-      // Chargement effectif du fichier
-      val tgaTgdHour = LoadData.loadTgaTgd(sqlContext, filePath)
-
-      // Ajout dans notre variabel de sortie
-      tgaTgdRawAllDay = tgaTgdRawAllDay.union(tgaTgdHour)
-    }
-    tgaTgdRawAllDay
-  }
-
-  /**
-    *Fonction pour chercher les evenements du jour -1
-    * @param sc
-    * @param sqlContext
-    * @param panneau
-    * @return La table des evenement du j-1
-    */
-  def loadTgaTgdYesterDay(sc: SparkContext,
-                          sqlContext: SQLContext,
-                          panneau: String): Dataset[TgaTgdInput] = {
-
-    import sqlContext.implicits._
-
-    // Déclaration de notre variable de sortie contenant tous les event de la journée
-    var tgaTgdRawAllDay = sc.emptyRDD[TgaTgdInput].toDS()
-
-    // LOOP Over all Files of  yesterday
-    for (loopHour <- 0 to 23) {
-
-      // Créatipon du nom du fichier dans HDFS
-      var filePath = LANDING_WORK + Conversion.getYearMonthDay(
-        Conversion
-          .nowToDateTime()
-          .plusDays(-1)) + "/" + panneau + "-" + Conversion.getYearMonthDay(
-        Conversion.nowToDateTime().plusDays(-1)) + "_" + Conversion.HourFormat(
-        loopHour) + ".csv"
-
-      // Chargement effectif du fichier
-      val tgaTgdHour = LoadData.loadTgaTgd(sqlContext, filePath)
-
-      // Ajout dans notre variabel de sortie
-      tgaTgdRawAllDay = tgaTgdRawAllDay.union(tgaTgdHour)
-    }
-    tgaTgdRawAllDay
-  }
-
 }

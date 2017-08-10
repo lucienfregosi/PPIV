@@ -23,16 +23,25 @@ object TraitementPPIVDriver extends Serializable {
   LOGGER.info("Lancement du batch PPIV")
 
   def main(args: Array[String]): Unit = {
-    // Test des arguments d'entrée, on attend la brique sur laquelle persister (hdfs, hive, es ...)
+    // 5 cas de figure pour l'exécution du programme
+    //  - Pas d'arguments d'entrée -> Stop
+    //  - Argument n°1 de persistance non valide -> Stop
+    //  - 1 seul et unique argument valide (hive, hdfs, es, fs) -> Nominal : Lancement automatique du batch sur l'heure n-1
+    //  - 3 arguments (persistance, date début, date fin) mais dates invalide (les dates doivent être de la forme yyyyMMdd_HH) -> Stop
+    //  - 3 arguments (persistance, date début, date fin) et dates valides -> Lancement du batch sur la période spécifié
+
     if (args.length == 0){
-      LOGGER.error("Pas de paramètres d'entrée")
+      // Pas d'arguments d'entrée -> Stop
+      LOGGER.error("Pas d'arguments d'entrée, le batch nécessite au minimum la méthode de persistance (hdfs, hive, fs, es)")
       System.exit(1)
     }
     else if(!(args(0).contains("hdfs") || args(0).contains("fs") || args(0).contains("es") || args(0).contains("hive")) ){
+      // Argument n°1 de persistance non valide -> Stop
       LOGGER.error("Pas de méthode de persistence (hdfs, fs, hive ou es pour l'agument" + args(0).toString)
       System.exit(1)
     }
     else {
+
       // Définition du Spark Context et SQL Context à partir de utils/GetSparkEnv
       val sc         = GetSparkEnv.getSparkContext()
       val sqlContext = GetSparkEnv.getSqlContext()
@@ -43,59 +52,62 @@ object TraitementPPIVDriver extends Serializable {
       // Sauvegarde de l'heure de début du programme dans une variable
       val startTimePipeline = Conversion.nowToDateTime()
 
-      // Lancement du pipeline en fonction du mode choisi
       if(args.length == 1){
-        // Fonctionnement nominal du programme on utilise l'heure actuelle
-        LOGGER.info("Fonctionnement nominal du pipeline pour l'heure n-1")
+        //  - 1 seul et unique argument valide (hive, hdfs, es, fs) -> Nominal : Lancement automatique du batch sur l'heure n-1
+        LOGGER.info("Lancement automatique du batch sur l'heure n-1")
         startPipeline(args, sc, sqlContext, startTimePipeline)
       }
       else if(Conversion.validateDateInputFormat(args(1)) == true && Conversion.validateDateInputFormat(args(2)) == true){
-        LOGGER.info("Fonctionnement entre deux plages horaires")
-        println("2 plages horaires")
-        // TODO: Boucler sur toutes les dates qui nous intéressent
+        //  - 3 arguments (persistance, date début, date fin) et dates valides -> Lancement du batch sur la période spécifié
+        LOGGER.info("Lancement du batch sur la période spécifié entre " + args(1).toString + " et " + args(2))
 
+        // Enregistrement de la début et de la fin de la période dans le format dateTime a partir du format string yyyyMMdd_HH
         val startTimeToProcess = Conversion.getDateTimeFromArgument(args(1))
         val endTimeToProcess   = Conversion.getDateTimeFromArgument(args(2))
 
+        // Création d'une période pour pouvoir manipuler plus facilement l'interval
         val period = new Duration(startTimeToProcess, endTimeToProcess)
 
-        // Renvoie le nombre d'heures
+        // Décompte du nombre d'heures sur la période
         val nbHours = period.toStandardHours.getHours()
 
-        var hoursIterator = 0
+        // Boucle sur la totalité des heures
         for(hoursIterator <- 0 to nbHours){
-          // Calcul de la dateTime pour lequel il faut processer
+          // Calcul de la dateTime a passer en paramètre au pipeline
           val newDateTime = startTimeToProcess.plusHours(hoursIterator)
-          LOGGER.info("Lancement du Pipeline pour la date: " + newDateTime.toString())
-          println("Lancement du Pipeline pour la date: " + newDateTime.toString())
+
+          LOGGER.info("Lancement du Pipeline pour la date/Time: " + newDateTime.toString())
+
+          // Lancement du pipeline pour l'heure demandé
           startPipeline(args, sc, sqlContext, newDateTime)
         }
       }
       else{
+        //  - 3 arguments (persistance, date début, date fin) mais dates invalide (les dates doivent être de la forme yyyyMMdd_HH) -> Stop
         LOGGER.error("Les dates de plage horaire ne sont pas dans le bon format yyyyMMdd_HH pour " + args(1) + " ou " + args(2))
         System.exit(1)
       }
     }
   }
 
+  // Fonction appelé pour le déclenchement d'un pipeline complet pour une heure donnée
   def startPipeline(argsArray: Array[String], sc: SparkContext, sqlContext: SQLContext, dateTimeToProcess: DateTime): Unit = {
-    // Définition argument d'entrée
+
+    // Récupération argument d'entrées, la méthode de persistance
     val persistMethod = argsArray(0)
 
-    LOGGER.info("Traitement d'affichage des TGA")
     val ivTga = TraitementTga.start(sc, sqlContext, dateTimeToProcess)
-
-
-    LOGGER.info("Traitement d'affichage des TGD")
-    //val ivTgd = TraitementTgd.start(sc, sqlContext)
+    val ivTgd = TraitementTgd.start(sc, sqlContext, dateTimeToProcess)
 
     // 11) Fusion des résultats de TGA et TGD
-    //val ivTgaTgd = ivTga.union(ivTgd)
+    LOGGER.info("11) Fusion des résultats entre TGA et TGD")
+    val ivTgaTgd = ivTga.unionAll(ivTgd)
 
-    // 12) Persistence dans la brique demandé
 
     try {
-      Persist.save(ivTga, persistMethod, sc, dateTimeToProcess)
+      // 12) Persistence dans la méthode demandée (hdfs, hive, es, fs)
+      LOGGER.info("12) Persistence dans la méthode demandée (hdfs, hive, es, fs)")
+      Persist.save(ivTgaTgd, persistMethod, sc, dateTimeToProcess)
     }
     catch {
       case e: Throwable => {

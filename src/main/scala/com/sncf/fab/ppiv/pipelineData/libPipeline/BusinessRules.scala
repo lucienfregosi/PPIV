@@ -6,6 +6,7 @@ import com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver.LOGGER
 import com.sncf.fab.ppiv.utils.Conversion
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.DataFrame
+import org.joda.time.DateTime
 
 import scala.collection.immutable.{ListMap, SortedMap}
 
@@ -16,8 +17,11 @@ object BusinessRules {
 
   // Traitement des cycles valides + calcul des KPIs
   def computeBusinessRules(
-      cycleWithEventOver: DataFrame): RDD[TgaTgdIntermediate] = {
+      cycleWithEventOver: DataFrame, timeToProcess: DateTime): RDD[TgaTgdIntermediate] = {
+
+    // On boucle sur tous les cycles ID
     val rddIvTgaTgdWithoutReferentiel = cycleWithEventOver.map { x =>
+
       // Récupération du cycleId (première colonne)
       var cycleId = x.getString(0)
 
@@ -44,6 +48,8 @@ object BusinessRules {
       })
 
       // 6) Validation des cycles
+
+
       val isCycleValidated = ValidateData.validateCycle(seqTgaTgd)._1
       if (isCycleValidated == false) {
         val rejectReason = ValidateData.validateCycle(seqTgaTgd)._2
@@ -112,7 +118,7 @@ object BusinessRules {
           BusinessRules.getTypeDevoiement4(dataTgaTgdCycleCleaned)
         val dernier_affichage =
           BusinessRules.getDernierAffichage(dataTgaTgdCycleCleaned)
-        val date_process = BusinessRules.getDateProcess(dataTgaTgdCycleCleaned)
+        val date_process = BusinessRules.getDateProcess(timeToProcess)
 
         // 9) Création de la classe de sortie sans le référentiel
         TgaTgdIntermediate(
@@ -316,6 +322,7 @@ object BusinessRules {
       .filter(x => x.voie != null && x.voie != "" && x.voie != ("0"))
       .groupBy(_.voie)
 
+    // Astuce pour ordonner le group by. Fréquellent utilisé a voir pour créer une fonction
     val dvInfo = dsVoie.toSeq
       .map(
         row =>
@@ -415,8 +422,8 @@ object BusinessRules {
   }
 
   //Fonction qui renvoie la date a laquelle le batch s'est lancé pour un trajet
-  def getDateProcess(dsTgaTgdSeq: Seq[TgaTgdInput]): Long = {
-    Conversion.nowToDateTime().getMillis / 1000
+  def getDateProcess(timeToProcess: DateTime): Long = {
+    timeToProcess.getMillis / 1000
   }
 
 }

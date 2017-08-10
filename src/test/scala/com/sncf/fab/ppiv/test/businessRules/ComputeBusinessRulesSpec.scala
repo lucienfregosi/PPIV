@@ -6,6 +6,7 @@ import com.sncf.fab.ppiv.business.{TgaTgdCycleId, TgaTgdInput}
 import com.sncf.fab.ppiv.pipelineData.TraitementTga
 import com.sncf.fab.ppiv.pipelineData.libPipeline.BusinessRules
 import com.sncf.fab.ppiv.utils.AppConf.{PPIV, SPARK_MASTER}
+import com.sncf.fab.ppiv.utils.Conversion
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.sql.SQLContext
 import org.apache.spark.sql.types.LongType
@@ -52,7 +53,7 @@ a
   val EventsGroupedByCycleId = sqlContext.read.format("com.databricks.spark.csv").load(path)
 
 
-  val tgatgdIntermediate = BusinessRules.computeBusinessRules(EventsGroupedByCycleId)
+  val tgatgdIntermediate = BusinessRules.computeBusinessRules(EventsGroupedByCycleId, Conversion.nowToDateTime())
 
 
   def e1 = "true" must beEqualTo("true")

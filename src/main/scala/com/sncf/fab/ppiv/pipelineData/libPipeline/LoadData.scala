@@ -26,7 +26,7 @@ object LoadData {
       .withColumn("heure", 'heure.cast(LongType))
       .as[TgaTgdInput]
 
-    // Parsing du CSV a l'intérieur d'un object TgaTgaInput
+    // Parsing du CSV a l'intérieur d'un object TgaTgaInput, conversion en dataset
     dsTgaTgd.toDF().map(row => DatasetsParser.parseTgaTgdDataset(row)).toDS()
   }
 
@@ -46,7 +46,7 @@ object LoadData {
       .toDF(newNamesRefGares: _*)
       .as[ReferentielGare]
 
-    // Parsing du CSV a l'intérieur d'un object ReferentielGare
+    // Parsing du CSV a l'intérieur d'un object ReferentielGare, conversion en dataset
     refGares.toDF().map(DatasetsParser.parseRefGares).toDS()
 
   }

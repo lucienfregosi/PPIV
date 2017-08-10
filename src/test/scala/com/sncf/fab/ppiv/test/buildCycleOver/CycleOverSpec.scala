@@ -6,6 +6,7 @@ import com.sncf.fab.ppiv.business.{TgaTgdCycleId, TgaTgdInput}
 import com.sncf.fab.ppiv.pipelineData.TraitementTga
 import com.sncf.fab.ppiv.pipelineData.libPipeline.{BuildCycleOver, ValidateData}
 import com.sncf.fab.ppiv.utils.AppConf.{PPIV, SPARK_MASTER}
+import com.sncf.fab.ppiv.utils.Conversion
 import org.apache.spark.sql.SQLContext
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.sql.types.LongType
@@ -47,7 +48,7 @@ The  number of finished cycles should be equal to two                           
     .as[TgaTgdCycleId]
 
  // The  number of finished cycles should be equal to two
-  def e1 = BuildCycleOver.filterCycleOver(cycleDf, sqlContext).count().toString must beEqualTo("2")
+  def e1 = BuildCycleOver.filterCycleOver(cycleDf, sqlContext, Conversion.nowToDateTime()).count().toString must beEqualTo("2")
 
 
 }
