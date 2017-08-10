@@ -24,7 +24,7 @@ object LoadData {
       .load(path).toDF(newNamesTgaTgd: _*)
       .withColumn("maj", 'maj.cast(LongType))
       .withColumn("heure", 'heure.cast(LongType))
-      .as[TgaTgdInput];
+      .as[TgaTgdInput]
 
     // Parsing du CSV a l'intérieur d'un object TgaTgaInput
     dsTgaTgd.toDF().map(row => DatasetsParser.parseTgaTgdDataset(row)).toDS()

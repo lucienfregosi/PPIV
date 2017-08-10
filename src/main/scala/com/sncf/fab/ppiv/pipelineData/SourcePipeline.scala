@@ -75,7 +75,6 @@ trait SourcePipeline extends Serializable {
 
     println("This script is currently running in data of " +Conversion.getYearMonthDay(Conversion.nowToDateTime()) +""+ Conversion.getHour(Conversion.nowToDateTime()))
     val dataTgaTgd                = LoadData.loadTgaTgd(sqlContext, getSource())
-
     val dataRefGares              = LoadData.loadReferentiel(sqlContext)
 
     // 2) Application du sparadrap sur les données au cause du Bug lié au passe nuit
@@ -88,11 +87,10 @@ trait SourcePipeline extends Serializable {
     LOGGER.info("Validation champ à champ")
     val (dataTgaTgdFielValidated, dataTgaTgdFielRejected)   = ValidateData.validateField(dataTgaTgdBugFix, sqlContext)
 
-    println("Validation field to Field statics")
-    println("Field reject: Rejected" +dataTgaTgdFielRejected.count())
-    println("Field reject: Validated" + dataTgaTgdFielValidated.count())
 
     LOGGER.info("Validation champ à champ counts")
+    println("Field reject: Rejected" +dataTgaTgdFielRejected.count())
+    println("Field reject: Validated" + dataTgaTgdFielValidated.count())
 
 
     // 4) Reconstitution des évènements pour chaque trajet
@@ -100,11 +98,6 @@ trait SourcePipeline extends Serializable {
     // Et les TgaTgdInput de tout le cycle de vie du train (toute la journée + journée précédente pour les passe nuits)
     LOGGER.info("Reconstitution des cycles avec les évènements terminés")
     val cycleWithEventOver = BuildCycleOver.getCycleOver(dataTgaTgdFielValidated, sc, sqlContext, Panneau())
-
-
-    // Temporary Save Finished cycles in HDFS
-     //Persist.save(cycleWithEventOver.toDF() , "CyclFinistoH", sc)
-
 
     // 5) Boucle sur les cycles finis pour traiter leur liste d'évènements
     LOGGER.info("Traitement des cycles terminés")
@@ -118,31 +111,28 @@ trait SourcePipeline extends Serializable {
     val cycleValidated    = dsIvTgaTgdWithoutReferentiel.toDF().filter(not($"cycleId".contains("INV_"))).as[TgaTgdIntermediate]
 
 
-    // 11) Enregistrement des rejets (champs + cycle)
+    // 11) Enregistrement des rejets (champs + cycle): this will be commented temprary because of out of memory bug
     //Reject.saveFieldRejected(dataTgaTgdFielRejected, sc)
     //Reject.saveCycleRejected(cycleInvalidated, sc)
 
+    LOGGER.info("Validation champ à champ counts")
     val cycleInvalidatedDf = cycleInvalidated.toDF()
     val cycleValidatedDf   =  cycleValidated.toDF()
-
     println("invalidated:" + cycleInvalidatedDf.count())
     println("validated:" + cycleValidatedDf.count())
-
-   //Persist.save(cycleValidatedDf  , "InputPostprocss", sc)
 
 
     // 12) Sauvegarde des cycles d'évènements validés
     // A partir de cycleValidate :
     // Dataset[TgaTgdWithoutRef] -> DataSet[TgaTgdInput]
     // Puis enregistrer dans l'object PostProcess
-    //PostProcess.saveCleanData(DataSet[TgaTgdInput], sc)
+     //PostProcess.saveCleanData(DataSet[TgaTgdInput], sc)
 
-    // 13) Jointure avec le référentiel et nscription dans la classe finale TgaTgdOutput avec conversion et formatage
+    // 13) Jointure avec le référentiel et inscription dans la classe finale TgaTgdOutput avec conversion et formatage
     val dataTgaTgdOutput = Postprocess.postprocess (cycleValidated, dataRefGares, sqlContext, Panneau())
 
     // On renvoie le data set final pour un Tga ou un Tgd (qui seront fusionné dans le main)
     dataTgaTgdOutput
-
 
   }
 }

@@ -70,7 +70,7 @@ object Postprocess {
         BusinessConversion.getNbretard1(row.getLong(9)),
         BusinessConversion.getDernier_retard_annonce_min(row.getLong(9)),
         0,
-        Conversion.getHHmmssFromMillis(row.getLong(9) * 1000) ,
+        Conversion.getHHmmssFromMillis(row.getLong(9)) ,
         TimeUnit.MILLISECONDS.toMinutes(row.getLong(10) * 1000 ).toString,
         Conversion.getHHmmssFromMillis(row.getLong(10)),
         BusinessConversion.getDelai_affichage_voie_avec_retard(row.getLong(10)),
@@ -78,10 +78,10 @@ object Postprocess {
         BusinessConversion.getTauxAffichage(row.getLong(8)),
         BusinessConversion.getTauxAffichage(row.getLong(10)),
         BusinessConversion.getAffichageRetard(row.getLong(11)),
-        Conversion.getHHmmssFromMillis(row.getLong(12)),
+        BusinessConversion.getAffichage_duree_retard (row.getLong(12)),
         row.getString(6),
-        Conversion.unixTimestampToDateTime(row.getLong(13)).toString,
-        Conversion.getHHmmssFromMillis(row.getLong(14)),
+        BusinessConversion.getDateAffichageEtatTrain(row.getLong(13)),
+        BusinessConversion.getDelai_affichage_etat_train_avant_depart_arrive(row.getLong(14)),
         TimeUnit.MILLISECONDS.toMinutes(row.getLong(14) * 1000 ).toString
       )
 
@@ -101,7 +101,7 @@ object Postprocess {
         BusinessConversion.getCracDevoiement (row.getString(16), row.getString(17), row.getString(18),row.getString(19)),
         Conversion.unixTimestampToDateTime(row.getLong(20)).toString,
         Conversion.unixTimestampToDateTime(row.getLong(21)).toString,
-        TimeUnit.MILLISECONDS.toMinutes(row.getLong(12) * 1000 ).toInt
+        BusinessConversion.getAffichage_duree_retard_minutes (row.getLong(12))
       )
       TgaTgdOutput(
         v1,

@@ -28,16 +28,15 @@ object BuildCycleOver {
     // Groupement et création des cycleId (concaténation de gare + panneau + numeroTrain + heureDepart)
     val cycleIdList = buildCycles(dsTgaTgdInput, sqlContext, panneau)
 
-    //Persist.save(cycleIdList.toDF() , "InputFilterCycle", sc)
     // Parmi les cyclesId généré précédemment on filtre ceux dont l'heure de départ est deja passé
     val cycleIdListOver = filterCycleOver(cycleIdList, sqlContext)
-    //Persist.save(cycleIdListOver.toDF(), "ALLCycle", sc)
-    //cycleIdListOver.persist(StorageLevel.DISK_ONLY)
 
     //Load les evenements  du jour j
     val tgaTgdRawToDay = loadTgaTgdCurrentDay(sc, sqlContext, panneau)
+
     //Load les evenements du jour j -1
     val tgaTgdRawYesterDay = loadTgaTgdYesterDay(sc, sqlContext, panneau)
+
     // Union des evenement  de jour j et jour j -1
     val tgaTgdRawAllDay = tgaTgdRawToDay.union(tgaTgdRawYesterDay)
 
@@ -45,14 +44,10 @@ object BuildCycleOver {
     val tgaTgdCycleOver =
       getEventCycleId(tgaTgdRawAllDay, cycleIdListOver, sqlContext, sc, panneau)
 
-
-    //Save  the dataframe of (cycle id , event) in HDFS before group by cycleid
-    //Persist.save(tgaTgdCycleOver._2.toDF(), "Eventsnotgrouped", sc)
-    //cycleIdListOver.unpersist()
     tgaTgdCycleOver._1
   }
 
-
+ // Fonction pour construire les cycles
   def buildCycles(dsTgaTgd: Dataset[TgaTgdInput],
                   sqlContext: SQLContext,
                   panneau: String): Dataset[TgaTgdCycleId] = {
@@ -74,6 +69,7 @@ object BuildCycleOver {
 
   }
 
+  // Fonction pour filtrer les cycles finis
   def filterCycleOver(dsTgaTgdCycles: Dataset[TgaTgdCycleId],
                       sqlContext: SQLContext): Dataset[TgaTgdCycleId] = {
     import sqlContext.implicits._
@@ -86,15 +82,7 @@ object BuildCycleOver {
       0,
       0)
 
-
-    println ("Filter Cycle : Current hour " + Conversion.dateTimeToString(currentHoraire))
     // Filtre sur les horaire de départ inférieur a l'heure actuelle
-
-    println("Test la conversion " )
-    println("timestamp is " + dsTgaTgdCycles.first().heure)
-    println("timestamp Conversion is  " + Conversion
-      .unixTimestampToDateTime (dsTgaTgdCycles.first().heure))
-
     val dataTgaTgdCycleOver = dsTgaTgdCycles.filter(x =>
       (x.retard != "" && Conversion
         .unixTimestampToDateTime(x.heure)
@@ -113,8 +101,7 @@ object BuildCycleOver {
                       sc: SparkContext,
                       panneau: String): (DataFrame, DataFrame) = {
 
-    // Définition d'un Hive Context pour utiliser la fonction collect_list
-    //val hiveContext = new HiveContext(sc)
+
     import sqlContext.implicits._
 
     // Sur le dataset Complet de la journée création d'une colonne cycle_id2 en vue de la jointure
@@ -124,21 +111,13 @@ object BuildCycleOver {
                   concat(col("gare"), lit(panneau), col("num"), col("heure")))
 
     // On joint les deux avec un left join pour garder seulement les cycles terminés et leurs évènements
-    val dsTgaTgdCyclesOverDF = dsTgaTgdCyclesOver.toDF()
-
-    // val dfJoin = dsTgaTgdCyclesOver.toDF().select("cycle_id").join(tgaTgdInputAllDay, $"cycle_id" === $"cycle_id2", "left")
     val dfJoin = dsTgaTgdCyclesOver
       .toDF()
       .select("cycle_id")
       .join(tgaTgdInputAllDay, $"cycle_id" === $"cycle_id2", "inner")
 
-    // Création d'une dataframe hive pour pouvoir utiliser la fonction collect_list
-    // val hiveDataframe = hiveContext.createDataFrame(dfJoin.rdd, dfJoin.schema)
-
-    // On concatène toutes les colonnes en une pour pouvoir les manipuler plus facilement (en spark 1.6 pas possible de recréer un tgaTgdInput dans le collect list
-    //val dfeventsGrouped = hiveDataframe.drop("cycle_id2").distinct().dropDuplicates().select($"cycle_id", concat($"gare", lit(";"), $"maj", lit(";"), $"train", lit(";"), $"ordes", lit(";"), $"num", lit(";"), $"type", lit(";"), $"picto", lit(";"), $"attribut_voie", lit(";"), $"voie", lit(";"), $"heure", lit(";"), $"etat", lit(";"), $"retard") as "event")
-
-    val dfeventsGrouped = dfJoin
+    // On concatène toutes les colonnes en une pour pouvoir les manipuler plus facilement (en spark 1.6 pas possible de recréer un tgaTgdInput dans le collect list)
+    val dfeventsAsString = dfJoin
       .drop("cycle_id2")
       .distinct()
       .dropDuplicates()
@@ -171,30 +150,34 @@ object BuildCycleOver {
         ) as "event"
       )
 
-    //val dfGroupByCycleOver = dfJoin.drop("cycle_id2").distinct().dropDuplicates().select($"cycle_id", concat($"gare", lit(";"), $"maj", lit(";"), $"train", lit(";"), $"ordes", lit(";"), $"num", lit(";"), $"type", lit(";"), $"picto", lit(";"), $"attribut_voie", lit(";"), $"voie", lit(";"), $"heure", lit(";"), $"etat", lit(";"), $"retard") as "event").groupBy("cycle_id").agg(collect_set($"event") as "events")
-
-    // Remplace le collect_list
+    // collect set: la fonction qui regroupe les evenements  qui appartiennent au meme cycle Id
     def collectSet(df: DataFrame, k: Column, v: Column): DataFrame = {
-      val intermediatedf = df
+      val transformedDf= df
         .select(k.as("k"), v.as("v"))
         .map(r => (r.getString(0), r.getString(1)))
-        //.groupByKey()
         .reduceByKey((x, y) => x + "," + y)
-        // .mapValues(_.toSet.toList)
         .toDF("cycle_id", "event")
-      intermediatedf
+      transformedDf
     }
-
-    val testCollection = collectSet(dfeventsGrouped,
-                                    dfeventsGrouped("cycle_id"),
-                                    dfeventsGrouped("event"))
-
+    // application de la fonction collect set sur la table dfeventsGrouped
+    val testCollection = collectSet(dfeventsAsString,
+                                    dfeventsAsString("cycle_id"),
+                                    dfeventsAsString("event"))
+    //suppression des lignes en double
     val testCollectionWithoutDuplica = testCollection.distinct()
 
+    // return la table des cycles finis avec evenement groupés + la table des  des cycles finis  evenements non groupés
     (testCollectionWithoutDuplica, dfJoin)
 
   }
 
+    /**
+    *Fonction pour charger les données de toute la journée1
+    * @param sc
+    * @param sqlContext
+    * @param panneau
+    * @return La table des evenement de toute la journée
+    */
   def loadTgaTgdCurrentDay(sc: SparkContext,
                            sqlContext: SQLContext,
                            panneau: String): Dataset[TgaTgdInput] = {
@@ -206,7 +189,6 @@ object BuildCycleOver {
 
     // Définition de l'heure actuelle que l'on a processé
     // TODO: Modifier par une variable globale
-    val currentHourString = Conversion.getHour(Conversion.nowToDateTime())
     val currentHourInt = Conversion.getHour(Conversion.nowToDateTime()).toInt
 
     // LOOP Over all Files of the current day from midnight to CurrentHour
@@ -229,11 +211,11 @@ object BuildCycleOver {
   }
 
   /**
-    *
+    *Fonction pour chercher les evenements du jour -1
     * @param sc
     * @param sqlContext
     * @param panneau
-    * @return
+    * @return La table des evenement du j-1
     */
   def loadTgaTgdYesterDay(sc: SparkContext,
                           sqlContext: SQLContext,

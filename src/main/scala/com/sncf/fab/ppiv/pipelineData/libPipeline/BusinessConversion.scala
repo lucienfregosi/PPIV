@@ -104,7 +104,8 @@ object BusinessConversion {
 
   def getQuaiDevoiement ( devoiementInfo : String) : String = {
 
-    if (devoiementInfo!= null) {
+
+    if (devoiementInfo != null)  {
       val quai1 = devoiementInfo.split("-")(0)
       val quai2 = devoiementInfo.split("-")(1)
       quai1 + "=>" + quai2
@@ -225,8 +226,9 @@ object BusinessConversion {
   }
 
   def getDelai_affichage_duree_retard (timestamp:Long) : String = {
+     if (timestamp == 0) null
+    else "H+" + TimeUnit.MILLISECONDS.toMinutes(timestamp * 1000 )
 
-    "H-"+Conversion.getHHmmssFromMillis(timestamp)
   }
 
   def geTaux_affichage_30 (duree_affichage : Long) : Int = {
@@ -252,7 +254,33 @@ object BusinessConversion {
     devoiementInfo.split("-")(2)
    else null
   }
-    // TODO trouver pourquoi la conversion des float se fait aussi mal
+
+  def getDateAffichageEtatTrain (timestamp : Long) : String = {
+
+    if (timestamp == 0) null
+    else
+    Conversion.unixTimestampToDateTime(timestamp).toString
+  }
+
+  def getAffichage_duree_retard (timestamp :Long) :String = {
+
+    if (timestamp == 0) null
+    else Conversion.getHHmmssFromMillis(timestamp)
+  }
+
+  def getAffichage_duree_retard_minutes (timestamp :Long) : Int = {
+
+    if (timestamp == 0) 0
+    else  TimeUnit.MILLISECONDS.toMinutes(timestamp * 1000 ).toInt
+  }
+
+  def getDelai_affichage_etat_train_avant_depart_arrive (timestamp : Long) : String = {
+
+    if (timestamp == 0) null
+    else Conversion.getHHmmssFromMillis(timestamp)
+
+  }
+  // TODO trouver pourquoi la conversion des float se fait aussi mal
   def getFloat(str : String): Float = {
      5
   }
