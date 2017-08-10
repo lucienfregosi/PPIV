@@ -48,7 +48,7 @@ The  number of finished cycles should be equal to two                           
     .as[TgaTgdCycleId]
 
  // The  number of finished cycles should be equal to two
-  def e1 = BuildCycleOver.filterCycleOver(cycleDf, sqlContext, Conversion.nowToDateTime()).count().toString must beEqualTo("2")
+  def e1 = BuildCycleOver.filterCycleOver(cycleDf, sqlContext, Conversion.nowToDateTime()).count().toString must beEqualTo("1")
 
 
 }
