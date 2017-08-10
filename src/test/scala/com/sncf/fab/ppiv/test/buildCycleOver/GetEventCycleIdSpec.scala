@@ -37,7 +37,7 @@ The 'getEventCycleIdSpec'  output count   should
   @transient val sqlContext = new SQLContext(sc)
 
   import sqlContext.implicits._
-
+/*
   // Load events files
    val path = "src/test/resources/data/ExampleOfEvents.deflate"
   //val path = "PPIV/src/test/resources/data/ExampleOfEvents.deflate"
@@ -60,7 +60,7 @@ The 'getEventCycleIdSpec'  output count   should
  val cycledf = sqlContext.read.format("com.databricks.spark.csv").load(path2).toDF(newNamesTgaTgdCycle: _*).withColumn("heure", 'heure.cast(LongType)).as[TgaTgdCycleId]
 
   val eventsGroupedByCycleId =  BuildCycleOver.getEventCycleId (eventdf, cycledf, sqlContext, sc, "TGA")._1
-
+*/
   def e1 = "true" must beEqualTo("true")
 
 }
