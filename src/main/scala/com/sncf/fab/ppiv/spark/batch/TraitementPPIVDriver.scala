@@ -67,9 +67,9 @@ object TraitementPPIVDriver extends Serializable {
           // Calcul de la dateTime pour lequel il faut processer
           val newDateTime = startTimeToProcess.plusHours(hoursIterator)
           LOGGER.info("Lancement du Pipeline pour la date: " + newDateTime.toString())
-          //startPipeline(args, sc, sqlContext, newDateTime)
+          println("Lancement du Pipeline pour la date: " + newDateTime.toString())
+          startPipeline(args, sc, sqlContext, newDateTime)
         }
-        System.exit(0)
       }
       else{
         LOGGER.error("Les dates de plage horaire ne sont pas dans le bon format yyyyMMdd_HH pour " + args(1) + " ou " + args(2))
