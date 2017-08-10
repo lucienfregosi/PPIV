@@ -16,61 +16,36 @@ object PersistHdfs extends Serializable {
     * @param ds sauvegarde le dataset issu des fichiers tga/tgd nettoyés
     */
 
-  def persisteTgaTgdParsedIntoHdfs(ds: Dataset[TgaTgdInput], hdfsRefineryPath:String): Unit = {
+  def persisteTgaTgdParsedIntoHdfs(ds: Dataset[TgaTgdInput], hdfsRefineryPath: String): Unit = {
     ds.toDF().write.format("com.databricks.spark.csv").save(hdfsRefineryPath)
   }
 
   /**
     * @param df le dataset issu des fichiers TGA TGD et le referentiel des gares
     */
-  def persisteQualiteAffichageIntoHdfs(df: DataFrame, hdfsGoldPath:String): Unit = {
+  def persisteQualiteAffichageIntoHdfs(df: DataFrame, hdfsGoldPath: String): Unit = {
 
     df.write.format("com.databricks.spark.csv").save(hdfsGoldPath)
 
   }
 
-  def persisteCyclesFinisHdfs (df: DataFrame, sc : SparkContext) : Unit = {
 
-    val path= "hdfs:/data1/GARES/refinery/PPIV_PHASE2/REJET/Cyclesfinis2"
-    df.coalesce(1).write.mode(SaveMode.Overwrite).format("com.databricks.spark.csv").save(path)
+  def persisteRejetFieldHdfs(df: DataFrame): Unit = {
 
-  }
-
-  def persisteRejetFieldHdfs (df: DataFrame) : Unit = {
-
-    val path= "hdfs:/data1/GARES/refinery/PPIV_PHASE2/REJET/RejectedField.csv"
+    val path = "hdfs:/data1/GARES/refinery/PPIV_PHASE2/REJET/RejectedField.csv"
     df.write.mode(SaveMode.Overwrite).format("com.databricks.spark.csv").save(path)
 
   }
 
-  def persisteRejetCycleHdfs (df: DataFrame) : Unit = {
+  def persisteRejetCycleHdfs(df: DataFrame): Unit = {
 
-    val path= "hdfs:/data1/GARES/refinery/PPIV_PHASE2/REJET/RejectedCycles.csv"
+    val path = "hdfs:/data1/GARES/refinery/PPIV_PHASE2/REJET/RejectedCycles.csv"
     df.coalesce(1).write.mode(SaveMode.Overwrite).format("com.databricks.spark.csv").save(path)
 
   }
 
-  def persisteEventsNotGroupedHdfs (df: DataFrame) : Unit = {
-
-    val path= "hdfs:/data1/GARES/refinery/PPIV_PHASE2/REJET/EventsNotGrouped.csv"
-    df.coalesce(1).write.mode(SaveMode.Overwrite).format("com.databricks.spark.csv").save(path)
-
-  }
-  def  persisteALLCycle (df: DataFrame) : Unit = {
-
-    val path= "hdfs:/data1/GARES/refinery/PPIV_PHASE2/REJET/ALLcycle.csv"
-    df.coalesce(1).write.mode(SaveMode.Overwrite).format("com.databricks.spark.csv").save(path)
-
-  }
-
-  def persistBeforePostprocess(df: DataFrame) : Unit  = {
-    val path= "hdfs:/data1/GARES/refinery/PPIV_PHASE2/REJET/DataBeforePostprocess.csv"
-    df.coalesce(1).write.mode(SaveMode.Overwrite).format("com.databricks.spark.csv").save(path)
-
-      }
-
-  def persistBeforeFilterCycle(df: DataFrame) : Unit  = {
-    val path= "hdfs:/data1/GARES/refinery/PPIV_PHASE2/REJET/BeforeFilterCycle.csv"
+  def persistBeforePostprocess(df: DataFrame): Unit = {
+    val path = "hdfs:/data1/GARES/refinery/PPIV_PHASE2/REJET/DataBeforePostprocess.csv"
     df.coalesce(1).write.mode(SaveMode.Overwrite).format("com.databricks.spark.csv").save(path)
 
   }

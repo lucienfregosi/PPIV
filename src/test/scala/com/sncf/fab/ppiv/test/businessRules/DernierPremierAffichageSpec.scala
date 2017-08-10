@@ -17,10 +17,9 @@ class DernierPremierAffichageSpec extends Specification{
 
 
   def is = s2"""
-This is a specification for the "getDernierPremierAffichage" output
-The 'getDernierPremierAffichage'  output   should
-  Dernier affichage be a equal to  1498948063                             $e1
-  Premier affichage be a equal to  1498947708                             $e2
+This is a specification for the "getPremierAffichage"  and "getDernierAffichage"output
+  Dernier affichage  should be a equal to   1498948063                              $e1
+  Premier affichage  should  be a equal to  1498947708                             $e2
   """
 
 
@@ -31,17 +30,15 @@ The 'getDernierPremierAffichage'  output   should
      } yield TgaTgdInput(values(0), values(1).toLong, values(2), values(3), values(4),values(5),values(6),values(7),values(8),values(9).toLong,values(10),values(11))
   }
 
+  //Path to file
+  val pathDernierAffichage = new File("src/test/resources/data/ExampleOfEventsForPremier_DernierAffichageTest.csv").getAbsolutePath
+  // val pathDernierAffichage = new File("PPIV/src/test/resources/data/ExampleOfEventsForPremier_DernierAffichageTest.csv").getAbsolutePath
 
-  val header = Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard")
 
-  val pathDernierAffichage = new File("src/test/resources/data/trajet_dernier_Affichage.csv").getAbsolutePath
- // val pathDernierAffichage = new File("PPIV/src/test/resources/data/trajet_dernier_Affichage.csv").getAbsolutePath
+  //Load File
   val dsDernierAffichage = readFile(pathDernierAffichage).toSeq
 
- val  test = BusinessRules.getAffichageDuree1 (dsDernierAffichage)
 
-
- // def e1 = BusinessRules.getDernierAffichage(dsDernierAffichage).toInt must be_>= (0)
   def e1 = BusinessRules.getDernierAffichage(dsDernierAffichage).toString must beEqualTo("1498948063")
   def e2 = BusinessRules.getPremierAffichage(dsDernierAffichage).toString must beEqualTo("1498947708")
 

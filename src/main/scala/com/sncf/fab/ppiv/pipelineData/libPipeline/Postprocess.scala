@@ -69,7 +69,7 @@ object Postprocess {
         BusinessConversion.getDuree_temps_affichage(row.getLong(8)),
         BusinessConversion.getNbretard1(row.getLong(9)),
         BusinessConversion.getDernier_retard_annonce_min(row.getLong(9)),
-        0,
+        BusinessConversion.getNbretard2(row.getLong(9)),
         Conversion.getHHmmssFromMillis(row.getLong(9)) ,
         TimeUnit.MILLISECONDS.toMinutes(row.getLong(10) * 1000 ).toString,
         Conversion.getHHmmssFromMillis(row.getLong(10)),

@@ -14,9 +14,10 @@ import org.specs2._
 /**
   * Created by ELFI03951 on 30/06/2017.
   */
-class postprocessSpec extends Specification{
+class postprocessSpec extends Specification {
 
-  def is = s2"""
+  def is =
+    s2"""
 
 This is a specification fot the "postprocess"
 The 'postprocess'  output count   should
@@ -33,16 +34,14 @@ The 'postprocess'  output count   should
   @transient val sc = new SparkContext(sparkConf)
   @transient val sqlContext = new SQLContext(sc)
 
-  /*
-
 
   import sqlContext.implicits._
-
-// Load the input of Postprocess
-   // val path = "src/test/resources/data/pre_postprocess.deflate"
+/*
+  // Load the input of Postprocess
+  // val path = "src/test/resources/data/pre_postprocess.deflate"
   val path = "PPIV/src/test/resources/data/pre_postprocess.deflate"
 
-  val newNamesTgaTgdInter = Seq("cycleId" ,
+  val newNamesTgaTgdInter = Seq("cycleId",
     "gare",
     "origine_destination",
     "num_train",
@@ -65,22 +64,22 @@ The 'postprocess'  output count   should
     "dernier_affichage",
     "date_process")
 
-val DataBeforepreprocess= sqlContext.read.format("com.databricks.spark.csv").load(path).toDF(newNamesTgaTgdInter: _*)
-  .withColumn("dateheure2", 'dateheure2.cast(LongType))
-  .withColumn("premierAffichage", 'premierAffichage.cast(LongType))
-  .withColumn("affichageDuree1", 'affichageDuree1.cast(LongType))
-  .withColumn("dernier_retard_annonce", 'dernier_retard_annonce.cast(LongType))
-  .withColumn("affichage_retard", 'affichage_retard.cast(LongType))
-  .withColumn("affichageDuree2", 'affichageDuree2.cast(LongType))
-  .withColumn("affichage_duree_retard", 'affichage_duree_retard.cast(LongType))
-  .withColumn("date_affichage_etat_train", 'date_affichage_etat_train.cast(LongType))
-  .withColumn("delai_affichage_etat_train_avant_depart_arrive", 'delai_affichage_etat_train_avant_depart_arrive.cast(LongType))
-  .withColumn("dernier_affichage", 'dernier_affichage.cast(LongType))
- .withColumn("date_process", 'date_process.cast(LongType))
-  .as[TgaTgdIntermediate]
+  val DataBeforepreprocess = sqlContext.read.format("com.databricks.spark.csv").load(path).toDF(newNamesTgaTgdInter: _*)
+    .withColumn("dateheure2", 'dateheure2.cast(LongType))
+    .withColumn("premierAffichage", 'premierAffichage.cast(LongType))
+    .withColumn("affichageDuree1", 'affichageDuree1.cast(LongType))
+    .withColumn("dernier_retard_annonce", 'dernier_retard_annonce.cast(LongType))
+    .withColumn("affichage_retard", 'affichage_retard.cast(LongType))
+    .withColumn("affichageDuree2", 'affichageDuree2.cast(LongType))
+    .withColumn("affichage_duree_retard", 'affichage_duree_retard.cast(LongType))
+    .withColumn("date_affichage_etat_train", 'date_affichage_etat_train.cast(LongType))
+    .withColumn("delai_affichage_etat_train_avant_depart_arrive", 'delai_affichage_etat_train_avant_depart_arrive.cast(LongType))
+    .withColumn("dernier_affichage", 'dernier_affichage.cast(LongType))
+    .withColumn("date_process", 'date_process.cast(LongType))
+    .as[TgaTgdIntermediate]
 
 
-  val newNamesRefGares = Seq("CodeGare","IntituleGare","NombrePlateformes","SegmentDRG","UIC","UniteGare","TVS","CodePostal","Commune","DepartementCommune","Departement","Region","AgenceGC","RegionSNCF","NiveauDeService","LongitudeWGS84","LatitudeWGS84","DateFinValiditeGare")
+  val newNamesRefGares = Seq("CodeGare", "IntituleGare", "NombrePlateformes", "SegmentDRG", "UIC", "UniteGare", "TVS", "CodePostal", "Commune", "DepartementCommune", "Departement", "Region", "AgenceGC", "RegionSNCF", "NiveauDeService", "LongitudeWGS84", "LatitudeWGS84", "DateFinValiditeGare")
 
   // Chargement du CSV référentiel
   val refGares = sqlContext.read
@@ -96,7 +95,7 @@ val DataBeforepreprocess= sqlContext.read.format("com.databricks.spark.csv").loa
   refGares.toDF().map(DatasetsParser.parseRefGares).toDS()
 
 
- Postprocess.postprocess(DataBeforepreprocess, refGares, sqlContext, "TGA")
+  Postprocess.postprocess(DataBeforepreprocess, refGares, sqlContext, "TGA")
 
 */
   def e1 = "true" must beEqualTo("true")

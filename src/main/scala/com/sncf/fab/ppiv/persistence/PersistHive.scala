@@ -27,10 +27,9 @@ object PersistHive extends Serializable {
 
     println("This Table will be saved in Hive")
     df.show()
+
     //val path= "hdfs:/data1/GARES/refinery/PPIV_PHASE2/QualiteAffichage/FichierValide.csv"
     //df.write.mode(SaveMode.Overwrite).format("com.databricks.spark.csv").save(path)
-
-    // To save in a single part we can add coalesce(1) to df.write
 
     val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
     val dfHive = hiveContext.createDataFrame(df.rdd, df.schema)
@@ -42,17 +41,10 @@ object PersistHive extends Serializable {
 
   }
 
-
   def persisteRejetHive (df: DataFrame, sc : SparkContext): Unit = {
 
     val pathRejet= "hdfs:/data1/GARES/refinery/PPIV_PHASE2/QualiteAffichage/FichierRejet190717.csv"
     df.coalesce(1).write.mode(SaveMode.Overwrite).format("com.databricks.spark.csv").save(pathRejet)
-
-    //val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
-   // val dfHive = hiveContext.createDataFrame(df.rdd, df.schema)
-   // dfHive.registerTempTable("dataToSaveHiveRejet")
-   // hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgdtmpRejet select * from dataToSaveHiveRejet")
-
   }
 
 }

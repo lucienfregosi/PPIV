@@ -22,8 +22,7 @@ class CycleOverSpec extends Specification{
   def is = s2"""
 
 This is a specification fot the "CycleOverSpec" output
-The 'CycleOver'  output count   should
-  be equal to 2                                   $e1
+The  number of finished cycles should be equal to two                                 $e1
   """
 
 
@@ -32,15 +31,14 @@ The 'CycleOver'  output count   should
     .setMaster(SPARK_MASTER)
     .set("spark.driver.allowMultipleContexts", "true")
 
-
   @transient val sc = new SparkContext(sparkConf)
   @transient val sqlContext = new SQLContext(sc)
 
   import sqlContext.implicits._
 
 
-   val dsCycleOver = Seq(("AMQTGA8600111500997860","15079","00"), ("AMQTGA8600111500997860","179",""))
 
+  val dsCycleOver = Seq(("AMQTGA8600111500997860","15079","00"), ("AMQTGA8600111500997860","179",""))
   val newNamesTgaTgdCycle = Seq("cycle_id","heure","retard")
 
   val  cycleDf = sc.parallelize(dsCycleOver)
@@ -48,7 +46,7 @@ The 'CycleOver'  output count   should
       .withColumn("heure", 'heure.cast(LongType))
     .as[TgaTgdCycleId]
 
-
+ // The  number of finished cycles should be equal to two
   def e1 = BuildCycleOver.filterCycleOver(cycleDf, sqlContext).count().toString must beEqualTo("2")
 
 

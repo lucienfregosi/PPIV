@@ -38,7 +38,7 @@ Voie is in [0-9] or in [A-Z]                                             $e15
 
   @transient val sc = new SparkContext(sparkConf)
   @transient val sqlContext = new SQLContext(sc)
-  //val sourcePipeline = new TraitementTga
+
   import sqlContext.implicits._
 
   val newNamesTgaTgd = Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard")
