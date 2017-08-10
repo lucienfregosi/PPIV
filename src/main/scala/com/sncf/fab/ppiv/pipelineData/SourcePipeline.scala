@@ -89,8 +89,8 @@ trait SourcePipeline extends Serializable {
     val (dataTgaTgdFielValidated, dataTgaTgdFielRejected)   = ValidateData.validateField(dataTgaTgdBugFix, sqlContext)
 
     // TODO A remplacer dans le fichier qui trace les compteurs
-    println("Field reject: Rejected" +dataTgaTgdFielRejected.count())
-    println("Field reject: Validated" + dataTgaTgdFielValidated.count())
+   // println("Field reject: Rejected" +dataTgaTgdFielRejected.count())
+    //println("Field reject: Validated" + dataTgaTgdFielValidated.count())
 
 
     // 4) Reconstitution des évènements pour chaque trajet
