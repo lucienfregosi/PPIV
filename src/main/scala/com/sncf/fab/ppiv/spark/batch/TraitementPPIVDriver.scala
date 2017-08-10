@@ -51,6 +51,7 @@ object TraitementPPIVDriver extends Serializable {
       }
       else if(Conversion.validateDateInputFormat(args(1)) == true && Conversion.validateDateInputFormat(args(2)) == true){
         LOGGER.info("Fonctionnement entre deux plages horaires")
+        println("2 plages horaires")
         // TODO: Boucler sur toutes les dates qui nous intéressent
 
         val startTimeToProcess = Conversion.getDateTimeFromArgument(args(1))
