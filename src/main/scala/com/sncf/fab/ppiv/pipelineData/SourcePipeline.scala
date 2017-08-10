@@ -76,7 +76,7 @@ trait SourcePipeline extends Serializable {
     LOGGER.info("Chargement des fichiers et du référentiel")
 
 
-    println("This script is currently running in data of " +Conversion.getYearMonthDay(Conversion.nowToDateTime()) +""+ Conversion.getHour(Conversion.nowToDateTime()))
+    println("This script is currently running in data of " +Conversion.getYearMonthDay(Conversion.nowToDateTime()) +" "+ Conversion.getHour(Conversion.nowToDateTime()))
     val dataTgaTgd                = LoadData.loadTgaTgd(sqlContext, getSource(timeToProcess))
     val dataRefGares              = LoadData.loadReferentiel(sqlContext)
 
