@@ -33,8 +33,6 @@ object TraitementPPIVDriver extends Serializable {
       System.exit(1)
     }
     else {
-
-
       // Définition du Spark Context et SQL Context à partir de utils/GetSparkEnv
       val sc         = GetSparkEnv.getSparkContext()
       val sqlContext = GetSparkEnv.getSqlContext()
@@ -67,8 +65,10 @@ object TraitementPPIVDriver extends Serializable {
         for(hoursIterator <- 0 to nbHours){
           // Calcul de la dateTime pour lequel il faut processer
           val newDateTime = startTimeToProcess.plusHours(hoursIterator)
-          startPipeline(args, sc, sqlContext, newDateTime)
+          LOGGER.info("Lancement du Pipeline pour la date: " + newDateTime.toString())
+          //startPipeline(args, sc, sqlContext, newDateTime)
         }
+        System.exit(0)
       }
       else{
         LOGGER.error("Les dates de plage horaire ne sont pas dans le bon format yyyyMMdd_HH pour " + args(1) + " ou " + args(2))
