@@ -1,6 +1,7 @@
 package com.sncf.fab.ppiv.pipelineData.libPipeline
 
 import java.text.SimpleDateFormat
+import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 import org.joda.time.format.DateTimeFormat
@@ -24,7 +25,7 @@ object BusinessConversion {
 
   //Function to Extract month from timestamp
   def getMois(timestamp: Long): String = {
-    val mois = Conversion.unixTimestampToDateTime(timestamp).getMonthOfYear.toString
+    val mois = Conversion.unixTimestampToDateTime(timestamp).monthOfYear().getAsShortText()
     mois
   }
 
@@ -44,11 +45,13 @@ object BusinessConversion {
 
   //function to get the number of the day  (Dimanche ==> 1)
   def getNumberoftheday(timestamp: Long): Int = {
-    val this_day= Conversion.unixTimestampToDateTime(timestamp).dayOfWeek().getAsShortText()
-   // val mapDay_NumberOfDay = Map("dim."-> 1,"lun."->2, "mar." -> 3, "mer."->4, "jeu."->5, "ven." ->6, "sam." ->7 )
-    //val numberOfTheDay =  mapDay_NumberOfDay.get(this_day)
-     //numberOfTheDay
+        val cLocale = new Locale("en")
+    val this_day= Conversion.unixTimestampToDateTime(timestamp).dayOfWeek().getAsShortText(cLocale)
+    val mapDay_NumberOfDay = Map("Sun"-> 1,"Mon"->2, "Tue" -> 3, "Wed"->4, "Thu"->5, "Fri" ->6, "Sat" ->7 )
+    //val numberOfTheDay =  mapDay_NumberOfDay.getOrElse(this_day,0)
+   // numberOfTheDay
     0
+
   }
 
   //function to get the first three letter of the day
@@ -59,7 +62,8 @@ object BusinessConversion {
 
   //fonction qui renvoie le delai d'affichage  de la dernière voie sans retard
   def getDelai_affichage_voie_sans_retard(timestamp: Long): String = {
-    "H-" + Conversion.getHHmmssFromMillis(timestamp)
+   // "H" + Conversion.getHHmmssFromMillis(timestamp)
+    "H"+TimeUnit.MILLISECONDS.toMinutes(timestamp * 1000)
   }
 
   //fonction qui renvoie une segmentation de  la durée de l'affichage
@@ -180,7 +184,9 @@ object BusinessConversion {
 
   //fonction qui renvoie "H" concaténé au Délai où le train est resté affiché avant son départ réel (en minutes)
   def getDelai_affichage_voie_avec_retard(timestamp: Long): String = {
-    "H-" + Conversion.getHHmmssFromMillis(timestamp)
+
+    "H+" + TimeUnit.MILLISECONDS.toMinutes(timestamp * 1000)
+
   }
 
 

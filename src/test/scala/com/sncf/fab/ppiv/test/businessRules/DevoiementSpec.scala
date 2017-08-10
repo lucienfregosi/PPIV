@@ -30,8 +30,8 @@ This is a specification for the "getTypeDevoiement" output
     } yield TgaTgdInput(values(0), values(1).toLong, values(2), values(3), values(4), values(5), values(6), values(7), values(8), values(9).toLong, values(10), values(11))
   }
 
-  //Path to the file
-  //val pathDevoiFile = new File("PPIV/src/test/resources/data/ExampleOfEventForDevoiementTest.csv").getAbsolutePath
+   //Path to the file
+   // val pathDevoiFile = new File("PPIV/src/test/resources/data/ExampleOfEventForDevoiementTest.csv").getAbsolutePath
    val pathDevoiFile = new File("src/test/resources/data/ExampleOfEventForDevoiementTest.csv").getAbsolutePath
 
   //Load File

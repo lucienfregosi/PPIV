@@ -175,13 +175,15 @@ object Conversion {
 
 
   def getHHmmssFromMillis(timestamp: Long): String = {
-    val H = TimeUnit.MILLISECONDS.toHours(timestamp * 1000)
-    val m = TimeUnit.MILLISECONDS.toMinutes(timestamp * 1000  - H * 60 * 60 * 1000)
-    val s = TimeUnit.MILLISECONDS.toSeconds(timestamp * 1000- H * 60 * 60 * 1000 - m * 60 * 1000)
-    val HH =  new DecimalFormat("00").format(H)
-    val mm =  new DecimalFormat("00").format(m)
-    val ss =  new DecimalFormat("00").format(s)
-    HH+":"+mm+":"+ss
+    if (timestamp!= 0 ) {
+      val H = TimeUnit.MILLISECONDS.toHours(timestamp * 1000)
+      val m = TimeUnit.MILLISECONDS.toMinutes(timestamp * 1000 - H * 60 * 60 * 1000)
+      val s = TimeUnit.MILLISECONDS.toSeconds(timestamp * 1000 - H * 60 * 60 * 1000 - m * 60 * 1000)
+      val HH = new DecimalFormat("00").format(H)
+      val mm = new DecimalFormat("00").format(m)
+      val ss = new DecimalFormat("00").format(s)
+      HH + ":" + mm + ":" + ss
+    } else  null
   }
 
 
