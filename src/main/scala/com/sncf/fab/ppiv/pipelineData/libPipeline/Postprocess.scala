@@ -37,8 +37,7 @@ object Postprocess {
 
   def formatTgaTgdOuput(dfTgaTgd: DataFrame, sqlContext : SQLContext, panneau: String) : DataFrame = {
     import sqlContext.implicits._
-
-
+    
     val affichageFinal =  dfTgaTgd.map(row => {
       val v1 = VingPremierChamp(
         row.getString(23),
