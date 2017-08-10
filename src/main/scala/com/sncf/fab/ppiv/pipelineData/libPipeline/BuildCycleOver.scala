@@ -85,6 +85,14 @@ object BuildCycleOver {
                       timeToProcess: DateTime): Dataset[TgaTgdCycleId] = {
     import sqlContext.implicits._
 
+    val heureLimiteCycleCommencant = Conversion.getDateTime(
+      timeToProcess.getYear,
+      timeToProcess.getMonthOfYear,
+      timeToProcess.getDayOfMonth,
+      Conversion.getHourDebutPlageHoraire(timeToProcess).toInt,
+      0,
+      0)
+
     val heureLimiteCycleFini = Conversion.getDateTime(
       timeToProcess.getYear,
       timeToProcess.getMonthOfYear,
@@ -93,9 +101,11 @@ object BuildCycleOver {
       0,
       0)
 
-    // Filtre sur les horaire de départ inférieur a l'heure actuelle
+    // Filtre sur les horaire de départ inférieur a l'heure de fin de plage
+    // et sur les horaires de départ supérieur a l'heure de début de plage
     val dataTgaTgdCycleOver = dsTgaTgdCycles.filter(x =>
-         (
+      (
+        (
            // Cas avec retard on prend en compte le retard pour voir si le train est déja parti
             x.retard != "" &&
             Conversion.unixTimestampToDateTime(x.heure).plusMinutes(x.retard.toInt).getMillis < heureLimiteCycleFini.getMillis
@@ -105,6 +115,18 @@ object BuildCycleOver {
             x.retard == "" &&
               Conversion.unixTimestampToDateTime(x.heure).getMillis < heureLimiteCycleFini.getMillis
             )
+        &&
+            (
+              // Cas avec retard on prend en compte le retard pour voir si le train est déja parti
+              x.retard != "" &&
+                Conversion.unixTimestampToDateTime(x.heure).plusMinutes(x.retard.toInt).getMillis > heureLimiteCycleCommencant.getMillis
+              ) ||
+          (
+            // Cas sans retard on se tient a la date de départ théorique du train
+            x.retard == "" &&
+              Conversion.unixTimestampToDateTime(x.heure).getMillis > heureLimiteCycleCommencant.getMillis
+            )
+        )
     )
     dataTgaTgdCycleOver
   }
