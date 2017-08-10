@@ -69,7 +69,9 @@ object BuildCycleOver {
 
   }
 
-  // Fonction pour filtrer les cycles finis
+
+  // TODO faire passer l'heure a jouer en paramètre
+
   def filterCycleOver(dsTgaTgdCycles: Dataset[TgaTgdCycleId],
                       sqlContext: SQLContext): Dataset[TgaTgdCycleId] = {
     import sqlContext.implicits._
