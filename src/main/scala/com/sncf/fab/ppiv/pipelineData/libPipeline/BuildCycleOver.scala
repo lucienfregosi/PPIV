@@ -3,8 +3,8 @@ package com.sncf.fab.ppiv.pipelineData.libPipeline
 import com.sncf.fab.ppiv.business.{TgaTgdCycleId, TgaTgdInput}
 import com.sncf.fab.ppiv.parser.DatasetsParser
 import com.sncf.fab.ppiv.persistence.Persist
-import com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver.DEVLOGGER
-import com.sncf.fab.ppiv.utils.AppConf.LANDING_WORK
+import com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver.{DEVLOGGER, MAINLOGGER}
+import com.sncf.fab.ppiv.utils.AppConf.{LANDING_WORK, STICKING_PLASTER}
 import com.sncf.fab.ppiv.utils.Conversion
 import com.sncf.fab.ppiv.utils.Conversion.ParisTimeZone
 import groovy.sql.DataSet
@@ -173,10 +173,15 @@ object BuildCycleOver {
       val tgaTgdHour = LoadData.loadTgaTgd(sqlContext, filePath)
 
       // Nettoyage rapide du fichier, application du sparadrap si besoin et validation champ à champ
-      val tgaTgdHourUseful =
+      val tgaTgdHourStickingParser = if (STICKING_PLASTER == true) {
+        MAINLOGGER.info("Flag sparadrap activé, application de la correction")
+        Preprocess.applyStickingPlaster(tgaTgdHour, sqlContext)
+      } else tgaTgdHour
+
+      val tgaTgdHourUseful = ValidateData.validateField(tgaTgdHourStickingParser, sqlContext)
 
       // Ajout dans notre variable de sortie
-      tgaTgdRawAllDay = tgaTgdRawAllDay.union(tgaTgdHour)
+      tgaTgdRawAllDay = tgaTgdRawAllDay.union(tgaTgdHourUseful._1)
     }
     tgaTgdRawAllDay
   }

@@ -22,7 +22,7 @@ case class ReferentielGare(CodeGare: String,
                            AgenceGC: String,
                            RegionSNCF: String,
                            NiveauDeService: String,
-                           LongitudeWGS84: String,
-                           LatitudeWGS84: String,
+                           LongitudeWGS84: Float,
+                           LatitudeWGS84: Float,
                            DateFinValiditeGare: String
                          )

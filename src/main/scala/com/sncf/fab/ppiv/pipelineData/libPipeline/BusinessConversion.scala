@@ -36,7 +36,7 @@ object BusinessConversion {
   }
 
   // function to extrat Creneau_horaire from timestamp
-  def getCreneau_horaire(timestamp: Long): String = {
+  def getCreneauHoraire(timestamp: Long): String = {
     val interval_depart_min = Conversion.unixTimestampToDateTime(timestamp).getHourOfDay.toString
     val interval_depart_max = (Conversion.unixTimestampToDateTime(timestamp).getHourOfDay + 1).toString
     val interval_depart = "[" + interval_depart_min + " - " + interval_depart_max + "]"
@@ -45,13 +45,13 @@ object BusinessConversion {
 
   //function to get the number of the day  (Dimanche ==> 1)
   def getNumberoftheday(timestamp: Long): Int = {
-        val cLocale = new Locale("en")
+
+    // Définition de la langue dans laquelle on veut avoir les mois de l'année
+    val cLocale = new Locale("en")
     val this_day= Conversion.unixTimestampToDateTime(timestamp).dayOfWeek().getAsShortText(cLocale)
     val mapDay_NumberOfDay = Map("Sun"-> 1,"Mon"->2, "Tue" -> 3, "Wed"->4, "Thu"->5, "Fri" ->6, "Sat" ->7 )
-    //val numberOfTheDay =  mapDay_NumberOfDay.getOrElse(this_day,0)
-   // numberOfTheDay
-    0
-
+    val numberOfTheDay =  mapDay_NumberOfDay(this_day)
+    numberOfTheDay
   }
 
   //function to get the first three letter of the day
@@ -283,11 +283,6 @@ object BusinessConversion {
     if (timestamp == 0) null
     else Conversion.getHHmmssFromMillis(timestamp)
 
-  }
-
-  // TODO trouver pourquoi la conversion des float se fait aussi mal
-  def getFloat(str: String): Float = {
-    5
   }
 
 }

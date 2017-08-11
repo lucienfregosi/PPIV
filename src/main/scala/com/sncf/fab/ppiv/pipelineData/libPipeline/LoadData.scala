@@ -3,7 +3,7 @@ package com.sncf.fab.ppiv.pipelineData.libPipeline
 import com.sncf.fab.ppiv.business.{ReferentielGare, TgaTgdInput}
 import com.sncf.fab.ppiv.parser.DatasetsParser
 import com.sncf.fab.ppiv.utils.AppConf.REF_GARES
-import org.apache.spark.sql.types.LongType
+import org.apache.spark.sql.types.{FloatType, LongType}
 import org.apache.spark.sql.{Dataset, SQLContext}
 
 /**
@@ -45,6 +45,8 @@ object LoadData {
       .format("com.databricks.spark.csv")
       .load(REF_GARES)
       .toDF(newNamesRefGares: _*)
+      .withColumn("LongitudeWGS84", 'LongitudeWGS84.cast(FloatType))
+      .withColumn("LatitudeWGS84", 'LatitudeWGS84.cast(FloatType))
       .distinct()
       .as[ReferentielGare]
 

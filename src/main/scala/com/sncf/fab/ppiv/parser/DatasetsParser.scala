@@ -37,7 +37,7 @@ object DatasetsParser {
         row.getString(6), row.getString(7), row.getString(8),
         row.getString(9), row.getString(10), row.getString(11),
         row.getString(12), row.getString(13), row.getString(14),
-        row.getString(15), row.getString(16), row.getString(17)
+        row.getFloat(15), row.getFloat(16), row.getString(17)
 
       )
     }
