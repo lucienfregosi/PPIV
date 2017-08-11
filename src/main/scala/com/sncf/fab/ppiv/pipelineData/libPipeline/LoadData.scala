@@ -24,6 +24,7 @@ object LoadData {
       .load(path).toDF(newNamesTgaTgd: _*)
       .withColumn("maj", 'maj.cast(LongType))
       .withColumn("heure", 'heure.cast(LongType))
+      .distinct()
       .as[TgaTgdInput]
 
     // Parsing du CSV a l'intérieur d'un object TgaTgaInput, conversion en dataset
@@ -44,6 +45,7 @@ object LoadData {
       .format("com.databricks.spark.csv")
       .load(REF_GARES)
       .toDF(newNamesRefGares: _*)
+      .distinct()
       .as[ReferentielGare]
 
     // Parsing du CSV a l'intérieur d'un object ReferentielGare, conversion en dataset

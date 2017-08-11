@@ -5,7 +5,7 @@ import com.sncf.fab.ppiv.business._
 import com.sncf.fab.ppiv.parser.DatasetsParser
 import com.sncf.fab.ppiv.persistence.Persist
 import com.sncf.fab.ppiv.pipelineData.libPipeline._
-import com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver.LOGGER
+import com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver.{DEVLOGGER, MAINLOGGER}
 import com.sncf.fab.ppiv.utils.AppConf._
 import com.sncf.fab.ppiv.utils.Conversion
 import org.apache.spark.sql._
@@ -69,56 +69,63 @@ trait SourcePipeline extends Serializable {
   def start(sc : SparkContext, sqlContext : SQLContext, timeToProcess: DateTime): DataFrame = {
     import sqlContext.implicits._
 
-    LOGGER.info("Lancement du pipeline pour les " + Panneau() + " pour la journée " + Conversion.getYearMonthDay(timeToProcess) +" et l'heure: " + Conversion.getHourDebutPlageHoraire(timeToProcess))
+    MAINLOGGER.info("Lancement du pipeline pour les " + Panneau() + " pour la journée " + Conversion.getYearMonthDay(timeToProcess) +" et l'heure: " + Conversion.getHourDebutPlageHoraire(timeToProcess))
 
     // 1) Chargement des fichiers déjà parsé dans leur classe
-    LOGGER.info("1) Chargement des fichiers déjà parsé dans leur classe")
+    MAINLOGGER.info("1) Chargement des fichiers déjà parsé dans leur classe")
     val dataTgaTgd                = LoadData.loadTgaTgd(sqlContext, getSource(timeToProcess))
     val dataRefGares              = LoadData.loadReferentiel(sqlContext)
 
+    DEVLOGGER.info("Nombre de lignes TGX chargés depuis HDFS: " + dataTgaTgd.count())
+    DEVLOGGER.info("Nombre de lignes du référentiel chargés depuis HDFS: " + dataRefGares.count())
+
     // 2) Application du sparadrap sur les données au cause du Bug lié au passe nuit (documenté dans le wiki)
     // On le conditionne a un flag (apply_sticking_plaster) dans app.conf car dans le futur Obier compte patcher le bug
-    LOGGER.info("2) [OPTIONNEL] Application du sparadrap sur les données au cause du Bug lié au passe nuit")
+    MAINLOGGER.info("2) [OPTIONNEL] Application du sparadrap sur les données au cause du Bug lié au passe nuit")
     val dataTgaTgdBugFix = if (STICKING_PLASTER == true) {
-      LOGGER.info("Flag sparadrap activé, application de la correction")
+      MAINLOGGER.info("Flag sparadrap activé, application de la correction")
       Preprocess.applyStickingPlaster(dataTgaTgd, sqlContext)
     } else dataTgaTgd
 
     // 3) Validation champ à champ
-    LOGGER.info("3) Validation champ à champ")
+    MAINLOGGER.info("3) Validation champ à champ")
     val (dataTgaTgdFielValidated, dataTgaTgdFielRejected)   = ValidateData.validateField(dataTgaTgdBugFix, sqlContext)
 
-    // TODO A remplacer dans le fichier qui trace les compteurs
-   // println("Field reject: Rejected" +dataTgaTgdFielRejected.count())
-    //println("Field reject: Validated" + dataTgaTgdFielValidated.count())
+    DEVLOGGER.info("Nombre de lignes validées champ a champ: " + dataTgaTgdFielValidated.toDF().count())
+    DEVLOGGER.info("Pourcentage de validation champ a champ: " + (dataTgaTgdFielValidated.toDF().count() / dataTgaTgd.count())*100 + "%")
+    DEVLOGGER.info("Nombre de lignes rejetées champ a champ: " + dataTgaTgdFielValidated.toDF().count())
+    DEVLOGGER.info("Pourcentage de rejet champ a champ: " + (dataTgaTgdFielValidated.toDF().count() / dataTgaTgd.count())*100 + "%")
 
 
     // 4) Reconstitution des évènements pour chaque trajet
     // L'objectif de cette fonction est de renvoyer (cycleId | Array(TgaTgdInput) ) afin d'associer à chaque cycle de vie
     // d'un train terminé la liste de tous ses évènements en vue du calcul des indicateurs
-    LOGGER.info("4) Reconstitution de la liste d'événements pour chaque trajet")
+    MAINLOGGER.info("4) Reconstitution de la liste d'événements pour chaque trajet")
     val cycleWithEventOver = BuildCycleOver.getCycleOver(dataTgaTgdFielValidated, sc, sqlContext, Panneau(), timeToProcess)
+    DEVLOGGER.info("Nombre de cycle de vie terminé à traiter: " + cycleWithEventOver.count())
+
+
+
 
     // 5) Boucle sur les cycles finis pour traiter leur liste d'évènements
-    LOGGER.info("5) Boucle sur les cycles finis pour traiter leur liste d'évènements (validation, calcul des KPI..)")
+    MAINLOGGER.info("5) Boucle sur les cycles finis pour traiter leur liste d'évènements (validation, calcul des KPI..)")
     val rddIvTgaTgdWithoutReferentiel = BusinessRules.computeBusinessRules(cycleWithEventOver, timeToProcess)
+    DEVLOGGER.info("Nombre de cycle de vie sur lesquels on a calculé les KPI: " + rddIvTgaTgdWithoutReferentiel.count())
 
     // Conversion du résulat en dataset
     val dsIvTgaTgdWithoutReferentiel = rddIvTgaTgdWithoutReferentiel.toDS()
 
     // Filtre sur les cycles invalidés
-    LOGGER.info("8) Filtre sur les cycles invalidés et enregistrement des rejets")
+    MAINLOGGER.info("8) Filtre sur les cycles invalidés et enregistrement des rejets")
     val cycleInvalidated = dsIvTgaTgdWithoutReferentiel.toDF().filter($"cycleId".contains("INV_")).as[TgaTgdIntermediate]
     val cycleValidated    = dsIvTgaTgdWithoutReferentiel.toDF().filter(not($"cycleId".contains("INV_"))).as[TgaTgdIntermediate]
+
+    DEVLOGGER.info("Nombre de cycle validé: " + cycleValidated.toDF().count())
+    DEVLOGGER.info("Nombre de cycle invalidé: " + cycleInvalidated.toDF().count())
+
+
     //Reject.saveFieldRejected(dataTgaTgdFielRejected, sc, timeToProcess)
     //Reject.saveCycleRejected(cycleInvalidated, sc, timeToProcess)
-
-    // TODO A remplacer dans le fichier qui trace les compteurs
-    LOGGER.info("Validation champ à champ counts")
-    val cycleInvalidatedDf = cycleInvalidated.toDF()
-    val cycleValidatedDf   =  cycleValidated.toDF()
-    println("invalidated:" + cycleInvalidatedDf.count())
-    println("validated:" + cycleValidatedDf.count())
 
 
     // 9) Sauvegarde des données propres
@@ -127,10 +134,12 @@ trait SourcePipeline extends Serializable {
     // Dataset[TgaTgdWithoutRef] -> DataSet[TgaTgdInput]
     // Puis enregistrer dans l'object PostProcess
      //PostProcess.saveCleanData(DataSet[TgaTgdInput], sc)
+    //DEVLOGGER.info("Nombre de lignes TgaTgd propre a historiser: " + cycleInvalidated.toDF().count())
 
     // 10) Jointure avec le référentiel et inscription dans la classe finale TgaTgdOutput avec conversion et formatage
-    LOGGER.info("10) Post Process, jointure et conversion")
+    MAINLOGGER.info("10) Post Process, jointure et conversion")
     val dataTgaTgdOutput = Postprocess.postprocess (cycleValidated, dataRefGares, sqlContext, Panneau())
+    DEVLOGGER.info("Nombre de cycle à enregistrer après jointure et conversion: " + dataTgaTgdOutput.count())
 
     // On renvoie le data set final pour un Tga ou un Tgd (qui seront fusionné dans le main)
     dataTgaTgdOutput

@@ -3,6 +3,7 @@ package com.sncf.fab.ppiv.pipelineData.libPipeline
 import java.util.concurrent.TimeUnit
 
 import com.sncf.fab.ppiv.business.{NDerniersChamps, ReferentielGare, TgaTgdInput, TgaTgdIntermediate, TgaTgdOutput, VingPremierChamp, VingtChampsSuivants}
+import com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver.DEVLOGGER
 import com.sncf.fab.ppiv.utils.Conversion
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.{DataFrame, Dataset, Row, SQLContext}
@@ -17,7 +18,7 @@ object Postprocess {
 
    // Jointure avec le référentiel
    // Nettoyage du référentiel pour enlever les TVS vide
-   val cleanedRefGares = refGares.filter(x=> (x.TVS != null && x.TVS != "" ) ).distinct
+   val cleanedRefGares = refGares.filter(x=> (x.TVS != null && x.TVS != "" ) )
    val dataTgaTgdWithReferentiel = Postprocess.joinReferentiel(dsTgaTgd, cleanedRefGares, sqlContext)
 
  // Inscription dans la classe finale TgaTgdOutput avec conversion et formatage
@@ -31,7 +32,11 @@ object Postprocess {
 
   def joinReferentiel(dsTgaTgd: Dataset[TgaTgdIntermediate], refGares : Dataset[ReferentielGare], sqlContext : SQLContext): DataFrame = {
     // Jointure entre nos données de sorties et le référentiel
+
+    DEVLOGGER.info("Nombre de lignes avant la jointure avec le référentiel: " + dsTgaTgd.count())
     val joinedData = dsTgaTgd.toDF().join(refGares.toDF(), dsTgaTgd.toDF().col("gare") === refGares.toDF().col("TVS"),"inner")
+    DEVLOGGER.info("Nombre de lignes avant la jointure avec le référentiel: " + joinedData.count())
+
     joinedData
   }
 
