@@ -55,7 +55,7 @@ object TraitementPPIVDriver extends Serializable {
       // Set du niveau de log pour ne pas être envahi par les messages
       ///sc.setLogLevel("ERROR")
 
-      MAINLOGGER.info("alleeeeez")
+      MAINLOGGER.info("alleeeeez2")
 
       System.exit(0)
 
