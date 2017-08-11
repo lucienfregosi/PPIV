@@ -172,6 +172,9 @@ object BuildCycleOver {
       // Chargement effectif du fichier
       val tgaTgdHour = LoadData.loadTgaTgd(sqlContext, filePath)
 
+      // Nettoyage rapide du fichier, application du sparadrap si besoin et validation champ à champ
+      val tgaTgdHourUseful =
+
       // Ajout dans notre variable de sortie
       tgaTgdRawAllDay = tgaTgdRawAllDay.union(tgaTgdHour)
     }
