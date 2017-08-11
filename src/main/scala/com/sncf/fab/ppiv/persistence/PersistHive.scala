@@ -31,14 +31,9 @@ object PersistHive extends Serializable {
 
     dfHive.registerTempTable("dataToSaveToHive")
 
-    hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgdamath select * from dataToSaveToHive")
+    hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgda select * from dataToSaveToHive")
 
   }
-
-  def persisteRejetHive (df: DataFrame, sc : SparkContext): Unit = {
-
-    val pathRejet= "hdfs:/data1/GARES/refinery/PPIV_PHASE2/QualiteAffichage/FichierRejet190717.csv"
-    df.coalesce(1).write.mode(SaveMode.Overwrite).format("com.databricks.spark.csv").save(pathRejet)
-  }
+  
 
 }
