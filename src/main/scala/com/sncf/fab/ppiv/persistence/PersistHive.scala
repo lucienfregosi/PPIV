@@ -34,6 +34,6 @@ object PersistHive extends Serializable {
     hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgda select * from dataToSaveToHive")
 
   }
-  
+
 
 }

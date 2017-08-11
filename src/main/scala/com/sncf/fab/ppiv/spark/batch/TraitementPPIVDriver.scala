@@ -11,6 +11,7 @@ import com.sncf.fab.ppiv.utils.{Conversion, GetSparkEnv}
 import org.apache.spark.sql.SQLContext
 import org.apache.spark.{SparkConf, SparkContext}
 import org.joda.time.{DateTime, Duration}
+import org.slf4j.LoggerFactory
 
 /**
 //  * Created by simoh-labdoui on 11/05/2017.
@@ -19,8 +20,11 @@ import org.joda.time.{DateTime, Duration}
 // Classe main, lancement du programme
 object TraitementPPIVDriver extends Serializable {
 
-  var MAINLOGGER = Logger.getLogger("RollingAppender")
-  var DEVLOGGER  = Logger.getLogger("DevLogger")
+  //var MAINLOGGER = Logger.getLogger("RollingAppender")
+  //var DEVLOGGER  = Logger.getLogger("DevLogger")
+
+  val MAINLOGGER = LoggerFactory.getLogger(getClass)
+  val DEVLOGGER = LoggerFactory.getLogger(getClass)
 
   MAINLOGGER.info("Lancement du batch PPIV")
 
@@ -51,6 +55,9 @@ object TraitementPPIVDriver extends Serializable {
       // Set du niveau de log pour ne pas être envahi par les messages
       ///sc.setLogLevel("ERROR")
 
+      MAINLOGGER.info("alleeeeez")
+
+      System.exit(0)
 
       // Sauvegarde de l'heure de début du programme dans une variable
       val startTimePipeline = Conversion.nowToDateTime()

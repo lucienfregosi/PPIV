@@ -110,7 +110,7 @@ object BuildCycleOver {
       0)
 
 
-    DEVLOGGER.info("Filte sur les cycles dont l'heure de départ est comprise entre : " + heureLimiteCycleCommencant.toString() + " et " + heureLimiteCycleFini.toString() + "en prenant en compte le retard de chaque cycle")
+    DEVLOGGER.info("Filtre sur les cycles dont l'heure de départ est comprise entre : " + heureLimiteCycleCommencant.toString() + " et " + heureLimiteCycleFini.toString() + "en prenant en compte le retard de chaque cycle")
 
 
     // Filtre sur les horaire de départ inférieur a l'heure de fin de plage
