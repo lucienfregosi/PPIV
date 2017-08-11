@@ -26,6 +26,8 @@ object TraitementPPIVDriver extends Serializable {
   val MAINLOGGER = LoggerFactory.getLogger(getClass)
   val DEVLOGGER = LoggerFactory.getLogger(getClass)
 
+
+
   MAINLOGGER.info("Lancement du batch PPIV")
 
   def main(args: Array[String]): Unit = {
@@ -55,9 +57,6 @@ object TraitementPPIVDriver extends Serializable {
       // Set du niveau de log pour ne pas être envahi par les messages
       ///sc.setLogLevel("ERROR")
 
-      MAINLOGGER.info("alleeeeez2")
-
-      System.exit(0)
 
       // Sauvegarde de l'heure de début du programme dans une variable
       val startTimePipeline = Conversion.nowToDateTime()
