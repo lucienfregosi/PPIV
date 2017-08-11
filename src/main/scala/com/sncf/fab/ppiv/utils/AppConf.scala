@@ -15,13 +15,17 @@ object AppConf extends Serializable{
   val GOLD         = conf.getString("gold")
   val REFINERY     = conf.getString("refinery")
   val LANDING_WORK = conf.getString("landing_work")
-  val REF_GARES    = conf.getString("ref_gares")
+  val REF_GARES    = conf.getString("refinery") + conf.getString("ref_gares")
 
   // Chemin ou enregistrer les logs
   val LOG_PATH     = conf.getString("log")
 
   // Variable pour le prijet
   val STICKING_PLASTER = conf.getBoolean("apply_sticking_plaster")
+
+  // Noms des fichiers pour les rejets
+  val REJECTED_FIELD = conf.getString("refinery") + conf.getString("reject_field")
+  val REJECTED_CYCLE = conf.getString("refinery") + conf.getString("reject_cycle")
 
   // Valeur TGA et TGD
   val TGA          = "TGA.csv"

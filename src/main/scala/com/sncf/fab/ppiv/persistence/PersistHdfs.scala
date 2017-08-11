@@ -24,31 +24,7 @@ object PersistHdfs extends Serializable {
     * @param df le dataset issu des fichiers TGA TGD et le referentiel des gares
     */
   def persisteQualiteAffichageIntoHdfs(df: DataFrame, hdfsGoldPath: String): Unit = {
-
+    // Sauvegarde effective
     df.write.format("com.databricks.spark.csv").save(hdfsGoldPath)
-
   }
-
-
-  def persisteRejetFieldHdfs(df: DataFrame): Unit = {
-
-    val path = "hdfs:/data1/GARES/refinery/PPIV_PHASE2/REJET/RejectedField.csv"
-    df.write.mode(SaveMode.Overwrite).format("com.databricks.spark.csv").save(path)
-
-  }
-
-  def persisteRejetCycleHdfs(df: DataFrame): Unit = {
-
-    val path = "hdfs:/data1/GARES/refinery/PPIV_PHASE2/REJET/RejectedCycles.csv"
-    df.coalesce(1).write.mode(SaveMode.Overwrite).format("com.databricks.spark.csv").save(path)
-
-  }
-
-  def persistBeforePostprocess(df: DataFrame): Unit = {
-    val path = "hdfs:/data1/GARES/refinery/PPIV_PHASE2/REJET/DataBeforePostprocess.csv"
-    df.coalesce(1).write.mode(SaveMode.Overwrite).format("com.databricks.spark.csv").save(path)
-
-  }
-
-
 }
