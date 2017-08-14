@@ -121,7 +121,7 @@ object BuildCycleOver {
 
     // Filtre sur les horaire de départ inférieur a l'heure de fin de plage
     // et sur les horaires de départ supérieur a l'heure de début de plage
-    val dataTgaTgdCycleOver2 = dsTgaTgdCycles.filter(x =>
+    /*val dataTgaTgdCycleOver2 = dsTgaTgdCycles.filter(x =>
       (
         (
            // Cas avec retard on prend en compte le retard pour voir si le train est déja parti
@@ -145,11 +145,14 @@ object BuildCycleOver {
               Conversion.unixTimestampToDateTime(x.heure).getMillis > heureLimiteCycleCommencant.getMillis
             )
         )
-    )
+    )*/
 
 
     // On veut filtrer les cycles dont l'heure de départ est situé entre l'heure de début du traitement du batch et celle de fin
-    val dataTgaTgdCycleOver = dsTgaTgdCycles.filter( x => Conversion.unixTimestampToDateTime(x.heure).getMillis > heureLimiteCycleCommencant.getMillis)
+    val dataTgaTgdCycleOver = dsTgaTgdCycles
+      // Filtre sur les cycles terminés après le début de la plage
+      .filter( x => Conversion.unixTimestampToDateTime(x.heure).getMillis > heureLimiteCycleCommencant.getMillis)
+      // Filtre sur les cycles terminés avant le début de la plage
       .filter( x => Conversion.unixTimestampToDateTime(x.heure).getMillis < heureLimiteCycleFini.getMillis)
 
 

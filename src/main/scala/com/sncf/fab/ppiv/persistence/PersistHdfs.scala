@@ -17,7 +17,7 @@ object PersistHdfs extends Serializable {
     */
 
   def persisteTgaTgdParsedIntoHdfs(ds: Dataset[TgaTgdInput], hdfsRefineryPath: String): Unit = {
-    ds.toDF().coalesce(1).write.format("com.databricks.spark.csv").save(hdfsRefineryPath)
+    ds.toDF().write.format("com.databricks.spark.csv").save(hdfsRefineryPath)
   }
 
   /**
