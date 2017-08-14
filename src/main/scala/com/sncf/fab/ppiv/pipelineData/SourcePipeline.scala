@@ -124,8 +124,8 @@ trait SourcePipeline extends Serializable {
     DEVLOGGER.info("Nombre de cycle invalidé: " + cycleInvalidated.toDF().count())
 
 
-    Reject.saveFieldRejected(dataTgaTgdFielRejected, sc, timeToProcess)
-    Reject.saveCycleRejected(cycleInvalidated, sc, timeToProcess)
+    //Reject.saveFieldRejected(dataTgaTgdFielRejected, sc, timeToProcess)
+    //Reject.saveCycleRejected(cycleInvalidated, sc, timeToProcess)
 
 
     // 9) Sauvegarde des données propres

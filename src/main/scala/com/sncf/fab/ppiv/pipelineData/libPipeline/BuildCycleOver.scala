@@ -36,6 +36,7 @@ object BuildCycleOver {
     val cycleIdListOver = filterCycleOver(cycleIdList, sqlContext, timeToProcess)
     println("Nombre de cyle terminé: " + cycleIdListOver.count())
     println("Nombre de cyle terminé DISTINCT: " + cycleIdListOver.distinct.count())
+    rintln("Nombre de cyle en tout : " + cycleIdList.count())
     println("Pourcentage de cyle terminé: " + (cycleIdListOver.count() / cycleIdList.count())*100 + "%")
     DEVLOGGER.info("Nombre de cyle terminé: " + cycleIdListOver.count())
     DEVLOGGER.info("Nombre de cyle terminé DISTINCT: " + cycleIdListOver.distinct.count())

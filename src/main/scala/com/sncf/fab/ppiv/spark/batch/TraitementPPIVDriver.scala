@@ -113,12 +113,12 @@ object TraitementPPIVDriver extends Serializable {
     MAINLOGGER.info("Nombre de cycle TGA fini et calculé a persister: " + ivTga.count())
 
     MAINLOGGER.info("Traitement des TGD")
-    val ivTgd = TraitementTgd.start(sc, sqlContext, dateTimeToProcess)
+    //val ivTgd = TraitementTgd.start(sc, sqlContext, dateTimeToProcess)
     MAINLOGGER.info("Nombre de cycle TGA fini et calculé a persister: " + ivTgd.count())
 
     // 11) Fusion des résultats de TGA et TGD
     MAINLOGGER.info("11) Fusion des résultats entre TGA et TGD")
-    val ivTgaTgd = ivTga.unionAll(ivTgd)
+    //val ivTgaTgd = ivTga.unionAll(ivTgd)
     MAINLOGGER.info("Nombre total de cycle fini et calculé a persister: " + ivTgaTgd.count())
 
 
@@ -126,7 +126,7 @@ object TraitementPPIVDriver extends Serializable {
     try {
       // 12) Persistence dans la méthode demandée (hdfs, hive, es, fs)
       MAINLOGGER.info("12) Persistence dans la méthode demandée (hdfs, hive, es, fs)")
-      Persist.save(ivTgaTgd, persistMethod, sc, dateTimeToProcess)
+      Persist.save(ivTga, persistMethod, sc, dateTimeToProcess)
     }
     catch {
       case e: Throwable => {
