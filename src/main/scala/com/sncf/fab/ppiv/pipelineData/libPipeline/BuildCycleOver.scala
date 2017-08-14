@@ -118,7 +118,7 @@ object BuildCycleOver {
 
     println("Heure de début de cycle: " + heureLimiteCycleCommencant.toString())
     println("Heure de fin de cycle: " + heureLimiteCycleFini.toString())
-    
+
     // On veut filtrer les cycles dont l'heure de départ est situé entre l'heure de début du traitement du batch et celle de fin
     val dataTgaTgdCycleOver = dsTgaTgdCycles
       // Filtre sur les cycles terminés après le début de la plage

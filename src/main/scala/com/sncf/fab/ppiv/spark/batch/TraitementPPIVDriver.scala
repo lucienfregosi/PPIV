@@ -4,6 +4,7 @@ import java.time.Period
 
 import com.sncf.fab.ppiv.Exception.PpivRejectionHandler
 import com.sncf.fab.ppiv.persistence._
+import com.sncf.fab.ppiv.pipelineData.libPipeline.LoadData
 import com.sncf.fab.ppiv.pipelineData.{SourcePipeline, TraitementTga, TraitementTgd}
 import org.apache.log4j.{Level, Logger}
 import com.sncf.fab.ppiv.utils.AppConf._
@@ -38,6 +39,8 @@ object TraitementPPIVDriver extends Serializable {
     //  - 3 arguments (persistance, date début, date fin) mais dates invalide (les dates doivent être de la forme yyyyMMdd_HH) -> Stop
     //  - 3 arguments (persistance, date début, date fin) et dates valides -> Lancement du batch sur la période spécifié
 
+
+
     if (args.length == 0){
       // Pas d'arguments d'entrée -> Stop
       MAINLOGGER.error("Pas d'arguments d'entrée, le batch nécessite au minimum la méthode de persistance (hdfs, hive, fs, es)")
@@ -56,6 +59,15 @@ object TraitementPPIVDriver extends Serializable {
 
       // Set du niveau de log pour ne pas être envahi par les messages
       sc.setLogLevel("ERROR")
+
+      val dataRefGares              = LoadData.loadReferentiel(sqlContext)
+      dataRefGares.printSchema()
+
+
+      dataRefGares.printSchema()
+      dataRefGares.show()
+
+      System.exit(0)
 
 
       // Sauvegarde de l'heure de début du programme dans une variable
