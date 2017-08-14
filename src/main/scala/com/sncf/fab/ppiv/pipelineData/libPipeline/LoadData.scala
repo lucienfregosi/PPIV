@@ -47,8 +47,6 @@ object LoadData {
       .format("com.databricks.spark.csv")
       .load(REF_GARES)
       .toDF(newNamesRefGares: _*)
-      //.withColumn("LongitudeWGS84", 'LongitudeWGS84.cast(FloatType))
-      //.withColumn("LatitudeWGS84", 'LatitudeWGS84.cast(FloatType))
       .distinct()
       .as[ReferentielGare]
 
