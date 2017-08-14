@@ -50,11 +50,10 @@ object BusinessRules {
       // 6) Validation des cycles
 
 
-      val isCycleValidated = ValidateData.validateCycle(seqTgaTgd)._1
-      if (isCycleValidated == false) {
-        val rejectReason = ValidateData.validateCycle(seqTgaTgd)._2
-        // TODO : Regarder si il n'a pas un état en IND ou SUP
-        // Si oui on enregistre la ligne avec les infos qu'on a
+      val isCycleValidated = ValidateData.validateCycle(seqTgaTgd)
+      if (isCycleValidated._1 == false) {
+        // Raison de l'invalidation
+        val rejectReason = isCycleValidated._2
         MAINLOGGER.info("Cycle invalide pour le cycle Id: " + cycleId)
         cycleId = "INV_" + cycleId
         TgaTgdIntermediate(
@@ -266,7 +265,7 @@ object BusinessRules {
       null
     } else {
       if (seqFiltered.contains("IND")) { "IND" } else {
-        if (seqFiltered.contains("SUPP")) { "SUPP" } else {
+        if (seqFiltered.contains("SUP")) { "SUP" } else {
           seqFiltered(0).etat.toString
         }
       }

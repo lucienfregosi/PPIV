@@ -46,7 +46,7 @@ object ValidateData {
     // Validation des cycles. Un cycle doit comporter au moins une voie et tous ses évènements ne peuvent pas se passer x minutes après le départ du train
     // En entrée la liste des évènements pour un cycle id donné.
 
-    // TODO: Prendre en compte les SUP et IND pour les valider
+    // Ajout 14/08/2017 Si le train a éun état SUP ou IND ne pas le filtrer
 
 
     // Décompte des évènements ou la voir est renseignée
@@ -59,7 +59,7 @@ object ValidateData {
     // 10 minutes : pour la marge d'erreur imposé par le métier
     val margeErreur = 10 * 60
 
-     val departReel = (Conversion.unixTimestampToDateTime(departThéorique).plusSeconds(retard.toInt).plusMinutes(10).getMillis)/1000
+    val departReel = (Conversion.unixTimestampToDateTime(departThéorique).plusSeconds(retard.toInt).plusMinutes(10).getMillis)/1000
 
     // Décompte des évènements se passant après le départ du triain
     val cntEventApresDepart = dsTgaTgdSeq.filter(x=>( x.maj > departReel)).length
@@ -69,8 +69,16 @@ object ValidateData {
       (true, "ValidCycle")
     }
     else{
-      if (cntVoieAffiche == 0 ) {(false,"VoieManquante")}
-      else {(false,"EventApresDepart")}
+      // Si jamais le train a un état spécial (Supprimé ou retard indéterminé) cela ne veut pas dire qu'il ne faut pas le valider
+      // Get de l'état du train. Si IND ou SUP on valide
+      val etatTrain = BusinessRules.getEtatTrain(dsTgaTgdSeq)
+      if(etatTrain == "SUP" || etatTrain == "IND"){
+        (true, "train avec état " + etatTrain)
+      }
+      else{
+        if (cntVoieAffiche == 0 ) {(false,"VoieManquante")}
+        else {(false,"EventApresDepart")}
+      }
     }
   }
 
