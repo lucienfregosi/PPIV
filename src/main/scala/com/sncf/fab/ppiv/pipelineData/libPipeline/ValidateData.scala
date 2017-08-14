@@ -76,7 +76,8 @@ object ValidateData {
         (true, "train avec état " + etatTrain)
       }
       else{
-        if (cntVoieAffiche == 0 ) {(false,"VoieManquante")}
+        if(dsTgaTgdSeq.length == 0 || dsTgaTgdSeq.length == 1) {(false,"PasAssezDeDonnees")}
+        else if (cntVoieAffiche == 0 ) {(false,"VoieManquante")}
         else {(false,"EventApresDepart")}
       }
     }
