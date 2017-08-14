@@ -59,16 +59,7 @@ object TraitementPPIVDriver extends Serializable {
 
       // Set du niveau de log pour ne pas être envahi par les messages
       sc.setLogLevel("ERROR")
-
-      val dataRefGares              = LoadData.loadReferentiel(sqlContext)
-      dataRefGares.printSchema()
-
-
-      dataRefGares.printSchema()
-      dataRefGares.show()
-
-      System.exit(0)
-
+      
 
       // Sauvegarde de l'heure de début du programme dans une variable
       val startTimePipeline = Conversion.nowToDateTime()
