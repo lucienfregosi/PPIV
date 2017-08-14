@@ -118,43 +118,17 @@ object BuildCycleOver {
 
     println("Heure de début de cycle: " + heureLimiteCycleCommencant.toString())
     println("Heure de fin de cycle: " + heureLimiteCycleFini.toString())
-
-    // Filtre sur les horaire de départ inférieur a l'heure de fin de plage
-    // et sur les horaires de départ supérieur a l'heure de début de plage
-    /*val dataTgaTgdCycleOver2 = dsTgaTgdCycles.filter(x =>
-      (
-        (
-           // Cas avec retard on prend en compte le retard pour voir si le train est déja parti
-            x.retard != "" &&
-            Conversion.unixTimestampToDateTime(x.heure).plusMinutes(x.retard.toInt).getMillis < heureLimiteCycleFini.getMillis
-          ) ||
-          (
-            // Cas sans retard on se tient a la date de départ théorique du train
-            x.retard == "" &&
-              Conversion.unixTimestampToDateTime(x.heure).getMillis < heureLimiteCycleFini.getMillis
-            )
-        &&
-            (
-              // Cas avec retard on prend en compte le retard pour voir si le train est déja parti
-              x.retard != "" &&
-                Conversion.unixTimestampToDateTime(x.heure).plusMinutes(x.retard.toInt).getMillis > heureLimiteCycleCommencant.getMillis
-              ) ||
-          (
-            // Cas sans retard on se tient a la date de départ théorique du train
-            x.retard == "" &&
-              Conversion.unixTimestampToDateTime(x.heure).getMillis > heureLimiteCycleCommencant.getMillis
-            )
-        )
-    )*/
-
-
+    
     // On veut filtrer les cycles dont l'heure de départ est situé entre l'heure de début du traitement du batch et celle de fin
     val dataTgaTgdCycleOver = dsTgaTgdCycles
       // Filtre sur les cycles terminés après le début de la plage
       .filter( x => Conversion.unixTimestampToDateTime(x.heure).getMillis > heureLimiteCycleCommencant.getMillis)
+      // Filtre sur les cycles terminés après le début de la plage retard compris
+      .filter(x => x.retard != "" && Conversion.unixTimestampToDateTime(x.heure).plusMinutes(x.retard.toInt).getMillis > heureLimiteCycleCommencant.getMillis)
       // Filtre sur les cycles terminés avant le début de la plage
       .filter( x => Conversion.unixTimestampToDateTime(x.heure).getMillis < heureLimiteCycleFini.getMillis)
-
+      // Filtre sur les cycles terminés avant le début de la plage retard compris
+      .filter( x => x.retard != "" && Conversion.unixTimestampToDateTime(x.heure).plusMinutes(x.retard.toInt).getMillis < heureLimiteCycleFini.getMillis)
 
     dataTgaTgdCycleOver
   }
