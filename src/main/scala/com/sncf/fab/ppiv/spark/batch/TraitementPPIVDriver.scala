@@ -114,12 +114,12 @@ object TraitementPPIVDriver extends Serializable {
 
     MAINLOGGER.info("Traitement des TGD")
     //val ivTgd = TraitementTgd.start(sc, sqlContext, dateTimeToProcess)
-    MAINLOGGER.info("Nombre de cycle TGA fini et calculé a persister: " + ivTgd.count())
+    //MAINLOGGER.info("Nombre de cycle TGA fini et calculé a persister: " + ivTgd.count())
 
     // 11) Fusion des résultats de TGA et TGD
     MAINLOGGER.info("11) Fusion des résultats entre TGA et TGD")
     //val ivTgaTgd = ivTga.unionAll(ivTgd)
-    MAINLOGGER.info("Nombre total de cycle fini et calculé a persister: " + ivTgaTgd.count())
+    //MAINLOGGER.info("Nombre total de cycle fini et calculé a persister: " + ivTgaTgd.count())
 
 
 
