@@ -35,7 +35,7 @@ object Postprocess {
 
     DEVLOGGER.info("Nombre de lignes avant la jointure avec le référentiel: " + dsTgaTgd.count())
     val joinedData = dsTgaTgd.toDF().join(refGares.toDF(), dsTgaTgd.toDF().col("gare") === refGares.toDF().col("TVS"),"inner")
-    DEVLOGGER.info("Nombre de lignes avant la jointure avec le référentiel: " + joinedData.count())
+    DEVLOGGER.info("Nombre de lignes après la jointure avec le référentiel: " + joinedData.count())
 
     joinedData
   }
