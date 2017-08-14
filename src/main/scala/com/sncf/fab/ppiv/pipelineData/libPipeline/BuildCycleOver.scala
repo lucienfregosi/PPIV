@@ -34,6 +34,9 @@ object BuildCycleOver {
     // Parmi les cyclesId généré précédemment on filtre ceux dont l'heure de départ est deja passé
     // On renvoie le même format de données (cycle_id{gare,panneau,numeroTrain,heureDepart}, heureDepart, retard)
     val cycleIdListOver = filterCycleOver(cycleIdList, sqlContext, timeToProcess)
+    println("Nombre de cyle terminé: " + cycleIdListOver.count())
+    println("Nombre de cyle terminé DISTINCT: " + cycleIdListOver.distinct.count())
+    println("Pourcentage de cyle terminé: " + (cycleIdListOver.count() / cycleIdList.count())*100 + "%")
     DEVLOGGER.info("Nombre de cyle terminé: " + cycleIdListOver.count())
     DEVLOGGER.info("Nombre de cyle terminé DISTINCT: " + cycleIdListOver.distinct.count())
     DEVLOGGER.info("Pourcentage de cyle terminé: " + (cycleIdListOver.count() / cycleIdList.count())*100 + "%")

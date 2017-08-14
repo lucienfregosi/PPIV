@@ -55,7 +55,7 @@ object TraitementPPIVDriver extends Serializable {
       val sqlContext = GetSparkEnv.getSqlContext()
 
       // Set du niveau de log pour ne pas être envahi par les messages
-      ///sc.setLogLevel("ERROR")
+      sc.setLogLevel("ERROR")
 
 
       // Sauvegarde de l'heure de début du programme dans une variable
@@ -106,20 +106,20 @@ object TraitementPPIVDriver extends Serializable {
     val persistMethod = argsArray(0)
 
 
-    DEVLOGGER.info("Lancement du pipeline pour l'heure : " + Conversion.getHourDebutPlageHoraire(dateTimeToProcess))
+    MAINLOGGER.info("Lancement du pipeline pour l'heure : " + Conversion.getHourDebutPlageHoraire(dateTimeToProcess))
 
-    DEVLOGGER.info("Traitement des TGA")
+    MAINLOGGER.info("Traitement des TGA")
     val ivTga = TraitementTga.start(sc, sqlContext, dateTimeToProcess)
-    DEVLOGGER.info("Nombre de cycle TGA fini et calculé a persister: " + ivTga.count())
+    MAINLOGGER.info("Nombre de cycle TGA fini et calculé a persister: " + ivTga.count())
 
-    DEVLOGGER.info("Traitement des TGD")
+    MAINLOGGER.info("Traitement des TGD")
     val ivTgd = TraitementTgd.start(sc, sqlContext, dateTimeToProcess)
-    DEVLOGGER.info("Nombre de cycle TGA fini et calculé a persister: " + ivTgd.count())
+    MAINLOGGER.info("Nombre de cycle TGA fini et calculé a persister: " + ivTgd.count())
 
     // 11) Fusion des résultats de TGA et TGD
     MAINLOGGER.info("11) Fusion des résultats entre TGA et TGD")
     val ivTgaTgd = ivTga.unionAll(ivTgd)
-    DEVLOGGER.info("Nombre total de cycle fini et calculé a persister: " + ivTgaTgd.count())
+    MAINLOGGER.info("Nombre total de cycle fini et calculé a persister: " + ivTgaTgd.count())
 
 
 
