@@ -39,8 +39,6 @@ object TraitementPPIVDriver extends Serializable {
     //  - 3 arguments (persistance, date début, date fin) mais dates invalide (les dates doivent être de la forme yyyyMMdd_HH) -> Stop
     //  - 3 arguments (persistance, date début, date fin) et dates valides -> Lancement du batch sur la période spécifié
 
-
-
     if (args.length == 0){
       // Pas d'arguments d'entrée -> Stop
       MAINLOGGER.error("Pas d'arguments d'entrée, le batch nécessite au minimum la méthode de persistance (hdfs, hive, fs, es)")
