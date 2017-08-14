@@ -121,18 +121,13 @@ object BuildCycleOver {
 
     // On veut filtrer les cycles dont l'heure de départ est situé entre l'heure de début du traitement du batch et celle de fin
     val dataTgaTgdCycleOver = dsTgaTgdCycles
-      // Filtre sur les cycles terminés après le début de la plage
-      .filter( x => Conversion.unixTimestampToDateTime(x.heure).getMillis > heureLimiteCycleCommencant.getMillis)
-      // Filtre sur les cycles terminés après le début de la plage retard compris
-      .filter(x => x.retard != "" && Conversion.unixTimestampToDateTime(x.heure).plusMinutes(x.retard.toInt).getMillis > heureLimiteCycleCommencant.getMillis)
-      // Filtre sur les cycles terminés avant le début de la plage
-      .filter( x => Conversion.unixTimestampToDateTime(x.heure).getMillis < heureLimiteCycleFini.getMillis)
-      // Filtre sur les cycles terminés avant le début de la plage retard compris
-      .filter( x => x.retard != "" && Conversion.unixTimestampToDateTime(x.heure).plusMinutes(x.retard.toInt).getMillis < heureLimiteCycleFini.getMillis)
+      // Filtre sur les cycles terminés après le début de la plage en intégrant le retard
+      .filter( x => Conversion.unixTimestampToDateTime(x.heure).getMillis > heureLimiteCycleCommencant.getMillis || x.retard != "" && Conversion.unixTimestampToDateTime(x.heure).plusMinutes(x.retard.toInt).getMillis > heureLimiteCycleCommencant.getMillis)
+      // Filtre sur les cycles terminés avant le début de la plage en intégrant le retard
+      .filter( x => Conversion.unixTimestampToDateTime(x.heure).getMillis < heureLimiteCycleFini.getMillis || x.retard != "" && Conversion.unixTimestampToDateTime(x.heure).plusMinutes(x.retard.toInt).getMillis < heureLimiteCycleFini.getMillis)
 
     dataTgaTgdCycleOver
   }
-
 
 
   def loadDataEntireDay(sc: SparkContext,

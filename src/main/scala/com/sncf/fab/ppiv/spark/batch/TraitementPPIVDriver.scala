@@ -57,9 +57,23 @@ object TraitementPPIVDriver extends Serializable {
       val sc         = GetSparkEnv.getSparkContext()
       val sqlContext = GetSparkEnv.getSqlContext()
 
+      import sqlContext.implicits._
+
       // Set du niveau de log pour ne pas être envahi par les messages
       sc.setLogLevel("ERROR")
-      
+
+      val dataRefGares              = LoadData.loadReferentiel(sqlContext)
+      dataRefGares.printSchema()
+
+
+      dataRefGares.printSchema()
+
+      val d = dataRefGares.toDF().withColumn("LongitudeWGS84", $"LongitudeWGS84".cast("Float"))
+
+      d.printSchema
+
+      System.exit(0)
+
 
       // Sauvegarde de l'heure de début du programme dans une variable
       val startTimePipeline = Conversion.nowToDateTime()

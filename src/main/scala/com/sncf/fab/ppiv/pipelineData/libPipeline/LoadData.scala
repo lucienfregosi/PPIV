@@ -37,6 +37,8 @@ object LoadData {
     // Définition du nom de chacune des colonnes car on recoit les fichiers sans headers
     val newNamesRefGares = Seq("CodeGare","IntituleGare","NombrePlateformes","SegmentDRG","UIC","UniteGare","TVS","CodePostal","Commune","DepartementCommune","Departement","Region","AgenceGC","RegionSNCF","NiveauDeService","LongitudeWGS84","LatitudeWGS84","DateFinValiditeGare")
 
+
+
     // Chargement du CSV référentiel
     val refGares = sqlContext.read
       .option("delimiter", ";")
