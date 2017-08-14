@@ -16,7 +16,7 @@ object Persist {
   def save(ivTgaTgd: DataFrame, persistMethod: String, sc: SparkContext, startTimePipeline: DateTime) : Unit ={
 
     // Persistance dasn le file system
-    if (persistMethod.contains("fs"))
+    if (persistMethod.equals("fs"))
       PersistLocal.persisteQualiteAffichageIntoFs(ivTgaTgd, TraitementTga.getOutputRefineryPath(startTimePipeline))
 
     // Persistance dans Hive
