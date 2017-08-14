@@ -143,6 +143,10 @@ object BuildCycleOver {
     // Fusion des paths à télécharger
     val pathAllFile = hoursListJ.union(pathFileJMoins1)
 
+    println(pathAllFile.toString())
+
+    System.exit(0)
+
     // Chargement de tous les fichiers dans un dataset par fichier
     val tgaTgdAllPerHour = pathAllFile.map( filePath => LoadData.loadTgaTgd(sqlContext, filePath.toString))
 
