@@ -173,6 +173,11 @@ object BusinessRules {
   // Fonction qui renvoie la date de premier affichage de la voie en timestamp pour un cycle donné
   def getPremierAffichage(seqTgaTgd: Seq[TgaTgdInput]): Long = {
 
+
+    seqTgaTgd.foreach(println)
+
+    System.exit(0)
+
     // Récupération de la date de premier affichage. On cherche le moment ou la bonne voie a été affiché pour la première fois
     val premier_affichage = seqTgaTgd
       .sortBy(_.maj)
