@@ -57,7 +57,7 @@ object Postprocess {
         row.getString(25),
         row.getString(26),
         row.getAs[Float](37),
-        row.getAs[Float](37),
+        row.getAs[Float](38),
         row.getString(0),
         row.getString(3),
         row.getString(4),
