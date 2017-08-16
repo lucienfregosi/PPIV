@@ -30,30 +30,28 @@ object BuildCycleOver {
     // Groupement et création des cycleId (concaténation de gare + panneau + numeroTrain + heureDepart)
     // (cycle_id{gare,panneau,numeroTrain,heureDepart}, heureDepart, retard)
     val cycleIdList = buildCycles(dsTgaTgdInput, sqlContext, panneau)
-
     // Parmi les cyclesId généré précédemment on filtre ceux dont l'heure de départ est deja passé
     // On renvoie le même format de données (cycle_id{gare,panneau,numeroTrain,heureDepart}, heureDepart, retard)
     val cycleIdListOver = filterCycleOver(cycleIdList, sqlContext, timeToProcess)
-    println("Nombre de cyle terminé: " + cycleIdListOver.count())
-    println("Nombre de cyle terminé DISTINCT: " + cycleIdListOver.distinct.count())
-    println("Nombre de cyle en tout : " + cycleIdList.count())
-    println("Pourcentage de cyle terminé: " + (cycleIdListOver.count() / cycleIdList.count())*100 + "%")
     DEVLOGGER.info("Nombre de cyle terminé: " + cycleIdListOver.count())
     DEVLOGGER.info("Nombre de cyle terminé DISTINCT: " + cycleIdListOver.distinct.count())
     DEVLOGGER.info("Pourcentage de cyle terminé: " + (cycleIdListOver.count() / cycleIdList.count())*100 + "%")
-
-    // Charge tous les évènements depuis 18h la veille au cas ou l'on a des trains passes nuits
-    // Comme cela on est sur d'avoir tous les évènements de tous les cycles même si ce sont des passes nuits
-    val tgaTgdRawToDay = loadDataFullPeriod(sc, sqlContext, panneau, timeToProcess)
-    DEVLOGGER.info("Nombre de lignes chargé sur la journée et/ou j-1 (si passe nuit) :" + tgaTgdRawToDay.count())
-
+    //Load les evenements  du jour j. Le 5ème paramètre sert a définir la journée qui nous intéresse 0 = jour J
+    val tgaTgdRawToDay = loadDataEntireDay(sc, sqlContext, panneau, timeToProcess, 0)
+    //Load les evenements du jour j -1. Le 5ème paramètre sert a définir la journée qui nous intéresse -1 = jour J-1
+    // TODO : Amélioration :
+    // - à J-1 aller chercher les données seulement à partir de 18h
+    // - Appeler cette fonction uniquement dans le case des trains passe nuits (qui partent avant 12)
+    val tgaTgdRawYesterDay = loadDataEntireDay(sc, sqlContext, panneau, timeToProcess, -1)
+    // Union des evenement  de jour j et jour j -1
+    val tgaTgdRawAllDay = tgaTgdRawToDay.union(tgaTgdRawYesterDay)
+    DEVLOGGER.info("Nombre de lignes chargé sur la journée et/ou j-1 (si passe nuit) :" + tgaTgdRawAllDay.count())
+    // TODO: Ajout d'une étape nettoyage (sparadrap + validation champ a champ (sans enregistrement des rejets)
     // Pour chaque cycle terminé récupération des différents évènements au cours de la journée
     // sous la forme d'une structure (cycle_id | Array(TgaTgdInput)
-    val tgaTgdCycleOver = getEventCycleId(tgaTgdRawToDay, cycleIdListOver, sqlContext, sc, panneau)
+    val tgaTgdCycleOver = getEventCycleId(tgaTgdRawAllDay, cycleIdListOver, sqlContext, sc, panneau)
     DEVLOGGER.info("Nombre de cycle enrichi avec les événement de j et/ou j-1: " + tgaTgdCycleOver.count())
     DEVLOGGER.info("Nombre de cycle enrichi avec les événement de j et/ou j-1 DISTINCT: " + tgaTgdCycleOver.distinct().count())
-
-
     tgaTgdCycleOver
   }
 
@@ -246,4 +244,38 @@ object BuildCycleOver {
     groupedDfEventAsString
 
   }
+
+
+  def loadDataEntireDay(sc: SparkContext,
+                        sqlContext: SQLContext,
+                        panneau: String,
+                        timeToProcess: DateTime,
+                        dayBeforeToProcess: Int): Dataset[TgaTgdInput] = {
+    import sqlContext.implicits._
+    // Déclaration de notre variable de sortie contenant tous les event de la journée
+    // TODO Peut etre optimisable pour éviter 24 append
+    var tgaTgdRawAllDay = sc.emptyRDD[TgaTgdInput].toDS()
+    // 2 cas de figure :
+    // - Le 5ème argument vaut 0, on va chercher dans les évènements de la journée, on s'arrête a l'heure actuelle
+    // - Le 5ème argument inférieur à 0, on va chercher dans les jours précédents, on process toutes les heures de la journée
+    val currentHourInt = if(dayBeforeToProcess == 0) Conversion.getHourDebutPlageHoraire(timeToProcess).toInt else 23
+    // Boucle sur les heures de la journée à traiter
+    for (loopHour <- 0 to currentHourInt) {
+      // Construction du nom du fichier a aller chercher dans HDFS
+      var filePath = LANDING_WORK + Conversion.getYearMonthDay(timeToProcess.plusDays(dayBeforeToProcess)) + "/" + panneau + "-" +
+        Conversion.getYearMonthDay(timeToProcess.plusDays(dayBeforeToProcess)) + "_" + Conversion.HourFormat(loopHour) + ".csv"
+      // Chargement effectif du fichier
+      val tgaTgdHour = LoadData.loadTgaTgd(sqlContext, filePath)
+      // Nettoyage rapide du fichier, application du sparadrap si besoin et validation champ à champ
+      val tgaTgdHourStickingParser = if (STICKING_PLASTER == true) {
+        MAINLOGGER.info("Flag sparadrap activé, application de la correction")
+        Preprocess.applyStickingPlaster(tgaTgdHour, sqlContext)
+      } else tgaTgdHour
+      val tgaTgdHourUseful = ValidateData.validateField(tgaTgdHourStickingParser, sqlContext)
+      // Ajout dans notre variable de sortie
+      tgaTgdRawAllDay = tgaTgdRawAllDay.union(tgaTgdHourUseful._1)
+    }
+    tgaTgdRawAllDay
+  }
+
 }
