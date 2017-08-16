@@ -38,9 +38,9 @@ object Postprocess {
   def joinReferentiel(dsTgaTgd: Dataset[TgaTgdIntermediate], refGares : DataFrame, sqlContext : SQLContext): DataFrame = {
     // Jointure entre nos données de sorties et le référentiel
 
-    DEVLOGGER.info("Nombre de lignes avant la jointure avec le référentiel: " + dsTgaTgd.count())
+    //DEVLOGGER.info("Nombre de lignes avant la jointure avec le référentiel: " + dsTgaTgd.count())
     val joinedData = dsTgaTgd.toDF().join(refGares, dsTgaTgd.toDF().col("gare") === refGares.col("TVS"),"inner")
-    DEVLOGGER.info("Nombre de lignes après la jointure avec le référentiel: " + joinedData.count())
+    //DEVLOGGER.info("Nombre de lignes après la jointure avec le référentiel: " + joinedData.count())
 
     joinedData
   }

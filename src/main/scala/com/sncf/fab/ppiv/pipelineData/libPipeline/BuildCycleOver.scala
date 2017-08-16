@@ -33,9 +33,9 @@ object BuildCycleOver {
     // Parmi les cyclesId généré précédemment on filtre ceux dont l'heure de départ est deja passé
     // On renvoie le même format de données (cycle_id{gare,panneau,numeroTrain,heureDepart}, heureDepart, retard)
     val cycleIdListOver = filterCycleOver(cycleIdList, sqlContext, timeToProcess)
-    DEVLOGGER.info("Nombre de cyle terminé: " + cycleIdListOver.count())
-    DEVLOGGER.info("Nombre de cyle terminé DISTINCT: " + cycleIdListOver.distinct.count())
-    DEVLOGGER.info("Pourcentage de cyle terminé: " + (cycleIdListOver.count() / cycleIdList.count())*100 + "%")
+    //DEVLOGGER.info("Nombre de cyle terminé: " + cycleIdListOver.count())
+    //DEVLOGGER.info("Nombre de cyle terminé DISTINCT: " + cycleIdListOver.distinct.count())
+    //DEVLOGGER.info("Pourcentage de cyle terminé: " + (cycleIdListOver.count() / cycleIdList.count())*100 + "%")
     //Load les evenements  du jour j. Le 5ème paramètre sert a définir la journée qui nous intéresse 0 = jour J
     val tgaTgdRawToDay = loadDataEntireDay(sc, sqlContext, panneau, timeToProcess, 0)
     //Load les evenements du jour j -1. Le 5ème paramètre sert a définir la journée qui nous intéresse -1 = jour J-1
@@ -45,13 +45,13 @@ object BuildCycleOver {
     val tgaTgdRawYesterDay = loadDataEntireDay(sc, sqlContext, panneau, timeToProcess, -1)
     // Union des evenement  de jour j et jour j -1
     val tgaTgdRawAllDay = tgaTgdRawToDay.union(tgaTgdRawYesterDay)
-    DEVLOGGER.info("Nombre de lignes chargé sur la journée et/ou j-1 (si passe nuit) :" + tgaTgdRawAllDay.count())
+    //DEVLOGGER.info("Nombre de lignes chargé sur la journée et/ou j-1 (si passe nuit) :" + tgaTgdRawAllDay.count())
     // TODO: Ajout d'une étape nettoyage (sparadrap + validation champ a champ (sans enregistrement des rejets)
     // Pour chaque cycle terminé récupération des différents évènements au cours de la journée
     // sous la forme d'une structure (cycle_id | Array(TgaTgdInput)
     val tgaTgdCycleOver = getEventCycleId(tgaTgdRawAllDay, cycleIdListOver, sqlContext, sc, panneau)
-    DEVLOGGER.info("Nombre de cycle enrichi avec les événement de j et/ou j-1: " + tgaTgdCycleOver.count())
-    DEVLOGGER.info("Nombre de cycle enrichi avec les événement de j et/ou j-1 DISTINCT: " + tgaTgdCycleOver.distinct().count())
+    //DEVLOGGER.info("Nombre de cycle enrichi avec les événement de j et/ou j-1: " + tgaTgdCycleOver.count())
+    //DEVLOGGER.info("Nombre de cycle enrichi avec les événement de j et/ou j-1 DISTINCT: " + tgaTgdCycleOver.distinct().count())
     tgaTgdCycleOver
   }
 
@@ -180,7 +180,7 @@ object BuildCycleOver {
 
     // On joint les deux avec un inner join pour garder seulement les cycles terminés et leurs évènements
     // On se retrouve avec une structure de la forme (cycle_Id | TgaTgdInput)
-    DEVLOGGER.info("Nombre de cycles terminés: " + dsTgaTgdCyclesOver.count())
+    //DEVLOGGER.info("Nombre de cycles terminés: " + dsTgaTgdCyclesOver.count())
     val dfJoin = dsTgaTgdCyclesOver
       .toDF()
       .select("cycle_id")
@@ -238,7 +238,7 @@ object BuildCycleOver {
       dfeventsAsString("cycle_id"),
       dfeventsAsString("event"))
 
-    DEVLOGGER.info("Nombre de cycles terminés et enrichis avec les tgatgd de la journée : " + groupedDfEventAsString.count())
+    //DEVLOGGER.info("Nombre de cycles terminés et enrichis avec les tgatgd de la journée : " + groupedDfEventAsString.count())
 
     // return la table des cycles finis avec evenement groupés + la table des  des cycles finis  evenements non groupés
     groupedDfEventAsString

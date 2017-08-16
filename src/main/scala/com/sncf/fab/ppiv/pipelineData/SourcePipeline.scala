@@ -76,8 +76,8 @@ trait SourcePipeline extends Serializable {
     val dataTgaTgd                = LoadData.loadTgaTgd(sqlContext, getSource(timeToProcess))
     val dataRefGares              = LoadData.loadReferentiel(sqlContext)
 
-    DEVLOGGER.info("Nombre de lignes TGX chargés depuis HDFS: " + dataTgaTgd.count())
-    DEVLOGGER.info("Nombre de lignes du référentiel chargés depuis HDFS: " + dataRefGares.count())
+    //DEVLOGGER.info("Nombre de lignes TGX chargés depuis HDFS: " + dataTgaTgd.count())
+    //DEVLOGGER.info("Nombre de lignes du référentiel chargés depuis HDFS: " + dataRefGares.count())
 
     // 2) Application du sparadrap sur les données au cause du Bug lié au passe nuit (documenté dans le wiki)
     // On le conditionne a un flag (apply_sticking_plaster) dans app.conf car dans le futur Obier compte patcher le bug
@@ -91,10 +91,10 @@ trait SourcePipeline extends Serializable {
     MAINLOGGER.info("3) Validation champ à champ")
     val (dataTgaTgdFielValidated, dataTgaTgdFielRejected)   = ValidateData.validateField(dataTgaTgdBugFix, sqlContext)
 
-    DEVLOGGER.info("Nombre de lignes validées champ a champ: " + dataTgaTgdFielValidated.toDF().count())
-    DEVLOGGER.info("Pourcentage de validation champ a champ: " + (dataTgaTgdFielValidated.toDF().count() / dataTgaTgd.count())*100 + "%")
-    DEVLOGGER.info("Nombre de lignes rejetées champ a champ: " + dataTgaTgdFielValidated.toDF().count())
-    DEVLOGGER.info("Pourcentage de rejet champ a champ: " + (dataTgaTgdFielValidated.toDF().count() / dataTgaTgd.count())*100 + "%")
+    //DEVLOGGER.info("Nombre de lignes validées champ a champ: " + dataTgaTgdFielValidated.toDF().count())
+    //DEVLOGGER.info("Pourcentage de validation champ a champ: " + (dataTgaTgdFielValidated.toDF().count() / dataTgaTgd.count())*100 + "%")
+    //DEVLOGGER.info("Nombre de lignes rejetées champ a champ: " + dataTgaTgdFielValidated.toDF().count())
+    //DEVLOGGER.info("Pourcentage de rejet champ a champ: " + (dataTgaTgdFielValidated.toDF().count() / dataTgaTgd.count())*100 + "%")
 
 
     // 4) Reconstitution des évènements pour chaque trajet
@@ -102,14 +102,14 @@ trait SourcePipeline extends Serializable {
     // d'un train terminé la liste de tous ses évènements en vue du calcul des indicateurs
     MAINLOGGER.info("4) Reconstitution de la liste d'événements pour chaque trajet")
     val cycleWithEventOver = BuildCycleOver.getCycleOver(dataTgaTgdFielValidated, sc, sqlContext, Panneau(), timeToProcess)
-    DEVLOGGER.info("Nombre de cycle de vie terminé à traiter: " + cycleWithEventOver.count())
+    //DEVLOGGER.info("Nombre de cycle de vie terminé à traiter: " + cycleWithEventOver.count())
 
 
 
     // 5) Boucle sur les cycles finis pour traiter leur liste d'évènements
     MAINLOGGER.info("5) Boucle sur les cycles finis pour traiter leur liste d'évènements (validation, calcul des KPI..)")
     val rddIvTgaTgdWithoutReferentiel = BusinessRules.computeBusinessRules(cycleWithEventOver, timeToProcess)
-    DEVLOGGER.info("Nombre de cycle de vie sur lesquels on a calculé les KPI: " + rddIvTgaTgdWithoutReferentiel.count())
+    //DEVLOGGER.info("Nombre de cycle de vie sur lesquels on a calculé les KPI: " + rddIvTgaTgdWithoutReferentiel.count())
 
     // Conversion du résulat en dataset
     val dsIvTgaTgdWithoutReferentiel = rddIvTgaTgdWithoutReferentiel.toDS()
@@ -119,8 +119,8 @@ trait SourcePipeline extends Serializable {
     val cycleInvalidated = dsIvTgaTgdWithoutReferentiel.toDF().filter($"cycleId".contains("INV_")).as[TgaTgdIntermediate]
     val cycleValidated    = dsIvTgaTgdWithoutReferentiel.toDF().filter(not($"cycleId".contains("INV_"))).as[TgaTgdIntermediate]
 
-    DEVLOGGER.info("Nombre de cycle validé: " + cycleValidated.toDF().count())
-    DEVLOGGER.info("Nombre de cycle invalidé: " + cycleInvalidated.toDF().count())
+    //DEVLOGGER.info("Nombre de cycle validé: " + cycleValidated.toDF().count())
+    //DEVLOGGER.info("Nombre de cycle invalidé: " + cycleInvalidated.toDF().count())
 
 
     //Reject.saveFieldRejected(dataTgaTgdFielRejected, sc, timeToProcess)
@@ -138,7 +138,7 @@ trait SourcePipeline extends Serializable {
     // 10) Jointure avec le référentiel et inscription dans la classe finale TgaTgdOutput avec conversion et formatage
     MAINLOGGER.info("10) Post Process, jointure et conversion")
     val dataTgaTgdOutput = Postprocess.postprocess (cycleValidated, dataRefGares, sqlContext, Panneau())
-    DEVLOGGER.info("Nombre de cycle à enregistrer après jointure et conversion: " + dataTgaTgdOutput.count())
+    //DEVLOGGER.info("Nombre de cycle à enregistrer après jointure et conversion: " + dataTgaTgdOutput.count())
 
     // On renvoie le data set final pour un Tga ou un Tgd (qui seront fusionné dans le main)
     dataTgaTgdOutput
