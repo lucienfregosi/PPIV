@@ -3,6 +3,7 @@ package com.sncf.fab.ppiv.spark.batch
 import java.time.Period
 
 import com.sncf.fab.ppiv.Exception.PpivRejectionHandler
+import com.sncf.fab.ppiv.business.TgaTgdInput
 import com.sncf.fab.ppiv.persistence._
 import com.sncf.fab.ppiv.pipelineData.libPipeline.LoadData
 import com.sncf.fab.ppiv.pipelineData.{SourcePipeline, TraitementTga, TraitementTgd}
@@ -10,6 +11,7 @@ import org.apache.log4j.{Level, Logger}
 import com.sncf.fab.ppiv.utils.AppConf._
 import com.sncf.fab.ppiv.utils.{Conversion, GetSparkEnv}
 import org.apache.spark.sql.SQLContext
+import org.apache.spark.sql.types.LongType
 import org.apache.spark.{SparkConf, SparkContext}
 import org.joda.time.{DateTime, Duration}
 import org.slf4j.LoggerFactory
@@ -59,7 +61,6 @@ object TraitementPPIVDriver extends Serializable {
 
       // Set du niveau de log pour ne pas être envahi par les messages
       sc.setLogLevel("ERROR")
-
 
 
       // Sauvegarde de l'heure de début du programme dans une variable

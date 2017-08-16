@@ -106,6 +106,11 @@ trait SourcePipeline extends Serializable {
 
 
 
+    cycleWithEventOver.show()
+    println("nombre cycles terminés" + cycleWithEventOver.count())
+
+    System.exit(0)
+
 
     // 5) Boucle sur les cycles finis pour traiter leur liste d'évènements
     MAINLOGGER.info("5) Boucle sur les cycles finis pour traiter leur liste d'évènements (validation, calcul des KPI..)")
