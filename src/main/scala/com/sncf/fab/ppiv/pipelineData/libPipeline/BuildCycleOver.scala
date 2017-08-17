@@ -98,15 +98,16 @@ object BuildCycleOver {
       Conversion.getHourFinPlageHoraire(timeToProcess).toInt,
       0,
       0)
+
+
     //DEVLOGGER.info("Filtre sur les cycles dont l'heure de départ est comprise entre : " + heureLimiteCycleCommencant.toString() + " et " + heureLimiteCycleFini.toString() + "en prenant en compte le retard de chaque cycle")
-    println("Heure de début de cycle: " + heureLimiteCycleCommencant.toString())
-    println("Heure de fin de cycle: " + heureLimiteCycleFini.toString())
     // On veut filtrer les cycles dont l'heure de départ est situé entre l'heure de début du traitement du batch et celle de fin
     val dataTgaTgdCycleOver = dsTgaTgdCycles
       // Filtre sur les cycles terminés après le début de la plage en intégrant le retard
       .filter( x => Conversion.unixTimestampToDateTime(x.heure).getMillis > heureLimiteCycleCommencant.getMillis || x.retard != "" && Conversion.unixTimestampToDateTime(x.heure).plusMinutes(x.retard.toInt).getMillis > heureLimiteCycleCommencant.getMillis)
       // Filtre sur les cycles terminés avant le début de la plage en intégrant le retard
       .filter( x => Conversion.unixTimestampToDateTime(x.heure).getMillis < heureLimiteCycleFini.getMillis || x.retard != "" && Conversion.unixTimestampToDateTime(x.heure).plusMinutes(x.retard.toInt).getMillis < heureLimiteCycleFini.getMillis)
+
     dataTgaTgdCycleOver
   }
 

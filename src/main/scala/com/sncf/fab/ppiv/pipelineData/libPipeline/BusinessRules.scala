@@ -176,19 +176,25 @@ object BusinessRules {
   def getPremierAffichage(seqTgaTgd: Seq[TgaTgdInput]): Long = {
 
     // Récupération de la date de premier affichage. On cherche le moment ou la bonne voie a été affiché pour la première fois
-    val premier_affichage = seqTgaTgd
-      .sortBy(_.maj)
-      .reverse
-      .filter(x => x.voie != null && x.voie != "" && x.voie != ("0"))
-      .groupBy(_.voie)
-      .toSeq
-      .map(row => (row._1, row._2.maxBy(_.maj), row._2.minBy(_.maj)))
-      .sortBy(_._2.maj)
-      .last
-      ._3
-      .maj
-
-    premier_affichage
+    try {
+      seqTgaTgd
+        .sortBy(_.maj)
+        .reverse
+        .filter(x => x.voie != null && x.voie != "" && x.voie != ("0"))
+        .groupBy(_.voie)
+        .toSeq
+        .map(row => (row._1, row._2.maxBy(_.maj), row._2.minBy(_.maj)))
+        .sortBy(_._2.maj)
+        .last
+        ._3
+        .maj
+    }
+    catch {
+      case e: Throwable => {
+        // Retour d'une valeur par défaut
+        0l
+      }
+    }
   }
 
   // Fonction qui renvoie le timestamp durant lequel le train est resté affiché
