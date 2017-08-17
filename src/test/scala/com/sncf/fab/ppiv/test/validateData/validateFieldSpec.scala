@@ -65,5 +65,5 @@ Voie is in [0-9] or in [A-Z]                                             $e15
   def e14 = ValidateData.validateField(testrddDs,sqlContext)._1.toDF().head().getString(7) must =~("I|$")
   def e15 = ValidateData.validateField(testrddDs,sqlContext)._1.toDF().head().getString(8) must =~("^[A-Z|1-9|$]{1}$")
 
-  
+
 }

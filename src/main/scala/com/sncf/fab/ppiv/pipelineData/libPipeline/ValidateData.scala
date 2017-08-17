@@ -20,21 +20,26 @@ object ValidateData {
     val dsTgaTgdValidatedFields = dsTgaTgd
       .filter(_.gare matches "^[A-Z]{3}$" )
       .filter(_.maj <= currentTimestamp)
+      .filter(_.maj != null)
       .filter(_.train matches  "^[0-2]{0,1}[0-9]$")
       .filter(_.`type` matches "^([A-Z]*)$")
       .filter(_.attribut_voie matches "I|$")
       .filter(_.attribut_voie matches "^(?:[0-9]|[A-Z]|$)$")
       .filter(_.etat matches "^(?:(IND)|(SUP)|(ARR)|$|(\\s))$")
       .filter(_.retard matches  "^(([0-9]{4})|([0-9]{2})|$|\\s)$")
+      .filter(_.heure != null)
 
     // Sélection des rejets qui seront enregistrés ailleurs pour analyse
-    val dsTgaTgdRejectedFields = dsTgaTgd.filter(x => (x.gare matches("(?!(^[A-Z]{3})$)")) || (x.maj > currentTimestamp)
+    val dsTgaTgdRejectedFields = dsTgaTgd.filter(x => (x.gare matches("(?!(^[A-Z]{3})$)"))
+      || (x.maj > currentTimestamp)
+      || (x.maj == null)
       ||  (x.train matches  "(?!(^[0-2]{0,1}[0-9]$))")
       ||  (x.`type` matches "(?!(^[A-Z]*$))")
       ||  (x.attribut_voie matches "!(I|$)")
       ||  (x.voie matches "(?!(^(?:[0-9]|[A-Z]|$)$))")
       || (x.etat matches "(?!(^(?:(IND)|(SUP)|(ARR)|$|\\s)$))")
       || (x.retard matches  "(?!(^(?:[0-9]{2}|[0-9]{4}|$|\\s)$))")
+      || (x.heure == null)
     )
 
 
