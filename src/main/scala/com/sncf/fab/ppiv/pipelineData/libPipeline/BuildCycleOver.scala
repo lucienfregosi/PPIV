@@ -84,7 +84,6 @@ object BuildCycleOver {
                       sqlContext: SQLContext,
                       timeToProcess: DateTime): Dataset[TgaTgdCycleId] = {
     import sqlContext.implicits._
-
     val heureLimiteCycleCommencant = Conversion.getDateTime(
       timeToProcess.getYear,
       timeToProcess.getMonthOfYear,
@@ -92,7 +91,6 @@ object BuildCycleOver {
       Conversion.getHourDebutPlageHoraire(timeToProcess).toInt,
       0,
       0)
-
     val heureLimiteCycleFini = Conversion.getDateTime(
       timeToProcess.getYear,
       timeToProcess.getMonthOfYear,
@@ -100,34 +98,15 @@ object BuildCycleOver {
       Conversion.getHourFinPlageHoraire(timeToProcess).toInt,
       0,
       0)
-
-    // Filtre sur les horaire de départ inférieur a l'heure de fin de plage
-    // et sur les horaires de départ supérieur a l'heure de début de plage
-    val dataTgaTgdCycleOver = dsTgaTgdCycles.filter(x =>
-      (
-        (
-           // Cas avec retard on prend en compte le retard pour voir si le train est déja parti
-            x.retard != "" &&
-            Conversion.unixTimestampToDateTime(x.heure).plusMinutes(x.retard.toInt).getMillis < heureLimiteCycleFini.getMillis
-          ) ||
-          (
-            // Cas sans retard on se tient a la date de départ théorique du train
-            x.retard == "" &&
-              Conversion.unixTimestampToDateTime(x.heure).getMillis < heureLimiteCycleFini.getMillis
-            )
-        &&
-            (
-              // Cas avec retard on prend en compte le retard pour voir si le train est déja parti
-              x.retard != "" &&
-                Conversion.unixTimestampToDateTime(x.heure).plusMinutes(x.retard.toInt).getMillis > heureLimiteCycleCommencant.getMillis
-              ) ||
-          (
-            // Cas sans retard on se tient a la date de départ théorique du train
-            x.retard == "" &&
-              Conversion.unixTimestampToDateTime(x.heure).getMillis > heureLimiteCycleCommencant.getMillis
-            )
-        )
-    )
+    //DEVLOGGER.info("Filtre sur les cycles dont l'heure de départ est comprise entre : " + heureLimiteCycleCommencant.toString() + " et " + heureLimiteCycleFini.toString() + "en prenant en compte le retard de chaque cycle")
+    println("Heure de début de cycle: " + heureLimiteCycleCommencant.toString())
+    println("Heure de fin de cycle: " + heureLimiteCycleFini.toString())
+    // On veut filtrer les cycles dont l'heure de départ est situé entre l'heure de début du traitement du batch et celle de fin
+    val dataTgaTgdCycleOver = dsTgaTgdCycles
+      // Filtre sur les cycles terminés après le début de la plage en intégrant le retard
+      .filter( x => Conversion.unixTimestampToDateTime(x.heure).getMillis > heureLimiteCycleCommencant.getMillis || x.retard != "" && Conversion.unixTimestampToDateTime(x.heure).plusMinutes(x.retard.toInt).getMillis > heureLimiteCycleCommencant.getMillis)
+      // Filtre sur les cycles terminés avant le début de la plage en intégrant le retard
+      .filter( x => Conversion.unixTimestampToDateTime(x.heure).getMillis < heureLimiteCycleFini.getMillis || x.retard != "" && Conversion.unixTimestampToDateTime(x.heure).plusMinutes(x.retard.toInt).getMillis < heureLimiteCycleFini.getMillis)
     dataTgaTgdCycleOver
   }
 
