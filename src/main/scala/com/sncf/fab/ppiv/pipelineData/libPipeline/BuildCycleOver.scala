@@ -4,6 +4,7 @@ import com.sncf.fab.ppiv.business.{TgaTgdCycleId, TgaTgdInput}
 import com.sncf.fab.ppiv.parser.DatasetsParser
 import com.sncf.fab.ppiv.persistence.Persist
 import com.sncf.fab.ppiv.utils.AppConf.LANDING_WORK
+import com.sncf.fab.ppiv.utils.AppConf.STICKING_PLASTER
 import com.sncf.fab.ppiv.utils.Conversion
 import com.sncf.fab.ppiv.utils.Conversion.ParisTimeZone
 import groovy.sql.DataSet
@@ -35,22 +36,12 @@ object BuildCycleOver {
     val cycleIdListOver = filterCycleOver(cycleIdList, sqlContext, timeToProcess)
 
     //Load les evenements  du jour j. Le 5ème paramètre sert a définir la journée qui nous intéresse 0 = jour J
-    val tgaTgdRawToDay = loadDataEntireDay(sc, sqlContext, panneau, timeToProcess, 0)
+    val tgaTgdRawToDay = loadDataFullPeriod(sc, sqlContext, panneau, timeToProcess)
 
-    //Load les evenements du jour j -1. Le 5ème paramètre sert a définir la journée qui nous intéresse -1 = jour J-1
-    // TODO : Amélioration :
-    // - à J-1 aller chercher les données seulement à partir de 18h
-    // - Appeler cette fonction uniquement dans le case des trains passe nuits (qui partent avant 12)
-    val tgaTgdRawYesterDay = loadDataEntireDay(sc, sqlContext, panneau, timeToProcess, -1)
-
-    // Union des evenement  de jour j et jour j -1
-    val tgaTgdRawAllDay = tgaTgdRawToDay.union(tgaTgdRawYesterDay)
-
-    // TODO: Ajout d'une étape nettoyage (sparadrap + validation champ a champ (sans enregistrement des rejets)
 
     // Pour chaque cycle terminé récupération des différents évènements au cours de la journée
     // sous la forme d'une structure (cycle_id | Array(TgaTgdInput)
-    val tgaTgdCycleOver = getEventCycleId(tgaTgdRawAllDay, cycleIdListOver, sqlContext, sc, panneau)
+    val tgaTgdCycleOver = getEventCycleId(tgaTgdRawToDay, cycleIdListOver, sqlContext, sc, panneau)
 
     tgaTgdCycleOver
   }
@@ -112,38 +103,40 @@ object BuildCycleOver {
   }
 
 
+  // Une fonction globale pour le chargement des fichiers sur la période optimale avec deux sous cas de figure
+  // Soit le train est un train normal et on charge les fichiers de la même journée
+  // Soit le train est un passe nuit (affichage après 18h la veille et départ avant midi le lendemain) et on charge aussi les fichiers à partir de 18h
+  def loadDataFullPeriod(sc: SparkContext,
+                         sqlContext: SQLContext,
+                         panneau: String,
+                         timeToProcess: DateTime): Dataset[TgaTgdInput] = {
 
-  def loadDataEntireDay(sc: SparkContext,
-                           sqlContext: SQLContext,
-                           panneau: String,
-                           timeToProcess: DateTime,
-                           dayBeforeToProcess: Int): Dataset[TgaTgdInput] = {
 
-    import sqlContext.implicits._
+    // Il me faut une liste de Path de 18h a J-1 à l'heure actuelle de j
+    // Cela revient à s'intéresser à toutes les heures de -6 à l'heure actuelle
+    val hoursListJ = 0 to Conversion.getHourDebutPlageHoraire(timeToProcess).toInt
+    val hoursListJMoins1 = 18 to 23
 
-    // Déclaration de notre variable de sortie contenant tous les event de la journée
-    // TODO Peut etre optimisable pour éviter 24 append
-    var tgaTgdRawAllDay = sc.emptyRDD[TgaTgdInput].toDS()
+    val pathFileJ = hoursListJ.map(x => LANDING_WORK + Conversion.getYearMonthDay(timeToProcess) + "/" + panneau + "-" +
+      Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.HourFormat(x) + ".csv")
+    val pathFileJMoins1 = hoursListJMoins1.map(x => LANDING_WORK + Conversion.getYearMonthDay(timeToProcess.plusDays(-1)) + "/" + panneau + "-" +
+      Conversion.getYearMonthDay(timeToProcess.plusDays(-1)) + "_" + Conversion.HourFormat(x) + ".csv")
 
-    // 2 cas de figure :
-    // - Le 5ème argument vaut 0, on va chercher dans les évènements de la journée, on s'arrête a l'heure actuelle
-    // - Le 5ème argument inférieur à 0, on va chercher dans les jours précédents, on process toutes les heures de la journée
-    val currentHourInt = if(dayBeforeToProcess == 0) Conversion.getHourDebutPlageHoraire(timeToProcess).toInt else 23
+    // Fusion des paths à télécharger
+    val pathAllFile = pathFileJMoins1.union(pathFileJ)
+    // Chargement de tous les fichiers dans un dataset par fichier
+    val tgaTgdAllPerHour = pathAllFile.map( filePath => LoadData.loadTgaTgd(sqlContext, filePath.toString))
 
-    // Boucle sur les heures de la journée à traiter
-    for (loopHour <- 0 to currentHourInt) {
-
-      // Construction du nom du fichier a aller chercher dans HDFS
-      var filePath = LANDING_WORK + Conversion.getYearMonthDay(timeToProcess.plusDays(dayBeforeToProcess)) + "/" + panneau + "-" +
-        Conversion.getYearMonthDay(timeToProcess.plusDays(dayBeforeToProcess)) + "_" + Conversion.HourFormat(loopHour) + ".csv"
-
-      // Chargement effectif du fichier
-      val tgaTgdHour = LoadData.loadTgaTgd(sqlContext, filePath)
-
-      // Ajout dans notre variable de sortie
-      tgaTgdRawAllDay = tgaTgdRawAllDay.union(tgaTgdHour)
-    }
-    tgaTgdRawAllDay
+    // Fusion des datasets entre eux
+    val tgaTgdAllPeriod= tgaTgdAllPerHour.reduce((x, y) => x.union(y))
+    // On applique le sparadrap si besoin
+    val tgaTgdStickingPlaster = if (STICKING_PLASTER == true) {
+      Preprocess.applyStickingPlaster(tgaTgdAllPeriod, sqlContext)
+    } else tgaTgdAllPeriod
+    // On applique la validation
+    val tgaTgdValidated = ValidateData.validateField(tgaTgdStickingPlaster, sqlContext)
+    // Retour des fichiers validés
+    tgaTgdValidated._1
   }
 
   // Fonction pour aller chercher tous les évènements d'un cycle

@@ -198,239 +198,383 @@ object BusinessRules {
   }
 
   // Fonction qui renvoie le timestamp durant lequel le train est resté affiché
-  def getAffichageDuree1(dsTgaTgdSeq: Seq[TgaTgdInput]): Long = {
+  def getAffichageDuree1(seqTgaTgdSeq: Seq[TgaTgdInput]): Long = {
 
-    //Récupération de la date du départ theorique
-    val departTheorique = dsTgaTgdSeq(0).heure.toLong
+    try{
+      //Récupération de la date du départ theorique
+      val departTheorique = seqTgaTgdSeq(0).heure.toLong
 
-    // Récupération de la date du premier affichage
-    val premierAffichage = getPremierAffichage(dsTgaTgdSeq)
+      // Récupération de la date du premier affichage
+      val premierAffichage = getPremierAffichage(seqTgaTgdSeq)
 
-    departTheorique - premierAffichage
+      departTheorique - premierAffichage
+
+    }
+    catch {
+      case e: Throwable => {
+        // Retour d'une valeur par défaut
+        0l
+      }
+    }
   }
 
   // Fonction qui renvoie le timestamp durant lequel le train est resté affiché retard inclus
-  def getAffichageDuree2(dsTgaTgdSeq: Seq[TgaTgdInput]): Long = {
+  def getAffichageDuree2(seqTgaTgd: Seq[TgaTgdInput]): Long = {
 
-    //Récupération du affichageDuree1
-    val affichageDuree1 = getAffichageDuree1(dsTgaTgdSeq)
+    try{
+      //Récupération du affichageDuree1
+      val affichageDuree1 = getAffichageDuree1(seqTgaTgd)
 
-    //Récupération du retard
-    val retard = getCycleRetard(dsTgaTgdSeq)
+      //Récupération du retard
+      val retard = getCycleRetard(seqTgaTgd)
 
-    affichageDuree1 + retard
+      affichageDuree1 + retard
+    }
+    catch {
+      case e: Throwable => {
+        // Retour d'une valeur par défaut
+        0l
+      }
+    }
   }
 
   //Fonction qui renvoie le dernier retard annonce en secondes
-  def getDernierRetardAnnonce(dsTgaTgdSeq: Seq[TgaTgdInput]): Long = {
+  def getDernierRetardAnnonce(seqTgaTgd: Seq[TgaTgdInput]): Long = {
 
-    val DernierRetardAnnonce = getCycleRetard(dsTgaTgdSeq)
+    val DernierRetardAnnonce = getCycleRetard(seqTgaTgd)
 
     DernierRetardAnnonce
   }
 
   //Fonction qui renvoie la date de l'affichage du retard por la première fois
-  def getAffichageRetard(dsTgaTgdSeq: Seq[TgaTgdInput]): Long = {
-    // Tri sur les horaires d'évènements en croissant puis filtre sur la colonne retard
-    val seqFiltered = dsTgaTgdSeq
-      .sortBy(x => x.maj)
-      .filter(x => (x.retard != null) && (x.retard != "") && (x.retard != "0"))
-      .sortBy(x => x.maj)
+  def getAffichageRetard(seqTgaTgd: Seq[TgaTgdInput]): Long = {
 
-    // Si pas de lignes retournée => pas de retard on revoie 0
-    if (seqFiltered.isEmpty) {
-      0
-    } else {
-      // Récupération du permier  retard.
-      val AffichegeRetard = seqFiltered(0).maj.toLong
-      AffichegeRetard
+
+    try{
+      // Tri sur les horaires d'évènements en croissant puis filtre sur la colonne retard
+      val seqFiltered = seqTgaTgd
+        .sortBy(x => x.maj)
+        .filter(x => (x.retard != null) && (x.retard != "") && (x.retard != "0"))
+        .sortBy(x => x.maj)
+
+      // Si pas de lignes retournée => pas de retard on revoie 0
+      if (seqFiltered.isEmpty) {
+        0
+      } else {
+        // Récupération du permier  retard.
+        val AffichegeRetard = seqFiltered(0).maj.toLong
+        AffichegeRetard
+      }
+    }
+    catch {
+      case e: Throwable => {
+        // Retour d'une valeur par défaut
+        0
+      }
     }
   }
   // Fonction qui renvoie la durée de l'affichage du retrad (si pas de retard  elle renvoie 0)
-  def getAffichageDureeRetard(dsTgaTgdSeq: Seq[TgaTgdInput]): Long = {
+  def getAffichageDureeRetard(seqTgaTgd: Seq[TgaTgdInput]): Long = {
 
-    val departTheorique = dsTgaTgdSeq(0).heure.toLong
-    val retard = getCycleRetard(dsTgaTgdSeq)
-    val departReel = (Conversion
-      .unixTimestampToDateTime(departTheorique)
-      .plusSeconds(retard.toInt))
-      .getMillis / 1000
-    val AffichageRetard = getAffichageRetard(dsTgaTgdSeq)
 
-    if (AffichageRetard != 0) departReel - AffichageRetard
-    else 0
+    try{
+      val departTheorique = seqTgaTgd(0).heure.toLong
+      val retard = getCycleRetard(seqTgaTgd)
+      val departReel = (Conversion
+        .unixTimestampToDateTime(departTheorique)
+        .plusSeconds(retard.toInt))
+        .getMillis / 1000
+      val AffichageRetard = getAffichageRetard(seqTgaTgd)
+
+      if (AffichageRetard != 0) departReel - AffichageRetard
+      else 0l
+
+    }
+    catch {
+      case e: Throwable => {
+        // Retour d'une valeur par défaut
+        0l
+      }
+    }
 
   }
 
   //Fonction qui renvoie l'état du train
-  def getEtatTrain(dsTgaTgdSeq: Seq[TgaTgdInput]): String = {
+  def getEtatTrain(seqTgaTgd: Seq[TgaTgdInput]): String = {
     // si au moins une fois IND alors Ind: Retard Inderminé
     // si une fois SUPP alors Supp: Train supprimé
-    val seqFiltered = dsTgaTgdSeq
-      .sortBy(x => x.maj)
-      .filter(x => (x.etat != null) && (x.etat != ""))
-    if (seqFiltered.isEmpty) {
-      null
-    } else {
-      if (seqFiltered.contains("IND")) { "IND" } else {
-        if (seqFiltered.contains("SUPP")) { "SUP" } else {
-          seqFiltered(0).etat.toString
+
+
+    try{
+      val seqFiltered = seqTgaTgd
+        .sortBy(x => x.maj)
+        .filter(x => (x.etat != null) && (x.etat != ""))
+      if (seqFiltered.isEmpty) {
+        null
+      } else {
+        if (seqFiltered.contains("IND")) { "IND" } else {
+          if (seqFiltered.contains("SUPP")) { "SUP" } else {
+            seqFiltered(0).etat.toString
+          }
         }
+      }
+
+    }
+    catch {
+      case e: Throwable => {
+        // Retour d'une valeur par défaut
+        ""
       }
     }
   }
 
   //Fonction qui renvoie la date de l'affichage de l'etat deu train
   //TODO: adapt it to getEtatTrain
-  def getDateAffichageEtatTrain(dsTgaTgdSeq: Seq[TgaTgdInput]): Long = {
-    val seqFiltered = dsTgaTgdSeq
-      .sortBy(x => x.maj)
-      .filter(x => (x.etat != null) && (x.etat != ""))
-    if (seqFiltered.isEmpty) {
-      0
-    } else {
-      seqFiltered(0).maj.toLong
+  def getDateAffichageEtatTrain(seqTgaTgd: Seq[TgaTgdInput]): Long = {
+
+    try{
+      val seqFiltered = seqTgaTgd
+        .sortBy(x => x.maj)
+        .filter(x => (x.etat != null) && (x.etat != ""))
+      if (seqFiltered.isEmpty) {
+        0
+      } else {
+        seqFiltered(0).maj.toLong
+      }
+    }
+    catch {
+      case e: Throwable => {
+        // Retour d'une valeur par défaut
+        0l
+      }
     }
   }
 
   //Fonction qui renvoie la durée entre l'affiche de l'etat du train  et le départ théorique
   def getDelaiAffichageEtatTrainAvantDepartArrive(
-      dsTgaTgdSeq: Seq[TgaTgdInput]): Long = {
-    //Récupération de la date du départ théorique
-    val departTheorique = dsTgaTgdSeq(0).heure.toLong
-    //Récupération de la date Affichage etat train
-    val DateAffichageEtatTrain = getDateAffichageEtatTrain(dsTgaTgdSeq)
-    if (DateAffichageEtatTrain != 0) {
-      departTheorique - DateAffichageEtatTrain
-    } else {
-      0
+      seqTgaTgd: Seq[TgaTgdInput]): Long = {
+
+    try{
+      //Récupération de la date du départ théorique
+      val departTheorique = seqTgaTgd(0).heure.toLong
+      //Récupération de la date Affichage etat train
+      val DateAffichageEtatTrain = getDateAffichageEtatTrain(seqTgaTgd)
+      if (DateAffichageEtatTrain != 0) {
+        departTheorique - DateAffichageEtatTrain
+      } else {
+        0
+      }
+    }
+    catch {
+      case e: Throwable => {
+        // Retour d'une valeur par défaut
+        0l
+      }
     }
   }
 
   //Fonction qui renvoie le dernier quai affiché
-  def getDernierQuaiAffiche(dsTgaTgdSeq: Seq[TgaTgdInput]): String = {
-    //filtrage des lignes avec voies
-    val dsVoie = dsTgaTgdSeq
-      .sortBy(_.maj)
-      .reverse
-      .filter(x => x.voie != null && x.voie != "" && x.voie != ("0"))
-    if (dsVoie.isEmpty) {
-      null
-    } else {
-      dsVoie(0).voie.toString
+  def getDernierQuaiAffiche(seqTgaTgd: Seq[TgaTgdInput]): String = {
+
+
+    try{
+      //filtrage des lignes avec voies
+      val dsVoie = seqTgaTgd
+        .sortBy(_.maj)
+        .reverse
+        .filter(x => x.voie != null && x.voie != "" && x.voie != ("0"))
+      if (dsVoie.isEmpty) {
+        null
+      } else {
+        dsVoie(0).voie.toString
+      }
+
+    }
+    catch {
+      case e: Throwable => {
+        // Retour d'une valeur par défaut
+        ""
+      }
     }
   }
 
   //Fonction qui renvoie InfoDevoiement
   def allDevoimentInfo(
-      dsTgaTgdSeq: Seq[TgaTgdInput]): Seq[(String, TgaTgdInput, Int)] = {
-    val dsVoie = dsTgaTgdSeq
-      .sortBy(_.maj)
-      .filter(x => x.voie != null && x.voie != "" && x.voie != ("0"))
-      .groupBy(_.voie)
+      seqTgaTgd: Seq[TgaTgdInput]): Seq[(String, TgaTgdInput, Int)] = {
 
-    // Astuce pour ordonner le group by. Fréquellent utilisé a voir pour créer une fonction
-    val dvInfo = dsVoie.toSeq
-      .map(
-        row =>
-          (row._1,
-           row._2.maxBy(_.maj),
-           row._2.filter(_.attribut_voie != "I").length))
-      .sortBy(_._2.maj)
+    try{
 
-     dvInfo
+      val dsVoie = seqTgaTgd
+        .sortBy(_.maj)
+        .filter(x => x.voie != null && x.voie != "" && x.voie != ("0"))
+        .groupBy(_.voie)
+
+      // Astuce pour ordonner le group by. Fréquellent utilisé a voir pour créer une fonction
+      val dvInfo = dsVoie.toSeq
+        .map(
+          row =>
+            (row._1,
+              row._2.maxBy(_.maj),
+              row._2.filter(_.attribut_voie != "I").length))
+        .sortBy(_._2.maj)
+
+      dvInfo
+
+    }
+    catch {
+      case e: Throwable => {
+        // Retour d'une valeur par défaut
+        Seq(("",null,0))
+      }
+    }
   }
 
   //Fonction qui renvoie le type du devoiement1 (Affiche ou non Affiché)
-  def getTypeDevoiement(dsTgaTgdSeq: Seq[TgaTgdInput]): String = {
+  def getTypeDevoiement(seqTgaTgd: Seq[TgaTgdInput]): String = {
 
-    val dvInfo = allDevoimentInfo(dsTgaTgdSeq)
-    if (dvInfo.size <= 1) {
-      null
-    } else {
-      val voie_1 = dvInfo(0)._2.voie
-      val voie_2 = dvInfo(1)._2.voie
-      val lengthOfNonHidden_Voie = dvInfo(1)._3
+    try{
 
-      if (lengthOfNonHidden_Voie >= 1) {
-        voie_1 + "-" + voie_2 + "-" + "Affiche"
+      val dvInfo = allDevoimentInfo(seqTgaTgd)
+      if (dvInfo.size <= 1) {
+        null
       } else {
-        voie_1 + "-" + voie_2 + "-" + "Non_Affiche"
+        val voie_1 = dvInfo(0)._2.voie
+        val voie_2 = dvInfo(1)._2.voie
+        val lengthOfNonHidden_Voie = dvInfo(1)._3
+
+        if (lengthOfNonHidden_Voie >= 1) {
+          voie_1 + "-" + voie_2 + "-" + "Affiche"
+        } else {
+          voie_1 + "-" + voie_2 + "-" + "Non_Affiche"
+        }
+      }
+    }
+    catch {
+      case e: Throwable => {
+        // Retour d'une valeur par défaut
+        ""
       }
     }
   }
 
   //Fonction qui renvoie le type du devoiement2 (Affiche ou non Affiché)
-  def getTypeDevoiement2(dsTgaTgdSeq: Seq[TgaTgdInput]): String = {
-    val dvInfo = allDevoimentInfo(dsTgaTgdSeq)
-    if (dvInfo.size <= 2) {
-      null
-    } else {
-      val voie_1 = dvInfo(1)._2.voie
-      val voie_2 = dvInfo(2)._2.voie
-      val lengthOfNonHidden_Voie = dvInfo(2)._3
+  def getTypeDevoiement2(seqTgaTgd: Seq[TgaTgdInput]): String = {
 
-      if (lengthOfNonHidden_Voie >= 1) {
-        voie_1 + "-" + voie_2 + "-" + "Affiche"
+    try{
+      val dvInfo = allDevoimentInfo(seqTgaTgd)
+      if (dvInfo.size <= 2) {
+        null
       } else {
-        voie_1 + "-" + voie_2 + "-" + "Non_Affiche"
+        val voie_1 = dvInfo(1)._2.voie
+        val voie_2 = dvInfo(2)._2.voie
+        val lengthOfNonHidden_Voie = dvInfo(2)._3
+
+        if (lengthOfNonHidden_Voie >= 1) {
+          voie_1 + "-" + voie_2 + "-" + "Affiche"
+        } else {
+          voie_1 + "-" + voie_2 + "-" + "Non_Affiche"
+        }
+      }
+    }
+    catch {
+      case e: Throwable => {
+        // Retour d'une valeur par défaut
+        ""
       }
     }
   }
 
   //Fonction qui renvoie le type du devoiement2 (Affiche ou non Affiché)
-  def getTypeDevoiement3(dsTgaTgdSeq: Seq[TgaTgdInput]): String = {
-    val dvInfo = allDevoimentInfo(dsTgaTgdSeq)
-    if (dvInfo.size <= 3) {
-      null
-    } else {
-      val voie_1 = dvInfo(2)._2.voie
-      val voie_2 = dvInfo(3)._2.voie
-      val lengthOfNonHidden_Voie = dvInfo(3)._3
+  def getTypeDevoiement3(seqTgaTgd: Seq[TgaTgdInput]): String = {
 
-      if (lengthOfNonHidden_Voie >= 1) {
-        voie_1 + "-" + voie_2 + "-" + "Affiche"
+    try{
+      val dvInfo = allDevoimentInfo(seqTgaTgd)
+      if (dvInfo.size <= 3) {
+        null
       } else {
-        voie_1 + "-" + voie_2 + "-" + "Non_Affiche"
+        val voie_1 = dvInfo(2)._2.voie
+        val voie_2 = dvInfo(3)._2.voie
+        val lengthOfNonHidden_Voie = dvInfo(3)._3
+
+        if (lengthOfNonHidden_Voie >= 1) {
+          voie_1 + "-" + voie_2 + "-" + "Affiche"
+        } else {
+          voie_1 + "-" + voie_2 + "-" + "Non_Affiche"
+        }
+      }
+
+    }
+    catch {
+      case e: Throwable => {
+        // Retour d'une valeur par défaut
+        ""
       }
     }
   }
 
   //Fonction qui renvoie le type du devoiement4 (Affiche ou non Affiché)
-  def getTypeDevoiement4(dsTgaTgdSeq: Seq[TgaTgdInput]): String = {
-    val dvInfo = allDevoimentInfo(dsTgaTgdSeq)
-    if (dvInfo.size <= 4) {
-      null
-    } else {
-      val voie_1 = dvInfo(3)._2.voie
-      val voie_2 = dvInfo(4)._2.voie
-      val lengthOfNonHidden_Voie = dvInfo(4)._3
+  def getTypeDevoiement4(seqTgaTgd: Seq[TgaTgdInput]): String = {
 
-      if (lengthOfNonHidden_Voie >= 1) {
-        voie_1 + "-" + voie_2 + "-" + "Affiche"
+    try{
+      val dvInfo = allDevoimentInfo(seqTgaTgd)
+      if (dvInfo.size <= 4) {
+        null
       } else {
-        voie_1 + "-" + voie_2 + "-" + "Non_Affiche"
+        val voie_1 = dvInfo(3)._2.voie
+        val voie_2 = dvInfo(4)._2.voie
+        val lengthOfNonHidden_Voie = dvInfo(4)._3
+
+        if (lengthOfNonHidden_Voie >= 1) {
+          voie_1 + "-" + voie_2 + "-" + "Affiche"
+        } else {
+          voie_1 + "-" + voie_2 + "-" + "Non_Affiche"
+        }
+      }
+    }
+    catch {
+      case e: Throwable => {
+        // Retour d'une valeur par défaut
+        ""
       }
     }
   }
 
   //Fonction qui retourne la date du dernier affichage
-  def getDernierAffichage(dsTgaTgdSeq: Seq[TgaTgdInput]): Long = {
+  def getDernierAffichage(seqTgaTgd: Seq[TgaTgdInput]): Long = {
 
-    val dernier_affichage = dsTgaTgdSeq
-      .sortBy(_.maj)
-      .filter(x => x.voie != null && x.voie != "" && x.voie != ("0"))
-      .groupBy(_.voie)
-      .toSeq
-      .map(row => (row._1, row._2.maxBy(_.maj)))
-      .sortBy(_._2.maj).reverse.head._2.maj
+    try{
+      val dernier_affichage = seqTgaTgd
+        .sortBy(_.maj)
+        .filter(x => x.voie != null && x.voie != "" && x.voie != ("0"))
+        .groupBy(_.voie)
+        .toSeq
+        .map(row => (row._1, row._2.maxBy(_.maj)))
+        .sortBy(_._2.maj).reverse.head._2.maj
 
-    dernier_affichage
+      dernier_affichage
+    }
+    catch {
+      case e: Throwable => {
+        // Retour d'une valeur par défaut
+        0l
+      }
+    }
+
+
   }
 
   //Fonction qui renvoie la date a laquelle le batch s'est lancé pour un trajet
   def getDateProcess(timeToProcess: DateTime): Long = {
-    timeToProcess.getMillis / 1000
+    try{
+      timeToProcess.getMillis / 1000
+    }
+    catch {
+      case e: Throwable => {
+        // Retour d'une valeur par défaut
+        0l
+      }
+    }
+
   }
 
 }

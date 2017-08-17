@@ -11,6 +11,7 @@ import com.sncf.fab.ppiv.utils.{Conversion, GetSparkEnv}
 import org.apache.spark.sql.SQLContext
 import org.apache.spark.{SparkConf, SparkContext}
 import org.joda.time.{DateTime, Duration}
+import org.slf4j.LoggerFactory
 
 /**
 //  * Created by simoh-labdoui on 11/05/2017.
@@ -19,7 +20,7 @@ import org.joda.time.{DateTime, Duration}
 // Classe main, lancement du programme
 object TraitementPPIVDriver extends Serializable {
 
-  var LOGGER = Logger.getLogger(TraitementPPIVDriver.getClass)
+  var LOGGER = LoggerFactory.getLogger(TraitementPPIVDriver.getClass)
   LOGGER.info("Lancement du batch PPIV")
 
   def main(args: Array[String]): Unit = {

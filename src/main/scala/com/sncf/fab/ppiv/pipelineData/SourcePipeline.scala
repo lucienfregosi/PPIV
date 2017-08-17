@@ -67,6 +67,7 @@ trait SourcePipeline extends Serializable {
 
   // Lancement du pipeline de traitement soit les TGA ou les TGD
   def start(sc : SparkContext, sqlContext : SQLContext, timeToProcess: DateTime): DataFrame = {
+
     import sqlContext.implicits._
 
     LOGGER.info("Lancement du pipeline pour les " + Panneau() + " pour la journée " + Conversion.getYearMonthDay(timeToProcess) +" et l'heure: " + Conversion.getHourDebutPlageHoraire(timeToProcess))
