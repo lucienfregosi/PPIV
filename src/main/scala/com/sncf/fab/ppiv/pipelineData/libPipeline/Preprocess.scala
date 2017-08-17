@@ -30,7 +30,7 @@ object Preprocess {
         } else row.maj
 
         // Création d'un nouveau TgaTgdInput avec la nouvelle valeur si le test a été passé
-        TgaTgdInput(row.gare, newMaj, row.train, row.ordes, row.num,row.`type`, row.picto, row.attribut_voie, row.voie, row.heure, row.etat, row.retard)
+        TgaTgdInput(row.gare, newMaj.asInstanceOf[java.lang.Long], row.train, row.ordes, row.num,row.`type`, row.picto, row.attribut_voie, row.voie, row.heure, row.etat, row.retard)
     }
     dsTgaTgdWithStickingPlaster
   }
