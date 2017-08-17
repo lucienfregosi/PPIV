@@ -68,7 +68,7 @@ LINES TERMINATED BY '\n'
 STORED AS TEXTFILE
 LOCATION '/data1/GARES/refinery/PPIV_PHASE2/hive/'
 
-ALTER TABLE ppiv_ref.iv_tgatgd SET TBLPROPERTIES ('SASFMT:nom_de_la_gare'='CHAR(50)');
+ALTER TABLE ppiv_ref.iv_tgatgd SET TBLPROPERTIES ('SASFMT:nom_de_la_gare'='CHAR(60)');
 ALTER TABLE ppiv_ref.iv_tgatgd SET TBLPROPERTIES ('SASFMT:agence'='CHAR(30)');
 ALTER TABLE ppiv_ref.iv_tgatgd SET TBLPROPERTIES ('SASFMT:segmentation'='CHAR(3)');
 ALTER TABLE ppiv_ref.iv_tgatgd SET TBLPROPERTIES ('SASFMT:uic'='CHAR(10)');
@@ -77,7 +77,7 @@ ALTER TABLE ppiv_ref.iv_tgatgd SET TBLPROPERTIES ('SASFMT:y'='FLOAT(8)');
 ALTER TABLE ppiv_ref.iv_tgatgd SET TBLPROPERTIES ('SASFMT:id_train'='CHAR(25)');
 ALTER TABLE ppiv_ref.iv_tgatgd SET TBLPROPERTIES ('SASFMT:num_train'='CHAR(10)');
 ALTER TABLE ppiv_ref.iv_tgatgd SET TBLPROPERTIES ('SASFMT:type'='CHAR(12)');
-ALTER TABLE ppiv_ref.iv_tgatgd SET TBLPROPERTIES ('SASFMT:origine_destination'='CHAR(32)');
+ALTER TABLE ppiv_ref.iv_tgatgd SET TBLPROPERTIES ('SASFMT:origine_destination'='CHAR(40)');
 ALTER TABLE ppiv_ref.iv_tgatgd SET TBLPROPERTIES ('SASFMT:type_panneau'='CHAR(3)');
 ALTER TABLE ppiv_ref.iv_tgatgd SET TBLPROPERTIES ('SASFMT:premier_affichage'='DATETIME(25.6)');
 ALTER TABLE ppiv_ref.iv_tgatgd SET TBLPROPERTIES ('SASFMT:date_extract'='CHAR(10)');
