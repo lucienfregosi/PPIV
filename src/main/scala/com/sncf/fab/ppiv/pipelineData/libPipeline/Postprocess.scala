@@ -17,7 +17,10 @@ object Postprocess {
 
    // Jointure avec le référentiel
    // Nettoyage du référentiel pour enlever les TVS vide
-   val cleanedRefGares = refGares.filter(x=> (x.TVS != null && x.TVS != "" ) ).distinct
+   val cleanedRefGares = refGares.filter(x=> (x.TVS != null && x.TVS != "" ) )
+     .toDF().withColumn("LongitudeWGS84", $"LongitudeWGS84".cast("Float"))
+     .withColumn("LatitudeWGS84", $"LatitudeWGS84".cast("Float"))
+
    val dataTgaTgdWithReferentiel = Postprocess.joinReferentiel(dsTgaTgd, cleanedRefGares, sqlContext)
 
  // Inscription dans la classe finale TgaTgdOutput avec conversion et formatage
@@ -29,9 +32,9 @@ object Postprocess {
     null
   }
 
-  def joinReferentiel(dsTgaTgd: Dataset[TgaTgdIntermediate], refGares : Dataset[ReferentielGare], sqlContext : SQLContext): DataFrame = {
+  def joinReferentiel(dsTgaTgd: Dataset[TgaTgdIntermediate], refGares : DataFrame, sqlContext : SQLContext): DataFrame = {
     // Jointure entre nos données de sorties et le référentiel
-    val joinedData = dsTgaTgd.toDF().join(refGares.toDF(), dsTgaTgd.toDF().col("gare") === refGares.toDF().col("TVS"),"inner")
+    val joinedData = dsTgaTgd.toDF().join(refGares, dsTgaTgd.toDF().col("gare") === refGares.col("TVS"),"inner")
     joinedData
   }
 
@@ -44,8 +47,8 @@ object Postprocess {
         row.getString(34),
         row.getString(25),
         row.getString(26),
-        BusinessConversion.getFloat(row.getString(37)),
-        BusinessConversion.getFloat(row.getString(38)),
+        row.getAs[Float](37),
+        row.getAs[Float](38),
         row.getString(0),
         row.getString(3),
         row.getString(4),

@@ -88,10 +88,6 @@ trait SourcePipeline extends Serializable {
     LOGGER.info("3) Validation champ à champ")
     val (dataTgaTgdFielValidated, dataTgaTgdFielRejected)   = ValidateData.validateField(dataTgaTgdBugFix, sqlContext)
 
-    // TODO A remplacer dans le fichier qui trace les compteurs
-   // println("Field reject: Rejected" +dataTgaTgdFielRejected.count())
-    //println("Field reject: Validated" + dataTgaTgdFielValidated.count())
-
 
     // 4) Reconstitution des évènements pour chaque trajet
     // L'objectif de cette fonction est de renvoyer (cycleId | Array(TgaTgdInput) ) afin d'associer à chaque cycle de vie
@@ -110,15 +106,6 @@ trait SourcePipeline extends Serializable {
     LOGGER.info("8) Filtre sur les cycles invalidés et enregistrement des rejets")
     val cycleInvalidated = dsIvTgaTgdWithoutReferentiel.toDF().filter($"cycleId".contains("INV_")).as[TgaTgdIntermediate]
     val cycleValidated    = dsIvTgaTgdWithoutReferentiel.toDF().filter(not($"cycleId".contains("INV_"))).as[TgaTgdIntermediate]
-    //Reject.saveFieldRejected(dataTgaTgdFielRejected, sc, timeToProcess)
-    //Reject.saveCycleRejected(cycleInvalidated, sc, timeToProcess)
-
-    // TODO A remplacer dans le fichier qui trace les compteurs
-    LOGGER.info("Validation champ à champ counts")
-    val cycleInvalidatedDf = cycleInvalidated.toDF()
-    val cycleValidatedDf   =  cycleValidated.toDF()
-    println("invalidated:" + cycleInvalidatedDf.count())
-    println("validated:" + cycleValidatedDf.count())
 
 
     // 9) Sauvegarde des données propres
