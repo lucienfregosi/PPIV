@@ -24,8 +24,8 @@ object AppConf extends Serializable{
   val STICKING_PLASTER = conf.getBoolean("apply_sticking_plaster")
 
   // Noms des fichiers pour les rejets
-  val REJECTED_FIELD = conf.getString("refinery") + conf.getString("reject_field")
-  val REJECTED_CYCLE = conf.getString("refinery") + conf.getString("reject_cycle")
+  val REJECTED_FIELD = conf.getString("refinery") + conf.getString("reject_field") + (Conversion.nowToDateTime().getMillis * 1000) + ".csv"
+  val REJECTED_CYCLE = conf.getString("refinery") + conf.getString("reject_cycle") + (Conversion.nowToDateTime().getMillis * 1000) + ".csv"
 
   // Valeur TGA et TGD
   val TGA          = "TGA.csv"

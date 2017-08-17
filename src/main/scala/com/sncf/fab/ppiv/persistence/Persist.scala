@@ -14,7 +14,7 @@ import org.joda.time.DateTime
 object Persist {
 
   def save(ivTgaTgd: DataFrame, persistMethod: String, sc: SparkContext, startTimePipeline: DateTime) : Unit ={
-    
+
     // Persistance dans Hive
     if (persistMethod.contains("hive"))
       PersistHive.persisteQualiteAffichageHive(ivTgaTgd, sc)
