@@ -115,7 +115,7 @@ object TraitementPPIVDriver extends Serializable {
 
     MAINLOGGER.info("Traitement des TGA")
     val ivTga = TraitementTga.start(sc, sqlContext, dateTimeToProcess)
-    MAINLOGGER.info("Nombre de cycle TGA fini et calculé a persister: " + ivTga.count())
+    //MAINLOGGER.info("Nombre de cycle TGA fini et calculé a persister: " + ivTga.count())
 
     MAINLOGGER.info("Traitement des TGD")
     //val ivTgd = TraitementTgd.start(sc, sqlContext, dateTimeToProcess)

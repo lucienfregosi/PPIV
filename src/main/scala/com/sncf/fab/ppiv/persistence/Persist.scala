@@ -14,11 +14,7 @@ import org.joda.time.DateTime
 object Persist {
 
   def save(ivTgaTgd: DataFrame, persistMethod: String, sc: SparkContext, startTimePipeline: DateTime) : Unit ={
-
-    // Persistance dasn le file system
-    if (persistMethod.equals("fs"))
-      PersistLocal.persisteQualiteAffichageIntoFs(ivTgaTgd, TraitementTga.getOutputRefineryPath(startTimePipeline))
-
+    
     // Persistance dans Hive
     if (persistMethod.contains("hive"))
       PersistHive.persisteQualiteAffichageHive(ivTgaTgd, sc)
@@ -30,6 +26,11 @@ object Persist {
     // Persistance dans elasticsearch
     if (persistMethod.contains("es"))
       PersistElastic.persisteQualiteAffichageIntoEs(ivTgaTgd, OUTPUT_INDEX)
+
+    // Persistance dasn le file system
+    if (persistMethod.contains("fs"))
+      PersistLocal.persisteQualiteAffichageIntoFs(ivTgaTgd, TraitementTga.getOutputRefineryPath(startTimePipeline))
+
 
   }
 }
