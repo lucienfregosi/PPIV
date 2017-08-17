@@ -69,8 +69,16 @@ object ValidateData {
       (true, "ValidCycle")
     }
     else{
-      if (cntVoieAffiche == 0 ) {(false,"VoieManquante")}
-      else {(false,"EventApresDepart")}
+      // Si jamais le train a un état spécial (Supprimé ou retard indéterminé) cela ne veut pas dire qu'il ne faut pas le valider
+      // Get de l'état du train. Si IND ou SUP on valide
+      val etatTrain = BusinessRules.getEtatTrain(dsTgaTgdSeq)
+      if(etatTrain == "SUP" || etatTrain == "IND"){
+        (true, "train avec état " + etatTrain)
+      }
+      else{
+        if (cntVoieAffiche == 0 ) {(false,"VoieManquante")}
+        else {(false,"EventApresDepart")}
+      }
     }
   }
 
