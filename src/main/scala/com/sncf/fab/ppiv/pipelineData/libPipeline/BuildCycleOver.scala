@@ -275,6 +275,7 @@ object BuildCycleOver {
       val tgaTgdHourUseful = ValidateData.validateField(tgaTgdHourStickingParser, sqlContext)
       // Ajout dans notre variable de sortie
       tgaTgdRawAllDay = tgaTgdRawAllDay.union(tgaTgdHourUseful._1)
+      tgaTgdHour.unpersist()
     }
     tgaTgdRawAllDay
   }

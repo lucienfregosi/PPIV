@@ -140,6 +140,10 @@ trait SourcePipeline extends Serializable {
     val dataTgaTgdOutput = Postprocess.postprocess (cycleValidated, dataRefGares, sqlContext, Panneau())
     //DEVLOGGER.info("Nombre de cycle à enregistrer après jointure et conversion: " + dataTgaTgdOutput.count())
 
+    dataRefGares.unpersist()
+    dataTgaTgd.unpersist()
+
+
     // On renvoie le data set final pour un Tga ou un Tgd (qui seront fusionné dans le main)
     dataTgaTgdOutput
 
