@@ -112,7 +112,7 @@ object TraitementPPIVDriver extends Serializable {
       LOGGER.info("12) Persistence dans la méthode demandée (hdfs, hive, es, fs)")
 
       ivTgaTgd.printSchema()
-      
+
 
       Persist.save(ivTgaTgd, persistMethod, sc, dateTimeToProcess)
     }
