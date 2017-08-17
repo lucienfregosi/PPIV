@@ -94,6 +94,8 @@ object TraitementPPIVDriver extends Serializable {
   // Fonction appelé pour le déclenchement d'un pipeline complet pour une heure donnée
   def startPipeline(argsArray: Array[String], sc: SparkContext, sqlContext: SQLContext, dateTimeToProcess: DateTime): Unit = {
 
+    import sqlContext.implicits._
+
     // Récupération argument d'entrées, la méthode de persistance
     val persistMethod = argsArray(0)
 
@@ -108,6 +110,11 @@ object TraitementPPIVDriver extends Serializable {
     try {
       // 12) Persistence dans la méthode demandée (hdfs, hive, es, fs)
       LOGGER.info("12) Persistence dans la méthode demandée (hdfs, hive, es, fs)")
+
+      ivTgaTgd.printSchema()
+
+      println("Nombre de nul dans maj" + ivTgaTgd.filter($"maj".isNull).count())
+
       Persist.save(ivTgaTgd, persistMethod, sc, dateTimeToProcess)
     }
     catch {
