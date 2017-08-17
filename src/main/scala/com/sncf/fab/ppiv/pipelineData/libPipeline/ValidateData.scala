@@ -16,6 +16,12 @@ object ValidateData {
     // Validation de chaque champ avec les contraintes définies dans le dictionnaire de données
     val currentTimestamp = DateTime.now(DateTimeZone.UTC).getMillis() / 1000
 
+    dsTgaTgd.show(false)
+
+    System.exit(0)
+
+
+
     // Sélection des champs qui répondent à nos spécifications de la donnée
     val dsTgaTgdValidatedFields = dsTgaTgd
       .filter(_.gare matches "^[A-Z]{3}$" )
