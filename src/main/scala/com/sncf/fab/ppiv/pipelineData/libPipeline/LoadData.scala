@@ -1,6 +1,6 @@
 package com.sncf.fab.ppiv.pipelineData.libPipeline
 
-import com.sncf.fab.ppiv.business.{ReferentielGare, TgaTgdInput, TgaTgdInputRaw}
+import com.sncf.fab.ppiv.business.{ReferentielGare, TgaTgdInput}
 import com.sncf.fab.ppiv.parser.DatasetsParser
 import com.sncf.fab.ppiv.utils.AppConf.REF_GARES
 import org.apache.spark.sql.types.LongType
@@ -19,15 +19,16 @@ object LoadData {
     // Lecture du CSV avec les bons noms de champs
     val dsTgaTgd = sqlContext.read
       .format("com.databricks.spark.csv")
+      .option("inferSchema","true")
       .option("header", "false")
       .option("delimiter", ";")
       .load(path).toDF(newNamesTgaTgd: _*)
-      .as[TgaTgdInputRaw]
+      .withColumn("maj", 'maj.cast(LongType))
+      .withColumn("heure", 'heure.cast(LongType))
+      .as[TgaTgdInput]
 
     // Parsing du CSV a l'intérieur d'un object TgaTgaInput, conversion en dataset
-    dsTgaTgd.toDF().withColumn("heure", $"heure".cast("Long"))
-      .withColumn("maj", $"maj".cast("Long"))
-      .map(row => DatasetsParser.parseTgaTgdDataset(row)).toDS()
+    dsTgaTgd.toDF().map(row => DatasetsParser.parseTgaTgdDataset(row)).toDS()
   }
 
   def loadReferentiel(sqlContext : SQLContext) : Dataset[ReferentielGare] = {

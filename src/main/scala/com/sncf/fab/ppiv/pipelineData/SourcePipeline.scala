@@ -76,7 +76,8 @@ trait SourcePipeline extends Serializable {
     LOGGER.info("1) Chargement des fichiers déjà parsé dans leur classe")
     val dataTgaTgd                = LoadData.loadTgaTgd(sqlContext, getSource(timeToProcess))
     val dataRefGares              = LoadData.loadReferentiel(sqlContext)
-    
+
+    dataTgaTgd.printSchema()
 
     // 2) Application du sparadrap sur les données au cause du Bug lié au passe nuit (documenté dans le wiki)
     // On le conditionne a un flag (apply_sticking_plaster) dans app.conf car dans le futur Obier compte patcher le bug
