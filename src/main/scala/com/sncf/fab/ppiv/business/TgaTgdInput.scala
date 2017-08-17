@@ -7,8 +7,8 @@ import java.sql.Date
   * Table issue des fichiers TGA/TGD filtrer et nettoyée (Avec formattage des champs)
   */
 
-case class TgaTgdInput(gare:String, maj: java.lang.Long, train:String,
+case class TgaTgdInput(gare:String, maj: Long, train:String,
                        ordes:String, num:String, `type`:String,
                        picto:String, attribut_voie:String, voie:String,
-                       heure: java.lang.Long, etat:String, retard:String)
+                       heure: Long, etat:String, retard:String)
 
