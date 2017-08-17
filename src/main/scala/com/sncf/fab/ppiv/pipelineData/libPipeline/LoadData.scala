@@ -5,6 +5,7 @@ import com.sncf.fab.ppiv.parser.DatasetsParser
 import com.sncf.fab.ppiv.utils.AppConf.REF_GARES
 import org.apache.spark.sql.types.{FloatType, LongType}
 import org.apache.spark.sql.{Dataset, SQLContext}
+import org.apache.spark.storage.StorageLevel
 
 /**
   * Created by ELFI03951 on 12/07/2017.
@@ -29,6 +30,7 @@ object LoadData {
 
     // Parsing du CSV a l'intérieur d'un object TgaTgaInput, conversion en dataset
     dsTgaTgd.toDF().map(row => DatasetsParser.parseTgaTgdDataset(row)).toDS()
+    dsTgaTgd.persist(StorageLevel.MEMORY_ONLY)
   }
 
   def loadReferentiel(sqlContext : SQLContext) : Dataset[ReferentielGare] = {
@@ -52,6 +54,7 @@ object LoadData {
 
     // Parsing du CSV a l'intérieur d'un object ReferentielGare, conversion en dataset
     refGares.toDF().map(DatasetsParser.parseRefGares).toDS()
+    refGares.persist(StorageLevel.MEMORY_ONLY)
 
   }
 

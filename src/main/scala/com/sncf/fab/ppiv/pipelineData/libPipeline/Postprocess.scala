@@ -3,7 +3,7 @@ package com.sncf.fab.ppiv.pipelineData.libPipeline
 import java.util.concurrent.TimeUnit
 
 import com.sncf.fab.ppiv.business.{NDerniersChamps, ReferentielGare, TgaTgdInput, TgaTgdIntermediate, TgaTgdOutput, VingPremierChamp, VingtChampsSuivants}
-import com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver.DEVLOGGER
+//import com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver.DEVLOGGER
 import com.sncf.fab.ppiv.utils.Conversion
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.{DataFrame, Dataset, Row, SQLContext}

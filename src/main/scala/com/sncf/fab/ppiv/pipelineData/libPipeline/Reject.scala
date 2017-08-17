@@ -16,7 +16,7 @@ object Reject {
   def saveFieldRejected(dsFieldRejected: Dataset[TgaTgdInput], sparkContext: SparkContext, timeToProcess: DateTime): Unit ={
 
     // Sauvegarde des rejets avec les champs invalides
-    dsFieldRejected.toDF().coalesce(1).write.mode(SaveMode.Append).format("com.databricks.spark.csv").option("header", "true").save(REJECTED_FIELD)
+    dsFieldRejected.toDF().write.mode(SaveMode.Append).format("com.databricks.spark.csv").option("header", "true").save(REJECTED_FIELD)
 
 
   }
@@ -25,7 +25,7 @@ object Reject {
   def saveCycleRejected(dsFieldRejected: Dataset[TgaTgdIntermediate], sparkContext: SparkContext,timeToProcess: DateTime): Unit ={
 
     // Sauvegarde des cycles rejetés dans HDFS
-    dsFieldRejected.toDF().coalesce(1).write.mode(SaveMode.Append).format("com.databricks.spark.csv").option("header", "true").save(REJECTED_CYCLE)
+    dsFieldRejected.toDF().write.mode(SaveMode.Append).format("com.databricks.spark.csv").option("header", "true").save(REJECTED_CYCLE)
 
   }
 

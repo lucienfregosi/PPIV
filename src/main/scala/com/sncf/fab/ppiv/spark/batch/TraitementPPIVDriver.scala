@@ -23,15 +23,15 @@ import org.slf4j.LoggerFactory
 // Classe main, lancement du programme
 object TraitementPPIVDriver extends Serializable {
 
-  //var MAINLOGGER = Logger.getLogger("RollingAppender")
+  //var //MAINLOGGER = Logger.getLogger("RollingAppender")
   //var DEVLOGGER  = Logger.getLogger("DevLogger")
 
-  val MAINLOGGER = LoggerFactory.getLogger(getClass)
-  val DEVLOGGER = LoggerFactory.getLogger(getClass)
+  //val //MAINLOGGER = LoggerFactory.getLogger(getClass)
+  //val DEVLOGGER = LoggerFactory.getLogger(getClass)
 
 
 
-  MAINLOGGER.info("Lancement du batch PPIV")
+  ////MAINLOGGER.info("Lancement du batch PPIV")
 
   def main(args: Array[String]): Unit = {
     // 5 cas de figure pour l'exécution du programme
@@ -43,12 +43,12 @@ object TraitementPPIVDriver extends Serializable {
 
     if (args.length == 0){
       // Pas d'arguments d'entrée -> Stop
-      MAINLOGGER.error("Pas d'arguments d'entrée, le batch nécessite au minimum la méthode de persistance (hdfs, hive, fs, es)")
+      ////MAINLOGGER.error("Pas d'arguments d'entrée, le batch nécessite au minimum la méthode de persistance (hdfs, hive, fs, es)")
       System.exit(1)
     }
     else if(!(args(0).contains("hdfs") || args(0).contains("fs") || args(0).contains("es") || args(0).contains("hive")) ){
       // Argument n°1 de persistance non valide -> Stop
-      MAINLOGGER.error("Pas de méthode de persistence (hdfs, fs, hive ou es pour l'agument" + args(0).toString)
+      ////MAINLOGGER.error("Pas de méthode de persistence (hdfs, fs, hive ou es pour l'agument" + args(0).toString)
       System.exit(1)
     }
     else {
@@ -68,12 +68,12 @@ object TraitementPPIVDriver extends Serializable {
 
       if(args.length == 1){
         //  - 1 seul et unique argument valide (hive, hdfs, es, fs) -> Nominal : Lancement automatique du batch sur l'heure n-1
-        MAINLOGGER.info("Lancement automatique du batch sur l'heure n-1")
+        ////MAINLOGGER.info("Lancement automatique du batch sur l'heure n-1")
         startPipeline(args, sc, sqlContext, startTimePipeline)
       }
       else if(Conversion.validateDateInputFormat(args(1)) == true && Conversion.validateDateInputFormat(args(2)) == true){
         //  - 3 arguments (persistance, date début, date fin) et dates valides -> Lancement du batch sur la période spécifié
-        MAINLOGGER.info("Lancement du batch sur la période spécifié entre " + args(1).toString + " et " + args(2))
+        ////MAINLOGGER.info("Lancement du batch sur la période spécifié entre " + args(1).toString + " et " + args(2))
 
         // Enregistrement de la début et de la fin de la période dans le format dateTime a partir du format string yyyyMMdd_HH
         val startTimeToProcess = Conversion.getDateTimeFromArgument(args(1))
@@ -90,7 +90,7 @@ object TraitementPPIVDriver extends Serializable {
           // Calcul de la dateTime a passer en paramètre au pipeline
           val newDateTime = startTimeToProcess.plusHours(hoursIterator)
 
-          MAINLOGGER.info("Lancement du Pipeline pour la date/Time: " + newDateTime.toString())
+          ////MAINLOGGER.info("Lancement du Pipeline pour la date/Time: " + newDateTime.toString())
 
           // Lancement du pipeline pour l'heure demandé
           startPipeline(args, sc, sqlContext, newDateTime)
@@ -98,7 +98,7 @@ object TraitementPPIVDriver extends Serializable {
       }
       else{
         //  - 3 arguments (persistance, date début, date fin) mais dates invalide (les dates doivent être de la forme yyyyMMdd_HH) -> Stop
-        MAINLOGGER.error("Les dates de plage horaire ne sont pas dans le bon format yyyyMMdd_HH pour " + args(1) + " ou " + args(2))
+        ////MAINLOGGER.error("Les dates de plage horaire ne sont pas dans le bon format yyyyMMdd_HH pour " + args(1) + " ou " + args(2))
         System.exit(1)
       }
     }
@@ -111,26 +111,26 @@ object TraitementPPIVDriver extends Serializable {
     val persistMethod = argsArray(0)
 
 
-    MAINLOGGER.info("Lancement du pipeline pour l'heure : " + Conversion.getHourDebutPlageHoraire(dateTimeToProcess))
+    ////MAINLOGGER.info("Lancement du pipeline pour l'heure : " + Conversion.getHourDebutPlageHoraire(dateTimeToProcess))
 
-    MAINLOGGER.info("Traitement des TGA")
+    ////MAINLOGGER.info("Traitement des TGA")
     val ivTga = TraitementTga.start(sc, sqlContext, dateTimeToProcess)
-    //MAINLOGGER.info("Nombre de cycle TGA fini et calculé a persister: " + ivTga.count())
+    ////MAINLOGGER.info("Nombre de cycle TGA fini et calculé a persister: " + ivTga.count())
 
-    MAINLOGGER.info("Traitement des TGD")
+    //MAINLOGGER.info("Traitement des TGD")
     //val ivTgd = TraitementTgd.start(sc, sqlContext, dateTimeToProcess)
-    //MAINLOGGER.info("Nombre de cycle TGA fini et calculé a persister: " + ivTgd.count())
+    ////MAINLOGGER.info("Nombre de cycle TGA fini et calculé a persister: " + ivTgd.count())
 
     // 11) Fusion des résultats de TGA et TGD
-    MAINLOGGER.info("11) Fusion des résultats entre TGA et TGD")
+    //MAINLOGGER.info("11) Fusion des résultats entre TGA et TGD")
     //val ivTgaTgd = ivTga.unionAll(ivTgd)
-    //MAINLOGGER.info("Nombre total de cycle fini et calculé a persister: " + ivTgaTgd.count())
+    ////MAINLOGGER.info("Nombre total de cycle fini et calculé a persister: " + ivTgaTgd.count())
 
 
 
     try {
       // 12) Persistence dans la méthode demandée (hdfs, hive, es, fs)
-      MAINLOGGER.info("12) Persistence dans la méthode demandée (hdfs, hive, es, fs)")
+      //MAINLOGGER.info("12) Persistence dans la méthode demandée (hdfs, hive, es, fs)")
       Persist.save(ivTga, persistMethod, sc, dateTimeToProcess)
     }
     catch {

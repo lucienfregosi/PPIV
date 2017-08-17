@@ -2,7 +2,7 @@ package com.sncf.fab.ppiv.pipelineData.libPipeline
 
 import com.fasterxml.jackson.module.scala.util.Options
 import com.sncf.fab.ppiv.business.{TgaTgdInput, TgaTgdIntermediate}
-import com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver.MAINLOGGER
+//import com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver.MAINLOGGER
 import com.sncf.fab.ppiv.utils.Conversion
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.DataFrame
@@ -54,7 +54,7 @@ object BusinessRules {
       if (isCycleValidated._1 == false) {
         // Raison de l'invalidation
         val rejectReason = isCycleValidated._2
-        MAINLOGGER.info("Cycle invalide pour le cycle Id: " + cycleId)
+        //MAINLOGGER.info("Cycle invalide pour le cycle Id: " + cycleId)
         cycleId = "INV_" + cycleId
         TgaTgdIntermediate(
           cycleId,
