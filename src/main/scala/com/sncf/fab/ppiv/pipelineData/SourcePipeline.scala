@@ -96,6 +96,10 @@ trait SourcePipeline extends Serializable {
     LOGGER.info("4) Reconstitution de la liste d'événements pour chaque trajet")
     val cycleWithEventOver = BuildCycleOver.getCycleOver(dataTgaTgdFielValidated, sc, sqlContext, Panneau(), timeToProcess)
 
+
+    cycleWithEventOver.show(false)
+
+
     // 5) Boucle sur les cycles finis pour traiter leur liste d'évènements
     LOGGER.info("5) Boucle sur les cycles finis pour traiter leur liste d'évènements (validation, calcul des KPI..)")
     val rddIvTgaTgdWithoutReferentiel = BusinessRules.computeBusinessRules(cycleWithEventOver, timeToProcess)
