@@ -28,7 +28,8 @@ object LoadData {
       .as[TgaTgdInput]
 
     // Parsing du CSV a l'intérieur d'un object TgaTgaInput, conversion en dataset
-    dsTgaTgd.toDF().map(row => DatasetsParser.parseTgaTgdDataset(row)).toDS()
+    dsTgaTgd.toDF().filter($"maj".isNotNull).filter($"heure".isNotNull)
+      .map(row => DatasetsParser.parseTgaTgdDataset(row)).toDS()
   }
 
   def loadReferentiel(sqlContext : SQLContext) : Dataset[ReferentielGare] = {
