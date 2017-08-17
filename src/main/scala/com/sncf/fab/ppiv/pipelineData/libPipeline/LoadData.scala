@@ -30,7 +30,7 @@ object LoadData {
     dsTgaTgd.show(false)
 
     // Parsing du CSV a l'intérieur d'un object TgaTgaInput, conversion en dataset
-    dsTgaTgd.toDF().filter($"maj".isNotNull).filter($"heure".isNotNull)
+    dsTgaTgd.toDF().filter($"maj".isNull).filter($"heure".isNull)
       .map(row => DatasetsParser.parseTgaTgdDataset(row)).toDS()
   }
 
