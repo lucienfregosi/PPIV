@@ -15,6 +15,8 @@ object Postprocess {
 
  def postprocess (dsTgaTgd: Dataset[TgaTgdIntermediate], refGares : Dataset[ReferentielGare], sqlContext : SQLContext, Panneau: String):DataFrame = {
 
+   import sqlContext.implicits._
+
    // Jointure avec le référentiel
    // Nettoyage du référentiel pour enlever les TVS vide
    val cleanedRefGares = refGares.filter(x=> (x.TVS != null && x.TVS != "" ) )
