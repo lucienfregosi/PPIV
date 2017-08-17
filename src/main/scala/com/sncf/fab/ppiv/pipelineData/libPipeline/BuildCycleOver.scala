@@ -42,9 +42,9 @@ object BuildCycleOver {
     // TODO : Amélioration :
     // - à J-1 aller chercher les données seulement à partir de 18h
     // - Appeler cette fonction uniquement dans le case des trains passe nuits (qui partent avant 12)
-    val tgaTgdRawYesterDay = loadDataEntireDay(sc, sqlContext, panneau, timeToProcess, -1)
+    //val tgaTgdRawYesterDay = loadDataEntireDay(sc, sqlContext, panneau, timeToProcess, -1)
     // Union des evenement  de jour j et jour j -1
-    val tgaTgdRawAllDay = tgaTgdRawToDay.union(tgaTgdRawYesterDay)
+    val tgaTgdRawAllDay = tgaTgdRawToDay.union(tgaTgdRawToDay)
     //DEVLOGGER.info("Nombre de lignes chargé sur la journée et/ou j-1 (si passe nuit) :" + tgaTgdRawAllDay.count())
     // TODO: Ajout d'une étape nettoyage (sparadrap + validation champ a champ (sans enregistrement des rejets)
     // Pour chaque cycle terminé récupération des différents évènements au cours de la journée
@@ -252,6 +252,7 @@ object BuildCycleOver {
                         timeToProcess: DateTime,
                         dayBeforeToProcess: Int): Dataset[TgaTgdInput] = {
     import sqlContext.implicits._
+
     // Déclaration de notre variable de sortie contenant tous les event de la journée
     // TODO Peut etre optimisable pour éviter 24 append
     var tgaTgdRawAllDay = sc.emptyRDD[TgaTgdInput].toDS()
@@ -260,7 +261,7 @@ object BuildCycleOver {
     // - Le 5ème argument inférieur à 0, on va chercher dans les jours précédents, on process toutes les heures de la journée
     val currentHourInt = if(dayBeforeToProcess == 0) Conversion.getHourDebutPlageHoraire(timeToProcess).toInt else 23
     // Boucle sur les heures de la journée à traiter
-    for (loopHour <- 0 to currentHourInt) {
+    for (loopHour <- 5 to currentHourInt) {
       // Construction du nom du fichier a aller chercher dans HDFS
       var filePath = LANDING_WORK + Conversion.getYearMonthDay(timeToProcess.plusDays(dayBeforeToProcess)) + "/" + panneau + "-" +
         Conversion.getYearMonthDay(timeToProcess.plusDays(dayBeforeToProcess)) + "_" + Conversion.HourFormat(loopHour) + ".csv"
