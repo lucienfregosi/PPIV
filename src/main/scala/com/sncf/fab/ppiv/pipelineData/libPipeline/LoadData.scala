@@ -1,6 +1,6 @@
 package com.sncf.fab.ppiv.pipelineData.libPipeline
 
-import com.sncf.fab.ppiv.business.{ReferentielGare, TgaTgdInput}
+import com.sncf.fab.ppiv.business.{ReferentielGare, TgaTgdInput, TgaTgdInputRaw}
 import com.sncf.fab.ppiv.parser.DatasetsParser
 import com.sncf.fab.ppiv.utils.AppConf.REF_GARES
 import org.apache.spark.sql.types.LongType
@@ -22,12 +22,12 @@ object LoadData {
       .option("header", "false")
       .option("delimiter", ";")
       .load(path).toDF(newNamesTgaTgd: _*)
-      .withColumn("maj", 'maj.cast(LongType))
-      .withColumn("heure", 'heure.cast(LongType))
-      .as[TgaTgdInput]
+      .as[TgaTgdInputRaw]
 
     // Parsing du CSV a l'intérieur d'un object TgaTgaInput, conversion en dataset
-    dsTgaTgd.toDF().map(row => DatasetsParser.parseTgaTgdDataset(row)).toDS()
+    dsTgaTgd.toDF().withColumn("heure", $"heure".cast("Long"))
+      .withColumn("maj", $"maj".cast("Long"))
+      .map(row => DatasetsParser.parseTgaTgdDataset(row)).toDS()
   }
 
   def loadReferentiel(sqlContext : SQLContext) : Dataset[ReferentielGare] = {
