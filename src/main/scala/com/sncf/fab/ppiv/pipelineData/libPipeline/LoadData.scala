@@ -19,7 +19,6 @@ object LoadData {
     // Lecture du CSV avec les bons noms de champs
     val dfTgaTgd = sqlContext.read
       .format("com.databricks.spark.csv")
-      .option("inferSchema","true")
       .option("header", "false")
       .option("delimiter", ";")
       .load(path).toDF(newNamesTgaTgd: _*)
