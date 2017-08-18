@@ -60,7 +60,9 @@ object TraitementPPIVDriver extends Serializable {
       }
       else if(Conversion.validateDateInputFormat(args(1)) == true && Conversion.validateDateInputFormat(args(2)) == true){
         //  - 3 arguments (persistance, date début, date fin) et dates valides -> Lancement du batch sur la période spécifié
-        LOGGER.info("Lancement du batch sur la période spécifié entre " + args(1).toString + " et " + args(2))
+        LOGGER.info("Lancement du batch sur la période spécifié entre " + args(1).toString + " et " + args(2).toString)
+        println("Lancement du batch sur la période spécifié entre " + args(1).toString + " et " + args(2).toString)
+
 
         // Enregistrement de la début et de la fin de la période dans le format dateTime a partir du format string yyyyMMdd_HH
         val startTimeToProcess = Conversion.getDateTimeFromArgument(args(1))
@@ -77,7 +79,7 @@ object TraitementPPIVDriver extends Serializable {
           // Calcul de la dateTime a passer en paramètre au pipeline
           val newDateTime = startTimeToProcess.plusHours(hoursIterator)
 
-          LOGGER.info("Lancement du Pipeline pour la période: " + Conversion.getHourDebutPlageHoraire(newDateTime) + " et " + Conversion.getHourFinPlageHoraire(newDateTime))
+          println("Lancement du Pipeline pour la période: " + Conversion.getHourDebutPlageHoraire(newDateTime) + " et " + Conversion.getHourFinPlageHoraire(newDateTime))
           LOGGER.info("Lancement du Pipeline pour la date/Time: " + newDateTime.toString())
 
           // Lancement du pipeline pour l'heure demandé
