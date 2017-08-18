@@ -17,7 +17,7 @@ object LoadData {
     val newNamesTgaTgd = Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard","null")
 
     // Lecture du CSV avec les bons noms de champs
-    val dsTgaTgd = sqlContext.read
+    val dfTgaTgd = sqlContext.read
       .format("com.databricks.spark.csv")
       .option("inferSchema","true")
       .option("header", "false")
@@ -25,13 +25,15 @@ object LoadData {
       .load(path).toDF(newNamesTgaTgd: _*)
       .withColumn("maj", 'maj.cast(LongType))
       .withColumn("heure", 'heure.cast(LongType))
+      .filter($"maj".isNotNull)
+      .filter($"heure".isNotNull)
       .as[TgaTgdInput]
 
-    dsTgaTgd.show(false)
+
+    dfTgaTgd
 
     // Parsing du CSV a l'intérieur d'un object TgaTgaInput, conversion en dataset
-    dsTgaTgd.toDF()
-      .map(row => DatasetsParser.parseTgaTgdDataset(row)).toDS()
+    //dsTgaTgd.map(row => DatasetsParser.parseTgaTgdDataset(row)).toDS()
   }
 
   def loadReferentiel(sqlContext : SQLContext) : Dataset[ReferentielGare] = {
