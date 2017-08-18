@@ -75,10 +75,6 @@ trait SourcePipeline extends Serializable {
     // 1) Chargement des fichiers déjà parsé dans leur classe
     LOGGER.info("1) Chargement des fichiers déjà parsé dans leur classe")
     val dataTgaTgd                = LoadData.loadTgaTgd(sqlContext, getSource(timeToProcess))
-
-    dataTgaTgd.show(false)
-    System.exit(0)
-
     val dataRefGares              = LoadData.loadReferentiel(sqlContext)
 
     dataTgaTgd.printSchema()

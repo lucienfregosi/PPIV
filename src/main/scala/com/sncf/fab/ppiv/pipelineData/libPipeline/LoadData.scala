@@ -27,6 +27,7 @@ object LoadData {
       .withColumn("heure", 'heure.cast(LongType))
       .filter($"maj".isNotNull)
       .filter($"heure".isNotNull)
+      .distinct()
       .as[TgaTgdInput]
 
 
@@ -50,6 +51,7 @@ object LoadData {
       .format("com.databricks.spark.csv")
       .load(REF_GARES)
       .toDF(newNamesRefGares: _*)
+      .distinct()
       .as[ReferentielGare]
 
     // Parsing du CSV a l'intérieur d'un object ReferentielGare, conversion en dataset
