@@ -35,6 +35,8 @@ object BuildCycleOver {
     // On renvoie le même format de données (cycle_id{gare,panneau,numeroTrain,heureDepart}, heureDepart, retard)
     val cycleIdListOver = filterCycleOver(cycleIdList, sqlContext, timeToProcess)
 
+    println("nombre de cycles terminés: " + cycleIdListOver.count())
+
     //Load les evenements  du jour j. Le 5ème paramètre sert a définir la journée qui nous intéresse 0 = jour J
     val tgaTgdRawToDay = loadDataFullPeriod(sc, sqlContext, panneau, timeToProcess)
 

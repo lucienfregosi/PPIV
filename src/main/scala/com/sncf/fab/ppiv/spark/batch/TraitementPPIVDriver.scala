@@ -77,6 +77,7 @@ object TraitementPPIVDriver extends Serializable {
           // Calcul de la dateTime a passer en paramètre au pipeline
           val newDateTime = startTimeToProcess.plusHours(hoursIterator)
 
+          LOGGER.info("Lancement du Pipeline pour la période: " + Conversion.getHourDebutPlageHoraire(newDateTime) + " et " + Conversion.getHourFinPlageHoraire(newDateTime))
           LOGGER.info("Lancement du Pipeline pour la date/Time: " + newDateTime.toString())
 
           // Lancement du pipeline pour l'heure demandé
