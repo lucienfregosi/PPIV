@@ -63,8 +63,7 @@ node {
         def jarName = "ppiv_2.10-" + version + ".jar"
         // Copier sur la VM
         sh """
-           echo ${url}
-           ssh -t -t hdpppip1@cuccaro hdfs dfs -put /export/appl/hdpppip1/DEV/${jarName} /data1/GARES/refinery/PPIV_PHASE2/jar
+           ssh -t -t hdpppip1@cuccaro hdfs dfs -put /export/appl/hdpppip1/DEV/${jarName} /data1/GARES/refinery/PPIV_PHASE2/oozie
         """
     }
 
