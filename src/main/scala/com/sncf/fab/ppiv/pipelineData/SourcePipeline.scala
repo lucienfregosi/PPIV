@@ -113,6 +113,11 @@ trait SourcePipeline extends Serializable {
     val cycleValidated    = dsIvTgaTgdWithoutReferentiel.toDF().filter(not($"cycleId".contains("INV_"))).as[TgaTgdIntermediate]
 
 
+    // Enregistrement des rejets (champs et cycles)
+    Reject.saveFieldRejected(dataTgaTgdFielRejected, sc, timeToProcess)
+    Reject.saveCycleRejected(cycleInvalidated, sc, timeToProcess)
+
+
     // 9) Sauvegarde des données propres
     // LOGGER.info("9) Sauvegarde des données propres")
     // A partir de cycleValidate :
