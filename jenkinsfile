@@ -64,7 +64,7 @@ node {
         // Copier sur la VM
         sh """
            ssh -t -t hdpppip1@cuccaro kinit -kt ppiv-dev.keytab ppiv_phase2_dev@SNB.SOCRATE.VSCT.FR
-           ssh -t -t hdpppip1@cuccaro hdfs dfs -put /export/appl/hdpppip1/DEV/${jarName} /data1/GARES/refinery/PPIV_PHASE2/oozie
+           ssh -t -t hdpppip1@cuccaro hdfs dfs -put -f /export/appl/hdpppip1/DEV/${jarName} /data1/GARES/refinery/PPIV_PHASE2/oozie
            ssh -t -t hdpppip1@cuccaro kdestroy
         """
     }
