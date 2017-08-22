@@ -42,9 +42,9 @@ object BuildCycleOver {
 
     import sqlContext.implicits._
 
-    tgaTgdRawToDay.toDF().orderBy($"maj").show
-    tgaTgdRawToDay.toDF().orderBy($"maj").show
-    tgaTgdRawToDay.toDF().orderBy()
+    tgaTgdRawToDay.toDF().orderBy($"maj".asc).show
+    tgaTgdRawToDay.toDF().orderBy($"maj".desc).show
+
 
 
 
