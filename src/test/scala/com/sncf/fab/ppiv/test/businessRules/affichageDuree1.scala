@@ -35,10 +35,11 @@ This is a specification for the affichageDuree1 output
   //Load File
   val dsDureeAffichage= readFile(pathDureeAffichage).toSeq
 
+  // 1. On remplace les valeurs vides par ~
 
+  println(BusinessRules.getAffichageDuree1(dsDureeAffichage).toInt / 60)
 
   def e1 = (BusinessRules.getAffichageDuree1(dsDureeAffichage).toInt / 60) must beLessThanOrEqualTo(3232432)
-
 
 
 }
