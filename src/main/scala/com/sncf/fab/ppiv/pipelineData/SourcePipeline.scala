@@ -115,14 +115,11 @@ trait SourcePipeline extends Serializable {
     val cycleInvalidated = dsIvTgaTgdWithoutReferentiel.toDF().filter($"cycleId".contains("INV_")).as[TgaTgdIntermediate]
     val cycleValidated    = dsIvTgaTgdWithoutReferentiel.toDF().filter(not($"cycleId".contains("INV_"))).as[TgaTgdIntermediate]
 
+    cycleInvalidated.persist()
+    cycleValidated.persist()
 
     println("nombre cycle invalidé : " + cycleInvalidated.count())
     println("nombre cycle validé : " + cycleValidated.count())
-
-    Reject.saveCycleRejected(cycleInvalidated, sc, timeToProcess, Panneau())
-
-    System.exit(0)
-
 
 
 

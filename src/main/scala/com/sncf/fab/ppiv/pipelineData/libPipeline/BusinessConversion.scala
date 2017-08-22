@@ -37,21 +37,23 @@ object BusinessConversion {
 
   // function to extrat Creneau_horaire from timestamp
   def getCreneau_horaire(timestamp: Long): String = {
-    val interval_depart_min = Conversion.unixTimestampToDateTime(timestamp).getHourOfDay.toString
-    val interval_depart_max = (Conversion.unixTimestampToDateTime(timestamp).getHourOfDay + 1).toString
-    val interval_depart = "[" + interval_depart_min + " - " + interval_depart_max + "]"
+    val interval_depart_min = Conversion.unixTimestampToDateTime(timestamp).getHourOfDay
+    val interval_depart_max = (Conversion.unixTimestampToDateTime(timestamp).getHourOfDay + 1)
+
+    // On souhaite le format 09 -> 10
+    val interval_depart =  Conversion.HourFormat(interval_depart_min) + " -> " + Conversion.HourFormat(interval_depart_max)
+
     interval_depart
   }
 
   //function to get the number of the day  (Dimanche ==> 1)
   def getNumberoftheday(timestamp: Long): Int = {
-        val cLocale = new Locale("en")
+
+    val cLocale = new Locale("en")
     val this_day= Conversion.unixTimestampToDateTime(timestamp).dayOfWeek().getAsShortText(cLocale)
     val mapDay_NumberOfDay = Map("Sun"-> 1,"Mon"->2, "Tue" -> 3, "Wed"->4, "Thu"->5, "Fri" ->6, "Sat" ->7 )
-    //val numberOfTheDay =  mapDay_NumberOfDay.getOrElse(this_day,0)
-   // numberOfTheDay
-    0
 
+    mapDay_NumberOfDay(this_day)
   }
 
   //function to get the first three letter of the day
@@ -62,8 +64,10 @@ object BusinessConversion {
 
   //fonction qui renvoie le delai d'affichage  de la dernière voie sans retard
   def getDelai_affichage_voie_sans_retard(timestamp: Long): String = {
-   // "H" + Conversion.getHHmmssFromMillis(timestamp)
-    "H"+TimeUnit.MILLISECONDS.toMinutes(timestamp * 1000)
+
+    // On souhaite le format H(+ ou -)XXX avec XXX le nombre de minutes ou il est resté affiché
+    if(timestamp < 0) "H-"+ TimeUnit.MILLISECONDS.toMinutes(timestamp.abs * 1000)
+    else "H+"+ TimeUnit.MILLISECONDS.toMinutes(timestamp * 1000)
   }
 
   //fonction qui renvoie une segmentation de  la durée de l'affichage

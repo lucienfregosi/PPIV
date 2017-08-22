@@ -180,6 +180,42 @@ object BusinessRules {
     // A A "" "" A A
     // On veut renvoyer le premier affichage de la deuxième séquence de A et non le premier de la première
     try {
+
+      // Case Class créé pour l'occasion pour pouvoir garder notre nomenclature
+      case class SeqShort(maj: Long, voie: String)
+
+      // On remplace les voies vides par des ~
+      val seq = seqTgaTgd.map(x => SeqShort(
+        x.maj,
+        if(x.voie == "") x.voie.replace("","~") else x.voie
+      ))
+
+      // Tri de la séquence
+      // On forme un tableau de maj par voie
+      val s1 = seq.sortBy(_.maj)
+        .reverse
+        .groupBy(_.voie)
+        .map(x => (x._1, x._2.maxBy(_.maj).maj,x._2.maxBy(_.maj).maj, x._2.map(x => x.maj)))
+        .toSeq
+        .sortBy(_._2)
+        .reverse
+
+      // On extrait la séquence n°1 et n°2
+      val sequence1 = s1.take(1).last
+      val sequence2 = s1.take(2).last
+
+      // On prend le max de seq2
+      val maxSeq2 = sequence2._4.toList.max
+
+      // Dans la séquence de la voie finale on garde les maj au dessus de maxSeq2
+      val sequence1Filtered = sequence1._4.toList.filter(_ > maxSeq2)
+
+      // On renvoie la valeur minimum
+      sequence1Filtered.min
+
+
+
+      /* Ancienne version de kaoula
       seqTgaTgd
         // Tri en partant de la fin
         .sortBy(_.maj)
@@ -198,6 +234,7 @@ object BusinessRules {
         // Prende l'heure de l'event min
         ._3
         .maj
+      */
     }
     catch {
       case e: Throwable => {
