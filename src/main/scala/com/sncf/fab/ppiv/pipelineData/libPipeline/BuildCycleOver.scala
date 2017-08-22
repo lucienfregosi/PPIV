@@ -40,16 +40,6 @@ object BuildCycleOver {
     //Load les evenements  du jour j. Le 5ème paramètre sert a définir la journée qui nous intéresse 0 = jour J
     val tgaTgdRawToDay = loadDataFullPeriod(sc, sqlContext, panneau, timeToProcess)
 
-    import sqlContext.implicits._
-
-    tgaTgdRawToDay.toDF().orderBy($"maj".asc).show
-    tgaTgdRawToDay.toDF().orderBy($"maj".desc).show
-
-
-
-
-
-    System.exit(0)
 
     // Pour chaque cycle terminé récupération des différents évènements au cours de la journée
     // sous la forme d'une structure (cycle_id | Array(TgaTgdInput)
@@ -126,7 +116,7 @@ object BuildCycleOver {
 
     // Il me faut une liste de Path de 18h a J-1 à l'heure actuelle de j
     // Cela revient à s'intéresser à toutes les heures de -6 à l'heure actuelle
-    val hoursListJ = 0 to Conversion.getHourFinPlageHoraire(timeToProcess).toInt
+    val hoursListJ = 0 to (Conversion.getHourFinPlageHoraire(timeToProcess).toInt + 1)
     val hoursListJMoins1 = 18 to 23
 
 

@@ -80,7 +80,6 @@ object ValidateData {
       val etatTrain = BusinessRules.getEtatTrain(seqTgaTgdSeq)
       if(etatTrain == "SUP" || etatTrain == "IND"){
         (true, "train avec état " + etatTrain)
-
       }
       else{
         if (cntVoieAffiche == 0 ) {(false,"VoieManquante")}

@@ -392,7 +392,7 @@ object BusinessRules {
       val dsVoie = seqTgaTgd
         .sortBy(_.maj)
         .reverse
-        .filter(x => x.voie != null && x.voie != "" && x.voie != ("0"))
+        .filter(x => x.voie != null && x.voie != "")
       if (dsVoie.isEmpty) {
         null
       } else {
@@ -416,7 +416,7 @@ object BusinessRules {
 
       val dsVoie = seqTgaTgd
         .sortBy(_.maj)
-        .filter(x => x.voie != null && x.voie != "" && x.voie != ("0"))
+        .filter(x => x.voie != null && x.voie != "")
         .groupBy(_.voie)
 
       // Astuce pour ordonner le group by. Fréquellent utilisé a voir pour créer une fonction
@@ -446,7 +446,7 @@ object BusinessRules {
 
       val dvInfo = allDevoimentInfo(seqTgaTgd)
       if (dvInfo.size <= 1) {
-        null
+        ""
       } else {
         val voie_1 = dvInfo(0)._2.voie
         val voie_2 = dvInfo(1)._2.voie
@@ -555,7 +555,7 @@ object BusinessRules {
     try{
       val dernier_affichage = seqTgaTgd
         .sortBy(_.maj)
-        .filter(x => x.voie != null && x.voie != "" && x.voie != ("0"))
+        .filter(x => x.voie != null && x.voie != "")
         .groupBy(_.voie)
         .toSeq
         .map(row => (row._1, row._2.maxBy(_.maj)))
