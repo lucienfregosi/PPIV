@@ -116,6 +116,8 @@ trait SourcePipeline extends Serializable {
     println("nombre cycle invalidé : " + cycleInvalidated.count())
     println("nombre cycle validé : " + cycleValidated.count())
 
+    Reject.saveCycleRejected(cycleInvalidated, sc, timeToProcess, Panneau())
+
     System.exit(0)
 
     // Enregistrement des rejets (champs et cycles)
