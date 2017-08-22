@@ -87,9 +87,13 @@ trait SourcePipeline extends Serializable {
       Preprocess.applyStickingPlaster(dataTgaTgd, sqlContext)
     } else dataTgaTgd
 
+    println("heure actuelle entre " + Conversion.getHourDebutPlageHoraire(timeToProcess) + " et " + Conversion.getHourFinPlageHoraire(timeToProcess))
+
+
     // 3) Validation champ à champ
     LOGGER.info("3) Validation champ à champ")
     val (dataTgaTgdFielValidated, dataTgaTgdFielRejected)   = ValidateData.validateField(dataTgaTgdBugFix, sqlContext)
+
 
 
     // 4) Reconstitution des évènements pour chaque trajet
@@ -98,14 +102,6 @@ trait SourcePipeline extends Serializable {
     LOGGER.info("4) Reconstitution de la liste d'événements pour chaque trajet")
     val cycleWithEventOver = BuildCycleOver.getCycleOver(dataTgaTgdFielValidated, sc, sqlContext, Panneau(), timeToProcess)
 
-
-    // Regarder quel est l'heure max auquel on s'intéresse
-
-    println("heure actuelle entre " + Conversion.getHourDebutPlageHoraire(timeToProcess) + " et " + Conversion.getHourFinPlageHoraire(timeToProcess))
-
-    // Trouver entre quand et quand sont compris les valeurs
-
-    cycleWithEventOver.printSchema()
 
     System.exit(0)
 
@@ -127,9 +123,6 @@ trait SourcePipeline extends Serializable {
 
     //Reject.saveCycleRejected(cycleInvalidated, sc, timeToProcess, Panneau())
 
-
-
-    System.exit(0)
 
     // Enregistrement des rejets (champs et cycles)
     Reject.saveFieldRejected(dataTgaTgdFielRejected, sc, timeToProcess, Panneau())

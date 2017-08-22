@@ -176,13 +176,16 @@ object BusinessRules {
   def getPremierAffichage(seqTgaTgd: Seq[TgaTgdInput]): Long = {
 
     // Récupération de la date de premier affichage. On cherche le moment ou la bonne voie a été affiché pour la première fois
+    // Prendre en compte le cas ou on a
+    // A A "" "" A A
+    // On veut renvoyer le premier affichage de la deuxième séquence de A et non le premier de la première
     try {
       seqTgaTgd
         // Tri en partant de la fin
         .sortBy(_.maj)
         .reverse
         // Filtre des lignes ou la voie est nulle
-        .filter(x => x.voie != null && x.voie != "" && x.voie != ("0"))
+        .filter(x => x.voie != null && x.voie != "")
         // Rassemblement par voie et groupement en séquence
         .groupBy(_.voie)
         .toSeq

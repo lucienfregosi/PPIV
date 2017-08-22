@@ -40,6 +40,16 @@ object BuildCycleOver {
     //Load les evenements  du jour j. Le 5ème paramètre sert a définir la journée qui nous intéresse 0 = jour J
     val tgaTgdRawToDay = loadDataFullPeriod(sc, sqlContext, panneau, timeToProcess)
 
+    import sqlContext.implicits._
+
+    tgaTgdRawToDay.toDF().orderBy($"maj").show
+    tgaTgdRawToDay.toDF().orderBy($"maj").show
+    tgaTgdRawToDay.toDF().orderBy()
+
+
+
+
+    System.exit(0)
 
     // Pour chaque cycle terminé récupération des différents évènements au cours de la journée
     // sous la forme d'une structure (cycle_id | Array(TgaTgdInput)
