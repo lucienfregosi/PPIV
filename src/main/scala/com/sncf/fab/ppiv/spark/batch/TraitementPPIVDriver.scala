@@ -51,8 +51,10 @@ object TraitementPPIVDriver extends Serializable {
       // Set du niveau de log pour ne pas être envahi par les messages
       sc.setLogLevel("ERROR")
 
+
       // Sauvegarde de l'heure de début du programme dans une variable
       val startTimePipeline = Conversion.nowToDateTime()
+
 
       if(args.length == 1){
         //  - 1 seul et unique argument valide (hive, hdfs, es, fs) -> Nominal : Lancement automatique du batch sur l'heure n-1

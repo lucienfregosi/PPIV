@@ -51,7 +51,7 @@ object ValidateData {
 
 
     // Décompte des évènements ou la voir est renseignée
-    val cntVoieAffiche = seqTgaTgdSeq.filter(x => (x.voie!= null ) && (x.voie!= "0")&& (x.voie!= "")).length
+    val cntVoieAffiche = seqTgaTgdSeq.filter(x => (x.voie!= null ) && (x.voie!= "")).length
 
     // Compter le nombre d'évènements après le départ théorique + retard
     val departThéorique = seqTgaTgdSeq(0).heure.toLong

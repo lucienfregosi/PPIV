@@ -132,7 +132,7 @@ object Conversion {
   // TODO Remplacer par -1 en PROD
   def getHourDebutPlageHoraire(date: DateTime): String = {
     // Retrancher une heure à la date actuelle pour traiter fichier à H-1
-    val HourToProcess = date.plusHours(-2)
+    val HourToProcess = date.plusHours(-1)
     // Convertir sous le format HH type 01 au lieu de 1
     //println(new DecimalFormat("00").format(HourToProcess.getHourOfDay))
     new DecimalFormat("00").format(HourToProcess.getHourOfDay)
@@ -142,7 +142,7 @@ object Conversion {
   // TODO Enlever le -1 en PROD (remplacer par 0)
   def getHourFinPlageHoraire(date: DateTime): String = {
     // Retrancher une heure à la date actuelle pour traiter fichier à H-1
-    val HourToProcess = date.plusHours(-1) // DEV
+    val HourToProcess = date // DEV
     // Convertir sous le format HH type 01 au lieu de 1
     //println(new DecimalFormat("00").format(HourToProcess.getHourOfDay))
     new DecimalFormat("00").format(HourToProcess.getHourOfDay)
