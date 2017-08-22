@@ -12,6 +12,7 @@ import org.apache.spark.sql.SQLContext
 import org.apache.spark.{SparkConf, SparkContext}
 import org.joda.time.{DateTime, Duration}
 import org.slf4j.LoggerFactory
+import com.sncf.fab.ppiv.pipelineData.libPipeline._
 
 /**
 //  * Created by simoh-labdoui on 11/05/2017.
@@ -52,6 +53,24 @@ object TraitementPPIVDriver extends Serializable {
 
       // Sauvegarde de l'heure de début du programme dans une variable
       val startTimePipeline = Conversion.nowToDateTime()
+
+      // Constituer une table Hive pour les TgaTgdInput du 17 pour pouvoir comparer les résultats
+
+      import org.joda.time.DateTime
+      import org.joda.time.format.DateTimeFormat
+      import org.joda.time.format.DateTimeFormatter
+      val formatter = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss")
+      val dt = formatter.parseDateTime("18/08/2017 01:00:00")
+
+
+      val dsTgaTgdAllDay = BuildCycleOver.loadDataFullPeriod(sc, sqlContext, "TGA", dt).toDF()
+
+      val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
+      val dfHive = hiveContext.createDataFrame(dsTgaTgdAllDay.rdd, dsTgaTgdAllDay.schema)
+      dfHive.registerTempTable("dataToSaveToHive")
+      hiveContext.sql("Create TABLE ppiv_ref.iv_tgatgdInput as select * from dataToSaveToHive")
+
+      System.exit(0)
 
       if(args.length == 1){
         //  - 1 seul et unique argument valide (hive, hdfs, es, fs) -> Nominal : Lancement automatique du batch sur l'heure n-1
