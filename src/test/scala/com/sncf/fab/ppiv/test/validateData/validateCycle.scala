@@ -24,6 +24,7 @@ The 'validateCycle'  output   should
   Cycle with at least one voie shoud be true                            $e2
   Maj after the departure date  retard  10 shoud be false               $e3
   Maj at least one before departure plus retard plus 10 should be true  $e4
+  Test  $e5
   """
 
 
@@ -47,6 +48,7 @@ The 'validateCycle'  output   should
 
 
 
+
   val dsSansVoie = readFile(pathSansVoie).toSeq
   val dsAvecVoie = readFile(pathAvecVoie).toSeq
   val dsAvecEventApres = readFile(pathAvecEventApres).toSeq
@@ -54,10 +56,14 @@ The 'validateCycle'  output   should
 
 
 
+
+
   def e1 = ValidateData.validateCycle(dsSansVoie)._1 must beFalse
   def e2 = ValidateData.validateCycle(dsAvecVoie)._1 must beTrue
   def e3 = ValidateData.validateCycle(dsAvecEventApres)._1 must beFalse
   def e4 = ValidateData.validateCycle(dsAvecEventAvant)._1 must beTrue
+
+
 
 
 }
