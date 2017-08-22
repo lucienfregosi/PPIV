@@ -178,14 +178,21 @@ object BusinessRules {
     // Récupération de la date de premier affichage. On cherche le moment ou la bonne voie a été affiché pour la première fois
     try {
       seqTgaTgd
+        // Tri en partant de la fin
         .sortBy(_.maj)
         .reverse
+        // Filtre des lignes ou la voie est nulle
         .filter(x => x.voie != null && x.voie != "" && x.voie != ("0"))
+        // Rassemblement par voie et groupement en séquence
         .groupBy(_.voie)
         .toSeq
+        // Structure( voie , event max, event min)
         .map(row => (row._1, row._2.maxBy(_.maj), row._2.minBy(_.maj)))
+        // Tri selon l'event max
         .sortBy(_._2.maj)
+        // On récupère le dernier
         .last
+        // Prende l'heure de l'event min
         ._3
         .maj
     }

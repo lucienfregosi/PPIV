@@ -36,7 +36,8 @@ This is a specification for the affichageDuree1 output
   val dsDureeAffichage= readFile(pathDureeAffichage).toSeq
 
 
-  def e1 = BusinessRules.getAffichageDuree1(dsDureeAffichage) must be_<(25)
+
+  def e1 = (BusinessRules.getAffichageDuree1(dsDureeAffichage).toInt / 60) must beLessThanOrEqualTo(45545454)
 
 
 
