@@ -24,7 +24,6 @@ The 'validateCycle'  output   should
   Cycle with at least one voie shoud be true                            $e2
   Maj after the departure date  retard  10 shoud be false               $e3
   Maj at least one before departure plus retard plus 10 should be true  $e4
-  Test  $e5
   """
 
 
