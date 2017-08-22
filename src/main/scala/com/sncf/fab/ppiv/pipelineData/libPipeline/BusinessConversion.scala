@@ -133,37 +133,66 @@ object BusinessConversion {
 
   //fonction qui renvoie ( si devoiement )les quais du devoiement
   def getQuaiDevoiement(devoiementInfo: String): String = {
-    if (devoiementInfo != null) {
+    try{
       val quai1 = devoiementInfo.split("-")(0)
       val quai2 = devoiementInfo.split("-")(1)
       quai1 + "=>" + quai2
     }
-    else
-      null
+    catch {
+      case e: Throwable => {
+        // Retour d'une valeur par défaut
+        ""
+      }
+    }
   }
 
   //fonction qui renvoie le nb total du devoiement
   def getNbTotaldevoiement(devoiementInfo1: String, devoiementInfo2: String, devoiementInfo3: String, devoiementInfo4: String): Int = {
-    val list_devoiement = List(devoiementInfo1, devoiementInfo2, devoiementInfo3, devoiementInfo4)
-    val nb_devoiement = list_devoiement.count(_ != null)
-    nb_devoiement
+    
+    try{
+      val list_devoiement = List(devoiementInfo1, devoiementInfo2, devoiementInfo3, devoiementInfo4)
+      val nb_devoiement = list_devoiement.count(_ != null)
+      nb_devoiement
+    }
+    catch {
+      case e: Throwable => {
+        // Retour d'une valeur par défaut
+        0
+      }
+    }
   }
 
   //fonction qui renvoie le nb des devoiements affichés
   def getNbDevoiement_affiche(devoiementInfo1: String, devoiementInfo2: String, devoiementInfo3: String, devoiementInfo4: String): Int = {
-    val list_devoiement = List(devoiementInfo1, devoiementInfo2, devoiementInfo3, devoiementInfo4)
-    val list_devoiement_not_null = list_devoiement.filter(_ != null)
-    if (list_devoiement_not_null.length > 0) list_devoiement_not_null.count(_.contains("Affiche"))
-    else 0
+
+    try{
+      val list_devoiement = List(devoiementInfo1, devoiementInfo2, devoiementInfo3, devoiementInfo4)
+      val list_devoiement_not_null = list_devoiement.filter(_ != null)
+      list_devoiement_not_null.count(_.contains("Affiche"))
+    }
+    catch {
+      case e: Throwable => {
+        // Retour d'une valeur par défaut
+        0
+      }
+    }
 
   }
 
   //fonction qui renvoie le nb des devoiements non affichés
   def getNvDevoiement_non_affiche(devoiementInfo1: String, devoiementInfo2: String, devoiementInfo3: String, devoiementInfo4: String): Int = {
-    val list_devoiement = List(devoiementInfo1, devoiementInfo2, devoiementInfo3, devoiementInfo4)
-    val list_devoiement_not_null = list_devoiement.filter(_ != null)
-    if (list_devoiement_not_null.length > 0) list_devoiement_not_null.count(_.contains("Non_Affiche"))
-    else 0
+
+    try{
+      val list_devoiement = List(devoiementInfo1, devoiementInfo2, devoiementInfo3, devoiementInfo4)
+      val list_devoiement_not_null = list_devoiement.filter(_ != null)
+      list_devoiement_not_null.count(_.contains("Non_Affiche"))
+    }
+    catch {
+      case e: Throwable => {
+        // Retour d'une valeur par défaut
+        0
+      }
+    }
 
   }
 
@@ -171,26 +200,24 @@ object BusinessConversion {
   //fontion qui renvoie carac devoiement : si parmi les dévoiements il y en a eu au moins un affiché
   def getCracDevoiement(devoiementInfo1: String, devoiementInfo2: String, devoiementInfo3: String, devoiementInfo4: String): String = {
 
-    val nbTotalDevoiement = getNbTotaldevoiement(devoiementInfo1, devoiementInfo2, devoiementInfo3, devoiementInfo4)
-
-    if (nbTotalDevoiement != 0) {
-
+    try{
+      val nbTotalDevoiement = getNbTotaldevoiement(devoiementInfo1, devoiementInfo2, devoiementInfo3, devoiementInfo4)
       val nbDevoiementAffiche = getNbDevoiement_affiche(devoiementInfo1, devoiementInfo2, devoiementInfo3, devoiementInfo4)
       if (nbDevoiementAffiche != 0) "Devoiement affiche "
       else "Devoiement non affiche"
     }
-    else {
-
-      null
+    catch {
+      case e: Throwable => {
+        // Retour d'une valeur par défaut
+        ""
+      }
     }
 
   }
 
   //fonction qui renvoie "H" concaténé au Délai où le train est resté affiché avant son départ réel (en minutes)
   def getDelai_affichage_voie_avec_retard(timestamp: Long): String = {
-
     "H+" + TimeUnit.MILLISECONDS.toMinutes(timestamp * 1000)
-
   }
 
 
@@ -255,9 +282,15 @@ object BusinessConversion {
 
   //fonction  qui extrait du devoiementInfo le type du devoiement
   def getTypeDevoiement(devoiementInfo: String) = {
-    if (devoiementInfo != null)
+    try{
       devoiementInfo.split("-")(2)
-    else null
+    }
+    catch {
+      case e: Throwable => {
+        // Retour d'une valeur par défaut
+        ""
+      }
+    }
   }
 
   //fonction qui renvoie la date d'affichade de l'etat du train en DateTime
