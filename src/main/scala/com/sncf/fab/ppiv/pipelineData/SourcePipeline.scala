@@ -99,6 +99,15 @@ trait SourcePipeline extends Serializable {
     val cycleWithEventOver = BuildCycleOver.getCycleOver(dataTgaTgdFielValidated, sc, sqlContext, Panneau(), timeToProcess)
 
 
+    // Regarder quel est l'heure max auquel on s'intéresse
+
+    println("heure actuelle entre " + Conversion.getHourDebutPlageHoraire(timeToProcess) + " et " + Conversion.getHourFinPlageHoraire(timeToProcess))
+
+    // Trouver entre quand et quand sont compris les valeurs
+
+    cycleWithEventOver.printSchema()
+
+    System.exit(0)
 
     // 5) Boucle sur les cycles finis pour traiter leur liste d'évènements
     LOGGER.info("5) Boucle sur les cycles finis pour traiter leur liste d'évènements (validation, calcul des KPI..)")
@@ -117,6 +126,8 @@ trait SourcePipeline extends Serializable {
     println("nombre cycle validé : " + cycleValidated.count())
 
     //Reject.saveCycleRejected(cycleInvalidated, sc, timeToProcess, Panneau())
+
+
 
     System.exit(0)
 
