@@ -148,7 +148,7 @@ object BusinessConversion {
 
   //fonction qui renvoie le nb total du devoiement
   def getNbTotaldevoiement(devoiementInfo1: String, devoiementInfo2: String, devoiementInfo3: String, devoiementInfo4: String): Int = {
-    
+
     try{
       val list_devoiement = List(devoiementInfo1, devoiementInfo2, devoiementInfo3, devoiementInfo4)
       val nb_devoiement = list_devoiement.count(_ != null)
