@@ -37,7 +37,7 @@ This is a specification for the affichageDuree1 output
 
 
 
-  def e1 = (BusinessRules.getAffichageDuree1(dsDureeAffichage).toInt / 60) must beLessThanOrEqualTo(45545454)
+  def e1 = (BusinessRules.getAffichageDuree1(dsDureeAffichage).toInt / 60) must beLessThanOrEqualTo(3232432)
 
 
 

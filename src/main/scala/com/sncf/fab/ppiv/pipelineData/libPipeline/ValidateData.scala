@@ -71,7 +71,7 @@ object ValidateData {
     }
 
     // Si le compte de voie est différent de 0 ou le compte des évènement après la date est égale a la somme des event (= tous les évènements postérieurs à la date de départ du train
-    if(cntEventApresDepart != seqTgaTgdSeq.length ){
+    if(cntVoieAffiche != 0 && cntEventApresDepart != seqTgaTgdSeq.length ){
       (true, "ValidCycle")
     }
     else{
