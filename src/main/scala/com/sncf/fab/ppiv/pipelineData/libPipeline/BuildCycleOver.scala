@@ -116,7 +116,7 @@ object BuildCycleOver {
 
     // Il me faut une liste de Path de 18h a J-1 à l'heure actuelle de j
     // Cela revient à s'intéresser à toutes les heures de -6 à l'heure actuelle
-    val hoursListJ = 0 to (Conversion.getHourFinPlageHoraire(timeToProcess).toInt + 1)
+    val hoursListJ = 0 to Conversion.getHourFinPlageHoraire(timeToProcess.plusHours(1)).toInt
     val hoursListJMoins1 = 18 to 23
 
 

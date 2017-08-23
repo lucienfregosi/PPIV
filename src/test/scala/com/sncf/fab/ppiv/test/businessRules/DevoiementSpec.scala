@@ -55,40 +55,41 @@ This is a specification for the "getTypeDevoiement" output
   //Load File
   val dsDevoiSpec = readFile(pathDevoiFile).toSeq
 
-
-  def e1 = BusinessRules.getTypeDevoiement(dsDevoiSpec).split("-")(2).toString.replaceAll("\\s", "") must beEqualTo("Non_Affiche")
-
-  def e2 = BusinessRules.getTypeDevoiement(dsDevoiSpec).split("-")(0).toString.replaceAll("\\s", "") must beEqualTo("A")
-
-  def e3 = BusinessRules.getTypeDevoiement(dsDevoiSpec).split("-")(1).toString.replaceAll("\\s", "") must beEqualTo("B")
-
-  def e4 = BusinessRules.getTypeDevoiement2(dsDevoiSpec).split("-")(2).toString.replaceAll("\\s", "") must beEqualTo("Affiche")
-
-  def e5 = BusinessRules.getTypeDevoiement2(dsDevoiSpec).split("-")(0).toString.replaceAll("\\s", "") must beEqualTo("B")
-
-  def e6 = BusinessRules.getTypeDevoiement2(dsDevoiSpec).split("-")(1).toString.replaceAll("\\s", "") must beEqualTo("4")
-
-
-  def e7 = BusinessRules.getTypeDevoiement3(dsDevoiSpec).split("-")(2).toString.replaceAll("\\s", "") must beEqualTo("Affiche")
-
-  def e8 = BusinessRules.getTypeDevoiement3(dsDevoiSpec).split("-")(0).toString.replaceAll("\\s", "") must beEqualTo("4")
-
-  def e9 = BusinessRules.getTypeDevoiement3(dsDevoiSpec).split("-")(1).toString.replaceAll("\\s", "") must beEqualTo("R")
-
-  def e10 = BusinessRules.getTypeDevoiement4(dsDevoiSpec).split("-")(2).toString.replaceAll("\\s", "") must beEqualTo("Affiche")
-
-  def e11 = BusinessRules.getTypeDevoiement4(dsDevoiSpec).split("-")(0).toString.replaceAll("\\s", "") must beEqualTo("R")
-
-  def e12 = BusinessRules.getTypeDevoiement4(dsDevoiSpec).split("-")(1).toString.replaceAll("\\s", "") must beEqualTo("N")
-
-
   //devoiementInfo
   val devInfo = BusinessRules.allDevoimentInfo(dsDevoiSpec)
+
+  def e1 = BusinessRules.getTypeDevoiement(dsDevoiSpec,devInfo, 1).split("-")(2).toString.replaceAll("\\s", "") must beEqualTo("Non_Affiche")
+
+  def e2 = BusinessRules.getTypeDevoiement(dsDevoiSpec,devInfo, 1).split("-")(0).toString.replaceAll("\\s", "") must beEqualTo("A")
+
+  def e3 = BusinessRules.getTypeDevoiement(dsDevoiSpec,devInfo, 1).split("-")(1).toString.replaceAll("\\s", "") must beEqualTo("B")
+
+  def e4 = BusinessRules.getTypeDevoiement(dsDevoiSpec,devInfo, 2).split("-")(2).toString.replaceAll("\\s", "") must beEqualTo("Affiche")
+
+  def e5 = BusinessRules.getTypeDevoiement(dsDevoiSpec,devInfo, 2).split("-")(0).toString.replaceAll("\\s", "") must beEqualTo("B")
+
+  def e6 = BusinessRules.getTypeDevoiement(dsDevoiSpec,devInfo, 2).split("-")(1).toString.replaceAll("\\s", "") must beEqualTo("4")
+
+
+  def e7 = BusinessRules.getTypeDevoiement(dsDevoiSpec,devInfo, 3).split("-")(2).toString.replaceAll("\\s", "") must beEqualTo("Affiche")
+
+  def e8 = BusinessRules.getTypeDevoiement(dsDevoiSpec,devInfo, 3).split("-")(0).toString.replaceAll("\\s", "") must beEqualTo("4")
+
+  def e9 = BusinessRules.getTypeDevoiement(dsDevoiSpec,devInfo, 3).split("-")(1).toString.replaceAll("\\s", "") must beEqualTo("R")
+
+  def e10 = BusinessRules.getTypeDevoiement(dsDevoiSpec,devInfo, 4).split("-")(2).toString.replaceAll("\\s", "") must beEqualTo("Affiche")
+
+  def e11 = BusinessRules.getTypeDevoiement(dsDevoiSpec,devInfo, 4).split("-")(0).toString.replaceAll("\\s", "") must beEqualTo("R")
+
+  def e12 = BusinessRules.getTypeDevoiement(dsDevoiSpec,devInfo, 4).split("-")(1).toString.replaceAll("\\s", "") must beEqualTo("N")
+
+
+
   //tester le Nb Total de dev
-  val nbTotalDev = BusinessConversion.getNbTotaldevoiement(BusinessRules.getTypeDevoiement(dsDevoiSpec), BusinessRules.getTypeDevoiement2(dsDevoiSpec), BusinessRules.getTypeDevoiement3(dsDevoiSpec), BusinessRules.getTypeDevoiement4(dsDevoiSpec))
-  val nbTotalDevAffiche = BusinessConversion.getNbDevoiement_affiche(BusinessRules.getTypeDevoiement(dsDevoiSpec), BusinessRules.getTypeDevoiement2(dsDevoiSpec), BusinessRules.getTypeDevoiement3(dsDevoiSpec), BusinessRules.getTypeDevoiement4(dsDevoiSpec))
-  val nbTotalDevNonAffiche = BusinessConversion.getNvDevoiement_non_affiche(BusinessRules.getTypeDevoiement(dsDevoiSpec), BusinessRules.getTypeDevoiement2(dsDevoiSpec), BusinessRules.getTypeDevoiement3(dsDevoiSpec), BusinessRules.getTypeDevoiement4(dsDevoiSpec))
-  val caracDevoiement = BusinessConversion.getCracDevoiement(BusinessRules.getTypeDevoiement(dsDevoiSpec), BusinessRules.getTypeDevoiement2(dsDevoiSpec), BusinessRules.getTypeDevoiement3(dsDevoiSpec), BusinessRules.getTypeDevoiement4(dsDevoiSpec))
+  val nbTotalDev = BusinessConversion.getNbTotaldevoiement(BusinessRules.getTypeDevoiement(dsDevoiSpec, devInfo,1), BusinessRules.getTypeDevoiement(dsDevoiSpec, devInfo,2), BusinessRules.getTypeDevoiement(dsDevoiSpec, devInfo,3), BusinessRules.getTypeDevoiement(dsDevoiSpec, devInfo,4))
+  val nbTotalDevAffiche = BusinessConversion.getNbDevoiement_affiche(BusinessRules.getTypeDevoiement(dsDevoiSpec, devInfo,1), BusinessRules.getTypeDevoiement(dsDevoiSpec, devInfo,2), BusinessRules.getTypeDevoiement(dsDevoiSpec, devInfo,3), BusinessRules.getTypeDevoiement(dsDevoiSpec,devInfo,4))
+  val nbTotalDevNonAffiche = BusinessConversion.getNbDevoiement_non_affiche(BusinessRules.getTypeDevoiement(dsDevoiSpec, devInfo,1), BusinessRules.getTypeDevoiement(dsDevoiSpec, devInfo,2), BusinessRules.getTypeDevoiement(dsDevoiSpec, devInfo,3), BusinessRules.getTypeDevoiement(dsDevoiSpec,devInfo,4))
+  val caracDevoiement = BusinessConversion.getCaracDevoiement(BusinessRules.getTypeDevoiement(dsDevoiSpec, devInfo,1), BusinessRules.getTypeDevoiement(dsDevoiSpec, devInfo,2), BusinessRules.getTypeDevoiement(dsDevoiSpec, devInfo,3), BusinessRules.getTypeDevoiement(dsDevoiSpec,devInfo,4))
 
 
   def e13 = nbTotalDev must beEqualTo(4)
