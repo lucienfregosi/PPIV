@@ -38,8 +38,8 @@ The 'postprocess'  output count   should
   import sqlContext.implicits._
 /*
   // Load the input of Postprocess
-  // val path = "src/test/resources/data/pre_postprocess.deflate"
-  val path = "PPIV/src/test/resources/data/pre_postprocess.deflate"
+  // val path = "src/test/resources/data/postprocess/pre_postprocess.deflate"
+  val path = "PPIV/src/test/resources/data/postprocess/pre_postprocess.deflate"
 
   val newNamesTgaTgdInter = Seq("cycleId",
     "gare",

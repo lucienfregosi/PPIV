@@ -32,7 +32,7 @@ This is a specification for the 'getEtatTrain', 'getDateAffichageEtatTrain','get
   }
 
   //path to input file
-  val pathEtatFile = new File("src/test/resources/data/ExmpleOfEventsForEtatTrainTest.csv").getAbsolutePath
+  val pathEtatFile = new File("src/test/resources/data/businessRules/ExmpleOfEventsForEtatTrainTest.csv").getAbsolutePath
   //load file
   val dsEtatSpec = readFile(pathEtatFile).toSeq
 

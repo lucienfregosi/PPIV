@@ -47,7 +47,7 @@ a
 
   // Path to the input File  (Add PPIv for local run )
   //val path = "PPIV/src/test/resources/data/Pre-ComputeBusinissRule.csv"
-  val path = "src/test/resources/data/Pre-ComputeBusinissRule.csv"
+  val path = "src/test/resources/data/businessRules/Pre-ComputeBusinissRule.csv"
 
   //Load File
   val EventsGroupedByCycleId = sqlContext.read.format("com.databricks.spark.csv").load(path)

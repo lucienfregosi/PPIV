@@ -32,7 +32,7 @@ This is a specification for the "getTypeDevoiement" output
 
    //Path to the file
    // val pathDevoiFile = new File("PPIV/src/test/resources/data/ExampleOfEventForDevoiementTest.csv").getAbsolutePath
-   val pathDevoiFile = new File("src/test/resources/data/ExampleOfEventForDevoiementTest.csv").getAbsolutePath
+   val pathDevoiFile = new File("src/test/resources/data/businessRules/ExampleOfEventForDevoiementTest.csv").getAbsolutePath
 
   //Load File
   val dsDevoiSpec = readFile(pathDevoiFile).toSeq

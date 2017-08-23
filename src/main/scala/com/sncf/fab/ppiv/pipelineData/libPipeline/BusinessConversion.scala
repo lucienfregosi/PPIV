@@ -58,8 +58,9 @@ object BusinessConversion {
 
   //function to get the first three letter of the day
   def getThreeFirstLettersOftheday(timestamp: Long): String = {
-    val this_month = Conversion.unixTimestampToDateTime(timestamp).monthOfYear().getAsShortText
-    this_month
+    val cLocale = new Locale("en")
+   val this_day = Conversion.unixTimestampToDateTime(timestamp).dayOfWeek().getAsShortText(cLocale)
+    this_day
   }
 
   //fonction qui renvoie le delai d'affichage  de la dernière voie sans retard
@@ -74,7 +75,11 @@ object BusinessConversion {
   def getDuree_temps_affichage(timestamp: Long): String = {
     val duree_temps_affichage = TimeUnit.MILLISECONDS.toMinutes(timestamp * 1000)
 
-    if (duree_temps_affichage <= 5) {
+    if (duree_temps_affichage <0) {
+      "Voie affichée après ARR/DEP"
+    }
+
+    else if ( duree_temps_affichage >= 0 && duree_temps_affichage <= 5) {
       "[0-5]"
     }
     else if (duree_temps_affichage > 5 && duree_temps_affichage <= 10) {
@@ -95,8 +100,11 @@ object BusinessConversion {
     else if (duree_temps_affichage > 50 && duree_temps_affichage <= 60) {
       "[50-60]"
     }
+    else if (duree_temps_affichage > 60 && duree_temps_affichage <= 120) {
+      "[60-120]"
+    }
     else {
-      "Plus de 60 mn"
+      "Plus de 120 mn"
     }
   }
 
@@ -225,7 +233,10 @@ object BusinessConversion {
   def getDuree_temps_affichage2(timestamp: Long): String = {
     val duree_temps_affichage2 = TimeUnit.MILLISECONDS.toMinutes(timestamp * 1000)
 
-    if (duree_temps_affichage2 <= 5) {
+    if (duree_temps_affichage2 <0) {
+      "Voie affichée après ARR/DEP"
+    }
+    else if ( duree_temps_affichage2 >= 0 && duree_temps_affichage2 <= 5) {
       "[0-5]"
     }
     else if (duree_temps_affichage2 > 5 && duree_temps_affichage2 <= 10) {
@@ -246,8 +257,11 @@ object BusinessConversion {
     else if (duree_temps_affichage2 > 50 && duree_temps_affichage2 <= 60) {
       "[50-60]"
     }
+    else if (duree_temps_affichage2 > 60 && duree_temps_affichage2 <= 120) {
+      "[60-120]"
+    }
     else {
-      "Plus de 60 mn"
+      "Plus de 120 mn"
     }
 
   }

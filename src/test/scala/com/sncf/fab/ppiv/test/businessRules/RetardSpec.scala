@@ -32,7 +32,7 @@ This is a specification for 'getDernierRetardAnnonce' and ' getAffichageRetard' 
 
 
   //val pathRetardFile = new File("PPIV/src/test/resources/data/ExampleOfEventsForRetardTest.csv").getAbsolutePath
-  val pathRetardFile = new File("src/test/resources/data/ExampleOfEventsForRetardTest.csv").getAbsolutePath
+  val pathRetardFile = new File("src/test/resources/data/businessRules/ExampleOfEventsForRetardTest.csv").getAbsolutePath
   val dsRetardSpec = readFile(pathRetardFile).toSeq
 
 

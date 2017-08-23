@@ -4,7 +4,11 @@ import java.text.{DecimalFormat, ParseException, SimpleDateFormat}
 import java.util.concurrent.TimeUnit
 
 import org.joda.time.{DateTime, DateTimeZone}
-import org.joda.time.format.{DateTimeFormat, DateTimeFormatter, ISODateTimeFormat}
+import org.joda.time.format.{
+  DateTimeFormat,
+  DateTimeFormatter,
+  ISODateTimeFormat
+}
 import java.util.{Calendar, Date}
 
 import org.apache.hive.common.util.DateUtils
@@ -18,13 +22,19 @@ object Conversion {
   DateTimeZone.setDefault(DateTimeZone.forID("Europe/Paris"))
 
   val ParisTimeZone: DateTimeZone = DateTimeZone.forID("Europe/Paris")
-  val timestampFormatWithTZ: DateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ").withZone(ParisTimeZone)
-  val timestampFormat: DateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss").withZoneUTC()
-  val yearMonthFormat: DateTimeFormatter = DateTimeFormat.forPattern("yyyyMM").withZoneUTC()
-  val yearMonthDayFormat: DateTimeFormatter = DateTimeFormat.forPattern("yyyyMMdd").withZoneUTC()
-  val hoursFormat: DateTimeFormatter = DateTimeFormat.forPattern("HH").withZoneUTC()
-  val HourMinuteFormat: DateTimeFormatter = DateTimeFormat.forPattern("HHmm").withZoneUTC()
-
+  val timestampFormatWithTZ: DateTimeFormatter = DateTimeFormat
+    .forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+    .withZone(ParisTimeZone)
+  val timestampFormat: DateTimeFormatter =
+    DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss").withZoneUTC()
+  val yearMonthFormat: DateTimeFormatter =
+    DateTimeFormat.forPattern("yyyyMM").withZoneUTC()
+  val yearMonthDayFormat: DateTimeFormatter =
+    DateTimeFormat.forPattern("yyyyMMdd").withZoneUTC()
+  val hoursFormat: DateTimeFormatter =
+    DateTimeFormat.forPattern("HH").withZoneUTC()
+  val HourMinuteFormat: DateTimeFormatter =
+    DateTimeFormat.forPattern("HHmm").withZoneUTC()
 
   private def cleanTimeZone(timestamp: String): String = {
     timestamp.split('.')(0)
@@ -38,7 +48,6 @@ object Conversion {
 
     now()
   }
-
 
   def nowToString(): String = {
     timestampFormat.print(now())
@@ -65,20 +74,46 @@ object Conversion {
     new DateTime(time, dateTimeZone).withZone(DateTimeZone.UTC)
   }
 
-  def getDateTime(year: Int, month: Int, day: Int, hour: Int, min: Int, sec: Int): DateTime = {
+  def getDateTime(year: Int,
+                  month: Int,
+                  day: Int,
+                  hour: Int,
+                  min: Int,
+                  sec: Int): DateTime = {
     new DateTime(year, month, day, hour, min, sec, DateTimeZone.UTC)
   }
 
-  def getDateTime(year: Int, month: Int, day: Int, hour: Int, min: Int, sec: Int, millis: Int): DateTime = {
+  def getDateTime(year: Int,
+                  month: Int,
+                  day: Int,
+                  hour: Int,
+                  min: Int,
+                  sec: Int,
+                  millis: Int): DateTime = {
     new DateTime(year, month, day, hour, min, sec, millis, DateTimeZone.UTC)
   }
 
-  def getDateTime(year: Int, month: Int, day: Int, hour: Int, min: Int, sec: Int, dateTimeZone: DateTimeZone): DateTime = {
-    new DateTime(year, month, day, hour, min, sec, dateTimeZone).withZone(DateTimeZone.UTC)
+  def getDateTime(year: Int,
+                  month: Int,
+                  day: Int,
+                  hour: Int,
+                  min: Int,
+                  sec: Int,
+                  dateTimeZone: DateTimeZone): DateTime = {
+    new DateTime(year, month, day, hour, min, sec, dateTimeZone)
+      .withZone(DateTimeZone.UTC)
   }
 
-  def getDateTime(year: Int, month: Int, day: Int, hour: Int, min: Int, sec: Int, millis: Int, dateTimeZone: DateTimeZone): DateTime = {
-    new DateTime(year, month, day, hour, min, sec, millis, dateTimeZone).withZone(DateTimeZone.UTC)
+  def getDateTime(year: Int,
+                  month: Int,
+                  day: Int,
+                  hour: Int,
+                  min: Int,
+                  sec: Int,
+                  millis: Int,
+                  dateTimeZone: DateTimeZone): DateTime = {
+    new DateTime(year, month, day, hour, min, sec, millis, dateTimeZone)
+      .withZone(DateTimeZone.UTC)
   }
 
   def getDateTimeIgnoreMsAndTZ(timestamp: String): DateTime = {
@@ -100,7 +135,8 @@ object Conversion {
   }
 
   def getDateTimeFromISO(isoTimestamp: String): DateTime = {
-    DateTime.parse(isoTimestamp, ISODateTimeFormat.dateTimeParser().withZoneUTC())
+    DateTime.parse(isoTimestamp,
+                   ISODateTimeFormat.dateTimeParser().withZoneUTC())
   }
 
   def dateTimeToString(timestamp: DateTime): String = {
@@ -128,7 +164,6 @@ object Conversion {
     yearMonthDayFormat.print(date).toInt
   }
 
-
   // TODO Remplacer par -1 en PROD
   def getHourDebutPlageHoraire(date: DateTime): String = {
     // Retrancher une heure à la date actuelle pour traiter fichier à H-1
@@ -137,7 +172,6 @@ object Conversion {
     //println(new DecimalFormat("00").format(HourToProcess.getHourOfDay))
     new DecimalFormat("00").format(HourToProcess.getHourOfDay)
   }
-
 
   // TODO Enlever le -1 en PROD (remplacer par 0)
   def getHourFinPlageHoraire(date: DateTime): String = {
@@ -148,7 +182,6 @@ object Conversion {
     new DecimalFormat("00").format(HourToProcess.getHourOfDay)
   }
 
-
   def getYesterdaysDate(): Int = {
     val ft = new SimpleDateFormat("yyyyMMdd")
     val cal = Calendar.getInstance()
@@ -157,14 +190,16 @@ object Conversion {
     ft.format(timestamp).toInt
   }
 
- // def unixTimestampToDateTime(time: Long): DateTime = DateTime.parse(timestampFormatWithTZ.print(time * 1000), timestampFormatWithTZ).withZone(ParisTimeZone)
- def unixTimestampToDateTime(time: Long): DateTime = new DateTime(time * 1000L, DateTimeZone.forID("Europe/Paris"))
+  // def unixTimestampToDateTime(time: Long): DateTime = DateTime.parse(timestampFormatWithTZ.print(time * 1000), timestampFormatWithTZ).withZone(ParisTimeZone)
+  def unixTimestampToDateTime(time: Long): DateTime =
+    new DateTime(time * 1000L, DateTimeZone.forID("Europe/Paris"))
 
-  def unixTimestampToDateTimeGMT(time: Long): DateTime = DateTime.parse(timestampFormatWithTZ.print(time * 1000), timestampFormatWithTZ)
+  def unixTimestampToDateTimeGMT(time: Long): DateTime =
+    DateTime.parse(timestampFormatWithTZ.print(time * 1000),
+                   timestampFormatWithTZ)
   def escapeSimpleQuote(line: String): String = {
     line.replace("'", "\\'")
   }
-
 
   def getHHmmss(timestamp: Long): String = {
     val dateTime = Conversion.unixTimestampToDateTime(timestamp)
@@ -173,44 +208,54 @@ object Conversion {
     HHmmss
   }
 
-
   def getHHmmssFromMillis(timestamp: Long): String = {
-    if (timestamp!= 0 ) {
+    if (timestamp != 0) {
       val H = TimeUnit.MILLISECONDS.toHours(timestamp * 1000)
       val m = TimeUnit.MILLISECONDS.toMinutes(timestamp * 1000 - H * 60 * 60 * 1000)
       val s = TimeUnit.MILLISECONDS.toSeconds(timestamp * 1000 - H * 60 * 60 * 1000 - m * 60 * 1000)
-      val HH = new DecimalFormat("00").format(H)
-      val mm = new DecimalFormat("00").format(m)
-      val ss = new DecimalFormat("00").format(s)
-      HH + ":" + mm + ":" + ss
-    } else  null
+      val dureeNegative = if (H < 0 || m < 0 || s < 0) {
+        // Si oui, la durée est nagative
+        true
+      } else false
+
+      val hour = if (H < 0) { H * -1 } else H
+      val minutes = if (m < 0) { m * -1 } else m
+      val secondes = if (s < 0) { s * -1 } else s
+
+      val HH = new DecimalFormat("00").format(hour)
+      val mm = new DecimalFormat("00").format(minutes)
+      val ss = new DecimalFormat("00").format(secondes)
+      if (dureeNegative == false) { HH + ":" + mm + ":" + ss } else {
+        "-" + HH + ":" + mm + ":" + ss
+      }
+
+    } else null
   }
 
-
   def getYYYYmmdd(timestamp: Long): String = {
-    val dateFormat =  new SimpleDateFormat("YYYY-MM-DD")
+    val dateFormat = new SimpleDateFormat("YYYY-MM-DD")
     dateFormat.format(timestamp)
   }
 
-  def HourFormat  ( hour : Int ): String= {
+  def HourFormat(hour: Int): String = {
     new DecimalFormat("00").format(hour)
   }
 
-  def validateDateInputFormat(date: String): Boolean = try {
-    // Création du dateFormat adapté au format que l'on veut voir en entrée
-    val df = new SimpleDateFormat("yyyyMMdd_HH")
+  def validateDateInputFormat(date: String): Boolean =
+    try {
+      // Création du dateFormat adapté au format que l'on veut voir en entrée
+      val df = new SimpleDateFormat("yyyyMMdd_HH")
 
-    // Pour que la vérification soit plus stricte
-    df.setLenient(false)
-    df.parse(date)
+      // Pour que la vérification soit plus stricte
+      df.setLenient(false)
+      df.parse(date)
 
-    true
-  } catch {
-    case e: ParseException => false
-  }
+      true
+    } catch {
+      case e: ParseException => false
+    }
 
-
-  def getDateTimeFromArgument(date: String):DateTime = {
+  def getDateTimeFromArgument(date: String): DateTime = {
     val df = DateTimeFormat.forPattern("yyyyMMdd_HH")
     // On renvoie le dateTime
     df.parseDateTime(date)

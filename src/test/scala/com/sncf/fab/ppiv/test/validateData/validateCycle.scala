@@ -40,10 +40,10 @@ The 'validateCycle'  output   should
 
 
 
-  val pathSansVoie = new File("src/test/resources/data/trajet_sans_voie.csv").getAbsolutePath
-  val pathAvecVoie = new File("src/test/resources/data/trajet_avec_voie.csv").getAbsolutePath()
-  val pathAvecEventApres = new File("src/test/resources/data/event_apres_depart.csv").getAbsolutePath()
-  val pathAvecEventAvant = new File("src/test/resources/data/event_avant_depart.csv").getAbsolutePath()
+  val pathSansVoie = new File("src/test/resources/data/validateData/trajet_sans_voie.csv").getAbsolutePath
+  val pathAvecVoie = new File("src/test/resources/data/validateData/trajet_avec_voie.csv").getAbsolutePath()
+  val pathAvecEventApres = new File("src/test/resources/data/validateData/event_apres_depart.csv").getAbsolutePath()
+  val pathAvecEventAvant = new File("src/test/resources/data/validateData/event_avant_depart.csv").getAbsolutePath()
 
 
 

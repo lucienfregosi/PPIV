@@ -31,7 +31,7 @@ This is a specification for the "getDernierQuaiAffiche" output
   }
 
 
-  val pathEtatFile = new File("src/test/resources/data/trajet_avec_Quai.csv").getAbsolutePath
+  val pathEtatFile = new File("src/test/resources/data/businessRules/trajet_avec_Quai.csv").getAbsolutePath
   val dsEtatSpec = readFile(pathEtatFile).toSeq
 
 

@@ -39,8 +39,8 @@ The 'getEventCycleIdSpec'  output count   should
   import sqlContext.implicits._
 /*
   // Load events files
-   val path = "src/test/resources/data/ExampleOfEvents.deflate"
-  //val path = "PPIV/src/test/resources/data/ExampleOfEvents.deflate"
+   val path = "src/test/resources/data/buildCycleOver/ExampleOfEvents.deflate"
+  //val path = "PPIV/src/test/resources/data/buildCycleOver/ExampleOfEvents.deflate"
   val eventdf = sqlContext.read.format("com.databricks.spark.csv").load(path).map{x=>
     val seqString = x.getString(1)
     val split = seqString.toString.split(";", -1)
@@ -51,8 +51,8 @@ The 'getEventCycleIdSpec'  output count   should
 
 
   // Path to file containing finidhed cycles ( add (PPIV/ at the beginning of the path for local run )
- //val path2 = "src/test/resources/data/ExampleOfFinishedCycles.deflate"
- val path2 = "PPIV/src/test/resources/data/ExampleOfFinishedCycles.deflate"
+ //val path2 = "src/test/resources/data/buildCycleOver/ExampleOfFinishedCycles.deflate"
+ val path2 = "PPIV/src/test/resources/data/buildCycleOver/ExampleOfFinishedCycles.deflate"
 
 
   //Load Finished cycles file

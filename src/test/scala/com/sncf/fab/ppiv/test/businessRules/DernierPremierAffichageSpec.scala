@@ -31,7 +31,7 @@ This is a specification for the "getPremierAffichage"  and "getDernierAffichage"
   }
 
   //Path to file
-  val pathDernierAffichage = new File("src/test/resources/data/ExampleOfEventsForPremier_DernierAffichageTest.csv").getAbsolutePath
+  val pathDernierAffichage = new File("src/test/resources/data/businessRules/ExampleOfEventsForPremier_DernierAffichageTest.csv").getAbsolutePath
   // val pathDernierAffichage = new File("PPIV/src/test/resources/data/ExampleOfEventsForPremier_DernierAffichageTest.csv").getAbsolutePath
 
 
