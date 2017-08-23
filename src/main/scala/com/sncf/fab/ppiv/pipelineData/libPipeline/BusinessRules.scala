@@ -349,23 +349,19 @@ object BusinessRules {
     // si une fois SUPP alors Supp: Train supprimé
 
 
-    try{
+
       val seqFiltered = seqTgaTgd
         .sortBy(x => x.maj)
         .filter(x => (x.etat != null) && (x.etat != "") && (x.etat != "ARR"))
 
-      if (seqFiltered.contains("IND")) { "IND" }
-      if (seqFiltered.contains("SUPP")) { "SUP" }
+    val seqOfEtat = seqFiltered.map(row => row.etat)
 
-      // Valeur par défaut
-      ""
-    }
-    catch {
-      case e: Throwable => {
-        // Retour d'une valeur par défaut
-        ""
-      }
-    }
+       if (seqOfEtat.contains("IND")) {"IND"}
+         else{
+         if (seqOfEtat.contains("SUP")) {"SUP"}
+         else ""
+       }
+
   }
 
   //Fonction qui renvoie la date de l'affichage de l'etat deu train
