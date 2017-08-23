@@ -28,7 +28,7 @@ This is a specification for the "getTauxAffichage"
 
     //Path to file
 
-    val pathDureeAffichage2 = new File("PPIV/src/test/resources/data/businessRules/ExampleOfEventForTauxAffichage.csv").getAbsolutePath
+    val pathDureeAffichage2 = new File("src/test/resources/data/businessRules/ExampleOfEventForTauxAffichage.csv").getAbsolutePath
 
 
     //Load File

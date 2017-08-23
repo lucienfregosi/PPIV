@@ -21,9 +21,10 @@ class validateCycle extends Specification{
 This is a specification fot the "validateCycle" output
 The 'validateCycle'  output   should
   Cycle without voie shoud be false                                     $e1
-  Cycle with at least one voie shoud be true                            $e2
+  Cycle with one voie but not during the departure should be false      $e2
   Maj after the departure date  retard  10 shoud be false               $e3
   Maj at least one before departure plus retard plus 10 should be true  $e4
+  Cycle with one voie during the derparture should be true              $e5
   """
 
 
@@ -40,10 +41,13 @@ The 'validateCycle'  output   should
 
 
 
+
   val pathSansVoie = new File("src/test/resources/data/validateData/trajet_sans_voie.csv").getAbsolutePath
   val pathAvecVoie = new File("src/test/resources/data/validateData/trajet_avec_voie.csv").getAbsolutePath()
   val pathAvecEventApres = new File("src/test/resources/data/validateData/event_apres_depart.csv").getAbsolutePath()
   val pathAvecEventAvant = new File("src/test/resources/data/validateData/event_avant_depart.csv").getAbsolutePath()
+  val pathAvecVoieFin = new File("src/test/resources/data/validateData/trajet_avec_voie_fin.csv").getAbsolutePath()
+
 
 
 
@@ -52,15 +56,17 @@ The 'validateCycle'  output   should
   val dsAvecVoie = readFile(pathAvecVoie).toSeq
   val dsAvecEventApres = readFile(pathAvecEventApres).toSeq
   val dsAvecEventAvant = readFile(pathAvecEventAvant).toSeq
+  val dsAvecVoieFin = readFile(pathAvecVoieFin).toSeq
 
 
 
 
 
   def e1 = ValidateData.validateCycle(dsSansVoie)._1 must beFalse
-  def e2 = ValidateData.validateCycle(dsAvecVoie)._1 must beTrue
+  def e2 = ValidateData.validateCycle(dsAvecVoie)._1 must beFalse
   def e3 = ValidateData.validateCycle(dsAvecEventApres)._1 must beFalse
   def e4 = ValidateData.validateCycle(dsAvecEventAvant)._1 must beTrue
+  def e5 = ValidateData.validateCycle(dsAvecVoieFin)._1 must beTrue
 
 
 

@@ -48,6 +48,7 @@ object ValidateData {
     // Validation des cycles. Un cycle doit comporter au moins une voie et tous ses évènements ne peuvent pas se passer x minutes après le départ du train
     // En entrée la liste des évènements pour un cycle id donné.
     // Si la séquence ne contient pas plus d'un cycle on ne valide pas
+    // Si la voie est affichée mais elle ne l'est pas lors du départ du train on ne valide pas
 
 
     // Décompte des évènements ou la voir est renseignée
@@ -67,12 +68,20 @@ object ValidateData {
 
     // Si la séquence est composé de moins de deux lignes on ne valide pas on ne pourra rien en faire
     if(seqTgaTgdSeq.length < 2){
-      (true, "pasAssezEvent")
+      (false, "pasAssezEvent")
     }
+
 
     // Si le compte de voie est différent de 0 ou le compte des évènement après la date est égale a la somme des event (= tous les évènements postérieurs à la date de départ du train
     if(cntVoieAffiche != 0 && cntEventApresDepart != seqTgaTgdSeq.length ){
-      (true, "ValidCycle")
+      // On teste si au moment du départ la voie est bien affichée
+      try{
+        val voieAuMomentDepart = seqTgaTgdSeq.filter(_.maj < departReel).sortBy(_.maj).reverse(0).voie
+        if(voieAuMomentDepart == ""){
+          (false, "PasDeVoieAuMomentDepart")
+        }
+        else {(true, "ValidCycle")}
+      }
     }
     else{
       // Si jamais le train a un état spécial (Supprimé ou retard indéterminé) cela ne veut pas dire qu'il ne faut pas le valider
