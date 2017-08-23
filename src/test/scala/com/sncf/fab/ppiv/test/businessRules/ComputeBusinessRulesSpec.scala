@@ -28,7 +28,7 @@ a
    """
 
 
-  val sparkConf = new SparkConf()
+ /* val sparkConf = new SparkConf()
     .setAppName(PPIV)
     .setMaster(SPARK_MASTER)
     .set("spark.driver.allowMultipleContexts", "true")
@@ -55,6 +55,7 @@ a
 
   val tgatgdIntermediate = BusinessRules.computeBusinessRules(EventsGroupedByCycleId, Conversion.nowToDateTime())
 
+  */
 
   def e1 = "true" must beEqualTo("true")
 
