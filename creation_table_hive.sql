@@ -68,7 +68,7 @@ LINES TERMINATED BY '\n'
 STORED AS TEXTFILE
 LOCATION '/data1/GARES/refinery/PPIV_PHASE2/hive/extract3'
 
-ALTER TABLE ppiv_ref.iv_tgatgd SET TBLPROPERTIES ('SASFMT:nom_de_la_gare'='CHAR(60)');
+ALTER TABLE ppiv_ref.iv_tgatgd SET TBLPROPERTIES ('SASFMT:nom_de_la_gare'='CHAR(90)');
 ALTER TABLE ppiv_ref.iv_tgatgd SET TBLPROPERTIES ('SASFMT:agence'='CHAR(30)');
 ALTER TABLE ppiv_ref.iv_tgatgd SET TBLPROPERTIES ('SASFMT:segmentation'='CHAR(3)');
 ALTER TABLE ppiv_ref.iv_tgatgd SET TBLPROPERTIES ('SASFMT:uic'='CHAR(10)');
