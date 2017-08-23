@@ -176,7 +176,9 @@ object BusinessConversion {
     try{
       val list_devoiement = List(devoiementInfo1, devoiementInfo2, devoiementInfo3, devoiementInfo4)
       val list_devoiement_not_null = list_devoiement.filter(_ != null)
-      list_devoiement_not_null.count(_.contains("Affiche"))
+      val nbDevNonAffiche = list_devoiement_not_null.count(_.contains("Non_Affiche"))
+      val nbTotalDev = getNbTotaldevoiement(devoiementInfo1, devoiementInfo2, devoiementInfo3, devoiementInfo4)
+      nbTotalDev - nbDevNonAffiche
     }
     catch {
       case e: Throwable => {
@@ -211,7 +213,7 @@ object BusinessConversion {
     try{
       val nbTotalDevoiement = getNbTotaldevoiement(devoiementInfo1, devoiementInfo2, devoiementInfo3, devoiementInfo4)
       val nbDevoiementAffiche = getNbDevoiement_affiche(devoiementInfo1, devoiementInfo2, devoiementInfo3, devoiementInfo4)
-      if (nbDevoiementAffiche != 0) "Devoiement affiche "
+      if (nbDevoiementAffiche != 0) "Devoiement affiche"
       else "Devoiement non affiche"
     }
     catch {
