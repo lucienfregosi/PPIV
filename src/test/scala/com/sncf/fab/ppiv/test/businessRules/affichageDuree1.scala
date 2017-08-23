@@ -29,14 +29,21 @@ This is a specification for the affichageDuree1 output
 
   //Path to file
   val pathDureeAffichage = new File("src/test/resources/data/testAffichageDuree1").getAbsolutePath
+  val pathDureeAffichage2 = new File("src/test/resources/data/trajet_sans_voie.csv").getAbsolutePath
+
 
 
 
   //Load File
   val dsDureeAffichage= readFile(pathDureeAffichage).toSeq
+  val dsDureeAffichage2= readFile(pathDureeAffichage2).toSeq
+
 
 
   // 1. On remplace les valeurs vides par ~
+
+  println(BusinessRules.getAffichageDuree1(dsDureeAffichage2).toInt / 60)
+
   def e1 = (BusinessRules.getAffichageDuree1(dsDureeAffichage).toInt / 60) must beEqualTo(19)
 
 

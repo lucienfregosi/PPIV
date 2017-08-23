@@ -179,62 +179,53 @@ object BusinessRules {
     // Prendre en compte le cas ou on a
     // A A "" "" A A
     // On veut renvoyer le premier affichage de la deuxième séquence de A et non le premier de la première
+    // On doit gérer le cas ou la voie est toujours affichée
     try {
 
       // Case Class créé pour l'occasion pour pouvoir garder notre nomenclature
       case class SeqShort(maj: Long, voie: String)
 
       // On remplace les voies vides par des ~
-      val seq = seqTgaTgd.map(x => SeqShort(
+      val seqShort = seqTgaTgd.map(x => SeqShort(
         x.maj,
         if(x.voie == "") x.voie.replace("","~") else x.voie
       ))
 
       // Tri de la séquence
       // On forme un tableau de maj par voie
-      val s1 = seq.sortBy(_.maj)
+      val groupByVoieDistincte = seqShort.sortBy(_.maj)
         .reverse
         .groupBy(_.voie)
-        .map(x => (x._1, x._2.maxBy(_.maj).maj,x._2.maxBy(_.maj).maj, x._2.map(x => x.maj)))
+        .map(x => (x._1, x._2.maxBy(_.maj).maj, x._2.minBy(_.maj).maj, x._2.map(x => x.maj)))
         .toSeq
         .sortBy(_._2)
         .reverse
 
-      // On extrait la séquence n°1 et n°2
-      val sequence1 = s1.take(1).last
-      val sequence2 = s1.take(2).last
+      // Si on a qu'une voie distincte (IE : la voie est affiché sur toutes les lignes et toujours la même
+      // On traite différemlent car le cas est beaucoup plus simple on renvoie la valeur mini de maj
 
-      // On prend le max de seq2
-      val maxSeq2 = sequence2._4.toList.max
+      if(groupByVoieDistincte.length == 1){
 
-      // Dans la séquence de la voie finale on garde les maj au dessus de maxSeq2
-      val sequence1Filtered = sequence1._4.toList.filter(_ > maxSeq2)
+        // On retourne la valeur minimum pour le groupement
+        groupByVoieDistincte.take(1).last._3
 
-      // On renvoie la valeur minimum
-      sequence1Filtered.min
+      }
+      else{
 
+        // On extrait la séquence n°1 et n°2
+        val sequence1 = groupByVoieDistincte.take(1).last
+        val sequence2 = groupByVoieDistincte.take(2).last
 
+        // On prend le max de seq2
+        val maxSeq2 = sequence2._4.toList.max
 
-      /* Ancienne version de kaoula
-      seqTgaTgd
-        // Tri en partant de la fin
-        .sortBy(_.maj)
-        .reverse
-        // Filtre des lignes ou la voie est nulle
-        .filter(x => x.voie != null && x.voie != "")
-        // Rassemblement par voie et groupement en séquence
-        .groupBy(_.voie)
-        .toSeq
-        // Structure( voie , event max, event min)
-        .map(row => (row._1, row._2.maxBy(_.maj), row._2.minBy(_.maj)))
-        // Tri selon l'event max
-        .sortBy(_._2.maj)
-        // On récupère le dernier
-        .last
-        // Prende l'heure de l'event min
-        ._3
-        .maj
-      */
+        // Dans la séquence de la voie finale on garde les maj au dessus de maxSeq2
+        val sequence1Filtered = sequence1._4.toList.filter(_ > maxSeq2)
+
+        // On renvoie la valeur minimum
+        sequence1Filtered.min
+
+      }
     }
     catch {
       case e: Throwable => {

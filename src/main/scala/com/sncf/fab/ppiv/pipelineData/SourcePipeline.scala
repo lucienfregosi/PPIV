@@ -127,7 +127,6 @@ trait SourcePipeline extends Serializable {
     Reject.saveFieldRejected(dataTgaTgdFielRejected, sc, timeToProcess, Panneau())
     Reject.saveCycleRejected(cycleInvalidated, sc, timeToProcess, Panneau())
 
-    System.exit(0)
 
     // 9) Sauvegarde des données propres
     // LOGGER.info("9) Sauvegarde des données propres")
