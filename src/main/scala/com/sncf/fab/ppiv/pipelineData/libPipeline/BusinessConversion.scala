@@ -159,7 +159,7 @@ object BusinessConversion {
 
     try{
       val list_devoiement = List(devoiementInfo1, devoiementInfo2, devoiementInfo3, devoiementInfo4)
-      val nb_devoiement = list_devoiement.count(_ != null)
+      val nb_devoiement = list_devoiement.count(_ != "")
       nb_devoiement
     }
     catch {
@@ -175,7 +175,7 @@ object BusinessConversion {
 
     try{
       val list_devoiement = List(devoiementInfo1, devoiementInfo2, devoiementInfo3, devoiementInfo4)
-      val list_devoiement_not_null = list_devoiement.filter(_ != null)
+      val list_devoiement_not_null = list_devoiement.filter(_ != "")
       list_devoiement_not_null.count(_.contains("Affiche"))
     }
     catch {
@@ -188,11 +188,11 @@ object BusinessConversion {
   }
 
   //fonction qui renvoie le nb des devoiements non affichés
-  def getNvDevoiement_non_affiche(devoiementInfo1: String, devoiementInfo2: String, devoiementInfo3: String, devoiementInfo4: String): Int = {
+  def getNbDevoiement_non_affiche(devoiementInfo1: String, devoiementInfo2: String, devoiementInfo3: String, devoiementInfo4: String): Int = {
 
     try{
       val list_devoiement = List(devoiementInfo1, devoiementInfo2, devoiementInfo3, devoiementInfo4)
-      val list_devoiement_not_null = list_devoiement.filter(_ != null)
+      val list_devoiement_not_null = list_devoiement.filter(_ != "")
       list_devoiement_not_null.count(_.contains("Non_Affiche"))
     }
     catch {
@@ -206,7 +206,7 @@ object BusinessConversion {
 
 
   //fontion qui renvoie carac devoiement : si parmi les dévoiements il y en a eu au moins un affiché
-  def getCracDevoiement(devoiementInfo1: String, devoiementInfo2: String, devoiementInfo3: String, devoiementInfo4: String): String = {
+  def getCaracDevoiement(devoiementInfo1: String, devoiementInfo2: String, devoiementInfo3: String, devoiementInfo4: String): String = {
 
     try{
       val nbTotalDevoiement = getNbTotaldevoiement(devoiementInfo1, devoiementInfo2, devoiementInfo3, devoiementInfo4)
@@ -233,7 +233,7 @@ object BusinessConversion {
   def getDuree_temps_affichage2(timestamp: Long): String = {
     val duree_temps_affichage2 = TimeUnit.MILLISECONDS.toMinutes(timestamp * 1000)
 
-    if (duree_temps_affichage2 <0) {
+    if (duree_temps_affichage2 < 0) {
       "Voie affichée après ARR/DEP"
     }
     else if ( duree_temps_affichage2 >= 0 && duree_temps_affichage2 <= 5) {

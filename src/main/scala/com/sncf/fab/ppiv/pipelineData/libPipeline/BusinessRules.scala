@@ -109,14 +109,18 @@ object BusinessRules {
             dataTgaTgdCycleCleaned)
         val dernier_quai_affiche =
           BusinessRules.getDernierQuaiAffiche(dataTgaTgdCycleCleaned)
+
+        // Get des informations liés au dévoiement commun aux fonction de type dévoiement
+        val devoiementInfo = BusinessRules.allDevoimentInfo(dataTgaTgdCycleCleaned)
+
         val type_devoiement =
-          BusinessRules.getTypeDevoiement(dataTgaTgdCycleCleaned)
+          BusinessRules.getTypeDevoiement(dataTgaTgdCycleCleaned, devoiementInfo, 1)
         val type_devoiement2 =
-          BusinessRules.getTypeDevoiement2(dataTgaTgdCycleCleaned)
+          BusinessRules.getTypeDevoiement(dataTgaTgdCycleCleaned, devoiementInfo, 2)
         val type_devoiement3 =
-          BusinessRules.getTypeDevoiement3(dataTgaTgdCycleCleaned)
+          BusinessRules.getTypeDevoiement(dataTgaTgdCycleCleaned, devoiementInfo, 3)
         val type_devoiement4 =
-          BusinessRules.getTypeDevoiement4(dataTgaTgdCycleCleaned)
+          BusinessRules.getTypeDevoiement(dataTgaTgdCycleCleaned, devoiementInfo, 4)
         val dernier_affichage =
           BusinessRules.getDernierAffichage(dataTgaTgdCycleCleaned)
         val date_process = BusinessRules.getDateProcess(timeToProcess)
@@ -300,8 +304,8 @@ object BusinessRules {
         0
       } else {
         // Récupération du permier  retard.
-        val AffichegeRetard = seqFiltered(0).maj.toLong
-        AffichegeRetard
+        val affichageRetard = seqFiltered(0).maj.toLong
+        affichageRetard
       }
     }
     catch {
@@ -322,9 +326,10 @@ object BusinessRules {
         .unixTimestampToDateTime(departTheorique)
         .plusSeconds(retard.toInt))
         .getMillis / 1000
-      val AffichageRetard = getAffichageRetard(seqTgaTgd)
 
-      if (AffichageRetard != 0) departReel - AffichageRetard
+      val affichageRetard = getAffichageRetard(seqTgaTgd)
+
+      if (affichageRetard != 0) departReel - affichageRetard
       else 0l
 
     }
@@ -338,6 +343,7 @@ object BusinessRules {
   }
 
   //Fonction qui renvoie l'état du train
+  // On ne prend pas en compte l'état ARR
   def getEtatTrain(seqTgaTgd: Seq[TgaTgdInput]): String = {
     // si au moins une fois IND alors Ind: Retard Inderminé
     // si une fois SUPP alors Supp: Train supprimé
@@ -346,17 +352,13 @@ object BusinessRules {
     try{
       val seqFiltered = seqTgaTgd
         .sortBy(x => x.maj)
-        .filter(x => (x.etat != null) && (x.etat != ""))
-      if (seqFiltered.isEmpty) {
-        null
-      } else {
-        if (seqFiltered.contains("IND")) { "IND" } else {
-          if (seqFiltered.contains("SUPP")) { "SUP" } else {
-            seqFiltered(0).etat.toString
-          }
-        }
-      }
+        .filter(x => (x.etat != null) && (x.etat != "") && (x.etat != "ARR"))
 
+      if (seqFiltered.contains("IND")) { "IND" }
+      if (seqFiltered.contains("SUPP")) { "SUP" }
+
+      // Valeur par défaut
+      ""
     }
     catch {
       case e: Throwable => {
@@ -367,13 +369,12 @@ object BusinessRules {
   }
 
   //Fonction qui renvoie la date de l'affichage de l'etat deu train
-  //TODO: adapt it to getEtatTrain
   def getDateAffichageEtatTrain(seqTgaTgd: Seq[TgaTgdInput]): Long = {
 
     try{
       val seqFiltered = seqTgaTgd
         .sortBy(x => x.maj)
-        .filter(x => (x.etat != null) && (x.etat != ""))
+        .filter(x => (x.etat != null) && (x.etat != "") && (x.etat != "ARR"))
       if (seqFiltered.isEmpty) {
         0
       } else {
@@ -436,7 +437,9 @@ object BusinessRules {
     }
   }
 
-  //Fonction qui renvoie InfoDevoiement
+  // Renvoie toutes les informations utiles à un dévoiement.
+  // Soit un triplet (Voie, maj de la voie, affiché ou non)
+  // A partir de ces informations on est capable de faire tous les autres calculs
   def allDevoimentInfo(
       seqTgaTgd: Seq[TgaTgdInput]): Seq[(String, TgaTgdInput, Int)] = {
 
@@ -468,99 +471,17 @@ object BusinessRules {
   }
 
   //Fonction qui renvoie le type du devoiement1 (Affiche ou non Affiché)
-  def getTypeDevoiement(seqTgaTgd: Seq[TgaTgdInput]): String = {
+  def getTypeDevoiement(seqTgaTgd: Seq[TgaTgdInput], devoiementInfo: Seq[(String,TgaTgdInput,Int)], devoiementNumber: Int): String = {
 
     try{
 
-      val dvInfo = allDevoimentInfo(seqTgaTgd)
-      if (dvInfo.size <= 1) {
+      if (devoiementInfo.size <= devoiementNumber) {
+        // Valeur par défaut
         ""
       } else {
-        val voie_1 = dvInfo(0)._2.voie
-        val voie_2 = dvInfo(1)._2.voie
-        val lengthOfNonHidden_Voie = dvInfo(1)._3
-
-        if (lengthOfNonHidden_Voie >= 1) {
-          voie_1 + "-" + voie_2 + "-" + "Affiche"
-        } else {
-          voie_1 + "-" + voie_2 + "-" + "Non_Affiche"
-        }
-      }
-    }
-    catch {
-      case e: Throwable => {
-        // Retour d'une valeur par défaut
-        ""
-      }
-    }
-  }
-
-  //Fonction qui renvoie le type du devoiement2 (Affiche ou non Affiché)
-  def getTypeDevoiement2(seqTgaTgd: Seq[TgaTgdInput]): String = {
-
-    try{
-      val dvInfo = allDevoimentInfo(seqTgaTgd)
-      if (dvInfo.size <= 2) {
-        null
-      } else {
-        val voie_1 = dvInfo(1)._2.voie
-        val voie_2 = dvInfo(2)._2.voie
-        val lengthOfNonHidden_Voie = dvInfo(2)._3
-
-        if (lengthOfNonHidden_Voie >= 1) {
-          voie_1 + "-" + voie_2 + "-" + "Affiche"
-        } else {
-          voie_1 + "-" + voie_2 + "-" + "Non_Affiche"
-        }
-      }
-    }
-    catch {
-      case e: Throwable => {
-        // Retour d'une valeur par défaut
-        ""
-      }
-    }
-  }
-
-  //Fonction qui renvoie le type du devoiement2 (Affiche ou non Affiché)
-  def getTypeDevoiement3(seqTgaTgd: Seq[TgaTgdInput]): String = {
-
-    try{
-      val dvInfo = allDevoimentInfo(seqTgaTgd)
-      if (dvInfo.size <= 3) {
-        null
-      } else {
-        val voie_1 = dvInfo(2)._2.voie
-        val voie_2 = dvInfo(3)._2.voie
-        val lengthOfNonHidden_Voie = dvInfo(3)._3
-
-        if (lengthOfNonHidden_Voie >= 1) {
-          voie_1 + "-" + voie_2 + "-" + "Affiche"
-        } else {
-          voie_1 + "-" + voie_2 + "-" + "Non_Affiche"
-        }
-      }
-
-    }
-    catch {
-      case e: Throwable => {
-        // Retour d'une valeur par défaut
-        ""
-      }
-    }
-  }
-
-  //Fonction qui renvoie le type du devoiement4 (Affiche ou non Affiché)
-  def getTypeDevoiement4(seqTgaTgd: Seq[TgaTgdInput]): String = {
-
-    try{
-      val dvInfo = allDevoimentInfo(seqTgaTgd)
-      if (dvInfo.size <= 4) {
-        null
-      } else {
-        val voie_1 = dvInfo(3)._2.voie
-        val voie_2 = dvInfo(4)._2.voie
-        val lengthOfNonHidden_Voie = dvInfo(4)._3
+        val voie_1 = devoiementInfo(devoiementNumber - 1)._2.voie
+        val voie_2 = devoiementInfo(devoiementNumber)._2.voie
+        val lengthOfNonHidden_Voie = devoiementInfo(devoiementNumber)._3
 
         if (lengthOfNonHidden_Voie >= 1) {
           voie_1 + "-" + voie_2 + "-" + "Affiche"
@@ -597,8 +518,6 @@ object BusinessRules {
         0l
       }
     }
-
-
   }
 
   //Fonction qui renvoie la date a laquelle le batch s'est lancé pour un trajet
@@ -612,7 +531,6 @@ object BusinessRules {
         0l
       }
     }
-
   }
 
 }
