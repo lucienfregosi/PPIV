@@ -1,4 +1,4 @@
-CREATE EXTERNAL TABLE IF NOT EXISTS ppiv_ref.iv_tgatgdextract3(
+CREATE EXTERNAL TABLE IF NOT EXISTS ppiv_ref.iv_tgatgd3days2(
                             nom_de_la_gare String,
                             agence String,
                             segmentation String,
@@ -66,7 +66,7 @@ ROW FORMAT DELIMITED
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
 STORED AS TEXTFILE
-LOCATION '/data1/GARES/refinery/PPIV_PHASE2/hive/extract3'
+LOCATION '/data1/GARES/refinery/PPIV_PHASE2/hive/3days2'
 
 ALTER TABLE ppiv_ref.iv_tgatgd SET TBLPROPERTIES ('SASFMT:nom_de_la_gare'='CHAR(90)');
 ALTER TABLE ppiv_ref.iv_tgatgd SET TBLPROPERTIES ('SASFMT:agence'='CHAR(30)');
