@@ -117,20 +117,20 @@ object BuildCycleOver {
     // Il me faut une liste de Path de 18h a J-1 à l'heure actuelle de j
     // Cela revient à s'intéresser à toutes les heures de -6 à l'heure actuelle
     val hoursListJ = 0 to Conversion.getHourFinPlageHoraire(timeToProcess.plusHours(1)).toInt
-    val hoursListJMoins1 = 18 to 23
+    //val hoursListJMoins1 = 18 to 23
 
 
 
 
     val pathFileJ = hoursListJ.map(x => LANDING_WORK + Conversion.getYearMonthDay(timeToProcess) + "/" + panneau + "-" +
       Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.HourFormat(x) + ".csv")
-    val pathFileJMoins1 = hoursListJMoins1.map(x => LANDING_WORK + Conversion.getYearMonthDay(timeToProcess.plusDays(-1)) + "/" + panneau + "-" +
-      Conversion.getYearMonthDay(timeToProcess.plusDays(-1)) + "_" + Conversion.HourFormat(x) + ".csv")
+    //val pathFileJMoins1 = hoursListJMoins1.map(x => LANDING_WORK + Conversion.getYearMonthDay(timeToProcess.plusDays(-1)) + "/" + panneau + "-" +
+    //  Conversion.getYearMonthDay(timeToProcess.plusDays(-1)) + "_" + Conversion.HourFormat(x) + ".csv")
 
     // Fusion des paths à télécharger
-    val pathAllFile = pathFileJMoins1.union(pathFileJ)
+   // val pathAllFile = pathFileJMoins1.union(pathFileJ)
     // Chargement de tous les fichiers dans un dataset par fichier
-    val tgaTgdAllPerHour = pathAllFile.map( filePath => LoadData.loadTgaTgd(sqlContext, filePath.toString))
+    val tgaTgdAllPerHour = pathFileJ.map( filePath => LoadData.loadTgaTgd(sqlContext, filePath.toString))
 
     // Fusion des datasets entre eux
     val tgaTgdAllPeriod= tgaTgdAllPerHour.reduce((x, y) => x.union(y))

@@ -39,6 +39,9 @@ object ValidateData {
       || (x.retard matches  "(?!(^(?:[0-9]{2}|[0-9]{4}|$|\\s)$))")
     )
 
+    // On sélectionne seulement les lignes dont l'heure d'inscription dans Obier est inférieur à l'heure de départ du train
+    val dsTgaTgdValidatedFields2 = dsTgaTgdValidatedFields.toDF().filter($"maj" < "$heure").as[TgaTgdInput]
+
 
     (dsTgaTgdValidatedFields, dsTgaTgdRejectedFields)
   }

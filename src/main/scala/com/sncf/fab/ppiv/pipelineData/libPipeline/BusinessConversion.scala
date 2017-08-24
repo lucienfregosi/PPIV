@@ -219,7 +219,7 @@ object BusinessConversion {
       if (nbDevoiementAffiche > 0) "Devoiement affiche"
       else if(nbDevoiementNonAffiche > 0 ) "Devoiement non affiche"
       else ""
-      
+
     }
     catch {
       case e: Throwable => {

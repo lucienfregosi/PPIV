@@ -17,7 +17,7 @@ object Preprocess {
 
     // Si maj > 18 && heure < 12 on retranche un jour a la date de maj
 
-    val dsTgaTgdWithStickingPlaster = dsTgaTgd.map{
+    /*val dsTgaTgdWithStickingPlaster = dsTgaTgd.map{
       row =>
         // Get de l'heure de départ du train (hourHeure) et de l'heure de l'évènement (hourMaj)
         val hourMaj    = new DateTime(row.maj).toDateTime.toString("hh").toInt
@@ -31,7 +31,14 @@ object Preprocess {
 
         // Création d'un nouveau TgaTgdInput avec la nouvelle valeur si le test a été passé
         TgaTgdInput(row.gare, newMaj.asInstanceOf[java.lang.Long], row.train, row.ordes, row.num,row.`type`, row.picto, row.attribut_voie, row.voie, row.heure, row.etat, row.retard)
-    }
+    }*/
+
+    // Tout a changé on cherche à éliminer les trains dont l'heure est avant midi et le maj est après 18
+    // Mon sparadrap était mieux mais bon ...
+    val dsTgaTgdWithStickingPlaster = dsTgaTgd.toDF().filter($"maj" < 18 || $"heure" > 12).as[TgaTgdInput]
+
+
+
     dsTgaTgdWithStickingPlaster
   }
   def cleanCycle(seqTgaTgd: Seq[TgaTgdInput]): Seq[TgaTgdInput] = {
