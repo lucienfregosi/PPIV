@@ -76,7 +76,7 @@ trait SourcePipeline extends Serializable {
     // this traitement is just for test : it should be deleted
 for ( i <-0 to 23) {
   val hour = Conversion.HourFormat(i)
-  val input = LoadData.loadTgaTgd(sqlContext, "hdfs:/data1/GARES/landing/raw/OBIER/data_files/TGA_TGD/20170817/TGA-20170818_"+ hour+".csv").filter(x => x.gare + "TGA" + x.num + x.heure == "CCETGA8593471503082020")
+  val input = LoadData.loadTgaTgd(sqlContext, "hdfs:/data1/GARES/landing/raw/OBIER/data_files/TGA_TGD/20170818/TGA-20170818_"+ hour+".csv").filter(x => x.gare + "TGA" + x.num + x.heure == "CCETGA8593471503082020")
   input.show(false)
 }
     System.exit(0)
