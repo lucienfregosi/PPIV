@@ -214,8 +214,12 @@ object BusinessConversion {
     try{
       val nbTotalDevoiement = getNbTotaldevoiement(devoiementInfo1, devoiementInfo2, devoiementInfo3, devoiementInfo4)
       val nbDevoiementAffiche = getNbDevoiement_affiche(devoiementInfo1, devoiementInfo2, devoiementInfo3, devoiementInfo4)
-      if (nbDevoiementAffiche != 0) "Devoiement affiche"
-      else "Devoiement non affiche"
+      val nbDevoiementNonAffiche = getNbDevoiement_non_affiche(devoiementInfo1, devoiementInfo2, devoiementInfo3, devoiementInfo4)
+
+      if (nbDevoiementAffiche > 0) "Devoiement affiche"
+      else if(nbDevoiementNonAffiche > 0 ) "Devoiement non affiche"
+      else ""
+
     }
     catch {
       case e: Throwable => {
