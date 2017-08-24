@@ -72,6 +72,14 @@ trait SourcePipeline extends Serializable {
 
     LOGGER.info("Lancement du pipeline pour les " + Panneau() + " pour la journée " + Conversion.getYearMonthDay(timeToProcess) +" et l'heure: " + Conversion.getHourDebutPlageHoraire(timeToProcess))
 
+
+    // this traitement is just for test : it should be deleted
+for ( i <-0 to 23) {
+  val hour = Conversion.HourFormat(i)
+  val input = LoadData.loadTgaTgd(sqlContext, "hdfs:/data1/GARES/landing/raw/OBIER/data_files/TGA_TGD/20170818/TGA-20170818_"+ hour+".csv").filter(x => x.gare + "TGA" + x.num + x.heure == "CCETGA8593471503082020")
+  input.show(false)
+}
+    System.exit(0)
     // 1) Chargement des fichiers déjà parsé dans leur classe
     LOGGER.info("1) Chargement des fichiers déjà parsé dans leur classe")
     val dataTgaTgd                = LoadData.loadTgaTgd(sqlContext, getSource(timeToProcess))
