@@ -356,11 +356,15 @@ object BusinessRules {
 
     val seqOfEtat = seqFiltered.map(row => row.etat)
 
-       if (seqOfEtat.contains("IND")) {"IND"}
-         else{
-         if (seqOfEtat.contains("SUP")) {"SUP"}
-         else ""
-       }
+    if (seqOfEtat.contains("IND")) {
+      "IND"
+    }
+    else {
+      if (seqOfEtat.contains("SUP")) {
+        "SUP"
+      }
+      else ""
+    }
 
   }
 
