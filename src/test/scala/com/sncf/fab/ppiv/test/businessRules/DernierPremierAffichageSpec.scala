@@ -31,9 +31,17 @@ This is a specification for the "getPremierAffichage"  and "getDernierAffichage"
   }
 
   //Path to file
-  val pathDernierAffichage = new File("src/test/resources/data/businessRules/ExampleOfEventsForPremier_DernierAffichageTest.csv").getAbsolutePath
+  val pathDernierAffichage = new File("PPIV/src/test/resources/data/businessRules/ExampleOfEventsForPremier_DernierAffichageTest.csv").getAbsolutePath
   // val pathDernierAffichage = new File("PPIV/src/test/resources/data/ExampleOfEventsForPremier_DernierAffichageTest.csv").getAbsolutePath
 
+  val path = new File("PPIV/src/test/resources/data/businessRules/test.csv").getAbsolutePath
+  val file  = readFile(path).toSeq
+
+  val retard = BusinessRules.getCycleRetard (file)
+
+  val fileFiltered = file.filter(x=>( x.maj < x.heure + retard))
+
+  BusinessRules.getPremierAffichage(fileFiltered)
 
   //Load File
   val dsDernierAffichage = readFile(pathDernierAffichage).toSeq
