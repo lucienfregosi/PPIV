@@ -110,8 +110,9 @@ object BuildCycleOver {
 
 
     import org.joda.time.DateTimeZone
-    val tz     = DateTimeZone.forID("Paris/France")
+    val tz     = DateTimeZone.forID("Europe/Paris")
     val offset = tz.getOffset(heureLimiteCycleCommencant.getMillis)
+
     println((heureLimiteCycleCommencant.getMillis  + offset) / 1000)
     println(heureLimiteCycleFini.getMillis / 1000)
 
