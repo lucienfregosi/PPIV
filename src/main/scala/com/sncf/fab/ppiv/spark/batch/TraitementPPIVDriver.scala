@@ -51,7 +51,7 @@ object TraitementPPIVDriver extends Serializable {
       // Set du niveau de log pour ne pas être envahi par les messages
       sc.setLogLevel("ERROR")
 
-      val ts = Conversion.getDateTime(1503007199)
+      val ts = Conversion.getDateTime(1503007199 * 1000)
 
       val cycle = BuildCycleOver.loadDataFullPeriod(sc,sqlContext,"TGA",ts).toDF()
 
