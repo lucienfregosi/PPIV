@@ -20,7 +20,7 @@ class validateFieldSpec extends Specification{
 This is a specification fot the "validateField" output
 The 'validateField'  output   should
 Gare has three capital letters                                           $e1
-Maj is less or equal to Current Timestamp                                $e2
+
 Train field is in [1:20]                                                 $e3
 Type in capital letters                                                  $e7
 Etat should be in the list {SUP, IND, ARR}                               $e12

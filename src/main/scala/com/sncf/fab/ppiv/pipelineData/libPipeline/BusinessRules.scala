@@ -311,10 +311,7 @@ object BusinessRules {
     try{
       val departTheorique = seqTgaTgd(0).heure.toLong
       val retard = getCycleRetard(seqTgaTgd)
-      val departReel = (Conversion
-        .unixTimestampToDateTime(departTheorique)
-        .plusSeconds(retard.toInt))
-        .getMillis / 1000
+      val departReel = departTheorique + retard.toInt
 
       val affichageRetard = getAffichageRetard(seqTgaTgd)
 

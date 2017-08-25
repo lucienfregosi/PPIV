@@ -50,7 +50,6 @@ object BuildCycleOver {
     println("nombre train gare de lyon" + tgaTgdRawToDay.filter(x => x.gare == "LYD").count())
     tgaTgdRawToDay.filter(x => x.gare == "LYD").show()
 
-    System.exit(0)
 
     // Pour chaque cycle terminé récupération des différents évènements au cours de la journée
     // sous la forme d'une structure (cycle_id | Array(TgaTgdInput)

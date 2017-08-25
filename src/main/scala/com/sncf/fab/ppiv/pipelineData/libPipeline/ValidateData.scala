@@ -20,8 +20,7 @@ object ValidateData {
     // Sélection des champs qui répondent à nos spécifications de la donnée
     val dsTgaTgdValidatedFields = dsTgaTgd
       .filter(_.gare matches "^[A-Z]{3}$" )
-      .filter(_.maj <= currentTimestamp)
-      .filter(_.train matches  "^[0-2]{0,1}[0-9]$")
+       .filter(_.train matches  "^[0-2]{0,1}[0-9]$")
       .filter(_.`type` matches "^([A-Z]*)$")
       .filter(_.attribut_voie matches "I|$")
       .filter(_.attribut_voie matches "^(?:[0-9]|[A-Z]|$)$")
@@ -30,8 +29,7 @@ object ValidateData {
 
     // Sélection des rejets qui seront enregistrés ailleurs pour analyse
     val dsTgaTgdRejectedFields = dsTgaTgd.filter(x => (x.gare matches("(?!(^[A-Z]{3})$)"))
-      || (x.maj > currentTimestamp)
-      ||  (x.train matches  "(?!(^[0-2]{0,1}[0-9]$))")
+       ||  (x.train matches  "(?!(^[0-2]{0,1}[0-9]$))")
       ||  (x.`type` matches "(?!(^[A-Z]*$))")
       ||  (x.attribut_voie matches "!(I|$)")
       ||  (x.voie matches "(?!(^(?:[0-9]|[A-Z]|$)$))")
@@ -61,7 +59,7 @@ object ValidateData {
     // 10 minutes : pour la marge d'erreur imposé par le métier
     val margeErreur = 10 * 60
 
-     val departReel = (Conversion.unixTimestampToDateTime(departThéorique).plusSeconds(retard.toInt).plusMinutes(10).getMillis)/1000
+     val departReel = departThéorique+retard.toInt + 60
 
     // Décompte des évènements se passant après le départ du triain
     val cntEventApresDepart = seqTgaTgdSeq.filter(x=>( x.maj > departReel)).length
