@@ -51,6 +51,16 @@ object TraitementPPIVDriver extends Serializable {
       // Set du niveau de log pour ne pas être envahi par les messages
       sc.setLogLevel("ERROR")
 
+      val ts = Conversion.getDateTime(1503007199)
+
+      val cycle = BuildCycleOver.loadDataFullPeriod(sc,sqlContext,"TGA",ts).toDF()
+
+      val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
+      val dfHive = hiveContext.createDataFrame(cycle.rdd, cycle.schema)
+      dfHive.registerTempTable("dataToSaveToHive")
+      hiveContext.sql("CREATE TABLE ppiv_ref.iv_tgatgdtgatgdinput_2 as select * from dataToSaveToHive")
+
+      System.exit(0)
 
       // Sauvegarde de l'heure de début du programme dans une variable
       val startTimePipeline = Conversion.nowToDateTime()
