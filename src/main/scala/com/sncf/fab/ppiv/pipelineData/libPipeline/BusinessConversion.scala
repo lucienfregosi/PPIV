@@ -39,13 +39,7 @@ object BusinessConversion {
   def getCreneau_horaire(timestamp: Long): String = {
     val interval_depart_min = Conversion.unixTimestampToDateTime(timestamp).getHourOfDay
     val interval_depart_max = (Conversion.unixTimestampToDateTime(timestamp).getHourOfDay + 1)
-
-
-
-    println("heure min: " + interval_depart_min)
-    println("heure max: " + interval_depart_max)
-
-    System.exit(0)
+    
 
     // On souhaite le format 09 -> 10
     val interval_depart =  Conversion.HourFormat(interval_depart_min) + " -> " + Conversion.HourFormat(interval_depart_max)
