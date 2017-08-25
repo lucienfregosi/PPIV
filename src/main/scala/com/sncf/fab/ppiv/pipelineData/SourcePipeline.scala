@@ -78,7 +78,10 @@ trait SourcePipeline extends Serializable {
     val dataTgaTgd                = LoadData.loadTgaTgd(sqlContext, getSource(timeToProcess))
     val dataRefGares              = LoadData.loadReferentiel(sqlContext)
 
-    dataTgaTgd.printSchema()
+    dataTgaTgd.filter(x => x.gare == "LYD").count()
+    dataTgaTgd.filter(x => x.gare == "LYD").show()
+
+    System.exit(0)
 
     // 2) Application du sparadrap sur les données au cause du Bug lié au passe nuit (documenté dans le wiki)
     // On le conditionne a un flag (apply_sticking_plaster) dans app.conf car dans le futur Obier compte patcher le bug
@@ -142,7 +145,6 @@ trait SourcePipeline extends Serializable {
 
     dataTgaTgdOutput.persist()
 
-    println("nombre de cycle après la jointure" + dataTgaTgdOutput.count())
 
     // On renvoie le data set final pour un Tga ou un Tgd (qui seront fusionné dans le main)
     dataTgaTgdOutput

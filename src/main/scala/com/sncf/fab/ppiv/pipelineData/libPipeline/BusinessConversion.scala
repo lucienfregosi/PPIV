@@ -42,8 +42,8 @@ object BusinessConversion {
 
 
 
-    println(interval_depart_min)
-    println(interval_depart_max)
+    println("heure min: " + interval_depart_min)
+    println("heure max: " + interval_depart_max)
 
     System.exit(0)
 
