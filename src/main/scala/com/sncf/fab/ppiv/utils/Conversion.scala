@@ -4,13 +4,10 @@ import java.text.{DecimalFormat, ParseException, SimpleDateFormat}
 import java.util.concurrent.TimeUnit
 
 import org.joda.time.{DateTime, DateTimeZone}
-import org.joda.time.format.{
-  DateTimeFormat,
-  DateTimeFormatter,
-  ISODateTimeFormat
-}
+import org.joda.time.format.{DateTimeFormat, DateTimeFormatter, ISODateTimeFormat}
 import java.util.{Calendar, Date}
 
+import com.sncf.fab.ppiv.utils.Conversion.ParisTimeZone
 import org.apache.hive.common.util.DateUtils
 
 /**
@@ -256,7 +253,10 @@ object Conversion {
     }
 
   def getDateTimeFromArgument(date: String): DateTime = {
-    val df = DateTimeFormat.forPattern("yyyyMMdd_HH")
+    val ParisTimeZone: DateTimeZone = DateTimeZone.forID("Europe/Paris")
+
+    // Set de la bonne zone pour avoir les bons résultats
+    val df = DateTimeFormat.forPattern("yyyyMMdd_HH").withZone(ParisTimeZone)
     // On renvoie le dateTime
     df.parseDateTime(date)
   }
