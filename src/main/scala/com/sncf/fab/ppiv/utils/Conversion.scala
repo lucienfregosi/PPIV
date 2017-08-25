@@ -261,4 +261,10 @@ object Conversion {
     df.parseDateTime(date)
   }
 
+  def getTimestampWithLocalTimezone(dateTime:DateTime): Long ={
+    val tz     = DateTimeZone.forID("Europe/Paris")
+    val offset = tz.getOffset(dateTime.getMillis)
+    (dateTime.getMillis   - offset) / 1000
+  }
+
 }

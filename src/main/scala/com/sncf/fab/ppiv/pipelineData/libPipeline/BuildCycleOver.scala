@@ -105,18 +105,12 @@ object BuildCycleOver {
       0,
       0)
 
-    println(heureLimiteCycleCommencant)
-    println(heureLimiteCycleFini)
+    val timestampLimiteCycleCommencant = Conversion.getTimestampWithLocalTimezone(heureLimiteCycleCommencant)
+    val timestampLimiteCycleFini = Conversion.getTimestampWithLocalTimezone(heureLimiteCycleFini)
 
-
-    import org.joda.time.DateTimeZone
-    val tz     = DateTimeZone.forID("Europe/Paris")
-    val offset = tz.getOffset(heureLimiteCycleCommencant.getMillis)
-
-    println((heureLimiteCycleCommencant.getMillis   - offset) / 1000)
-    println(heureLimiteCycleFini.getMillis / 1000)
-
-    println(dsTgaTgdCycles.filter(_.cycle_id.contains("LYD")).collectAsList().get(0).heure)
+    println(timestampLimiteCycleCommencant)
+    println(timestampLimiteCycleFini)
+   // println(dsTgaTgdCycles.filter(_.cycle_id.contains("LYD")).collectAsList().get(0).heure)
 
 
 
@@ -124,9 +118,11 @@ object BuildCycleOver {
     // On veut filtrer les cycles dont l'heure de départ est situé entre l'heure de début du traitement du batch et celle de fin
     val dataTgaTgdCycleOver = dsTgaTgdCycles
       // Filtre sur les cycles terminés après le début de la plage en intégrant le retard
-      .filter( x => Conversion.unixTimestampToDateTime(x.heure).getMillis > heureLimiteCycleCommencant.getMillis || x.retard != "" && Conversion.unixTimestampToDateTime(x.heure).plusMinutes(x.retard.toInt).getMillis > heureLimiteCycleCommencant.getMillis)
+      // .filter( x => Conversion.unixTimestampToDateTime(x.heure).getMillis > heureLimiteCycleCommencant.getMillis || x.retard != "" && Conversion.unixTimestampToDateTime(x.heure).plusMinutes(x.retard.toInt).getMillis > heureLimiteCycleCommencant.getMillis)
+       .filter( x => x.heure > timestampLimiteCycleCommencant || (x.retard != "" && (x.heure + x.retard.toInt * 60 > timestampLimiteCycleCommencant)))
       // Filtre sur les cycles terminés avant le début de la plage en intégrant le retard
-      .filter( x => Conversion.unixTimestampToDateTime(x.heure).getMillis < heureLimiteCycleFini.getMillis || x.retard != "" && Conversion.unixTimestampToDateTime(x.heure).plusMinutes(x.retard.toInt).getMillis < heureLimiteCycleFini.getMillis)
+      //.filter( x => Conversion.unixTimestampToDateTime(x.heure).getMillis < heureLimiteCycleFini.getMillis || x.retard != "" && Conversion.unixTimestampToDateTime(x.heure).plusMinutes(x.retard.toInt).getMillis < heureLimiteCycleFini.getMillis)
+       .filter( x => x.heure < timestampLimiteCycleFini || (x.retard != "" && (x.heure +x.retard.toInt *60 < timestampLimiteCycleFini)))
 
     dataTgaTgdCycleOver
   }
