@@ -108,7 +108,11 @@ object BuildCycleOver {
     println(heureLimiteCycleCommencant)
     println(heureLimiteCycleFini)
 
-    println(heureLimiteCycleCommencant.getMillis / 1000)
+
+    import org.joda.time.DateTimeZone
+    val tz     = DateTimeZone.forID("Paris/France")
+    val offset = tz.getOffset(heureLimiteCycleCommencant.getMillis)
+    println((heureLimiteCycleCommencant.getMillis  + offset) / 1000)
     println(heureLimiteCycleFini.getMillis / 1000)
 
     println(dsTgaTgdCycles.filter(_.cycle_id.contains("LYD")).collectAsList().get(0).heure)
