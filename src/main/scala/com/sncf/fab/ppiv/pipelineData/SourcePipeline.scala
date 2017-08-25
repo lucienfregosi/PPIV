@@ -78,10 +78,8 @@ trait SourcePipeline extends Serializable {
     val dataTgaTgd                = LoadData.loadTgaTgd(sqlContext, getSource(timeToProcess))
     val dataRefGares              = LoadData.loadReferentiel(sqlContext)
 
-    dataTgaTgd.filter(x => x.gare == "LYD").count()
-    dataTgaTgd.filter(x => x.gare == "LYD").show()
 
-    System.exit(0)
+
 
     // 2) Application du sparadrap sur les données au cause du Bug lié au passe nuit (documenté dans le wiki)
     // On le conditionne a un flag (apply_sticking_plaster) dans app.conf car dans le futur Obier compte patcher le bug
@@ -90,6 +88,11 @@ trait SourcePipeline extends Serializable {
       LOGGER.info("Flag sparadrap activé, application de la correction")
       Preprocess.applyStickingPlaster(dataTgaTgd, sqlContext)
     } else dataTgaTgd
+
+    dataTgaTgd.filter(x => x.gare == "LYD").count()
+    dataTgaTgd.filter(x => x.gare == "LYD").show()
+
+    System.exit(0)
 
     println("heure actuelle entre " + Conversion.getHourDebutPlageHoraire(timeToProcess) + " et " + Conversion.getHourFinPlageHoraire(timeToProcess))
 
