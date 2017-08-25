@@ -56,32 +56,8 @@ object BusinessRules {
         val rejectReason = isCycleValidated._2
         // TODO : Regarder si il n'a pas un état en IND ou SUP
         // Si oui on enregistre la ligne avec les infos qu'on a
-        LOGGER.info("Cycle invalide pour le cycle Id: " + cycleId)
-        cycleId = "INV_" + cycleId
-        TgaTgdIntermediate(
-          cycleId,
-          seqTgaTgd(0).gare,
-          seqTgaTgd(0).ordes,
-          seqTgaTgd(0).num,
-          seqTgaTgd(0).`type`,
-          seqTgaTgd(0).heure,
-          seqTgaTgd(0).etat,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          rejectReason,
-          "",
-          "",
-          "",
-          "",
-          0,
-          0
-        )
+        manageInvalidateCycle(cycleId, seqTgaTgd, rejectReason)
+
       } else {
 
         // 7) Nettoyage et mise en forme
@@ -124,6 +100,13 @@ object BusinessRules {
         val dernier_affichage =
           BusinessRules.getDernierAffichage(dataTgaTgdCycleCleaned)
         val date_process = BusinessRules.getDateProcess(timeToProcess)
+
+        // Gestion des rejets ou on a pu trouver de valeur, pas d'intéret a enregistrer dans la sortie
+        // En particulier pour get premier affichage
+        if( premierAffichage == 0){
+          val rejectReason = "pasPremierAffichage"
+          manageInvalidateCycle(cycleId, seqTgaTgd, rejectReason)
+        }
 
         // 9) Création de la classe de sortie sans le référentiel
         TgaTgdIntermediate(
@@ -186,11 +169,17 @@ object BusinessRules {
     // On doit gérer le cas ou la voie est toujours affichée
     try {
 
+      val retard = getCycleRetard(seqTgaTgd)
+
+      // Filtrer les lignes qui se passe après le départ du train (retard compris)
+      // pour ne pas fausser le calcul
+      val seqWithoutEventAfterDeparture = seqTgaTgd.filter(x => x.maj < x.heure + retard)
+
       // Case Class créé pour l'occasion pour pouvoir garder notre nomenclature
       case class SeqShort(maj: Long, voie: String)
 
       // On remplace les voies vides par des ~
-      val seqShort = seqTgaTgd.map(x => SeqShort(
+      val seqShort = seqWithoutEventAfterDeparture.map(x => SeqShort(
         x.maj,
         if(x.voie == "") x.voie.replace("","~") else x.voie
       ))
@@ -224,7 +213,7 @@ object BusinessRules {
         val maxSeq2 = sequence2._4.toList.max
 
         // Dans la séquence de la voie finale on garde les maj au dessus de maxSeq2
-        val sequence1Filtered = sequence1._4.toList.filter(_ > maxSeq2)
+        val sequence1Filtered = sequence1._4.toList.filter(_ >= maxSeq2)
 
         // On renvoie la valeur minimum
         sequence1Filtered.min
@@ -234,7 +223,7 @@ object BusinessRules {
     catch {
       case e: Throwable => {
         // Retour d'une valeur par défaut
-        0l
+        0
       }
     }
   }
@@ -531,6 +520,37 @@ object BusinessRules {
         0l
       }
     }
+  }
+
+
+  // Fonction pour gérer les rejets de cycle
+  def manageInvalidateCycle(cycleId: String, seqTgaTgd: Seq[TgaTgdInput], rejectReason: String): TgaTgdIntermediate ={
+
+    val cycleIdInv = "INV_" + cycleId
+    TgaTgdIntermediate(
+      cycleIdInv,
+      seqTgaTgd(0).gare,
+      seqTgaTgd(0).ordes,
+      seqTgaTgd(0).num,
+      seqTgaTgd(0).`type`,
+      seqTgaTgd(0).heure,
+      seqTgaTgd(0).etat,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      rejectReason,
+      "",
+      "",
+      "",
+      "",
+      0,
+      0
+    )
   }
 
 }

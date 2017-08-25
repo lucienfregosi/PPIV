@@ -39,9 +39,6 @@ object ValidateData {
       || (x.retard matches  "(?!(^(?:[0-9]{2}|[0-9]{4}|$|\\s)$))")
     )
 
-    // On sélectionne seulement les lignes dont l'heure d'inscription dans Obier est inférieur à l'heure de départ du train
-    val dsTgaTgdValidatedFields2 = dsTgaTgdValidatedFields.toDF().filter($"maj" < "$heure").as[TgaTgdInput]
-
 
     (dsTgaTgdValidatedFields, dsTgaTgdRejectedFields)
   }
@@ -79,7 +76,7 @@ object ValidateData {
     if(cntVoieAffiche != 0 && cntEventApresDepart != seqTgaTgdSeq.length ){
       // On teste si au moment du départ la voie est bien affichée
       try{
-        val voieAuMomentDepart = seqTgaTgdSeq.filter(_.maj < departReel).sortBy(_.maj).reverse(0).voie
+        val voieAuMomentDepart = seqTgaTgdSeq.filter(_.maj + retard < departReel + 2).sortBy(_.maj).reverse(0).voie
         if(voieAuMomentDepart == ""){
           (false, "PasDeVoieAuMomentDepart")
         }
