@@ -77,6 +77,7 @@ object BuildCycleOver {
                       sqlContext: SQLContext,
                       timeToProcess: DateTime): Dataset[TgaTgdCycleId] = {
     import sqlContext.implicits._
+
     val heureLimiteCycleCommencant = Conversion.getDateTime(
       timeToProcess.getYear,
       timeToProcess.getMonthOfYear,
@@ -84,6 +85,7 @@ object BuildCycleOver {
       Conversion.getHourDebutPlageHoraire(timeToProcess).toInt,
       0,
       0)
+
     val heureLimiteCycleFini = Conversion.getDateTime(
       timeToProcess.getYear,
       timeToProcess.getMonthOfYear,
@@ -92,6 +94,12 @@ object BuildCycleOver {
       0,
       0)
 
+    println(heureLimiteCycleCommencant.toString())
+    println(heureLimiteCycleFini.toString())
+
+    println("timestamp example:" + dsTgaTgdCycles.rdd.take(0)(0).heure )
+
+    System.exit(0)
 
     //DEVLOGGER.info("Filtre sur les cycles dont l'heure de départ est comprise entre : " + heureLimiteCycleCommencant.toString() + " et " + heureLimiteCycleFini.toString() + "en prenant en compte le retard de chaque cycle")
     // On veut filtrer les cycles dont l'heure de départ est situé entre l'heure de début du traitement du batch et celle de fin
