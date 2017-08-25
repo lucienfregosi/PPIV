@@ -31,6 +31,9 @@ object BuildCycleOver {
     // (cycle_id{gare,panneau,numeroTrain,heureDepart}, heureDepart, retard)
     val cycleIdList = buildCycles(dsTgaTgdInput, sqlContext, panneau)
 
+    println("nombre train gare de lyon" + cycleIdList.filter(x => x.cycle_id.contains("LYD")).count())
+    cycleIdList.filter(x => x.cycle_id.contains("LYD")).show()
+
 
     // Parmi les cyclesId généré précédemment on filtre ceux dont l'heure de départ est deja passé
     // On renvoie le même format de données (cycle_id{gare,panneau,numeroTrain,heureDepart}, heureDepart, retard)
@@ -38,9 +41,16 @@ object BuildCycleOver {
 
     println("nombre de cycles terminés: " + cycleIdListOver.count())
 
+    println("nombre train gare de lyon" + cycleIdListOver.filter(x => x.cycle_id.contains("LYD")).count())
+    cycleIdListOver.filter(x => x.cycle_id.contains("LYD")).show()
+
     //Load les evenements  du jour j. Le 5ème paramètre sert a définir la journée qui nous intéresse 0 = jour J
     val tgaTgdRawToDay = loadDataFullPeriod(sc, sqlContext, panneau, timeToProcess)
 
+    println("nombre train gare de lyon" + tgaTgdRawToDay.filter(x => x.gare == "LYD").count())
+    tgaTgdRawToDay.filter(x => x.gare == "LYD").show()
+
+    System.exit(0)
 
     // Pour chaque cycle terminé récupération des différents évènements au cours de la journée
     // sous la forme d'une structure (cycle_id | Array(TgaTgdInput)
