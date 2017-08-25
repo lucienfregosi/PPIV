@@ -89,10 +89,11 @@ trait SourcePipeline extends Serializable {
       Preprocess.applyStickingPlaster(dataTgaTgd, sqlContext)
     } else dataTgaTgd
 
-    dataTgaTgd.filter(x => x.gare == "LYD").count()
-    dataTgaTgd.filter(x => x.gare == "LYD").show()
+    dataTgaTgdBugFix.persist()
 
-    System.exit(0)
+    println("nombre train gare de lyon" + dataTgaTgdBugFix.filter(x => x.gare == "LYD").count())
+    dataTgaTgdBugFix.filter(x => x.gare == "LYD").show()
+
 
     println("heure actuelle entre " + Conversion.getHourDebutPlageHoraire(timeToProcess) + " et " + Conversion.getHourFinPlageHoraire(timeToProcess))
 
@@ -101,7 +102,10 @@ trait SourcePipeline extends Serializable {
     LOGGER.info("3) Validation champ à champ")
     val (dataTgaTgdFielValidated, dataTgaTgdFielRejected)   = ValidateData.validateField(dataTgaTgdBugFix, sqlContext)
 
+    dataTgaTgdFielValidated.persist()
 
+    println("nombre train gare de lyon" + dataTgaTgdFielValidated.filter(x => x.gare == "LYD").count())
+    dataTgaTgdFielValidated.filter(x => x.gare == "LYD").show()
 
     // 4) Reconstitution des évènements pour chaque trajet
     // L'objectif de cette fonction est de renvoyer (cycleId | Array(TgaTgdInput) ) afin d'associer à chaque cycle de vie
@@ -109,6 +113,13 @@ trait SourcePipeline extends Serializable {
     LOGGER.info("4) Reconstitution de la liste d'événements pour chaque trajet")
     val cycleWithEventOver = BuildCycleOver.getCycleOver(dataTgaTgdFielValidated, sc, sqlContext, Panneau(), timeToProcess)
 
+    cycleWithEventOver.persist()
+
+
+    println("nombre train gare de lyon" + cycleWithEventOver.filter($"gare" === "LYD").count())
+    cycleWithEventOver.filter($"gare" === "LYD").show()
+
+    System.exit(0)
 
     // 5) Boucle sur les cycles finis pour traiter leur liste d'évènements
     LOGGER.info("5) Boucle sur les cycles finis pour traiter leur liste d'évènements (validation, calcul des KPI..)")
