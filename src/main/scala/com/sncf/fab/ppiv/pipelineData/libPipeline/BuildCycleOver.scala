@@ -105,6 +105,14 @@ object BuildCycleOver {
       0,
       0)
 
+    println(heureLimiteCycleCommencant)
+    println(heureLimiteCycleFini)
+
+    println(heureLimiteCycleCommencant.getMillis / 1000)
+    println(heureLimiteCycleFini.getMillis / 1000)
+
+    println(dsTgaTgdCycles.filter(_.cycle_id.contains("LYD")).collectAsList().get(0).heure)
+
 
 
     //DEVLOGGER.info("Filtre sur les cycles dont l'heure de départ est comprise entre : " + heureLimiteCycleCommencant.toString() + " et " + heureLimiteCycleFini.toString() + "en prenant en compte le retard de chaque cycle")
