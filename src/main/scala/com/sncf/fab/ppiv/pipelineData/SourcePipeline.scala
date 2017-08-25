@@ -116,8 +116,8 @@ trait SourcePipeline extends Serializable {
     cycleWithEventOver.persist()
 
 
-    println("nombre train gare de lyon" + cycleWithEventOver.filter($"gare" === "LYD").count())
-    cycleWithEventOver.filter($"gare" === "LYD").show()
+    println("nombre train gare de lyon" + cycleWithEventOver.filter($"cycle_id".contains("LYD")).count())
+    cycleWithEventOver.filter($"cycle_id".contains("LYD")).show()
 
     System.exit(0)
 
