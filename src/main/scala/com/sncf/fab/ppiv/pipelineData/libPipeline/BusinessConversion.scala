@@ -17,10 +17,13 @@ object BusinessConversion {
 
   //Function to Extract Date from Timestamp
   def getDateExtract(timestamp: Long): String = {
-    val dernier_affichage = Conversion.unixTimestampToDateTime(timestamp)
-    val fmt = DateTimeFormat.forPattern("yyyy-MM-dd")
-    val date_extract = fmt.print(dernier_affichage)
-    date_extract
+    if (timestamp == 0)  null
+      else {
+        val dernier_affichage = Conversion.unixTimestampToDateTime(timestamp)
+        val fmt = DateTimeFormat.forPattern("yyyy-MM-dd")
+        val date_extract = fmt.print(dernier_affichage)
+        date_extract
+      }
   }
 
   //Function to Extract month from timestamp
@@ -341,6 +344,13 @@ object BusinessConversion {
     if (timestamp == 0) null
     else Conversion.getHHmmssFromMillis(timestamp)
 
+  }
+
+
+  def getDernierAffichage(timestamp : Long) : String = {
+
+    if (timestamp == 0) null
+    else Conversion.unixTimestampToDateTime(timestamp).toString
   }
 
 }

@@ -104,7 +104,7 @@ object Postprocess {
         BusinessConversion.getTypeDevoiement(row.getString(18)),
         BusinessConversion.getTypeDevoiement(row.getString(19)),
         BusinessConversion.getCaracDevoiement (row.getString(16), row.getString(17), row.getString(18),row.getString(19)),
-        Conversion.unixTimestampToDateTime(row.getLong(20)).toString,
+        BusinessConversion.getDernierAffichage(row.getLong(20)),
         Conversion.unixTimestampToDateTime(row.getLong(21)).toString,
         BusinessConversion.getAffichage_duree_retard_minutes (row.getLong(12))
       )
