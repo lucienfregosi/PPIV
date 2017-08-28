@@ -51,6 +51,7 @@ object TraitementPPIVDriver extends Serializable {
       // Set du niveau de log pour ne pas être envahi par les messages
       sc.setLogLevel("ERROR")
 
+    /*
       import org.joda.time.DateTime
 
       import org.joda.time.format.DateTimeFormat
@@ -67,6 +68,7 @@ object TraitementPPIVDriver extends Serializable {
       hiveContext.sql("Create TABLE ppiv_ref.iv_tgatgdInput_2 as select * from dataToSaveToHive")
 
       System.exit(0)
+    */
 
       // Sauvegarde de l'heure de début du programme dans une variable
       val startTimePipeline = Conversion.nowToDateTime()

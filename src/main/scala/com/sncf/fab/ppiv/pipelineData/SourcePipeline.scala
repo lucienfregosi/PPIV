@@ -78,6 +78,8 @@ trait SourcePipeline extends Serializable {
     val theDayOf17AoutFiltred = theDayOf17Aout.filter(x => x.num == "96557")
     theDayOf17AoutFiltred.show()
     println( "number of row with  96557 as a train number is = " + theDayOf17AoutFiltred.count())
+
+    
     System.exit(0)
 
     
