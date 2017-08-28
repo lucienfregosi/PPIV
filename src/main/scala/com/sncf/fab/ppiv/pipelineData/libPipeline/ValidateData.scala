@@ -59,7 +59,7 @@ object ValidateData {
     // 10 minutes : pour la marge d'erreur imposé par le métier
     val margeErreur = 10 * 60
 
-     val departReel = departThéorique+retard.toInt + 60
+     val departReel = departThéorique + retard.toInt
 
     // Décompte des évènements se passant après le départ du triain
     val cntEventApresDepart = seqTgaTgdSeq.filter(x=>( x.maj > departReel)).length
@@ -74,7 +74,7 @@ object ValidateData {
     if(cntVoieAffiche != 0 && cntEventApresDepart != seqTgaTgdSeq.length ){
       // On teste si au moment du départ la voie est bien affichée
       try{
-        val voieAuMomentDepart = seqTgaTgdSeq.filter(_.maj + retard < departReel + 2).sortBy(_.maj).reverse(0).voie
+        val voieAuMomentDepart = seqTgaTgdSeq.filter(_.maj + retard < departReel ).sortBy(_.maj).reverse(0).voie
         if(voieAuMomentDepart == ""){
           (false, "PasDeVoieAuMomentDepart")
         }

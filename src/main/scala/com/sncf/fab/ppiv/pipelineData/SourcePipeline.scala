@@ -72,6 +72,14 @@ trait SourcePipeline extends Serializable {
 
     LOGGER.info("Lancement du pipeline pour les " + Panneau() + " pour la journée " + Conversion.getYearMonthDay(timeToProcess) +" et l'heure: " + Conversion.getHourDebutPlageHoraire(timeToProcess))
 
+
+    val datetime = Conversion.getDateTime(2017,8, 17, 9, 0, 0)
+    val theDayOf17Aout = BuildCycleOver.loadDataFullPeriod(sc, sqlContext ,"TGA", datetime)
+    val theDayOf17AoutFiltred = theDayOf17Aout.filter(x => x.num == "96557")
+    theDayOf17AoutFiltred.show()
+    println( "number of row with  96557 as a train number is = " + theDayOf17AoutFiltred.count())
+    System.exit(0)
+
     
     // 1) Chargement des fichiers déjà parsé dans leur classe
     LOGGER.info("1) Chargement des fichiers déjà parsé dans leur classe")
