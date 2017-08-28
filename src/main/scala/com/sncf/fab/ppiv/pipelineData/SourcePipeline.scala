@@ -85,7 +85,6 @@ trait SourcePipeline extends Serializable {
     hiveContext.sql("Create TABLE ppiv_ref.iv_tgatgdInput_3 as select * from temp")
 
 
-    System.exit(0)
 
     
     // 1) Chargement des fichiers déjà parsé dans leur classe
