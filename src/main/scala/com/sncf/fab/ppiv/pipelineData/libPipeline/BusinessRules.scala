@@ -484,19 +484,28 @@ object BusinessRules {
     }
   }
 
-  //Fonction qui retourne la date du dernier affichage
+  //Fonction qui retourne la date du dernier affichage voie
   def getDernierAffichage(seqTgaTgd: Seq[TgaTgdInput]): Long = {
 
-    try{
-      val dernier_affichage = seqTgaTgd
-        .sortBy(_.maj)
-        .filter(x => x.voie != null && x.voie != "")
-        .groupBy(_.voie)
-        .toSeq
-        .map(row => (row._1, row._2.maxBy(_.maj)))
-        .sortBy(_._2.maj).reverse.head._2.maj
+    try {
+      val etat_train = getEtatTrain(seqTgaTgd)
+      // si le train est supperimé le denier
+      if (etat_train == "SUP") {
+       0
+      }
+      else {
 
-      dernier_affichage
+
+        val dernier_affichage = seqTgaTgd
+          .sortBy(_.maj)
+          .filter(x => x.voie != null && x.voie != "")
+          .groupBy(_.voie)
+          .toSeq
+          .map(row => (row._1, row._2.maxBy(_.maj)))
+          .sortBy(_._2.maj).reverse.head._2.maj
+
+        dernier_affichage
+      }
     }
     catch {
       case e: Throwable => {
