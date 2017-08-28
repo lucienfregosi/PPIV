@@ -75,7 +75,8 @@ trait SourcePipeline extends Serializable {
 
     val datetime = Conversion.getDateTime(2017,8, 17, 9, 0, 0)
     val theDayOf17Aout = BuildCycleOver.loadDataFullPeriod(sc, sqlContext ,"TGA", datetime)
-    val theDayOf17AoutFiltred = theDayOf17Aout.filter(x => x.num == "96557" && x.gare == "LYD"  && x.heure == "1502954520")
+    val theDayOf17AoutFiltred = theDayOf17Aout.filter(x => x.num == "96557"
+      && ( x.gare == "LYD" ))
     theDayOf17AoutFiltred.show()
     println( "number of row with  96557 as a train number is = " + theDayOf17AoutFiltred.count())
 
