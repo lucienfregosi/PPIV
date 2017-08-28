@@ -73,20 +73,6 @@ trait SourcePipeline extends Serializable {
     LOGGER.info("Lancement du pipeline pour les " + Panneau() + " pour la journée " + Conversion.getYearMonthDay(timeToProcess) +" et l'heure: " + Conversion.getHourDebutPlageHoraire(timeToProcess))
 
 
-    val datetime = Conversion.getDateTime(2017,8, 17, 23, 0, 0)
-    val theDayOf17Aout = BuildCycleOver.loadDataFullPeriod(sc, sqlContext ,"TGA", datetime)
-    val theDayOf17AoutFiltred = theDayOf17Aout.filter(x => x.num == "96557"
-      && ( x.gare == "LYD" ))
-    theDayOf17AoutFiltred.show()
-    println( "number of row with  96557 as a train number is = " + theDayOf17AoutFiltred.count())
-    val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
-    val dfHive = hiveContext.createDataFrame(theDayOf17Aout.toDF().rdd, theDayOf17Aout.toDF().schema)
-    dfHive.registerTempTable("temp")
-    hiveContext.sql("Create TABLE ppiv_ref.iv_tgatgdInput_3 as select * from temp")
-
-
-    System.exit(0)
-
     
     // 1) Chargement des fichiers déjà parsé dans leur classe
     LOGGER.info("1) Chargement des fichiers déjà parsé dans leur classe")
@@ -147,8 +133,8 @@ trait SourcePipeline extends Serializable {
 
 
     // Enregistrement des rejets (champs et cycles)
-    //Reject.saveFieldRejected(dataTgaTgdFielRejected, sc, timeToProcess, Panneau())
-    //Reject.saveCycleRejected(cycleInvalidated, sc, timeToProcess, Panneau())
+    Reject.saveFieldRejected(dataTgaTgdFielRejected, sc, timeToProcess, Panneau())
+    Reject.saveCycleRejected(cycleInvalidated, sc, timeToProcess, Panneau())
 
 
     // 9) Sauvegarde des données propres
