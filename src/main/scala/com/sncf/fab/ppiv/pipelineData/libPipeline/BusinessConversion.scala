@@ -41,8 +41,6 @@ object BusinessConversion {
     val interval_depart_max = (Conversion.unixTimestampToDateTime(timestamp).getHourOfDay + 1)
 
 
-
-    // On souhaite le format 09 -> 10
     val interval_depart =  Conversion.HourFormat(interval_depart_min) + " -> " + Conversion.HourFormat(interval_depart_max)
 
     interval_depart

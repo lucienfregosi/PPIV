@@ -59,7 +59,9 @@ object ValidateData {
     // 10 minutes : pour la marge d'erreur imposé par le métier
     val margeErreur = 10 * 60
 
-     val departReel = departThéorique + retard.toInt
+
+    val departReel = departThéorique + retard.toInt + margeErreur
+
 
     // Décompte des évènements se passant après le départ du triain
     val cntEventApresDepart = seqTgaTgdSeq.filter(x=>( x.maj > departReel)).length
