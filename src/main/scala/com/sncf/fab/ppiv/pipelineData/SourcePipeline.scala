@@ -72,17 +72,6 @@ trait SourcePipeline extends Serializable {
 
     LOGGER.info("Lancement du pipeline pour les " + Panneau() + " pour la journée " + Conversion.getYearMonthDay(timeToProcess) +" et l'heure: " + Conversion.getHourDebutPlageHoraire(timeToProcess))
 
-    val theDateoOF16Aout =   Conversion.getDateTime(2017, 8, 16, 23, 0, 0)
-    val theDayOf16Aout = BuildCycleOver.loadDataFullPeriod(sc, sqlContext, "TGA", theDateoOF16Aout)
-
-    val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
-    val dfHive = hiveContext.createDataFrame(theDayOf16Aout.toDF().rdd, theDayOf16Aout.toDF().schema)
-    dfHive.registerTempTable("temp")
-    hiveContext.sql("Create TABLE ppiv_ref.iv_tgatgdInput_5 as select * from temp")
-
-    System.exit(0)
-
-    
     // 1) Chargement des fichiers déjà parsé dans leur classe
     LOGGER.info("1) Chargement des fichiers déjà parsé dans leur classe")
     val dataTgaTgd                = LoadData.loadTgaTgd(sqlContext, getSource(timeToProcess))
