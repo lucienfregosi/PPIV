@@ -41,7 +41,7 @@ This is a specification for the "getPremierAffichage"  and "getDernierAffichage"
 
   val fileFiltered = file.filter(x=>( x.maj < x.heure + retard))
 
-  fileFiltered.foreach(println)
+  //fileFiltered.foreach(println)
 
   // Bon affichage : 1503081412
 
