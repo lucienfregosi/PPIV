@@ -57,7 +57,7 @@ object Postprocess {
         row.getString(2),
         panneau,
         Conversion.unixTimestampToDateTime(row.getLong(7)).toString,
-        BusinessConversion.getDateExtract(row.getLong(20)),
+        BusinessConversion.getDateExtract(row.getLong(20),row.getString(6),row.getLong(5)),
         BusinessConversion.getMois(row.getLong(20)),
         BusinessConversion.getAnnee(row.getLong(20)),
         Conversion.unixTimestampToDateTime(row.getLong(5)).toString,

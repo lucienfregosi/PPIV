@@ -410,7 +410,7 @@ object BusinessRules {
         .reverse
         .filter(x => x.voie != null && x.voie != "")
       if (dsVoie.isEmpty) {
-        null
+        ""
       } else {
         dsVoie(0).voie.toString
       }

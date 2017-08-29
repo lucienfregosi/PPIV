@@ -16,14 +16,22 @@ import org.joda.time.format.{DateTimeFormat, DateTimeFormatter}
 object BusinessConversion {
 
   //Function to Extract Date from Timestamp
-  def getDateExtract(timestamp: Long): String = {
-    if (timestamp == 0)  null
-      else {
-        val dernier_affichage = Conversion.unixTimestampToDateTime(timestamp)
+  def getDateExtract(timestamp: Long, etat: String, dateheure2Timestamp: Long): String = {
+    if (timestamp == 0){
+      if(etat == "SUP" || etat == "IND"){
+        val dernier_affichage = Conversion.unixTimestampToDateTime(dateheure2Timestamp)
         val fmt = DateTimeFormat.forPattern("yyyy-MM-dd")
         val date_extract = fmt.print(dernier_affichage)
         date_extract
       }
+      else ""
+    }
+    else {
+      val dernier_affichage = Conversion.unixTimestampToDateTime(timestamp)
+      val fmt = DateTimeFormat.forPattern("yyyy-MM-dd")
+      val date_extract = fmt.print(dernier_affichage)
+      date_extract
+    }
   }
 
   //Function to Extract month from timestamp
@@ -138,7 +146,7 @@ object BusinessConversion {
 
   //fonction qui convertit Affichage retard  (timestamp) à Affichage retard (DateTime) si il est différent de zero
   def getAffichageRetard(timestamp_affichage_retard: Long): String = {
-    if (timestamp_affichage_retard == 0) null
+    if (timestamp_affichage_retard == 0) ""
     else Conversion.unixTimestampToDateTime(timestamp_affichage_retard).toString()
   }
 
@@ -278,7 +286,7 @@ object BusinessConversion {
 
   // fonction qui renvoie "H" concaténe au Délai où le train est resté affiché avant son départ réel
   def getDelai_affichage_duree_retard(timestamp: Long): String = {
-    if (timestamp == 0) null
+    if (timestamp == 0) ""
     else "H+" + TimeUnit.MILLISECONDS.toMinutes(timestamp * 1000)
 
   }
@@ -320,7 +328,7 @@ object BusinessConversion {
   //fonction qui renvoie la date d'affichade de l'etat du train en DateTime
   def getDateAffichageEtatTrain(timestamp: Long): String = {
 
-    if (timestamp == 0) null
+    if (timestamp == 0) ""
     else
       Conversion.unixTimestampToDateTime(timestamp).toString
   }
@@ -329,7 +337,7 @@ object BusinessConversion {
   // fonction qui  formate  Affichage duree retard en HHmmss si il est different de zero
   def getAffichage_duree_retard(timestamp: Long): String = {
 
-    if (timestamp == 0) null
+    if (timestamp == 0) ""
     else Conversion.getHHmmssFromMillis(timestamp)
   }
 
@@ -341,7 +349,7 @@ object BusinessConversion {
 
   //fonction qui foramte Delai_affichage_etat_train_avant_depart_arrive en HHmmss
   def getDelai_affichage_etat_train_avant_depart_arrive(timestamp: Long): String = {
-    if (timestamp == 0) null
+    if (timestamp == 0) ""
     else Conversion.getHHmmssFromMillis(timestamp)
 
   }
@@ -349,7 +357,7 @@ object BusinessConversion {
 
   def getDernierAffichage(timestamp : Long) : String = {
 
-    if (timestamp == 0) null
+    if (timestamp == 0) ""
     else Conversion.unixTimestampToDateTime(timestamp).toString
   }
 
