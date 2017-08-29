@@ -103,36 +103,37 @@ object BusinessRules {
 
         // Gestion des rejets ou on a pu trouver de valeur, pas d'intéret a enregistrer dans la sortie
         // En particulier pour get premier affichage
-        if( premierAffichage == 0){
+        if (premierAffichage == 0) {
           val rejectReason = "pasPremierAffichage"
           manageInvalidateCycle(cycleId, seqTgaTgd, rejectReason)
         }
-
-        // 9) Création de la classe de sortie sans le référentiel
-        TgaTgdIntermediate(
-          cycleId,
-          seqTgaTgd(0).gare,
-          seqTgaTgd(0).ordes,
-          seqTgaTgd(0).num,
-          seqTgaTgd(0).`type`,
-          seqTgaTgd(0).heure,
-          etat_train,
-          premierAffichage,
-          affichageDuree1,
-          dernier_retard_annonce,
-          affichageDuree2,
-          affichage_retard,
-          affichage_duree_retard,
-          date_affichage_etat_train,
-          delai_affichage_etat_train_avant_depart_arrive,
-          dernier_quai_affiche,
-          type_devoiement,
-          type_devoiement2,
-          type_devoiement3,
-          type_devoiement4,
-          dernier_affichage,
-          date_process
-        )
+        else {
+          // 9) Création de la classe de sortie sans le référentiel
+          TgaTgdIntermediate(
+            cycleId,
+            seqTgaTgd(0).gare,
+            seqTgaTgd(0).ordes,
+            seqTgaTgd(0).num,
+            seqTgaTgd(0).`type`,
+            seqTgaTgd(0).heure,
+            etat_train,
+            premierAffichage,
+            affichageDuree1,
+            dernier_retard_annonce,
+            affichageDuree2,
+            affichage_retard,
+            affichage_duree_retard,
+            date_affichage_etat_train,
+            delai_affichage_etat_train_avant_depart_arrive,
+            dernier_quai_affiche,
+            type_devoiement,
+            type_devoiement2,
+            type_devoiement3,
+            type_devoiement4,
+            dernier_affichage,
+            date_process
+          )
+        }
       }
     }
     rddIvTgaTgdWithoutReferentiel
