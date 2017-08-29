@@ -78,7 +78,7 @@ trait SourcePipeline extends Serializable {
     val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
     val dfHive = hiveContext.createDataFrame(theDayOf16Aout.toDF().rdd, theDayOf16Aout.toDF().schema)
     dfHive.registerTempTable("temp")
-    hiveContext.sql("Create TABLE ppiv_ref.iv_tgatgdInput_4 as select * from temp")
+    hiveContext.sql("Create TABLE ppiv_ref.iv_tgatgdInput_5 as select * from temp")
 
     System.exit(0)
 
