@@ -174,7 +174,11 @@ object BusinessRules {
 
       // Filtrer les lignes qui se passe après le départ du train (retard compris)
       // pour ne pas fausser le calcul
-      val seqWithoutEventAfterDeparture = seqTgaTgd.filter(x => x.maj < x.heure + retard)
+      // En comptant la marge
+      // 10 minutes : pour la marge d'erreur imposé par le métier
+
+      val margeErreur = 10 * 60
+      val seqWithoutEventAfterDeparture = seqTgaTgd.filter(x => x.maj < x.heure + retard + margeErreur)
 
       // Case Class créé pour l'occasion pour pouvoir garder notre nomenclature
       case class SeqShort(maj: Long, voie: String)

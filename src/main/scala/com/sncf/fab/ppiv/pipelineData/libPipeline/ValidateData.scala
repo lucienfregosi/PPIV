@@ -56,6 +56,7 @@ object ValidateData {
     val departThéorique = seqTgaTgdSeq(0).heure.toLong
 
     val retard = BusinessRules.getCycleRetard(seqTgaTgdSeq)
+
     // 10 minutes : pour la marge d'erreur imposé par le métier
     val margeErreur = 10 * 60
 
