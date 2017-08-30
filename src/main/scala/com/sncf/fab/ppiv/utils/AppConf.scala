@@ -22,6 +22,7 @@ object AppConf extends Serializable{
 
   // Variable pour le prijet
   val STICKING_PLASTER = conf.getBoolean("apply_sticking_plaster")
+  val MARGE_APRES_DEPART_REEL = conf.getLong("marge_apres_depart_reel")
 
   // Valeur TGA et TGD
   val TGA          = "TGA.csv"

@@ -135,8 +135,8 @@ trait SourcePipeline extends Serializable {
     cycleInvalidated.persist()
     cycleValidated.persist()
 
-    println("nombre cycle invalidé : " + cycleInvalidated.count())
-    println("nombre cycle validé : " + cycleValidated.count())
+    //println("nombre cycle invalidé : " + cycleInvalidated.count())
+    //println("nombre cycle validé : " + cycleValidated.count())
 
     //To REMOVE
     println (" level 4 : " + cycleValidated.filter(x=> x.cycleId == "NTSTGA8584761502903700").count())

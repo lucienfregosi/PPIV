@@ -1,7 +1,7 @@
 package com.sncf.fab.ppiv.pipelineData.libPipeline
 
 import com.sncf.fab.ppiv.business.TgaTgdInput
-import com.sncf.fab.ppiv.utils.Conversion
+import com.sncf.fab.ppiv.utils.AppConf.MARGE_APRES_DEPART_REEL
 import org.apache.spark.sql.{Dataset, SQLContext}
 import org.joda.time.{DateTime, DateTimeZone}
 
@@ -56,11 +56,8 @@ object ValidateData {
     val departThéorique = seqTgaTgdSeq(0).heure.toLong
 
     val retard = BusinessRules.getCycleRetard(seqTgaTgdSeq)
-    // 10 minutes : pour la marge d'erreur imposé par le métier
-    val margeErreur = 10 * 60
 
-
-    val departReel = departThéorique + retard.toInt + margeErreur
+    val departReel = departThéorique + retard.toInt + MARGE_APRES_DEPART_REEL
 
 
     // Décompte des évènements se passant après le départ du triain

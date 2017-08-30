@@ -226,7 +226,7 @@ object Conversion {
         "-" + HH + ":" + mm + ":" + ss
       }
 
-    } else null
+    } else ""
   }
 
   def getYYYYmmdd(timestamp: Long): String = {
