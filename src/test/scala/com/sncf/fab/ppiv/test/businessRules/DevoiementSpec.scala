@@ -38,6 +38,8 @@ This is a specification for the "getTypeDevoiement" output
 'getNbTotaldevoiement' output be a equal to  1                                       $e15
 'getNbTotaldevoiement' output be a equal to  Devoiement affiche                      $e16
 
+'getNbTotaldevoiement' for 2devoiement.csv output be a equal to  2                   $e17
+
   """
 
 
@@ -51,12 +53,20 @@ This is a specification for the "getTypeDevoiement" output
   //Path to the file
   // val pathDevoiFile = new File("PPIV/src/test/resources/data/ExampleOfEventForDevoiementTest.csv").getAbsolutePath
   val pathDevoiFile = new File("src/test/resources/data/businessRules/ExampleOfEventForDevoiementTest.csv").getAbsolutePath
+  val path2DevoiFile = new File("src/test/resources/data/businessRules/2devoiements.csv").getAbsolutePath
 
   //Load File
   val dsDevoiSpec = readFile(pathDevoiFile).toSeq
+  val ds2DevoiSpec = readFile(path2DevoiFile).toSeq
 
   //devoiementInfo
+
+  val devInfo2 = BusinessRules.allDevoimentInfo(ds2DevoiSpec)
   val devInfo = BusinessRules.allDevoimentInfo(dsDevoiSpec)
+
+  val nbTotalDev2 = BusinessConversion.getNbTotaldevoiement(BusinessRules.getTypeDevoiement(ds2DevoiSpec, devInfo2,1), BusinessRules.getTypeDevoiement(ds2DevoiSpec, devInfo2,2), BusinessRules.getTypeDevoiement(ds2DevoiSpec, devInfo2,3), BusinessRules.getTypeDevoiement(ds2DevoiSpec, devInfo2,4))
+
+  def e17 = nbTotalDev2 must beEqualTo(3)
 
   def e1 = BusinessRules.getTypeDevoiement(dsDevoiSpec,devInfo, 1).split("-")(2).toString.replaceAll("\\s", "") must beEqualTo("Non_Affiche")
 
@@ -99,4 +109,7 @@ This is a specification for the "getTypeDevoiement" output
   def e15 = nbTotalDevNonAffiche must beEqualTo(1)
 
   def e16 =caracDevoiement must beEqualTo("Devoiement affiche")
+
+
+
 }

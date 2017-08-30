@@ -7,6 +7,7 @@ import com.sncf.fab.ppiv.utils.AppConf.MARGE_APRES_DEPART_REEL
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.DataFrame
 import org.joda.time.DateTime
+import scala.collection.mutable.ListBuffer
 
 import scala.collection.immutable.{ListMap, SortedMap}
 
@@ -431,37 +432,80 @@ object BusinessRules {
   // Soit un triplet (Voie, maj de la voie, affiché ou non)
   // A partir de ces informations on est capable de faire tous les autres calculs
   def allDevoimentInfo(
-      seqTgaTgd: Seq[TgaTgdInput]): Seq[(String, TgaTgdInput, Int)] = {
+      seqTgaTgd: Seq[TgaTgdInput]): Seq[(String, Int)] = {
 
     try{
 
-      val dsVoie = seqTgaTgd
+      // Prise en compte du retard pour filtrer les lignes après le départ
+      val retard = getCycleRetard(seqTgaTgd)
+      val seqWithoutEventAfterDeparture = seqTgaTgd.filter(x => x.maj < x.heure + retard + MARGE_APRES_DEPART_REEL)
+
+      // On doit gérer le cas où les voies sont les mêmes
+      // EX : 2 2 2 2 4 4 4 2 2 doit renvoyer deux devoiements 2 -> 4 et 4 -> 2
+      // Construction d'un tableau (Voie, Max(Maj),Seq[Maj])
+      var dsVoie = seqWithoutEventAfterDeparture
         .sortBy(_.maj)
+        .reverse
         .filter(x => x.voie != null && x.voie != "")
         .groupBy(_.voie)
+        .map(x => (x._1, x._2.maxBy(_.maj).maj, x._2.map(x => x.maj), x._2.map(x => x.attribut_voie)))
+        .toSeq
+        .sortBy(_._2)
+        .reverse
 
-      // Astuce pour ordonner le group by. Fréquellent utilisé a voir pour créer une fonction
-      val dvInfo = dsVoie.toSeq
-        .map(
-          row =>
-            (row._1,
-              row._2.maxBy(_.maj),
-              row._2.filter(_.attribut_voie != "I").length))
-        .sortBy(_._2.maj)
+      // On teste si dans les valeurs de maj il y en a plus petite que la suivante
+      // Ce qui veut dire qu'on a l'enchainement 2 2 2 3 3 2 2
+      // Auquel cas le maj des premiers voies sera inférieure a celle de la deuxième
 
-      dvInfo
+      // On répete le split Devoiement 3 fois (max de devoiement = 4 ) pour être sur d'avoir bien extrait toutes les valeures
+      val newSeq = splitDevoiement(splitDevoiement(splitDevoiement(dsVoie)))
+
+
+      newSeq.sortBy(_._2).map(x => (x._1,x._4.filter(x => x != "I").length))
 
     }
     catch {
       case e: Throwable => {
         // Retour d'une valeur par défaut
-        Seq(("",null,0))
+        Seq(("",0))
       }
     }
   }
 
+  def splitDevoiement(seqTgaTgd: Seq[(String,Long,Seq[Long],Seq[String])]) : Seq[(String,Long,Seq[Long],Seq[String])] = {
+
+    var newDsVoie  = new ListBuffer[(String,Long,Seq[Long],Seq[String])]()
+    for (i <- 0 to seqTgaTgd.length - 1){
+
+      val current = seqTgaTgd(i)
+
+      // Gestion du cas ou on est au bout de la liste
+      if(i == seqTgaTgd.length - 1) newDsVoie += current
+      else {
+
+        val next = seqTgaTgd(i + 1)
+
+        // Test pour savoir si des éléments sont après
+        val eventAfterNext = current._3.filter(x => x < next._2)
+
+        // Si on a des éléments après on modifie dsVoie, on sauvegarde enregistre 2 lignes
+        if (eventAfterNext.length > 0) {
+          val split1 =  (current._1,current._2,current._3.filter(x => x > next._2),current._4.take(current._3.filter(x => x > next._2).length))
+          newDsVoie += split1
+          val split2 = (seqTgaTgd(i)._1, eventAfterNext.max, eventAfterNext, current._4.reverse.take(eventAfterNext.length) )
+          newDsVoie += split2
+        }
+        else {
+          newDsVoie += current
+        }
+      }
+    }
+
+    newDsVoie.toList.toSeq.sortBy(_._2).reverse
+  }
+
   //Fonction qui renvoie le type du devoiement1 (Affiche ou non Affiché)
-  def getTypeDevoiement(seqTgaTgd: Seq[TgaTgdInput], devoiementInfo: Seq[(String,TgaTgdInput,Int)], devoiementNumber: Int): String = {
+  def getTypeDevoiement(seqTgaTgd: Seq[TgaTgdInput], devoiementInfo: Seq[(String,Int)], devoiementNumber: Int): String = {
 
     try{
 
@@ -469,9 +513,9 @@ object BusinessRules {
         // Valeur par défaut
         ""
       } else {
-        val voie_1 = devoiementInfo(devoiementNumber - 1)._2.voie
-        val voie_2 = devoiementInfo(devoiementNumber)._2.voie
-        val lengthOfNonHidden_Voie = devoiementInfo(devoiementNumber)._3
+        val voie_1 = devoiementInfo(devoiementNumber - 1)._1
+        val voie_2 = devoiementInfo(devoiementNumber)._1
+        val lengthOfNonHidden_Voie = devoiementInfo(devoiementNumber)._2
 
         if (lengthOfNonHidden_Voie >= 1) {
           voie_1 + "-" + voie_2 + "-" + "Affiche"

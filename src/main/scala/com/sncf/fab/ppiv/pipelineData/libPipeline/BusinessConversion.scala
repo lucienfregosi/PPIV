@@ -170,6 +170,9 @@ object BusinessConversion {
 
     try{
       val list_devoiement = List(devoiementInfo1, devoiementInfo2, devoiementInfo3, devoiementInfo4)
+
+      println(devoiementInfo3)
+
       val nb_devoiement = list_devoiement.count(_ != "")
       nb_devoiement
     }
