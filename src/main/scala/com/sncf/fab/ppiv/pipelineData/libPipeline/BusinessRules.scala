@@ -3,7 +3,7 @@ package com.sncf.fab.ppiv.pipelineData.libPipeline
 import com.fasterxml.jackson.module.scala.util.Options
 import com.sncf.fab.ppiv.business.{TgaTgdInput, TgaTgdIntermediate}
 import com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver.LOGGER
-import com.sncf.fab.ppiv.utils.Conversion
+import com.sncf.fab.ppiv.utils.AppConf.MARGE_APRES_DEPART_REEL
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.DataFrame
 import org.joda.time.DateTime
@@ -175,10 +175,9 @@ object BusinessRules {
       // Filtrer les lignes qui se passe après le départ du train (retard compris)
       // pour ne pas fausser le calcul
       // En comptant la marge
-      // 10 minutes : pour la marge d'erreur imposé par le métier
+      // 10 minutes : pour la marge d'erreur imposé par le métier (défini dans app.conf)
 
-      val margeErreur = 10 * 60
-      val seqWithoutEventAfterDeparture = seqTgaTgd.filter(x => x.maj < x.heure + retard + margeErreur)
+      val seqWithoutEventAfterDeparture = seqTgaTgd.filter(x => x.maj < x.heure + retard + MARGE_APRES_DEPART_REEL)
 
       // Case Class créé pour l'occasion pour pouvoir garder notre nomenclature
       case class SeqShort(maj: Long, voie: String)
