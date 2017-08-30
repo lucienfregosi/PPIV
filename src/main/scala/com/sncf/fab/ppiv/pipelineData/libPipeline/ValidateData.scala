@@ -59,6 +59,8 @@ object ValidateData {
 
     val departReel = departThéorique + retard.toInt + MARGE_APRES_DEPART_REEL
 
+    val etatTrain = BusinessRules.getEtatTrain(seqTgaTgdSeq)
+
 
     // Décompte des évènements se passant après le départ du triain
     val cntEventApresDepart = seqTgaTgdSeq.filter(x=>( x.maj > departReel)).length
@@ -70,7 +72,7 @@ object ValidateData {
 
 
     // Si le compte de voie est différent de 0 ou le compte des évènement après la date est égale a la somme des event (= tous les évènements postérieurs à la date de départ du train
-    if(cntVoieAffiche != 0 && cntEventApresDepart != seqTgaTgdSeq.length ){
+    if(cntVoieAffiche != 0 && cntEventApresDepart != seqTgaTgdSeq.length  && etatTrain != "SUP"){
       // On teste si au moment du départ la voie est bien affichée
       try{
         val voieAuMomentDepart = seqTgaTgdSeq.filter(_.maj + retard <= departReel ).sortBy(_.maj).reverse(0).voie
@@ -83,8 +85,7 @@ object ValidateData {
     else{
       // Si jamais le train a un état spécial (Supprimé ou retard indéterminé) cela ne veut pas dire qu'il ne faut pas le valider
       // Get de l'état du train. Si IND ou SUP on valide
-      val etatTrain = BusinessRules.getEtatTrain(seqTgaTgdSeq)
-      if(etatTrain == "SUP" || etatTrain == "IND"){
+          if(etatTrain == "SUP" || etatTrain == "IND"){
         (true, "train avec état " + etatTrain)
       }
       else{
