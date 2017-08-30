@@ -78,7 +78,8 @@ trait SourcePipeline extends Serializable {
     val dataRefGares              = LoadData.loadReferentiel(sqlContext)
 
     //TO REMOVE
-    println ("level 0 : " + dataTgaTgd.filter(_.gare == "NTS" ).filter(_.num =="858476").count())
+    println ("level 0 : " + dataTgaTgd.filter(_.gare == "NTS" ).count())
+    dataTgaTgd.filter(_.gare == "NTS" ).show(false)
 //filter(_.heure == 1502903700
 
 
