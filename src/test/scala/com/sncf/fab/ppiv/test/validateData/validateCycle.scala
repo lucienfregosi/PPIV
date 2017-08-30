@@ -41,9 +41,6 @@ The 'validateCycle'  output   should
   val sourcePipeline = new TraitementTga
 
 
-  val test2 = new File("PPIV/src/test/resources/data/businessRules/test2.csv").getAbsolutePath()
-  val testSeq = readFile(test2).toSeq
-  ValidateData.validateCycle(testSeq)
 
 
 

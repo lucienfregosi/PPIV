@@ -243,7 +243,10 @@ object BusinessConversion {
 
   //fonction qui renvoie "H" concaténé au Délai où le train est resté affiché avant son départ réel (en minutes)
   def getDelai_affichage_voie_avec_retard(timestamp: Long): String = {
-    "H+" + TimeUnit.MILLISECONDS.toMinutes(timestamp * 1000)
+
+    if(timestamp < 0) "H-"+ TimeUnit.MILLISECONDS.toMinutes(timestamp.abs * 1000)
+    else "H+"+ TimeUnit.MILLISECONDS.toMinutes(timestamp * 1000)
+
   }
 
 
