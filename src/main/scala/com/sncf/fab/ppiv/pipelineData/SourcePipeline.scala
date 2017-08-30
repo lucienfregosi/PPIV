@@ -101,6 +101,10 @@ trait SourcePipeline extends Serializable {
     val (dataTgaTgdFielValidated, dataTgaTgdFielRejected)   = ValidateData.validateField(dataTgaTgdBugFix, sqlContext)
 
 
+    //To REMOVE
+     println ("level 1 : " + dataTgaTgdFielValidated.filter(_.gare == "NTS" ).filter(_.num =="858476").filter(_.heure == 1502903700).count())
+
+
 
     // 4) Reconstitution des évènements pour chaque trajet
     // L'objectif de cette fonction est de renvoyer (cycleId | Array(TgaTgdInput) ) afin d'associer à chaque cycle de vie
@@ -108,11 +112,17 @@ trait SourcePipeline extends Serializable {
     LOGGER.info("4) Reconstitution de la liste d'événements pour chaque trajet")
     val cycleWithEventOver = BuildCycleOver.getCycleOver(dataTgaTgdFielValidated, sc, sqlContext, Panneau(), timeToProcess)
 
+    //To REMOVE
+   println("level 2 : " + cycleWithEventOver.filter($"cycle_id" === "NTSTGA8584761502903700").count())
+
 
 
     // 5) Boucle sur les cycles finis pour traiter leur liste d'évènements
     LOGGER.info("5) Boucle sur les cycles finis pour traiter leur liste d'évènements (validation, calcul des KPI..)")
     val rddIvTgaTgdWithoutReferentiel = BusinessRules.computeBusinessRules(cycleWithEventOver, timeToProcess)
+
+    //To REMOVE
+    println (" level 3 : " + rddIvTgaTgdWithoutReferentiel.filter(x=> x.cycleId == "NTSTGA8584761502903700").count())
 
     // Conversion du résulat en dataset
     val dsIvTgaTgdWithoutReferentiel = rddIvTgaTgdWithoutReferentiel.toDS()
@@ -128,7 +138,8 @@ trait SourcePipeline extends Serializable {
     println("nombre cycle invalidé : " + cycleInvalidated.count())
     println("nombre cycle validé : " + cycleValidated.count())
 
-
+    //To REMOVE
+    println (" level 4 : " + cycleValidated.filter(x=> x.cycleId == "NTSTGA8584761502903700").count())
 
     // Enregistrement des rejets (champs et cycles)
     //Reject.saveFieldRejected(dataTgaTgdFielRejected, sc, timeToProcess, Panneau())
@@ -146,6 +157,9 @@ trait SourcePipeline extends Serializable {
     LOGGER.info("10) Post Process, jointure et conversion")
     val dataTgaTgdOutput = Postprocess.postprocess (cycleValidated, dataRefGares, sqlContext, Panneau())
 
+
+    //To REMOVE
+    println (" level 5 : " + dataTgaTgdOutput.filter($"cycleId" === "NTSTGA8584761502903700").count())
     dataTgaTgdOutput.persist()
 
 

@@ -76,7 +76,7 @@ object ValidateData {
     if(cntVoieAffiche != 0 && cntEventApresDepart != seqTgaTgdSeq.length ){
       // On teste si au moment du départ la voie est bien affichée
       try{
-        val voieAuMomentDepart = seqTgaTgdSeq.filter(_.maj + retard < departReel ).sortBy(_.maj).reverse(0).voie
+        val voieAuMomentDepart = seqTgaTgdSeq.filter(_.maj + retard <= departReel ).sortBy(_.maj).reverse(0).voie
         if(voieAuMomentDepart == ""){
           (false, "PasDeVoieAuMomentDepart")
         }
