@@ -4,7 +4,7 @@ import java.io.File
 
 import com.sncf.fab.ppiv.business.TgaTgdInput
 import com.sncf.fab.ppiv.pipelineData.TraitementTga
-import com.sncf.fab.ppiv.pipelineData.libPipeline.ValidateData
+import com.sncf.fab.ppiv.pipelineData.libPipeline.{BusinessRules, ValidateData}
 import org.specs2._
 
 import scala.io.Source
@@ -40,9 +40,6 @@ The 'validateCycle'  output   should
 
   val sourcePipeline = new TraitementTga
 
-
-
-
   val pathSansVoie = new File("src/test/resources/data/validateData/trajet_sans_voie.csv").getAbsolutePath
   val pathAvecVoie = new File("src/test/resources/data/validateData/trajet_avec_voie.csv").getAbsolutePath()
   val pathAvecEventApres = new File("src/test/resources/data/validateData/event_apres_depart.csv").getAbsolutePath()
@@ -52,17 +49,12 @@ The 'validateCycle'  output   should
 
 
 
-
-
   val dsSansVoie = readFile(pathSansVoie).toSeq
   val dsAvecVoie = readFile(pathAvecVoie).toSeq
   val dsAvecEventApres = readFile(pathAvecEventApres).toSeq
   val dsAvecEventAvant = readFile(pathAvecEventAvant).toSeq
   val dsAvecVoieFin = readFile(pathAvecVoieFin).toSeq
   val dsSansVoieFin = readFile(pathSansVoieFin).toSeq
-
-
-
 
 
 
