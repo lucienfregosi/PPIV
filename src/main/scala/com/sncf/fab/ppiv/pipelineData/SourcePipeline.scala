@@ -77,6 +77,8 @@ trait SourcePipeline extends Serializable {
     val dataTgaTgd                = LoadData.loadTgaTgd(sqlContext, getSource(timeToProcess))
     val dataRefGares              = LoadData.loadReferentiel(sqlContext)
 
+    //TO REMOVE
+    println ("level 0 : " + dataTgaTgd.filter(_.gare == "NTS" ).filter(_.num =="858476").filter(_.heure == 1502903700).count())
 
 
 
@@ -90,8 +92,6 @@ trait SourcePipeline extends Serializable {
 
 
 
-    //TO REMOVE
-    println ("level 0 : " + dataTgaTgd.filter(_.gare == "NTS" ).filter(_.num =="858476").filter(_.heure == 1502903700).count())
 
 
     println("heure actuelle entre " + Conversion.getHourDebutPlageHoraire(timeToProcess) + " et " + Conversion.getHourFinPlageHoraire(timeToProcess))
