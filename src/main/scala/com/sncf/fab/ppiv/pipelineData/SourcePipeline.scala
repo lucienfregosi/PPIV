@@ -162,7 +162,7 @@ trait SourcePipeline extends Serializable {
     println (" level 5 : " + dataTgaTgdOutput.filter($"cycleId" === "NTSTGA8584761502903700").count())
     dataTgaTgdOutput.persist()
 
-
+    System.exit(0)
     // On renvoie le data set final pour un Tga ou un Tgd (qui seront fusionné dans le main)
     dataTgaTgdOutput
 
