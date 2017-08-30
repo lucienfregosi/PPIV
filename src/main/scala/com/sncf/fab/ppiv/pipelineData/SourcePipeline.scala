@@ -78,8 +78,8 @@ trait SourcePipeline extends Serializable {
     val dataRefGares              = LoadData.loadReferentiel(sqlContext)
 
     //TO REMOVE
-    println ("level 0 : " + dataTgaTgd.filter(_.gare == "NTS" ).filter(_.num =="858476").filter(_.heure == 1502903700).count())
-
+    println ("level 0 : " + dataTgaTgd.filter(_.gare == "NTS" ).filter(_.num =="858476").count())
+//filter(_.heure == 1502903700
 
 
     // 2) Application du sparadrap sur les données au cause du Bug lié au passe nuit (documenté dans le wiki)
