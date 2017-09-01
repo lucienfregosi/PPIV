@@ -6,6 +6,7 @@ import java.nio.file.{Files, Paths}
 import com.sncf.fab.ppiv.business._
 import com.sncf.fab.ppiv.parser.DatasetsParser
 import com.sncf.fab.ppiv.persistence.Persist
+import com.sncf.fab.ppiv.pipelineData.libPipeline.LoadData.checkIfFileExist
 import com.sncf.fab.ppiv.pipelineData.libPipeline._
 import com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver.LOGGER
 import com.sncf.fab.ppiv.utils.AppConf._
@@ -84,7 +85,7 @@ trait SourcePipeline extends Serializable {
 
     // On verifie si le fichier que l'on veut charger existe
     // S'il n'existe pas on sort car on ne peut rien faire pour ce cycle
-    if(Files.notExists(Paths.get(pathFileToLoad))) throw new IllegalArgumentException("File doesn't exist in HDFS")
+    if(!LoadData.checkIfFileExist(sc,pathFileToLoad)) throw new IllegalArgumentException("File doesn't exist in HDFS")
 
     val dataTgaTgd                = LoadData.loadTgaTgd(sqlContext, pathFileToLoad)
     val dataRefGares              = LoadData.loadReferentiel(sqlContext)

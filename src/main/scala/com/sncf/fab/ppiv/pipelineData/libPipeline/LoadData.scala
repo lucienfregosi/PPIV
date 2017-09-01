@@ -5,7 +5,9 @@ import com.sncf.fab.ppiv.parser.DatasetsParser
 import com.sncf.fab.ppiv.utils.AppConf.REF_GARES
 import org.apache.spark.sql.types.LongType
 import org.apache.spark.sql.{Dataset, SQLContext}
-import java.nio.file.{Paths, Files}
+import java.nio.file.{Files, Paths}
+
+import org.apache.spark.SparkContext
 
 /**
   * Created by ELFI03951 on 12/07/2017.
@@ -18,8 +20,7 @@ object LoadData {
     val newNamesTgaTgd = Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard","null")
 
     // Test si le fichier existe
-    if(!Files.exists(Paths.get(path))) {
-
+    if(!checkIfFileExist(sqlContext.sparkContext,path )) {
       None
     }
 
@@ -63,6 +64,13 @@ object LoadData {
     // Parsing du CSV a l'intérieur d'un object ReferentielGare, conversion en dataset
     refGares.toDF().map(DatasetsParser.parseRefGares).toDS()
 
+  }
+
+  // Retourne true si le fichier existe
+  def checkIfFileExist(sc: SparkContext, path: String): Boolean ={
+    val conf = sc.hadoopConfiguration
+    val fs = org.apache.hadoop.fs.FileSystem.get(conf)
+    fs.exists(new org.apache.hadoop.fs.Path(path))
   }
 
 
