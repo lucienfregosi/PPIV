@@ -304,6 +304,7 @@ object BusinessConversion {
     else 0
   }
 
+  
   //fonction  qui renvoie 1 si  duree d'affichage >=44 minutes
   def geTaux_affichage_45(duree_affichage: Long): Int = {
     val dureeAffichage = TimeUnit.MILLISECONDS.toMinutes(duree_affichage * 1000)
