@@ -84,7 +84,7 @@ trait SourcePipeline extends Serializable {
 
     // On verifie si le fichier que l'on veut charger existe
     // S'il n'existe pas on sort car on ne peut rien faire pour ce cycle
-    if(!Files.exists(Paths.get(pathFileToLoad))) throw new IllegalArgumentException("File doesn't exist in HDFS")
+    if(Files.notExists(Paths.get(pathFileToLoad))) throw new IllegalArgumentException("File doesn't exist in HDFS")
 
     val dataTgaTgd                = LoadData.loadTgaTgd(sqlContext, pathFileToLoad)
     val dataRefGares              = LoadData.loadReferentiel(sqlContext)
