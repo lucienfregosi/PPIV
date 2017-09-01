@@ -90,6 +90,7 @@ object Postprocess {
         TimeUnit.MILLISECONDS.toMinutes(row.getLong(14) * 1000 ).toString
       )
 
+
       val v3 = NDerniersChamps(
         BusinessConversion.getQuaiDevoiement(row.getString(16)),
         BusinessConversion.getQuaiDevoiement(row.getString(17)),
