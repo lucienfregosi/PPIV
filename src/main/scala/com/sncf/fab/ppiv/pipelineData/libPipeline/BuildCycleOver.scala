@@ -16,6 +16,8 @@ import org.apache.spark.sql.hive.HiveContext
 import org.apache.spark.sql.types.LongType
 import org.apache.spark.storage.StorageLevel
 import org.joda.time.{DateTime, DateTimeZone}
+import java.nio.file.{Paths, Files}
+
 
 /**
   * Created by ELFI03951 on 12/07/2017.
@@ -95,9 +97,6 @@ object BuildCycleOver {
     val timestampLimiteCycleCommencant = Conversion.getTimestampWithLocalTimezone(heureLimiteCycleCommencant)
     val timestampLimiteCycleFini = Conversion.getTimestampWithLocalTimezone(heureLimiteCycleFini)
 
-    //println(timestampLimiteCycleCommencant)
-    //println(timestampLimiteCycleFini)
-   // println(dsTgaTgdCycles.filter(_.cycle_id.contains("LYD")).collectAsList().get(0).heure)
 
 
 
@@ -105,10 +104,8 @@ object BuildCycleOver {
     // On veut filtrer les cycles dont l'heure de départ est situé entre l'heure de début du traitement du batch et celle de fin
     val dataTgaTgdCycleOver = dsTgaTgdCycles
       // Filtre sur les cycles terminés après le début de la plage en intégrant le retard
-      // .filter( x => Conversion.unixTimestampToDateTime(x.heure).getMillis > heureLimiteCycleCommencant.getMillis || x.retard != "" && Conversion.unixTimestampToDateTime(x.heure).plusMinutes(x.retard.toInt).getMillis > heureLimiteCycleCommencant.getMillis)
        .filter( x => x.heure > timestampLimiteCycleCommencant || (x.retard != "" && (x.heure + x.retard.toInt * 60 > timestampLimiteCycleCommencant)))
       // Filtre sur les cycles terminés avant le début de la plage en intégrant le retard
-      //.filter( x => Conversion.unixTimestampToDateTime(x.heure).getMillis < heureLimiteCycleFini.getMillis || x.retard != "" && Conversion.unixTimestampToDateTime(x.heure).plusMinutes(x.retard.toInt).getMillis < heureLimiteCycleFini.getMillis)
        .filter( x => x.heure < timestampLimiteCycleFini || (x.retard != "" && (x.heure +x.retard.toInt *60 < timestampLimiteCycleFini)))
 
     dataTgaTgdCycleOver
@@ -147,6 +144,14 @@ object BuildCycleOver {
     else{
       pathAllFile = pathFileJ
     }
+
+    // On teste l'existence des fichiers
+    pathAllFile.map(
+      file =>
+        if(Files.exists(Paths.get(file))) file
+        else None
+    )
+
 
     val tgaTgdAllPerHour = pathAllFile.map( filePath => LoadData.loadTgaTgd(sqlContext, filePath.toString))
 

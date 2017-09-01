@@ -5,6 +5,7 @@ import com.sncf.fab.ppiv.parser.DatasetsParser
 import com.sncf.fab.ppiv.utils.AppConf.REF_GARES
 import org.apache.spark.sql.types.LongType
 import org.apache.spark.sql.{Dataset, SQLContext}
+import java.nio.file.{Paths, Files}
 
 /**
   * Created by ELFI03951 on 12/07/2017.
@@ -15,6 +16,12 @@ object LoadData {
 
     // Définition du nom de chacune des colonnes car on recoit les fichiers sans headers
     val newNamesTgaTgd = Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard","null")
+
+    // Test si le fichier existe
+    if(!Files.exists(Paths.get(path))) {
+
+      None
+    }
 
     // Lecture du CSV avec les bons noms de champs
     val dfTgaTgd = sqlContext.read

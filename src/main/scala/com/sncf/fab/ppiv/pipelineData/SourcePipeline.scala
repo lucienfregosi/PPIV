@@ -1,6 +1,8 @@
 package com.sncf.fab.ppiv.pipelineData
 
 
+import java.nio.file.{Files, Paths}
+
 import com.sncf.fab.ppiv.business._
 import com.sncf.fab.ppiv.parser.DatasetsParser
 import com.sncf.fab.ppiv.persistence.Persist
@@ -73,21 +75,18 @@ trait SourcePipeline extends Serializable {
     LOGGER.info("Lancement du pipeline pour les " + Panneau() + " pour la journée " + Conversion.getYearMonthDay(timeToProcess) +" et l'heure: " + Conversion.getHourDebutPlageHoraire(timeToProcess))
 
 
-    val theDateoOF29Aout =   Conversion.getDateTime(2017, 8, 29, 23, 0, 0)
-    val theDayOf29AoutTGA = BuildCycleOver.loadDataFullPeriod(sc, sqlContext, "TGA", theDateoOF29Aout)
-    val theDayOf29AoutTGD = BuildCycleOver.loadDataFullPeriod(sc, sqlContext, "TGD", theDateoOF29Aout)
-
-    val theDayOf29Aout = theDayOf29AoutTGA.union(theDayOf29AoutTGD)
-
-    val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
-    val dfHive = hiveContext.createDataFrame(theDayOf29Aout.toDF().rdd, theDayOf29Aout.toDF().schema)
-    dfHive.registerTempTable("temp")
-    hiveContext.sql("Create TABLE ppiv_ref.iv_tgatgdInput_6 as select * from temp")
-    System.exit(0)
 
     // 1) Chargement des fichiers déjà parsé dans leur classe
     LOGGER.info("1) Chargement des fichiers déjà parsé dans leur classe")
-    val dataTgaTgd                = LoadData.loadTgaTgd(sqlContext, getSource(timeToProcess))
+
+    // Test si le fichier existe
+    val pathFileToLoad = getSource(timeToProcess)
+
+    // On verifie si le fichier que l'on veut charger existe
+    // S'il n'existe pas on sort car on ne peut rien faire pour ce cycle
+    if(!Files.exists(Paths.get(pathFileToLoad))) throw new IllegalArgumentException("File doesn't exist in HDFS")
+
+    val dataTgaTgd                = LoadData.loadTgaTgd(sqlContext, pathFileToLoad)
     val dataRefGares              = LoadData.loadReferentiel(sqlContext)
     
 

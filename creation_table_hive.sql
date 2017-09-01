@@ -66,7 +66,7 @@ ROW FORMAT DELIMITED
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
 STORED AS TEXTFILE
-LOCATION '/data1/GARES/refinery/PPIV_PHASE2/hive/iv_tgatgd2'
+LOCATION '/data1/GARES/refinery/PPIV_PHASE2/hive/iv_tgatgd3'
 
 ALTER TABLE ppiv_ref.iv_tgatgd SET TBLPROPERTIES ('SASFMT:nom_de_la_gare'='CHAR(90)');
 ALTER TABLE ppiv_ref.iv_tgatgd SET TBLPROPERTIES ('SASFMT:agence'='CHAR(30)');
