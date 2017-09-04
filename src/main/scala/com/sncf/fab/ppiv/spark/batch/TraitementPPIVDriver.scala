@@ -51,24 +51,6 @@ object TraitementPPIVDriver extends Serializable {
       // Set du niveau de log pour ne pas être envahi par les messages
       sc.setLogLevel("ERROR")
 
-    /*
-      import org.joda.time.DateTime
-
-      import org.joda.time.format.DateTimeFormat
-      import org.joda.time.format.DateTimeFormatter
-      val formatter = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss")
-      val dt = formatter.parseDateTime("18/08/2017 00:30:00")
-
-
-      val dsTgaTgdAllDay = BuildCycleOver.loadDataFullPeriod(sc, sqlContext, "TGA", dt).toDF()
-
-      val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
-      val dfHive = hiveContext.createDataFrame(dsTgaTgdAllDay.rdd, dsTgaTgdAllDay.schema)
-      dfHive.registerTempTable("dataToSaveToHive")
-      hiveContext.sql("Create TABLE ppiv_ref.iv_tgatgdInput_2 as select * from dataToSaveToHive")
-
-      System.exit(0)
-    */
 
       // Sauvegarde de l'heure de début du programme dans une variable
       val startTimePipeline = Conversion.nowToDateTime()
