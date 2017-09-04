@@ -1,6 +1,7 @@
 package com.sncf.fab.ppiv.persistence
 import com.sncf.fab.ppiv.business.{TgaTgdInput, TgaTgdIntermediate, TgaTgdOutput}
 import com.sncf.fab.ppiv.pipelineData.TraitementTga
+import com.sncf.fab.ppiv.utils.GetHiveEnv
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.{DataFrame, Dataset, SQLContext, SaveMode}
 import org.apache.spark.sql.hive.HiveContext
@@ -20,27 +21,24 @@ object PersistHive extends Serializable {
     */
   def persisteQualiteAffichageHive(df: DataFrame, sc : SparkContext): Unit = {
     println("sauvegarde dans iv_tgatgd4")
-    val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
 
-    // Conf pour la gestion de l'insert dans une partition
-    hiveContext.setConf("hive.exec.dynamic.partition", "true")
-    hiveContext.setConf("hive.exec.dynamic.partition.mode", "nonstrict")
+    val hiveContext = GetHiveEnv.getHiveContext(sc)
     val dfHive = hiveContext.createDataFrame(df.rdd, df.schema)
     dfHive.registerTempTable("dataToSaveToHive")
     hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgd4 PARTITION (nom_de_la_gare,mois) select * from dataToSaveToHive")
   }
 
   def persisteRejectFeield(ds: Dataset[TgaTgdInput], sc : SparkContext): Unit = {
-    val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
+    val hiveContext = GetHiveEnv.getHiveContext(sc)
     val dfHiveField = hiveContext.createDataFrame(ds.toDF().rdd, ds.toDF().schema)
     dfHiveField.registerTempTable("rejetField")
     hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgd_rejet_field select * from rejetField")
   }
 
   def persisteRejectCycle(ds: Dataset[TgaTgdIntermediate], sc : SparkContext): Unit = {
-    val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
+    val hiveContext = GetHiveEnv.getHiveContext(sc)
     val dfHiveCycle = hiveContext.createDataFrame(ds.toDF().rdd, ds.toDF().schema)
-    println("Nb of cycles non valides : "+ dfHiveCycle.count())
+    dfHiveCycle.registerTempTable("rejetCycle")
     hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgd_rejet_cycle select * from rejetCycle")
 
   }

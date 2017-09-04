@@ -7,7 +7,7 @@ import com.sncf.fab.ppiv.persistence._
 import com.sncf.fab.ppiv.pipelineData.{SourcePipeline, TraitementTga, TraitementTgd}
 import org.apache.log4j.Logger
 import com.sncf.fab.ppiv.utils.AppConf._
-import com.sncf.fab.ppiv.utils.{Conversion, GetSparkEnv}
+import com.sncf.fab.ppiv.utils.{Conversion, GetHiveEnv, GetSparkEnv}
 import org.apache.spark.sql.SQLContext
 import org.apache.spark.{SparkConf, SparkContext}
 import org.joda.time.{DateTime, Duration}
