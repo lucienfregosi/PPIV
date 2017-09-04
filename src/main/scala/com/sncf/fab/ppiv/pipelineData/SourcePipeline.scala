@@ -69,7 +69,7 @@ trait SourcePipeline extends Serializable {
   def Panneau(): String
 
   // Lancement du pipeline de traitement soit les TGA ou les TGD
-  def start(sc : SparkContext, sqlContext : SQLContext, timeToProcess: DateTime): DataFrame = {
+  def start(sc : SparkContext, sqlContext : SQLContext, hiveContext: HiveContext, timeToProcess: DateTime): DataFrame = {
 
     import sqlContext.implicits._
 
@@ -129,16 +129,10 @@ trait SourcePipeline extends Serializable {
     val cycleInvalidated = dsIvTgaTgdWithoutReferentiel.toDF().filter($"cycleId".contains("INV_")).as[TgaTgdIntermediate]
     val cycleValidated    = dsIvTgaTgdWithoutReferentiel.toDF().filter(not($"cycleId".contains("INV_"))).as[TgaTgdIntermediate]
 
-
-    //println("nombre cycle invalidé : " + cycleInvalidated.count())
-    //println("nombre cycle validé : " + cycleValidated.count())
-
-
-
     
     // Enregistrement des rejets (champs et cycles)
-   // Reject.saveFieldRejected(dataTgaTgdFielRejected, sc, timeToProcess, Panneau())
-    //Reject.saveCycleRejected(cycleInvalidated, sc, timeToProcess, Panneau())
+    Reject.saveFieldRejected(dataTgaTgdFielRejected, sc, hiveContext, timeToProcess, Panneau())
+    Reject.saveCycleRejected(cycleInvalidated, sc, hiveContext, timeToProcess, Panneau())
 
 
     // 9) Sauvegarde des données propres

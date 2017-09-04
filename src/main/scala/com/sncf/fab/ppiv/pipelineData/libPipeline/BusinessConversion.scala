@@ -140,6 +140,9 @@ object BusinessConversion {
   def getTauxAffichage(duree_affichage: Long): Int = {
     //TODO  if duree_affichage is gretaer that 20 then 1 else 0
     val dureeAffichage = Conversion.getMinutesRounded(duree_affichage * 1000)
+
+    println(dureeAffichage)
+
     if (dureeAffichage >= 19) 1
     else 0
   }

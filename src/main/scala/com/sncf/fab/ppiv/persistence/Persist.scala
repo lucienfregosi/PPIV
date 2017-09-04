@@ -4,16 +4,17 @@ import com.sncf.fab.ppiv.pipelineData.TraitementTga
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.{DataFrame, Dataset}
 import com.sncf.fab.ppiv.utils.AppConf._
+import org.apache.spark.sql.hive.HiveContext
 import org.joda.time.DateTime
 /**
   * Created by ELFI03951 on 12/07/2017.
   */
 // TODO: Améliorer ca avec un switch
 object Persist {
-  def save(ivTgaTgd: DataFrame, persistMethod: String, sc: SparkContext, startTimePipeline: DateTime) : Unit ={
+  def save(ivTgaTgd: DataFrame, persistMethod: String, sc: SparkContext, startTimePipeline: DateTime, hiveContext: HiveContext) : Unit ={
     // Persistance dans Hive
     if (persistMethod.contains("hive"))
-      PersistHive.persisteQualiteAffichageHive(ivTgaTgd, sc)
+      PersistHive.persisteQualiteAffichageHive(ivTgaTgd, sc, hiveContext)
     // Persistance dans HDFS
     if (persistMethod.contains("hdfs"))
       PersistHdfs.persisteQualiteAffichageIntoHdfs(ivTgaTgd, TraitementTga.getOutputRefineryPath(startTimePipeline))
