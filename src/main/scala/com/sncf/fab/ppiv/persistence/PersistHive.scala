@@ -21,6 +21,10 @@ object PersistHive extends Serializable {
   def persisteQualiteAffichageHive(df: DataFrame, sc : SparkContext): Unit = {
     println("sauvegarde dans iv_tgatgd4")
     val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
+
+    // Conf pour la gestion de l'insert dans une partition
+    hiveContext.setConf("hive.exec.dynamic.partition", "true")
+    hiveContext.setConf("hive.exec.dynamic.partition.mode", "nonstrict")
     val dfHive = hiveContext.createDataFrame(df.rdd, df.schema)
     dfHive.registerTempTable("dataToSaveToHive")
     hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgd4 PARTITION (nom_de_la_gare,mois) select * from dataToSaveToHive")
