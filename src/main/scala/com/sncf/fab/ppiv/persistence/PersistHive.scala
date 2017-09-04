@@ -26,6 +26,7 @@ object PersistHive extends Serializable {
     val dfHive = hiveContext.createDataFrame(df.rdd, df.schema)
     dfHive.registerTempTable("dataToSaveToHive")
     hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgd4 PARTITION (nom_de_la_gare,mois) select * from dataToSaveToHive")
+
   }
 
   def persisteRejectFeield(ds: Dataset[TgaTgdInput], sc : SparkContext): Unit = {
