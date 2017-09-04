@@ -137,7 +137,7 @@ trait SourcePipeline extends Serializable {
 
 
 
-    
+
     // Enregistrement des rejets (champs et cycles)
    // Reject.saveFieldRejected(dataTgaTgdFielRejected, sc, timeToProcess, Panneau())
     //Reject.saveCycleRejected(cycleInvalidated, sc, timeToProcess, Panneau())
