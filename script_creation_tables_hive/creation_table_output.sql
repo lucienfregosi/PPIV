@@ -62,7 +62,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS ppiv_ref.iv_tgatgd4(
                             taux_affichage_15 Int,
                             taux_affichage2_15 Int
 )
-PARTITIONED BY(nom_de_la_gare STRING)
+PARTITIONED BY(nom_de_la_gare STRING, mois String)
 ROW FORMAT DELIMITED
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
