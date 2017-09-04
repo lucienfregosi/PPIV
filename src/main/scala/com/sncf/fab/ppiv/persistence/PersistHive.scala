@@ -35,7 +35,7 @@ object PersistHive extends Serializable {
   def persisteRejectCycle(ds: Dataset[TgaTgdIntermediate], sc : SparkContext): Unit = {
     val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
     val dfHiveCycle = hiveContext.createDataFrame(ds.toDF().rdd, ds.toDF().schema)
-    println("Nb de cycles non valides : "+ dfHiveCycle.count())
+    dfHiveCycle.registerTempTable("rejetCycle")
     hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgd_rejet_cycle select * from rejetCycle")
 
   }
