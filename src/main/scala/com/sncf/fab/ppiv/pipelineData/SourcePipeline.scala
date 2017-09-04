@@ -128,17 +128,16 @@ trait SourcePipeline extends Serializable {
     LOGGER.info("8) Filtre sur les cycles invalidés et enregistrement des rejets")
     val cycleInvalidated = dsIvTgaTgdWithoutReferentiel.toDF().filter($"cycleId".contains("INV_")).as[TgaTgdIntermediate]
     val cycleValidated    = dsIvTgaTgdWithoutReferentiel.toDF().filter(not($"cycleId".contains("INV_"))).as[TgaTgdIntermediate]
-
-    cycleInvalidated.persist()
-    cycleValidated.persist()
+    
 
     //println("nombre cycle invalidé : " + cycleInvalidated.count())
     //println("nombre cycle validé : " + cycleValidated.count())
 
 
 
+    
     // Enregistrement des rejets (champs et cycles)
-    //Reject.saveFieldRejected(dataTgaTgdFielRejected, sc, timeToProcess, Panneau())
+   // Reject.saveFieldRejected(dataTgaTgdFielRejected, sc, timeToProcess, Panneau())
     //Reject.saveCycleRejected(cycleInvalidated, sc, timeToProcess, Panneau())
 
 

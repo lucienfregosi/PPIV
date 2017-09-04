@@ -1,5 +1,5 @@
 package com.sncf.fab.ppiv.persistence
-import com.sncf.fab.ppiv.business.{TgaTgdInput, TgaTgdOutput}
+import com.sncf.fab.ppiv.business.{TgaTgdInput, TgaTgdIntermediate, TgaTgdOutput}
 import com.sncf.fab.ppiv.pipelineData.TraitementTga
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.{DataFrame, Dataset, SQLContext, SaveMode}
@@ -23,5 +23,20 @@ object PersistHive extends Serializable {
     val dfHive = hiveContext.createDataFrame(df.rdd, df.schema)
     dfHive.registerTempTable("dataToSaveToHive")
     hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgd3 select * from dataToSaveToHive")
+  }
+
+  def persisteRejectFeield(ds: Dataset[TgaTgdInput], sc : SparkContext): Unit = {
+    val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
+    val dfHiveField = hiveContext.createDataFrame(ds.toDF().rdd, ds.toDF().schema)
+    dfHiveField.registerTempTable("rejetField")
+    hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgd_rejet_field select * from rejetField")
+  }
+
+  def persisteRejectCycle(ds: Dataset[TgaTgdIntermediate], sc : SparkContext): Unit = {
+    val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
+    val dfHiveCycle = hiveContext.createDataFrame(ds.toDF().rdd, ds.toDF().schema)
+    println("Nb of cycles non valides : "+ dfHiveCycle.count())
+    hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgd_rejet_cycle select * from rejetCycle")
+
   }
 }
