@@ -22,7 +22,7 @@ object PersistHive extends Serializable {
     val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
     val dfHive = hiveContext.createDataFrame(df.rdd, df.schema)
     dfHive.registerTempTable("dataToSaveToHive")
-    hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgd3 select * from dataToSaveToHive")
+    hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgd4 select * from dataToSaveToHive")
   }
 
   def persisteRejectFeield(ds: Dataset[TgaTgdInput], sc : SparkContext): Unit = {
