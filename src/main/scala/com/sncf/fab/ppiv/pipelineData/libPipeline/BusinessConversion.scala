@@ -78,13 +78,13 @@ object BusinessConversion {
   def getDelai_affichage_voie_sans_retard(timestamp: Long): String = {
 
     // On souhaite le format H(+ ou -)XXX avec XXX le nombre de minutes ou il est resté affiché
-    if(timestamp < 0) "H+"+ TimeUnit.MILLISECONDS.toMinutes(timestamp.abs * 1000)
-    else "H-"+ TimeUnit.MILLISECONDS.toMinutes(timestamp * 1000)
+    if(timestamp <= 0) "H+"+ Conversion.getMinutesRounded(timestamp.abs * 1000)
+    else "H-"+ Conversion.getMinutesRounded(timestamp * 1000)
   }
 
   //fonction qui renvoie une segmentation de  la durée de l'affichage
   def getDuree_temps_affichage(timestamp: Long): String = {
-    val duree_temps_affichage = TimeUnit.MILLISECONDS.toMinutes(timestamp * 1000)
+    val duree_temps_affichage = Conversion.getMinutesRounded(timestamp * 1000)
 
     if (duree_temps_affichage <0) {
       "Voie affichée après ARR/DEP"
@@ -139,7 +139,7 @@ object BusinessConversion {
   //fonction  qui renvoie 1 si  duree d'affichage >=19 minutes
   def getTauxAffichage(duree_affichage: Long): Int = {
     //TODO  if duree_affichage is gretaer that 20 then 1 else 0
-    val dureeAffichage = TimeUnit.MILLISECONDS.toMinutes(duree_affichage * 1000)
+    val dureeAffichage = Conversion.getMinutesRounded(duree_affichage * 1000)
     if (dureeAffichage >= 19) 1
     else 0
   }
@@ -247,15 +247,15 @@ object BusinessConversion {
   //fonction qui renvoie "H" concaténé au Délai où le train est resté affiché avant son départ réel (en minutes)
   def getDelai_affichage_voie_avec_retard(timestamp: Long): String = {
 
-    if(timestamp < 0) "H+"+ TimeUnit.MILLISECONDS.toMinutes(timestamp.abs * 1000)
-    else "H-"+ TimeUnit.MILLISECONDS.toMinutes(timestamp * 1000)
+    if(timestamp <= 0) "H+"+ Conversion.getMinutesRounded(timestamp.abs * 1000)
+    else "H-"+ Conversion.getMinutesRounded(timestamp * 1000)
 
   }
 
 
   // fonction qui renvoie l'intervalle de temps du délai d'affichage de la voie avant le départ réel
   def getDuree_temps_affichage2(timestamp: Long): String = {
-    val duree_temps_affichage2 = TimeUnit.MILLISECONDS.toMinutes(timestamp * 1000)
+    val duree_temps_affichage2 = Conversion.getMinutesRounded(timestamp * 1000)
 
     if (duree_temps_affichage2 < 0) {
       "Voie affichée après ARR/DEP"
@@ -264,7 +264,7 @@ object BusinessConversion {
       "[0-5]"
     }
     else if (duree_temps_affichage2 > 5 && duree_temps_affichage2 <= 10) {
-      "[5-10]"
+      "[05-10]"
     }
     else if (duree_temps_affichage2 > 10 && duree_temps_affichage2 <= 20) {
       "[10-20]"
@@ -292,14 +292,14 @@ object BusinessConversion {
 
   // fonction qui renvoie "H" concaténe au Délai où le train est resté affiché avant son départ réel
   def getDelai_affichage_duree_retard(timestamp: Long): String = {
-    if (timestamp == 0) ""
-    else "H+" + TimeUnit.MILLISECONDS.toMinutes(timestamp * 1000)
+    if(timestamp <= 0) "H+"+ Conversion.getMinutesRounded(timestamp.abs * 1000)
+    else "H-"+ Conversion.getMinutesRounded(timestamp * 1000)
 
   }
 
   //fonction  qui renvoie 1 si  duree d'affichage >=29 minutes
   def geTaux_affichage_30(duree_affichage: Long): Int = {
-    val dureeAffichage = TimeUnit.MILLISECONDS.toMinutes(duree_affichage * 1000)
+    val dureeAffichage = Conversion.getMinutesRounded(duree_affichage * 1000)
     if (dureeAffichage >= 29) 1
     else 0
   }
@@ -307,14 +307,14 @@ object BusinessConversion {
   
   //fonction  qui renvoie 1 si  duree d'affichage >=44 minutes
   def geTaux_affichage_45(duree_affichage: Long): Int = {
-    val dureeAffichage = TimeUnit.MILLISECONDS.toMinutes(duree_affichage * 1000)
+    val dureeAffichage = Conversion.getMinutesRounded(duree_affichage * 1000)
     if (dureeAffichage >= 44) 1
     else 0
   }
 
   //fonction  qui renvoie 1 si  duree d'affichage >=14 minutes
   def geTaux_affichage_15(duree_affichage: Long): Int = {
-    val dureeAffichage = TimeUnit.MILLISECONDS.toMinutes(duree_affichage * 1000)
+    val dureeAffichage = Conversion.getMinutesRounded(duree_affichage * 1000)
     if (dureeAffichage >= 14) 1
     else 0
   }
@@ -351,14 +351,13 @@ object BusinessConversion {
   //fonction quirenvoie Affichage duree retard en minutes
   def getAffichage_duree_retard_minutes(timestamp: Long): Int = {
     if (timestamp == 0) 0
-    else TimeUnit.MILLISECONDS.toMinutes(timestamp * 1000).toInt
+    else Conversion.getMinutesRounded(timestamp.abs * 1000).toInt
   }
 
   //fonction qui foramte Delai_affichage_etat_train_avant_depart_arrive en HHmmss
   def getDelai_affichage_etat_train_avant_depart_arrive(timestamp: Long): String = {
-    if (timestamp == 0) ""
-    else Conversion.getHHmmssFromMillis(timestamp)
-
+    if(timestamp <= 0) "H+"+ Conversion.getMinutesRounded(timestamp.abs * 1000)
+    else "H-"+ Conversion.getMinutesRounded(timestamp.abs * 1000)
   }
 
 
