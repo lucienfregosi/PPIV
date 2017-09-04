@@ -37,6 +37,6 @@ object PersistHive extends Serializable {
     val dfHive = hiveContext.createDataFrame(ds.toDF().rdd, ds.toDF().schema)
     dfHive.registerTempTable("rejetCycle")
     hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgd_rejet_cycle select * from rejetCycle")
-    
+
   }
 }
