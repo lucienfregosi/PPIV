@@ -89,7 +89,8 @@ trait SourcePipeline extends Serializable {
 
     val dataTgaTgd                = LoadData.loadTgaTgd(sqlContext, pathFileToLoad)
 
-    println ( " Nombre de ligne dans le fichier input est : " +dataTgaTgd.count() )
+    //To_REMOVE
+    println ( " Nombre de ligne dans le fichier input est : " + dataTgaTgd.count() )
 
     val dataRefGares              = LoadData.loadReferentiel(sqlContext)
     
