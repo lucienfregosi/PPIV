@@ -11,7 +11,7 @@ object GetSparkEnv {
   def getSparkConf() : SparkConf = {
     new SparkConf()
       .setAppName(PPIV)
-      .setMaster(SPARK_MASTER)
+     // .setMaster(SPARK_MASTER)
       .set("es.nodes", HOST)
       .set("es.port", PORT)
       .set("es.index.auto.create", "true")
