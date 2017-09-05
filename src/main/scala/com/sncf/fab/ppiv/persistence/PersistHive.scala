@@ -23,22 +23,22 @@ object PersistHive extends Serializable {
 
     val dfHive = hiveContext.createDataFrame(df.rdd, df.schema)
     dfHive.registerTempTable("dataToSaveToHive")
-    hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgdtest  select * from dataToSaveToHive")
-//PARTITION (nom_de_la_gare,mois)
+    hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgd5 PARTITION (nom_de_la_gare,mois) select * from dataToSaveToHive")
+
   }
 
   def persisteRejectFeield(ds: Dataset[TgaTgdInput], sc : SparkContext, hiveContext: HiveContext): Unit = {
 
     val dfHiveField = hiveContext.createDataFrame(ds.toDF().rdd, ds.toDF().schema)
     dfHiveField.registerTempTable("rejetField")
-    hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgd_rejet_field_test select * from rejetField")
+    hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgd_rejet_field select * from rejetField")
   }
 
   def persisteRejectCycle(ds: Dataset[TgaTgdIntermediate], sc : SparkContext, hiveContext: HiveContext): Unit = {
 
     val dfHiveCycle = hiveContext.createDataFrame(ds.toDF().rdd, ds.toDF().schema)
     dfHiveCycle.registerTempTable("rejetCycle")
-    hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgd_rejet_cycle_test select * from rejetCycle")
+    hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgd_rejet_cycle select * from rejetCycle")
 
   }
 }
