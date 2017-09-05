@@ -17,9 +17,9 @@ CREATE EXTERNAL TABLE IF NOT EXISTS ppiv_ref.iv_tgatgd_rejet_cycle(
                               dernier_quai_affiche String,
                               type_devoiement String,
                               type_devoiement2 String,
-                              type_devoiement3String,
+                              type_devoiement3 String,
                               type_devoiement4 String,
-                              dernier_affichage: BIGINT,
+                              dernier_affichage BIGINT,
                               date_process BIGINT
 )
 ROW FORMAT DELIMITED

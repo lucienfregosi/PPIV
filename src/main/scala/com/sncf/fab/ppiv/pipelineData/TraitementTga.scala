@@ -10,7 +10,9 @@ import org.joda.time.DateTime
 class TraitementTga extends SourcePipeline {
 
 
-  override def getSource(timeToProcess: DateTime) = LANDING_WORK  + Conversion.getYearMonthDay(timeToProcess) + "/TGA-" + Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.getHourDebutPlageHoraire(timeToProcess) + ".csv"
+  //override def getSource(timeToProcess: DateTime) = LANDING_WORK  + Conversion.getYearMonthDay(timeToProcess) + "/TGA-" + Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.getHourDebutPlageHoraire(timeToProcess) + ".csv"
+ val pathToTestFile = "/data1/GARES/refinery/PPIV_PHASE2/RessourcesTest/"
+  override def getSource(timeToProcess: DateTime) = pathToTestFile + Conversion.getYearMonthDay(timeToProcess) + "/TGA-" + Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.getHourDebutPlageHoraire(timeToProcess) + ".csv"
 
   override def getOutputGoldPath(timeToProcess: DateTime) = GOLD + Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.getHourDebutPlageHoraire(timeToProcess) + ".csv"
 
