@@ -82,7 +82,7 @@ trait SourcePipeline extends Serializable {
 
     // Test si le fichier existe
     val pathFileToLoad = getSource(timeToProcess)
-
+ println(  "the path to onpit file is" + pathFileToLoad  )
     // On verifie si le fichier que l'on veut charger existe
     // S'il n'existe pas on sort car on ne peut rien faire pour ce cycle
     if(!LoadData.checkIfFileExist(sc,pathFileToLoad)) throw new IllegalArgumentException("File doesn't exist in HDFS")
