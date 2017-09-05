@@ -40,23 +40,13 @@ object BuildCycleOver {
     // On renvoie le même format de données (cycle_id{gare,panneau,numeroTrain,heureDepart}, heureDepart, retard)
     val cycleIdListOver = filterCycleOver(cycleIdList, sqlContext, timeToProcess)
 
-    //TO_REMOVE
-    print("level 2 : "+ cycleIdListOver.count())
 
-
-    //TO_REMOVE
     //Load les evenements  du jour j. Le 5ème paramètre sert a définir la journée qui nous intéresse 0 = jour J
-    val tgaTgdRawToDay = loadDataFullPeriod(sc, sqlContext, panneau, timeToProcess).union(dsTgaTgdInput)
-
-    //TO_REMOVE
-    print("level 3 : "+ tgaTgdRawToDay.count())
+    val tgaTgdRawToDay = loadDataFullPeriod(sc, sqlContext, panneau, timeToProcess)
 
     // Pour chaque cycle terminé récupération des différents évènements au cours de la journée
     // sous la forme d'une structure (cycle_id | Array(TgaTgdInput)
     val tgaTgdCycleOver = getEventCycleId(tgaTgdRawToDay, cycleIdListOver, sqlContext, sc, panneau)
-
-    //TO_REMOVE
-    print("level 4 : "+ tgaTgdCycleOver.count())
 
     tgaTgdCycleOver
   }

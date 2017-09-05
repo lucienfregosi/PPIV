@@ -88,10 +88,6 @@ trait SourcePipeline extends Serializable {
     if(!LoadData.checkIfFileExist(sc,pathFileToLoad)) throw new IllegalArgumentException("File doesn't exist in HDFS")
 
     val dataTgaTgd                = LoadData.loadTgaTgd(sqlContext, pathFileToLoad)
-
-    //To_REMOVE
-    println ( " Nombre de ligne dans le fichier input est : " + dataTgaTgd.count() )
-
     val dataRefGares              = LoadData.loadReferentiel(sqlContext)
     
 
