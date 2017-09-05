@@ -108,12 +108,12 @@ object TraitementPPIVDriver extends Serializable {
     val persistMethod = argsArray(0)
 
     val ivTga = TraitementTga.start(sc, sqlContext, hiveContext, dateTimeToProcess)
-    val ivTgd = TraitementTgd.start(sc, sqlContext, hiveContext, dateTimeToProcess)
+    //val ivTgd = TraitementTgd.start(sc, sqlContext, hiveContext, dateTimeToProcess)
 
     // 11) Fusion des résultats de TGA et TGD
     LOGGER.info("11) Fusion des résultats entre TGA et TGD")
-    val ivTgaTgd = ivTga.unionAll(ivTgd)
-
+   // val ivTgaTgd = ivTga.unionAll(ivTgd)
+    val ivTgaTgd = ivTga
 
     try {
       // 12) Persistence dans la méthode demandée (hdfs, hive, es, fs)
