@@ -57,10 +57,7 @@ node {
         """
     }
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 3ac1d83b30be64d5f6e7e4ba08b1969f74f96d24
 
     // Launch Spark Submit with the JAR
     stage('Launch Spark Submit') {
