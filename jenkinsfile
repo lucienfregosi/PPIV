@@ -8,6 +8,7 @@ node {
    git url: 'git@candelo.socrate.vsct.fr:PPIV_team/PPIV.git', branch: 'NewBranchK'
 
 
+
     //Cleaning stage
     stage('Cleanup') {
        sh "sbt clean compile"

@@ -24,7 +24,7 @@ class TraitementTga extends SourcePipeline {
 
   override def Panneau() : String = "TGA"
 
-  
+
 }
 
 object TraitementTga extends TraitementTga
