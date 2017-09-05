@@ -12,6 +12,7 @@ class TraitementTga extends SourcePipeline {
 
  // override def getSource(timeToProcess: DateTime) = LANDING_WORK  + Conversion.getYearMonthDay(timeToProcess) + "/TGA-" + Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.getHourDebutPlageHoraire(timeToProcess) + ".csv"
 
+  //TO_REMOVE
   val pathToTestFile = "hdfs:/data1/GARES/refinery/PPIV_PHASE2/RessourcesTest/"
 
   override def getSource(timeToProcess: DateTime) = pathToTestFile + Conversion.getYearMonthDay(timeToProcess) + "/TGA-" + Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.getHourDebutPlageHoraire(timeToProcess) + ".csv"

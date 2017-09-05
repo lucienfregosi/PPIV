@@ -43,8 +43,10 @@ object BuildCycleOver {
     //TO_REMOVE
     print("level 2 : "+ cycleIdListOver.count())
 
+
+    //TO_REMOVE
     //Load les evenements  du jour j. Le 5ème paramètre sert a définir la journée qui nous intéresse 0 = jour J
-    val tgaTgdRawToDay = loadDataFullPeriod(sc, sqlContext, panneau, timeToProcess)
+    val tgaTgdRawToDay = loadDataFullPeriod(sc, sqlContext, panneau, timeToProcess, dsTgaTgdInput)
 
     //TO_REMOVE
     print("level 3 : "+ tgaTgdRawToDay.count())
@@ -129,7 +131,8 @@ object BuildCycleOver {
   def loadDataFullPeriod(sc: SparkContext,
                          sqlContext: SQLContext,
                          panneau: String,
-                         timeToProcess: DateTime): Dataset[TgaTgdInput] = {
+                         timeToProcess: DateTime,
+                         DataToTest:Dataset[TgaTgdInput]): Dataset[TgaTgdInput] = {
 
 
     // Il me faut une liste de Path de 18h a J-1 à l'heure actuelle de j
@@ -167,11 +170,14 @@ object BuildCycleOver {
     val tgaTgdAllPerHour = pathAllFile.map( filePath => LoadData.loadTgaTgd(sqlContext, filePath.toString))
 
     // Fusion des datasets entre eux
-    val tgaTgdAllPeriod= tgaTgdAllPerHour.reduce((x, y) => x.union(y))
+    val tgaTgdAllPeriod1= tgaTgdAllPerHour.reduce((x, y) => x.union(y))
+
+    //TO_REMOVE
+    val tgaTgdAllPeriod2 = tgaTgdAllPeriod1.union(DataToTest)
     // On applique le sparadrap si besoin
     val tgaTgdStickingPlaster = if (STICKING_PLASTER == true) {
-      Preprocess.applyStickingPlaster(tgaTgdAllPeriod, sqlContext)
-    } else tgaTgdAllPeriod
+      Preprocess.applyStickingPlaster(tgaTgdAllPeriod2, sqlContext)
+    } else tgaTgdAllPeriod2
     // On applique la validation
     val tgaTgdValidated = ValidateData.validateField(tgaTgdStickingPlaster, sqlContext)
     // Retour des fichiers validés
