@@ -7,12 +7,13 @@ import com.sncf.fab.ppiv.persistence._
 import com.sncf.fab.ppiv.pipelineData.{SourcePipeline, TraitementTga, TraitementTgd}
 import org.apache.log4j.Logger
 import com.sncf.fab.ppiv.utils.AppConf._
-import com.sncf.fab.ppiv.utils.{Conversion, GetSparkEnv}
+import com.sncf.fab.ppiv.utils.{Conversion, GetHiveEnv, GetSparkEnv}
 import org.apache.spark.sql.SQLContext
 import org.apache.spark.{SparkConf, SparkContext}
 import org.joda.time.{DateTime, Duration}
 import org.slf4j.LoggerFactory
 import com.sncf.fab.ppiv.pipelineData.libPipeline._
+import org.apache.spark.sql.hive.HiveContext
 
 /**
 //  * Created by simoh-labdoui on 11/05/2017.
@@ -47,28 +48,11 @@ object TraitementPPIVDriver extends Serializable {
       // Définition du Spark Context et SQL Context à partir de utils/GetSparkEnv
       val sc         = GetSparkEnv.getSparkContext()
       val sqlContext = GetSparkEnv.getSqlContext()
+      val hiveContext = GetHiveEnv.getHiveContext(sc)
 
       // Set du niveau de log pour ne pas être envahi par les messages
       sc.setLogLevel("ERROR")
 
-    /*
-      import org.joda.time.DateTime
-
-      import org.joda.time.format.DateTimeFormat
-      import org.joda.time.format.DateTimeFormatter
-      val formatter = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss")
-      val dt = formatter.parseDateTime("18/08/2017 00:30:00")
-
-
-      val dsTgaTgdAllDay = BuildCycleOver.loadDataFullPeriod(sc, sqlContext, "TGA", dt).toDF()
-
-      val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
-      val dfHive = hiveContext.createDataFrame(dsTgaTgdAllDay.rdd, dsTgaTgdAllDay.schema)
-      dfHive.registerTempTable("dataToSaveToHive")
-      hiveContext.sql("Create TABLE ppiv_ref.iv_tgatgdInput_2 as select * from dataToSaveToHive")
-
-      System.exit(0)
-    */
 
       // Sauvegarde de l'heure de début du programme dans une variable
       val startTimePipeline = Conversion.nowToDateTime()
@@ -77,7 +61,7 @@ object TraitementPPIVDriver extends Serializable {
       if(args.length == 1){
         //  - 1 seul et unique argument valide (hive, hdfs, es, fs) -> Nominal : Lancement automatique du batch sur l'heure n-1
         LOGGER.info("Lancement automatique du batch sur l'heure n-1")
-        startPipeline(args, sc, sqlContext, startTimePipeline)
+        startPipeline(args, sc, sqlContext, hiveContext, startTimePipeline)
       }
       else if(Conversion.validateDateInputFormat(args(1)) == true && Conversion.validateDateInputFormat(args(2)) == true){
         //  - 3 arguments (persistance, date début, date fin) et dates valides -> Lancement du batch sur la période spécifié
@@ -104,7 +88,7 @@ object TraitementPPIVDriver extends Serializable {
           LOGGER.info("Lancement du Pipeline pour la date/Time: " + newDateTime.toString())
 
           // Lancement du pipeline pour l'heure demandé
-          startPipeline(args, sc, sqlContext, newDateTime)
+          startPipeline(args, sc, sqlContext, hiveContext, newDateTime)
         }
       }
       else{
@@ -116,15 +100,15 @@ object TraitementPPIVDriver extends Serializable {
   }
 
   // Fonction appelé pour le déclenchement d'un pipeline complet pour une heure donnée
-  def startPipeline(argsArray: Array[String], sc: SparkContext, sqlContext: SQLContext, dateTimeToProcess: DateTime): Unit = {
+  def startPipeline(argsArray: Array[String], sc: SparkContext, sqlContext: SQLContext, hiveContext: HiveContext, dateTimeToProcess: DateTime): Unit = {
 
     import sqlContext.implicits._
 
     // Récupération argument d'entrées, la méthode de persistance
     val persistMethod = argsArray(0)
 
-    val ivTga = TraitementTga.start(sc, sqlContext, dateTimeToProcess)
-    val ivTgd = TraitementTgd.start(sc, sqlContext, dateTimeToProcess)
+    val ivTga = TraitementTga.start(sc, sqlContext, hiveContext, dateTimeToProcess)
+    val ivTgd = TraitementTgd.start(sc, sqlContext, hiveContext, dateTimeToProcess)
 
     // 11) Fusion des résultats de TGA et TGD
     LOGGER.info("11) Fusion des résultats entre TGA et TGD")
@@ -135,7 +119,7 @@ object TraitementPPIVDriver extends Serializable {
       // 12) Persistence dans la méthode demandée (hdfs, hive, es, fs)
       LOGGER.info("12) Persistence dans la méthode demandée (hdfs, hive, es, fs)")
 
-      Persist.save(ivTgaTgd, persistMethod, sc, dateTimeToProcess)
+      Persist.save(ivTgaTgd, persistMethod, sc, dateTimeToProcess, hiveContext)
     }
     catch {
       case e: Throwable => {

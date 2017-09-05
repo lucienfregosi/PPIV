@@ -226,7 +226,7 @@ object Conversion {
         "-" + HH + ":" + mm + ":" + ss
       }
 
-    } else ""
+    } else "00:00:00"
   }
 
   def getYYYYmmdd(timestamp: Long): String = {
@@ -265,6 +265,14 @@ object Conversion {
     val tz     = DateTimeZone.forID("Europe/Paris")
     val offset = tz.getOffset(dateTime.getMillis)
     (dateTime.getMillis   - offset) / 1000
+  }
+
+  def getMinutesRounded(timestamp: Long) : Long = {
+    val minutes  = TimeUnit.MILLISECONDS.toMinutes(timestamp )
+    val secondes  = TimeUnit.MILLISECONDS.toSeconds(timestamp )
+
+    // On fait l'arrondi si il y a plus de 60 secondes
+    if (secondes > 30) minutes + 1 else minutes
   }
 
 }

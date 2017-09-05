@@ -57,14 +57,20 @@ node {
         """
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3ac1d83b30be64d5f6e7e4ba08b1969f74f96d24
 
     // Launch Spark Submit with the JAR
     stage('Launch Spark Submit') {
         def version = sh returnStdout: true, script: "export http_proxy= && export https_proxy= &&  curl --silent 'http://rogno.socrate.vsct.fr:60090/service/local/lucene/search?g=ppiv&a=ppiv_2.10&repositoryId=snapshots' | sed -n 's|<latestSnapshot>\\(.*\\)</latestSnapshot>|\\1|p' | sed -e 's/^[ \\t]*//' | tail -1 | tr -d '\n' "
         sh """
            ssh -t -t hdpppip1@cuccaro kinit -kt ppiv-dev.keytab ppiv_phase2_dev@SNB.SOCRATE.VSCT.FR
-                      ssh -t -t hdpppip1@cuccaro eval "cd DEV; spark-submit --class com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver --master yarn-client --files /usr/hdp/current/hive-client/conf/hive-site.xml --conf spark.executor.extraJavaOptions='-Dlog4j.configuration=file:///export/appl/hdpppip1/DEV/log4j.properties' --conf spark.driver.extraJavaOptions='-Dlog4j.configuration=file:///export/appl/hdpppip1/DEV/log4j.properties' --num-executors 2  --driver-memory 2g --executor-memory 12g --jars mylibs/commons-csv-1.4.jar,mylibs/spark-csv_2.10-1.2.0.jar,mylibs/univocity-parsers-1.0.0.jar ppiv_2.10-${version}.jar hive 20170904_09 20170904_09"
-                           ssh -t -t hdpppip1@cuccaro kdestroy
+
+                                  ssh -t -t hdpppip1@cuccaro eval "cd DEV; spark-submit --class com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver --master yarn-client --files /usr/hdp/current/hive-client/conf/hive-site.xml --conf spark.executor.extraJavaOptions='-Dlog4j.configuration=file:///export/appl/hdpppip1/DEV/log4j.properties' --conf spark.driver.extraJavaOptions='-Dlog4j.configuration=file:///export/appl/hdpppip1/DEV/log4j.properties' --num-executors 2  --driver-memory 2g --executor-memory 12g --jars mylibs/commons-csv-1.4.jar,mylibs/spark-csv_2.10-1.2.0.jar,mylibs/univocity-parsers-1.0.0.jar ppiv_2.10-${version}.jar hive 20170902_09 20170902_09"
+
+           ssh -t -t hdpppip1@cuccaro kdestroy
         """
     }
     echo 'End packaging'

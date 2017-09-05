@@ -69,14 +69,14 @@ object Postprocess {
 
 
       val v2 = VingtChampsSuivants(
-        TimeUnit.MILLISECONDS.toMinutes(row.getLong(8) * 1000 ).toString,
+        Conversion.getMinutesRounded(row.getLong(8) * 1000 ).toString,
         BusinessConversion.getDelai_affichage_voie_sans_retard (row.getLong(8)),
         BusinessConversion.getDuree_temps_affichage(row.getLong(8)),
         BusinessConversion.getNbretard1(row.getLong(9)),
         BusinessConversion.getDernier_retard_annonce_min(row.getLong(9)),
         BusinessConversion.getNbretard2(row.getLong(9)),
         Conversion.getHHmmssFromMillis(row.getLong(9)) ,
-        TimeUnit.MILLISECONDS.toMinutes(row.getLong(10) * 1000 ).toString,
+        Conversion.getMinutesRounded(row.getLong(10) * 1000 ).toString,
         Conversion.getHHmmssFromMillis(row.getLong(10)),
         BusinessConversion.getDelai_affichage_voie_avec_retard(row.getLong(10)),
         BusinessConversion.getDuree_temps_affichage2(row.getLong(10)),
@@ -87,7 +87,7 @@ object Postprocess {
         row.getString(6),
         BusinessConversion.getDateAffichageEtatTrain(row.getLong(13)),
         BusinessConversion.getDelai_affichage_etat_train_avant_depart_arrive(row.getLong(14)),
-        TimeUnit.MILLISECONDS.toMinutes(row.getLong(14) * 1000 ).toString
+        Conversion.getMinutesRounded(row.getLong(14) * 1000 ).toString
       )
 
 
