@@ -91,14 +91,14 @@ object TraitementPPIVDriver extends Serializable {
         }
         else{
           //  - 3 arguments (persistance, date début, date fin) mais dates invalide (les dates doivent être de la forme yyyyMMdd_HH) -> Stop
-          PpivRejectionHandler.handleRejection("Les dates de plage horaire ne sont pas dans le bon format yyyyMMdd_HH pour " + args(1) + " ou " + args(2))
+          PpivRejectionHandler.handleRejection("KO",startTimePipeline.toString(),"","Les dates de plage horaire ne sont pas dans le bon format yyyyMMdd_HH pour " + args(1) + " ou " + args(2))
         }
       }
       catch {
         case e: Throwable => {
           // Retour d'une valeur par défaut
           e.printStackTrace()
-          PpivRejectionHandler.handleRejection("KO driver principal. exception: " + e)
+          PpivRejectionHandler.handleRejection("KO",startTimePipeline.toString(),"","Pb driver principal. exception: " + e)
         }
       }
     }
@@ -136,7 +136,7 @@ object TraitementPPIVDriver extends Serializable {
     catch {
       case e: Throwable => {
         e.printStackTrace()
-        PpivRejectionHandler.handleRejection("KO enregistrement dans Hive. Exception: " + e.getMessage)
+        PpivRejectionHandler.handleRejection("KO",startTimePipeline.toString(),"","enregistrement dans Hive. Exception: " + e.getMessage)
       }
     }
   }

@@ -9,6 +9,7 @@ import com.sncf.fab.ppiv.parser.DatasetsParser
 import com.sncf.fab.ppiv.persistence.Persist
 import com.sncf.fab.ppiv.pipelineData.libPipeline.LoadData.checkIfFileExist
 import com.sncf.fab.ppiv.pipelineData.libPipeline._
+import com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver
 import com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver.LOGGER
 import com.sncf.fab.ppiv.utils.AppConf._
 import com.sncf.fab.ppiv.utils.Conversion
@@ -150,7 +151,7 @@ trait SourcePipeline extends Serializable {
                   case e: Throwable => {
                     // Retour d'une valeur par défaut
                     e.printStackTrace()
-                    PpivRejectionHandler.handleRejection("KO PostTraitement et jointure avec le referentiel: " + e)
+                    PpivRejectionHandler.handleRejection("KO",timeToProcess.toString(),getSource(timeToProcess), "PostTraitement et jointure avec le referentiel: " + e)
                     null
                   }
                 }
@@ -159,7 +160,7 @@ trait SourcePipeline extends Serializable {
                 case e: Throwable => {
                   // Retour d'une valeur par défaut
                   e.printStackTrace()
-                  PpivRejectionHandler.handleRejection("KO Enregisrement des rejets: " + e)
+                  PpivRejectionHandler.handleRejection("KO",timeToProcess.toString(),getSource(timeToProcess), "Enregisrement des rejets: " + e)
                   null
                 }
               }
@@ -168,7 +169,7 @@ trait SourcePipeline extends Serializable {
               case e: Throwable => {
                 // Retour d'une valeur par défaut
                 e.printStackTrace()
-                PpivRejectionHandler.handleRejection("KO Calcul des indicateurs: " + e)
+                PpivRejectionHandler.handleRejection("KO",timeToProcess.toString(),getSource(timeToProcess), "Calcul des indicateurs: " + e)
                 null
               }
             }
@@ -177,7 +178,7 @@ trait SourcePipeline extends Serializable {
             case e: Throwable => {
               // Retour d'une valeur par défaut
               e.printStackTrace()
-              PpivRejectionHandler.handleRejection("KO Constitution des cycles terminés: " + e)
+              PpivRejectionHandler.handleRejection("KO",timeToProcess.toString(),getSource(timeToProcess), "Constitution des cycles terminés: " + e)
               null
             }
           }
@@ -186,7 +187,7 @@ trait SourcePipeline extends Serializable {
           case e: Throwable => {
             // Retour d'une valeur par défaut
             e.printStackTrace()
-            PpivRejectionHandler.handleRejection("KO Validation Champ à champ: " + e)
+            PpivRejectionHandler.handleRejection("KO",timeToProcess.toString(),getSource(timeToProcess), "Validation Champ à champ: " + e)
             null
           }
         }
@@ -195,7 +196,7 @@ trait SourcePipeline extends Serializable {
         case e: Throwable => {
           // Retour d'une valeur par défaut
           e.printStackTrace()
-          PpivRejectionHandler.handleRejection("KO Application du sparadrap: " + e)
+          PpivRejectionHandler.handleRejection("KO",timeToProcess.toString(),getSource(timeToProcess), "Application du sparadrap: " + e)
           null
         }
       }
@@ -204,7 +205,7 @@ trait SourcePipeline extends Serializable {
       case e: Throwable => {
         // Retour d'une valeur par défaut
         e.printStackTrace()
-        PpivRejectionHandler.handleRejection("KO Chargement des fichiers: " + e)
+        PpivRejectionHandler.handleRejection("KO",timeToProcess.toString(),getSource(timeToProcess), "KO Chargement des fichiers: " + e)
         null
       }
     }

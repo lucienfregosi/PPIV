@@ -14,12 +14,12 @@ import org.apache.log4j.Logger
 object PpivRejectionHandler extends Serializable {
 
 
-  def handleRejection(message: String): Unit = {
+  def handleRejection(statut: String, dateExecution: String, currentTgaTgdFile: String, message: String ): Unit = {
     // Log de l'erreur
     LOGGER.error("KO Exception renvoye: " + message)
 
     // Ecriture d'une ligne dans le fichier final
-
+    write_execution_message(statut, dateExecution,currentTgaTgdFile, message)
     // Exit du programme
     System.exit(0)
 
