@@ -23,8 +23,8 @@ import org.apache.log4j.{Level, LogManager, PropertyConfigurator}
 // Classe main, lancement du programme
 object TraitementPPIVDriver extends Serializable {
 
-  var LOGGER = LoggerFactory.getLogger(TraitementPPIVDriver.getClass)
-  LOGGER.info("Lancement du batch PPIV")
+  val STATICLOGGER = LoggerFactory.getLogger(TraitementPPIVDriver.getClass)
+  STATICLOGGER.info("Lancement du batch PPIV")
 
   def main(args: Array[String]): Unit = {
     // 5 cas de figure pour l'exécution du programme
@@ -36,12 +36,12 @@ object TraitementPPIVDriver extends Serializable {
 
     if (args.length == 0){
       // Pas d'arguments d'entrée -> Stop
-      LOGGER.error("Pas d'arguments d'entrée, le batch nécessite au minimum la méthode de persistance (hdfs, hive, fs, es)")
+      STATICLOGGER.error("Pas d'arguments d'entrée, le batch nécessite au minimum la méthode de persistance (hdfs, hive, fs, es)")
       System.exit(1)
     }
     else if(!(args(0).contains("hdfs") || args(0).contains("fs") || args(0).contains("es") || args(0).contains("hive")) ){
       // Argument n°1 de persistance non valide -> Stop
-      LOGGER.error("Pas de méthode de persistence (hdfs, fs, hive ou es pour l'agument" + args(0).toString)
+      STATICLOGGER.error("Pas de méthode de persistence (hdfs, fs, hive ou es pour l'agument" + args(0).toString)
       System.exit(1)
     }
     else {
@@ -51,13 +51,14 @@ object TraitementPPIVDriver extends Serializable {
       val sqlContext = GetSparkEnv.getSqlContext()
       val hiveContext = GetHiveEnv.getHiveContext(sc)
 
-      // Set du niveau de log pour ne pas être envahi par les messages
-      sc.setLogLevel("ERROR")
 
-      val log = LogManager.getRootLogger
-      
+      // Définition du logger
+      val LOGGER = LogManager.getRootLogger
+      LOGGER.setLevel(Level.WARN)
 
-      log.info("TEEEEST")
+
+      LOGGER.info("TEEEEST")
+      LOGGER.warn("TEEEEST")
 
 
       System.exit(0)
