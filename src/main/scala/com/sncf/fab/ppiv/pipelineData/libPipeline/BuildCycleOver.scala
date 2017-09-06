@@ -27,7 +27,8 @@ object BuildCycleOver {
                    sc: SparkContext,
                    sqlContext: SQLContext,
                    panneau: String,
-                   timeToProcess: DateTime): DataFrame = {
+                   timeToProcess: DateTime,
+                   reprise: Boolean): DataFrame = {
 
     // Groupement et création des cycleId (concaténation de gare + panneau + numeroTrain + heureDepart)
     // (cycle_id{gare,panneau,numeroTrain,heureDepart}, heureDepart, retard)
@@ -75,7 +76,8 @@ object BuildCycleOver {
 
   def filterCycleOver(dsTgaTgdCycles: Dataset[TgaTgdCycleId],
                       sqlContext: SQLContext,
-                      timeToProcess: DateTime): Dataset[TgaTgdCycleId] = {
+                      timeToProcess: DateTime,
+                     reprise: Boolean): Dataset[TgaTgdCycleId] = {
     import sqlContext.implicits._
 
     val heureLimiteCycleCommencant = Conversion.getDateTime(
@@ -86,13 +88,27 @@ object BuildCycleOver {
       0,
       0)
 
-    val heureLimiteCycleFini = Conversion.getDateTime(
+    val heureLimiteCycleFini = if (reprise) {
+      Conversion.getDateTime(
+        timeToProcess.getYear,
+        timeToProcess.getMonthOfYear,
+        timeToProcess.getDayOfMonth,
+        Conversion.getHourFinPlageHoraire(timeToProcess).toInt,
+        0,
+        0)
+
+    }
+    else {
+      Conversion.getDateTime(
       timeToProcess.getYear,
       timeToProcess.getMonthOfYear,
       timeToProcess.getDayOfMonth,
       Conversion.getHourFinPlageHoraire(timeToProcess).toInt,
       0,
       0)
+    }
+
+
 
     val timestampLimiteCycleCommencant = Conversion.getTimestampWithLocalTimezone(heureLimiteCycleCommencant)
     val timestampLimiteCycleFini = Conversion.getTimestampWithLocalTimezone(heureLimiteCycleFini)

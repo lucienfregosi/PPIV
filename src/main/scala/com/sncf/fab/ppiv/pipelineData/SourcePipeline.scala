@@ -69,11 +69,18 @@ trait SourcePipeline extends Serializable {
   def Panneau(): String
 
   // Lancement du pipeline de traitement soit les TGA ou les TGD
-  def start(sc : SparkContext, sqlContext : SQLContext, hiveContext: HiveContext, timeToProcess: DateTime): DataFrame = {
+  def start(sc : SparkContext, sqlContext : SQLContext, hiveContext: HiveContext, timeToProcess: DateTime, reprise: Boolean, daily: Boolean): DataFrame = {
 
     import sqlContext.implicits._
 
+    if(!reprise && !daily)
     LOGGER.info("Lancement du pipeline pour les " + Panneau() + " pour la journée " + Conversion.getYearMonthDay(timeToProcess) +" et l'heure: " + Conversion.getHourDebutPlageHoraire(timeToProcess))
+
+    if(reprise && daily)
+      LOGGER.info("Lancement du pipeline pour les " + Panneau() + " pour la journée " + Conversion.getYearMonthDay(timeToProcess))
+
+    if(reprise && !daily)
+      LOGGER.info("Lancement du pipeline pour les " + Panneau() + " pour la journée " + Conversion.getYearMonthDay(timeToProcess) + " entre : "+  Conversion.getHourDebutPlageHoraire(timeToProcess) + " et "+  Conversion.getHourFinPlageHoraire(timeToProcess))
 
 
 
