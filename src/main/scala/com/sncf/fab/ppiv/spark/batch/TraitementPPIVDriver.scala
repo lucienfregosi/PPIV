@@ -55,8 +55,7 @@ object TraitementPPIVDriver extends Serializable {
       sc.setLogLevel("ERROR")
 
       val log = LogManager.getRootLogger
-
-      log.setLevel(Level.INFO)
+      
 
       log.info("TEEEEST")
 
