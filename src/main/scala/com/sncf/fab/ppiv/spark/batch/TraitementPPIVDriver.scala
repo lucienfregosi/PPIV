@@ -1,7 +1,6 @@
 package com.sncf.fab.ppiv.spark.batch
 
 import java.time.Period
-import java.util.logging.{Level, LogManager}
 
 import com.sncf.fab.ppiv.Exception.PpivRejectionHandler
 import com.sncf.fab.ppiv.persistence._
@@ -15,6 +14,7 @@ import org.joda.time.{DateTime, Duration}
 import org.slf4j.LoggerFactory
 import com.sncf.fab.ppiv.pipelineData.libPipeline._
 import org.apache.spark.sql.hive.HiveContext
+import org.apache.log4j.{Level, LogManager, PropertyConfigurator}
 
 /**
 //  * Created by simoh-labdoui on 11/05/2017.
@@ -54,7 +54,7 @@ object TraitementPPIVDriver extends Serializable {
       // Set du niveau de log pour ne pas être envahi par les messages
       sc.setLogLevel("ERROR")
 
-      val log = LogManager.getLogManager.getLogger(TraitementPPIVDriver.getClass.toString)
+      val log = LogManager.getRootLogger
 
       log.setLevel(Level.INFO)
 
