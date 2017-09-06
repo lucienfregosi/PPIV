@@ -42,12 +42,6 @@ object TraitementPPIVDriver extends Serializable {
     //  - 2 arguments (persistance, date/heure à processer) et dates valides -> Lancement du batch sur la période spécifié
 
 
-    println("nb arg:" + args.length )
-    val timeToProcess = Conversion.getDateTimeFromArgument(args(1))
-
-    println(timeToProcess.toString())
-
-    System.exit(0)
 
     if (args.length == 0){
       // Pas d'arguments d'entrée -> Stop
