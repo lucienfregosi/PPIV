@@ -5,8 +5,10 @@ import java.util.Calendar
 
 import com.sncf.fab.ppiv.Exception.PpivRejectionHandler
 import com.sncf.fab.ppiv.business.{ReferentielGare, TgaTgdInput}
+import com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver
+import com.sncf.fab.ppiv.pipelineData.SourcePipeline
 import org.apache.log4j.Logger
-import org.apache.spark.sql.{Row}
+import org.apache.spark.sql.Row
 
 /**
   * Created by Smida Bassem on 16/05/17.
@@ -23,8 +25,7 @@ object DatasetsParser {
     }
     catch {
       case e => {
-        PpivRejectionHandler.handleRejection(row.toString(), PpivRejectionHandler.PARSING_ERROR)
-        LOGGER.error("Parssing Error for row :" + row.toString() + "\n" + e.getLocalizedMessage)
+        PpivRejectionHandler.handleRejection("KO",TraitementPPIVDriver.startTimePipeline.toString(),"", "Parsing des fichiers Input. Exception: " + e.getMessage)
         null
       }
     }
@@ -43,8 +44,7 @@ object DatasetsParser {
     }
     catch {
       case e => {
-        PpivRejectionHandler.handleRejection(row.toString(), PpivRejectionHandler.PARSING_ERROR)
-        LOGGER.error("Parssing Error for row :" + row.toString() + "\n" + e.getLocalizedMessage)
+        PpivRejectionHandler.handleRejection("KO",TraitementPPIVDriver.startTimePipeline.toString(),"", "Parsing du fichier Référentiel. Exception: " + e.getMessage)
         null
       }
     }

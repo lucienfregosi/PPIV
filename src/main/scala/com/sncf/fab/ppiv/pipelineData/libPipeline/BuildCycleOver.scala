@@ -28,16 +28,19 @@ object BuildCycleOver {
                    sqlContext: SQLContext,
                    panneau: String,
                    timeToProcess: DateTime,
-                   reprise: Boolean): DataFrame = {
+                   reprise: Boolean, daily : Boolean): DataFrame = {
 
     // Groupement et création des cycleId (concaténation de gare + panneau + numeroTrain + heureDepart)
     // (cycle_id{gare,panneau,numeroTrain,heureDepart}, heureDepart, retard)
     val cycleIdList = buildCycles(dsTgaTgdInput, sqlContext, panneau)
 
+    //TO_REMOVE
+    print("level 1 : "+ cycleIdList.count())
 
     // Parmi les cyclesId généré précédemment on filtre ceux dont l'heure de départ est deja passé
     // On renvoie le même format de données (cycle_id{gare,panneau,numeroTrain,heureDepart}, heureDepart, retard)
     val cycleIdListOver = filterCycleOver(cycleIdList, sqlContext, timeToProcess)
+
 
     //Load les evenements  du jour j. Le 5ème paramètre sert a définir la journée qui nous intéresse 0 = jour J
     val tgaTgdRawToDay = loadDataFullPeriod(sc, sqlContext, panneau, timeToProcess)
@@ -134,7 +137,7 @@ object BuildCycleOver {
   def loadDataFullPeriod(sc: SparkContext,
                          sqlContext: SQLContext,
                          panneau: String,
-                         timeToProcess: DateTime): Dataset[TgaTgdInput] = {
+                         timeToProcess: DateTime ): Dataset[TgaTgdInput] = {
 
 
     // Il me faut une liste de Path de 18h a J-1 à l'heure actuelle de j
@@ -161,18 +164,13 @@ object BuildCycleOver {
       pathAllFile = pathFileJ
     }
 
-    // On teste l'existence des fichiers
-    pathAllFile.map(
-      file =>
-        if(Files.exists(Paths.get(file))) file
-        else None
-    )
-
 
     val tgaTgdAllPerHour = pathAllFile.map( filePath => LoadData.loadTgaTgd(sqlContext, filePath.toString))
 
     // Fusion des datasets entre eux
     val tgaTgdAllPeriod= tgaTgdAllPerHour.reduce((x, y) => x.union(y))
+
+
     // On applique le sparadrap si besoin
     val tgaTgdStickingPlaster = if (STICKING_PLASTER == true) {
       Preprocess.applyStickingPlaster(tgaTgdAllPeriod, sqlContext)
