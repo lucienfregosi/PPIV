@@ -23,9 +23,6 @@ import org.apache.log4j.{Level, LogManager, PropertyConfigurator}
 // Classe main, lancement du programme
 object TraitementPPIVDriver extends Serializable {
 
-  // Déinfition du LOGG
-  val STATICLOGGER = LoggerFactory.getLogger(TraitementPPIVDriver.getClass)
-  STATICLOGGER.info("Lancement du batch PPIV")
 
   // Définition du logger Spark
   val LOGGER = LogManager.getRootLogger
@@ -41,12 +38,12 @@ object TraitementPPIVDriver extends Serializable {
 
     if (args.length == 0){
       // Pas d'arguments d'entrée -> Stop
-      STATICLOGGER.error("Pas d'arguments d'entrée, le batch nécessite au minimum la méthode de persistance (hdfs, hive, fs, es)")
+      LOGGER.error("Pas d'arguments d'entrée, le batch nécessite au minimum la méthode de persistance (hdfs, hive, fs, es)")
       System.exit(1)
     }
     else if(!(args(0).contains("hdfs") || args(0).contains("fs") || args(0).contains("es") || args(0).contains("hive")) ){
       // Argument n°1 de persistance non valide -> Stop
-      STATICLOGGER.error("Pas de méthode de persistence (hdfs, fs, hive ou es pour l'agument" + args(0).toString)
+      LOGGER.error("Pas de méthode de persistence (hdfs, fs, hive ou es pour l'agument" + args(0).toString)
       System.exit(1)
     }
     else {
@@ -58,29 +55,18 @@ object TraitementPPIVDriver extends Serializable {
 
 
 
-
-
-      LOGGER.info("TEEEEST")
-      LOGGER.warn("TEEEEST")
-
-
-      System.exit(0)
-
-
       // Sauvegarde de l'heure de début du programme dans une variable
       val startTimePipeline = Conversion.nowToDateTime()
 
 
       if(args.length == 1){
         //  - 1 seul et unique argument valide (hive, hdfs, es, fs) -> Nominal : Lancement automatique du batch sur l'heure n-1
-        LOGGER.info("Lancement automatique du batch sur l'heure n-1")
+        LOGGER.warn("Lancement automatique du batch sur l'heure n-1")
         startPipeline(args, sc, sqlContext, hiveContext, startTimePipeline)
       }
       else if(Conversion.validateDateInputFormat(args(1)) == true && Conversion.validateDateInputFormat(args(2)) == true){
         //  - 3 arguments (persistance, date début, date fin) et dates valides -> Lancement du batch sur la période spécifié
-        LOGGER.info("Lancement du batch sur la période spécifié entre " + args(1).toString + " et " + args(2).toString)
-        println("Lancement du batch sur la période spécifié entre " + args(1).toString + " et " + args(2).toString)
-
+        LOGGER.warn("Lancement du batch sur la période spécifié entre " + args(1).toString + " et " + args(2).toString)
 
         // Enregistrement de la début et de la fin de la période dans le format dateTime a partir du format string yyyyMMdd_HH
         val startTimeToProcess = Conversion.getDateTimeFromArgument(args(1))
@@ -97,8 +83,6 @@ object TraitementPPIVDriver extends Serializable {
           // Calcul de la dateTime a passer en paramètre au pipeline
           val newDateTime = startTimeToProcess.plusHours(hoursIterator)
 
-          println("Lancement du Pipeline pour la période: " + Conversion.getHourDebutPlageHoraire(newDateTime) + " et " + Conversion.getHourFinPlageHoraire(newDateTime))
-          LOGGER.info("Lancement du Pipeline pour la date/Time: " + newDateTime.toString())
 
           // Lancement du pipeline pour l'heure demandé
           startPipeline(args, sc, sqlContext, hiveContext, newDateTime)
@@ -120,19 +104,25 @@ object TraitementPPIVDriver extends Serializable {
     // Récupération argument d'entrées, la méthode de persistance
     val persistMethod = argsArray(0)
 
+    LOGGER.warn("Processing des TGA")
     val ivTga = TraitementTga.start(sc, sqlContext, hiveContext, dateTimeToProcess)
+
+    LOGGER.warn("Processing des TGD")
     val ivTgd = TraitementTgd.start(sc, sqlContext, hiveContext, dateTimeToProcess)
 
 
     // 11) Fusion des résultats de TGA et TGD
-    LOGGER.info("11) Fusion des résultats entre TGA et TGD")
+    LOGGER.warn("TGA et TGD traités enregistrement")
     val ivTgaTgd = ivTga.unionAll(ivTgd)
 
     try {
       // 12) Persistence dans la méthode demandée (hdfs, hive, es, fs)
-      LOGGER.info("12) Persistence dans la méthode demandée (hdfs, hive, es, fs)")
+      LOGGER.warn("Persistence dans la méthode demandée (hdfs, hive, es, fs)")
 
       Persist.save(ivTgaTgd, persistMethod, sc, dateTimeToProcess, hiveContext)
+
+      LOGGER.warn("SUCCESS")
+      // Voir pour logger le succès
     }
     catch {
       case e: Throwable => {

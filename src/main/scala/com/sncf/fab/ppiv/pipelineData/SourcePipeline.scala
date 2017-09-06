@@ -73,12 +73,8 @@ trait SourcePipeline extends Serializable {
 
     import sqlContext.implicits._
 
-    LOGGER.info("Lancement du pipeline pour les " + Panneau() + " pour la journée " + Conversion.getYearMonthDay(timeToProcess) +" et l'heure: " + Conversion.getHourDebutPlageHoraire(timeToProcess))
-
-
-
     // 1) Chargement des fichiers déjà parsé dans leur classe
-    LOGGER.info("1) Chargement des fichiers déjà parsé dans leur classe")
+
 
     // Test si le fichier existe
     val pathFileToLoad = getSource(timeToProcess)
@@ -89,36 +85,35 @@ trait SourcePipeline extends Serializable {
 
     val dataTgaTgd                = LoadData.loadTgaTgd(sqlContext, pathFileToLoad)
     val dataRefGares              = LoadData.loadReferentiel(sqlContext)
-    
+
+    LOGGER.warn("Chargement des fichiers OK")
 
     // 2) Application du sparadrap sur les données au cause du Bug lié au patsse nuit (documenté dans le wiki)
     // On le conditionne a un flag (apply_sticking_plaster) dans app.conf car dans le futur Obier compte patcher le bug
     LOGGER.info("2) [OPTIONNEL] Application du sparadrap sur les données au cause du Bug lié au passe nuit")
     val dataTgaTgdBugFix = if (STICKING_PLASTER == true) {
-      LOGGER.info("Flag sparadrap activé, application de la correction")
-      Preprocess.applyStickingPlaster(dataTgaTgd, sqlContext)
+      val returnValue = Preprocess.applyStickingPlaster(dataTgaTgd, sqlContext)
+      LOGGER.warn("Application du sparadrap OK")
+      returnValue
     } else dataTgaTgd
 
 
 
-    println("heure actuelle entre " + Conversion.getHourDebutPlageHoraire(timeToProcess) + " et " + Conversion.getHourFinPlageHoraire(timeToProcess))
-
 
     // 3) Validation champ à champ
-    LOGGER.info("3) Validation champ à champ")
-    val (dataTgaTgdFielValidated, dataTgaTgdFielRejected)   = ValidateData.validateField(dataTgaTgdBugFix, sqlContext)
 
+    val (dataTgaTgdFielValidated, dataTgaTgdFielRejected)   = ValidateData.validateField(dataTgaTgdBugFix, sqlContext)
+    LOGGER.warn("Validation champ à champ OK")
 
     // 4) Reconstitution des évènements pour chaque trajet
     // L'objectif de cette fonction est de renvoyer (cycleId | Array(TgaTgdInput) ) afin d'associer à chaque cycle de vie
     // d'un train terminé la liste de tous ses évènements en vue du calcul des indicateurs
-    LOGGER.info("4) Reconstitution de la liste d'événements pour chaque trajet")
     val cycleWithEventOver = BuildCycleOver.getCycleOver(dataTgaTgdFielValidated, sc, sqlContext, Panneau(), timeToProcess)
-
+    LOGGER.warn("Filtre des cycles Terminés OK")
 
     // 5) Boucle sur les cycles finis pour traiter leur liste d'évènements
-    LOGGER.info("5) Boucle sur les cycles finis pour traiter leur liste d'évènements (validation, calcul des KPI..)")
     val rddIvTgaTgdWithoutReferentiel = BusinessRules.computeBusinessRules(cycleWithEventOver, timeToProcess)
+    LOGGER.warn("Calcul des indicateurs OK")
 
 
     // Conversion du résulat en dataset
@@ -134,6 +129,7 @@ trait SourcePipeline extends Serializable {
     Reject.saveFieldRejected(dataTgaTgdFielRejected, sc, hiveContext, timeToProcess, Panneau())
     Reject.saveCycleRejected(cycleInvalidated, sc, hiveContext, timeToProcess, Panneau())
 
+    LOGGER.warn("Enregistrement des rejets OK")
 
     // 9) Sauvegarde des données propres
     // LOGGER.info("9) Sauvegarde des données propres")
@@ -143,8 +139,9 @@ trait SourcePipeline extends Serializable {
      //PostProcess.saveCleanData(DataSet[TgaTgdInput], sc)
 
     // 10) Jointure avec le référentiel et inscription dans la classe finale TgaTgdOutput avec conversion et formatage
-    LOGGER.info("10) Post Process, jointure et conversion")
     val dataTgaTgdOutput = Postprocess.postprocess (cycleValidated, dataRefGares, sqlContext, Panneau())
+    LOGGER.warn("Post Processing OK")
+
 
     dataTgaTgdOutput.persist()
 
