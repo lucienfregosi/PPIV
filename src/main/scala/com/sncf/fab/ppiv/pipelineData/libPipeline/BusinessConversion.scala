@@ -296,7 +296,7 @@ object BusinessConversion {
   // fonction qui renvoie "H" concaténe au Délai où le train est resté affiché avant son départ réel
   def getDelai_affichage_duree_retard(timestamp: Long): String = {
     if(timestamp == 0) ""
-    if(timestamp < 0) "H+"+ Conversion.getMinutesRounded(timestamp.abs * 1000)
+    else if(timestamp < 0) "H+"+ Conversion.getMinutesRounded(timestamp.abs * 1000)
     else "H-"+ Conversion.getMinutesRounded(timestamp * 1000)
 
   }
