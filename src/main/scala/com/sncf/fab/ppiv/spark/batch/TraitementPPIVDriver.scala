@@ -77,8 +77,7 @@ object TraitementPPIVDriver extends Serializable {
           val timeToProcess = Conversion.getDateTimeFromArgument(args(1))
 
           println(timeToProcess.toString())
-
-          System.exit(0)
+          
 
           // Lancement du pipeline pour l'heure demandé
           startPipeline(args, sc, sqlContext, hiveContext, timeToProcess)
