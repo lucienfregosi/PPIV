@@ -79,9 +79,6 @@ trait SourcePipeline extends Serializable {
     // Test si le fichier existe
     val pathFileToLoad = getSource(timeToProcess)
 
-    // On verifie si le fichier que l'on veut charger existe
-    // S'il n'existe pas on sort car on ne peut rien faire pour ce cycle
-    if(!LoadData.checkIfFileExist(sc,pathFileToLoad)) throw new IllegalArgumentException("File doesn't exist in HDFS")
 
     val dataTgaTgd                = LoadData.loadTgaTgd(sqlContext, pathFileToLoad)
     val dataRefGares              = LoadData.loadReferentiel(sqlContext)
@@ -90,7 +87,6 @@ trait SourcePipeline extends Serializable {
 
     // 2) Application du sparadrap sur les données au cause du Bug lié au patsse nuit (documenté dans le wiki)
     // On le conditionne a un flag (apply_sticking_plaster) dans app.conf car dans le futur Obier compte patcher le bug
-    LOGGER.info("2) [OPTIONNEL] Application du sparadrap sur les données au cause du Bug lié au passe nuit")
     val dataTgaTgdBugFix = if (STICKING_PLASTER == true) {
       val returnValue = Preprocess.applyStickingPlaster(dataTgaTgd, sqlContext)
       LOGGER.warn("Application du sparadrap OK")
@@ -120,7 +116,6 @@ trait SourcePipeline extends Serializable {
     val dsIvTgaTgdWithoutReferentiel = rddIvTgaTgdWithoutReferentiel.toDS()
 
     // Filtre sur les cycles invalidés
-    LOGGER.info("8) Filtre sur les cycles invalidés et enregistrement des rejets")
     val cycleInvalidated = dsIvTgaTgdWithoutReferentiel.toDF().filter($"cycleId".contains("INV_")).as[TgaTgdIntermediate]
     val cycleValidated    = dsIvTgaTgdWithoutReferentiel.toDF().filter(not($"cycleId".contains("INV_"))).as[TgaTgdIntermediate]
 

@@ -20,6 +20,9 @@ object AppConf extends Serializable{
   // Chemin ou enregistrer les logs
   val LOG_PATH     = conf.getString("log")
 
+  // Set de la property System
+  System.setProperty("log_path", LOG_PATH)
+
   // Variable pour le prijet
   val STICKING_PLASTER = conf.getBoolean("apply_sticking_plaster")
   val MARGE_APRES_DEPART_REEL = conf.getLong("marge_apres_depart_reel")
