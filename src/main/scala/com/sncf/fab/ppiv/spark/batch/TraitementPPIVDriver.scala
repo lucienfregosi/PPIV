@@ -1,6 +1,7 @@
 package com.sncf.fab.ppiv.spark.batch
 
 import java.time.Period
+import java.util.logging.{Level, LogManager}
 
 import com.sncf.fab.ppiv.Exception.PpivRejectionHandler
 import com.sncf.fab.ppiv.persistence._
@@ -52,6 +53,15 @@ object TraitementPPIVDriver extends Serializable {
 
       // Set du niveau de log pour ne pas être envahi par les messages
       sc.setLogLevel("ERROR")
+
+      val log = LogManager.getLogManager.getLogger(TraitementPPIVDriver.getClass.toString)
+
+      log.setLevel(Level.INFO)
+
+      log.info("TEEEEST")
+
+
+      System.exit(0)
 
 
       // Sauvegarde de l'heure de début du programme dans une variable
