@@ -23,8 +23,13 @@ import org.apache.log4j.{Level, LogManager, PropertyConfigurator}
 // Classe main, lancement du programme
 object TraitementPPIVDriver extends Serializable {
 
+  // Déinfition du LOGG
   val STATICLOGGER = LoggerFactory.getLogger(TraitementPPIVDriver.getClass)
   STATICLOGGER.info("Lancement du batch PPIV")
+
+  // Définition du logger Spark
+  val LOGGER = LogManager.getRootLogger
+  LOGGER.setLevel(Level.WARN)
 
   def main(args: Array[String]): Unit = {
     // 5 cas de figure pour l'exécution du programme
@@ -52,9 +57,7 @@ object TraitementPPIVDriver extends Serializable {
       val hiveContext = GetHiveEnv.getHiveContext(sc)
 
 
-      // Définition du logger
-      val LOGGER = LogManager.getRootLogger
-      LOGGER.setLevel(Level.WARN)
+
 
 
       LOGGER.info("TEEEEST")
