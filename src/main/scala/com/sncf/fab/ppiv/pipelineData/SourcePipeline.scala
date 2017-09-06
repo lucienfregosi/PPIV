@@ -83,7 +83,6 @@ trait SourcePipeline extends Serializable {
       // On verifie si le fichier que l'on veut charger existe
       // S'il n'existe pas on sort car on ne peut rien faire pour ce cycle
 
-      println("file to load : " + pathFileToLoad)
 
       val dataTgaTgd                = LoadData.loadTgaTgd(sqlContext, pathFileToLoad)
       val dataRefGares              = LoadData.loadReferentiel(sqlContext)
