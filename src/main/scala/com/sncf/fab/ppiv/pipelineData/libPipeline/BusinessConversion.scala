@@ -354,7 +354,7 @@ object BusinessConversion {
 
   //fonction quirenvoie Affichage duree retard en minutes
   def getAffichage_duree_retard_minutes(timestamp: Long): Integer = {
-    if (timestamp == 0) null
+    if (timestamp == 0) 0
     else Conversion.getMinutesRounded(timestamp.abs * 1000).toInt
   }
 
