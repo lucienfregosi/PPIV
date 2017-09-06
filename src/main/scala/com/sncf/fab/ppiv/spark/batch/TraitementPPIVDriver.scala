@@ -38,23 +38,30 @@ object TraitementPPIVDriver extends Serializable {
     //  - Pas d'arguments d'entrée -> Stop
     //  - Argument n°1 de persistance non valide -> Stop
     //  - 1 seul et unique argument valide (hive, hdfs, es, fs) -> Nominal : Lancement automatique du batch sur l'heure n-1
-    //  - 3 arguments (persistance, date début, date fin) mais dates invalide (les dates doivent être de la forme yyyyMMdd_HH) -> Stop
-    //  - 3 arguments (persistance, date début, date fin) et dates valides -> Lancement du batch sur la période spécifié
+    //  - 2 arguments (persistance, date/heure à processer) mais dates invalide (les dates doivent être de la forme yyyyMMdd_HH) -> Stop
+    //  - 2 arguments (persistance, date/heure à processer) et dates valides -> Lancement du batch sur la période spécifié
+
+
+    println("nb arg:" + args.length )
+    val timeToProcess = Conversion.getDateTimeFromArgument(args(1))
+
+    println(timeToProcess.toString())
+
+    System.exit(0)
 
     if (args.length == 0){
       // Pas d'arguments d'entrée -> Stop
-      LOGGER.error("Pas d'arguments d'entrée, le batch nécessite au minimum la méthode de persistance (hdfs, hive, fs, es)")
-      System.exit(1)
+      PpivRejectionHandler.handleRejection("KO",startTimePipeline.toString(),"","Pas d'arguments d'entrée, le batch nécessite au minimum la méthode de persistance (hdfs, hive, fs, es)")
     }
     else if(!(args(0).contains("hdfs") || args(0).contains("fs") || args(0).contains("es") || args(0).contains("hive")) ){
       // Argument n°1 de persistance non valide -> Stop
-      LOGGER.error("Pas de méthode de persistence (hdfs, fs, hive ou es pour l'agument" + args(0).toString)
-      System.exit(1)
+      PpivRejectionHandler.handleRejection("KO",startTimePipeline.toString(),"","Pas de méthode de persistence (hdfs, fs, hive ou es pour l'agument" + args(0).toString)
     }
     else {
 
       // Définition du Spark Context et SQL Context à partir de utils/GetSparkEnv
       try{
+
         val sc         = GetSparkEnv.getSparkContext()
         val sqlContext = GetSparkEnv.getSqlContext()
         val hiveContext = GetHiveEnv.getHiveContext(sc)
@@ -66,28 +73,22 @@ object TraitementPPIVDriver extends Serializable {
           LOGGER.warn("Lancement automatique du batch sur l'heure n-1")
           startPipeline(args, sc, sqlContext, hiveContext, startTimePipeline)
         }
-        else if(Conversion.validateDateInputFormat(args(1)) == true && Conversion.validateDateInputFormat(args(2)) == true){
+        else if(Conversion.validateDateInputFormat(args(1)) == true){
+
+          // On a une heure a processer en paramètre
+
           //  - 3 arguments (persistance, date début, date fin) et dates valides -> Lancement du batch sur la période spécifié
-          LOGGER.warn("Lancement du batch sur la période spécifié entre " + args(1).toString + " et " + args(2).toString)
+          LOGGER.warn("Lancement du batch pour l'heure : " + args(1).toString)
 
-          // Enregistrement de la début et de la fin de la période dans le format dateTime a partir du format string yyyyMMdd_HH
-          val startTimeToProcess = Conversion.getDateTimeFromArgument(args(1))
-          val endTimeToProcess   = Conversion.getDateTimeFromArgument(args(2))
+          val timeToProcess = Conversion.getDateTimeFromArgument(args(1))
 
-          // Création d'une période pour pouvoir manipuler plus facilement l'interval
-          val period = new Duration(startTimeToProcess, endTimeToProcess)
+          println(timeToProcess.toString())
 
-          // Décompte du nombre d'heures sur la période
-          val nbHours = period.toStandardHours.getHours()
+          System.exit(0)
 
-          // Boucle sur la totalité des heures
-          for(hoursIterator <- 0 to nbHours){
-            // Calcul de la dateTime a passer en paramètre au pipeline
-            val newDateTime = startTimeToProcess.plusHours(hoursIterator)
+          // Lancement du pipeline pour l'heure demandé
+          startPipeline(args, sc, sqlContext, hiveContext, timeToProcess)
 
-            // Lancement du pipeline pour l'heure demandé
-            startPipeline(args, sc, sqlContext, hiveContext, newDateTime)
-          }
         }
         else{
           //  - 3 arguments (persistance, date début, date fin) mais dates invalide (les dates doivent être de la forme yyyyMMdd_HH) -> Stop
