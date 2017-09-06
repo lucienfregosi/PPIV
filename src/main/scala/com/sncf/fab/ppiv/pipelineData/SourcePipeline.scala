@@ -120,7 +120,6 @@ trait SourcePipeline extends Serializable {
     val dsIvTgaTgdWithoutReferentiel = rddIvTgaTgdWithoutReferentiel.toDS()
 
     // Filtre sur les cycles invalidés
-    LOGGER.info("8) Filtre sur les cycles invalidés et enregistrement des rejets")
     val cycleInvalidated = dsIvTgaTgdWithoutReferentiel.toDF().filter($"cycleId".contains("INV_")).as[TgaTgdIntermediate]
     val cycleValidated    = dsIvTgaTgdWithoutReferentiel.toDF().filter(not($"cycleId".contains("INV_"))).as[TgaTgdIntermediate]
 

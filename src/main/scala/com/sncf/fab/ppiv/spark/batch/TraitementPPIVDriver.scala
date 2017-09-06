@@ -49,49 +49,54 @@ object TraitementPPIVDriver extends Serializable {
     else {
 
       // Définition du Spark Context et SQL Context à partir de utils/GetSparkEnv
-      val sc         = GetSparkEnv.getSparkContext()
-      val sqlContext = GetSparkEnv.getSqlContext()
-      val hiveContext = GetHiveEnv.getHiveContext(sc)
+      try{
+        val sc         = GetSparkEnv.getSparkContext()
+        val sqlContext = GetSparkEnv.getSqlContext()
+        val hiveContext = GetHiveEnv.getHiveContext(sc)
+
+        // Sauvegarde de l'heure de début du programme dans une variable
+        val startTimePipeline = Conversion.nowToDateTime()
 
 
+        if(args.length == 1){
+          //  - 1 seul et unique argument valide (hive, hdfs, es, fs) -> Nominal : Lancement automatique du batch sur l'heure n-1
+          LOGGER.warn("Lancement automatique du batch sur l'heure n-1")
+          startPipeline(args, sc, sqlContext, hiveContext, startTimePipeline)
+        }
+        else if(Conversion.validateDateInputFormat(args(1)) == true && Conversion.validateDateInputFormat(args(2)) == true){
+          //  - 3 arguments (persistance, date début, date fin) et dates valides -> Lancement du batch sur la période spécifié
+          LOGGER.warn("Lancement du batch sur la période spécifié entre " + args(1).toString + " et " + args(2).toString)
 
-      // Sauvegarde de l'heure de début du programme dans une variable
-      val startTimePipeline = Conversion.nowToDateTime()
+          // Enregistrement de la début et de la fin de la période dans le format dateTime a partir du format string yyyyMMdd_HH
+          val startTimeToProcess = Conversion.getDateTimeFromArgument(args(1))
+          val endTimeToProcess   = Conversion.getDateTimeFromArgument(args(2))
 
+          // Création d'une période pour pouvoir manipuler plus facilement l'interval
+          val period = new Duration(startTimeToProcess, endTimeToProcess)
 
-      if(args.length == 1){
-        //  - 1 seul et unique argument valide (hive, hdfs, es, fs) -> Nominal : Lancement automatique du batch sur l'heure n-1
-        LOGGER.warn("Lancement automatique du batch sur l'heure n-1")
-        startPipeline(args, sc, sqlContext, hiveContext, startTimePipeline)
-      }
-      else if(Conversion.validateDateInputFormat(args(1)) == true && Conversion.validateDateInputFormat(args(2)) == true){
-        //  - 3 arguments (persistance, date début, date fin) et dates valides -> Lancement du batch sur la période spécifié
-        LOGGER.warn("Lancement du batch sur la période spécifié entre " + args(1).toString + " et " + args(2).toString)
+          // Décompte du nombre d'heures sur la période
+          val nbHours = period.toStandardHours.getHours()
 
-        // Enregistrement de la début et de la fin de la période dans le format dateTime a partir du format string yyyyMMdd_HH
-        val startTimeToProcess = Conversion.getDateTimeFromArgument(args(1))
-        val endTimeToProcess   = Conversion.getDateTimeFromArgument(args(2))
+          // Boucle sur la totalité des heures
+          for(hoursIterator <- 0 to nbHours){
+            // Calcul de la dateTime a passer en paramètre au pipeline
+            val newDateTime = startTimeToProcess.plusHours(hoursIterator)
 
-        // Création d'une période pour pouvoir manipuler plus facilement l'interval
-        val period = new Duration(startTimeToProcess, endTimeToProcess)
-
-        // Décompte du nombre d'heures sur la période
-        val nbHours = period.toStandardHours.getHours()
-
-        // Boucle sur la totalité des heures
-        for(hoursIterator <- 0 to nbHours){
-          // Calcul de la dateTime a passer en paramètre au pipeline
-          val newDateTime = startTimeToProcess.plusHours(hoursIterator)
-
-
-          // Lancement du pipeline pour l'heure demandé
-          startPipeline(args, sc, sqlContext, hiveContext, newDateTime)
+            // Lancement du pipeline pour l'heure demandé
+            startPipeline(args, sc, sqlContext, hiveContext, newDateTime)
+          }
+        }
+        else{
+          //  - 3 arguments (persistance, date début, date fin) mais dates invalide (les dates doivent être de la forme yyyyMMdd_HH) -> Stop
+          PpivRejectionHandler.handleRejection("Les dates de plage horaire ne sont pas dans le bon format yyyyMMdd_HH pour " + args(1) + " ou " + args(2))
         }
       }
-      else{
-        //  - 3 arguments (persistance, date début, date fin) mais dates invalide (les dates doivent être de la forme yyyyMMdd_HH) -> Stop
-        LOGGER.error("Les dates de plage horaire ne sont pas dans le bon format yyyyMMdd_HH pour " + args(1) + " ou " + args(2))
-        System.exit(1)
+      catch {
+        case e: Throwable => {
+          // Retour d'une valeur par défaut
+          e.printStackTrace()
+          PpivRejectionHandler.handleRejection("KO driver principal. exception: " + e)
+        }
       }
     }
   }
@@ -127,8 +132,7 @@ object TraitementPPIVDriver extends Serializable {
     catch {
       case e: Throwable => {
         e.printStackTrace()
-        PpivRejectionHandler.handleRejection(e.getMessage, PpivRejectionHandler.PROCESSING_ERROR)
-        None
+        PpivRejectionHandler.handleRejection("KO enregistrement dans Hive. Exception: " + e.getMessage)
       }
     }
   }

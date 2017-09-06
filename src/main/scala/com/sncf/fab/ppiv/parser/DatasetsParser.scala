@@ -23,8 +23,7 @@ object DatasetsParser {
     }
     catch {
       case e => {
-        PpivRejectionHandler.handleRejection(row.toString(), PpivRejectionHandler.PARSING_ERROR)
-        LOGGER.error("Parssing Error for row :" + row.toString() + "\n" + e.getLocalizedMessage)
+        PpivRejectionHandler.handleRejection("KO Parsing des fichiers Input. Exception: " + e.getMessage)
         null
       }
     }
@@ -43,8 +42,7 @@ object DatasetsParser {
     }
     catch {
       case e => {
-        PpivRejectionHandler.handleRejection(row.toString(), PpivRejectionHandler.PARSING_ERROR)
-        LOGGER.error("Parssing Error for row :" + row.toString() + "\n" + e.getLocalizedMessage)
+        PpivRejectionHandler.handleRejection("KO Parsing du fichier Référentiel. Exception: " + e.getMessage)
         null
       }
     }

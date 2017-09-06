@@ -148,13 +148,6 @@ object BuildCycleOver {
       pathAllFile = pathFileJ
     }
 
-    // On teste l'existence des fichiers
-    pathAllFile.map(
-      file =>
-        if(Files.exists(Paths.get(file))) file
-        else None
-    )
-
 
     val tgaTgdAllPerHour = pathAllFile.map( filePath => LoadData.loadTgaTgd(sqlContext, filePath.toString))
 

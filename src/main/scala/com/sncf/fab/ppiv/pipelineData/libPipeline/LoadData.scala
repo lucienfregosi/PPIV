@@ -21,7 +21,7 @@ object LoadData {
 
     // Test si le fichier existe
     if(!checkIfFileExist(sqlContext.sparkContext,path )) {
-      None
+      throw new Exception("File: " + path + " doesn't exist")
     }
 
     // Lecture du CSV avec les bons noms de champs
