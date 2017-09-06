@@ -87,8 +87,7 @@ object Postprocess {
         row.getString(6),
         BusinessConversion.getDateAffichageEtatTrain(row.getLong(13)),
         BusinessConversion.getDelai_affichage_etat_train_avant_depart_arrive(row.getLong(14)),
-        Conversion.getMinutesRounded(row.getLong(14) * 1000 ).toString
-      )
+        if(row.getLong(14) == 0) "" else Conversion.getMinutesRounded(row.getLong(14) * 1000 ).toString
 
 
       val v3 = NDerniersChamps(

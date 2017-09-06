@@ -295,7 +295,8 @@ object BusinessConversion {
 
   // fonction qui renvoie "H" concaténe au Délai où le train est resté affiché avant son départ réel
   def getDelai_affichage_duree_retard(timestamp: Long): String = {
-    if(timestamp <= 0) "H+"+ Conversion.getMinutesRounded(timestamp.abs * 1000)
+    if(timestamp == 0) ""
+    if(timestamp < 0) "H+"+ Conversion.getMinutesRounded(timestamp.abs * 1000)
     else "H-"+ Conversion.getMinutesRounded(timestamp * 1000)
 
   }
@@ -352,14 +353,15 @@ object BusinessConversion {
   }
 
   //fonction quirenvoie Affichage duree retard en minutes
-  def getAffichage_duree_retard_minutes(timestamp: Long): Int = {
-    if (timestamp == 0) 0
+  def getAffichage_duree_retard_minutes(timestamp: Long): Integer = {
+    if (timestamp == 0) null
     else Conversion.getMinutesRounded(timestamp.abs * 1000).toInt
   }
 
   //fonction qui foramte Delai_affichage_etat_train_avant_depart_arrive en HHmmss
   def getDelai_affichage_etat_train_avant_depart_arrive(timestamp: Long): String = {
-    if(timestamp <= 0) "H+"+ Conversion.getMinutesRounded(timestamp.abs * 1000)
+    if(timestamp == 0) ""
+    else if(timestamp < 0) "H+"+ Conversion.getMinutesRounded(timestamp.abs * 1000)
     else "H-"+ Conversion.getMinutesRounded(timestamp.abs * 1000)
   }
 
