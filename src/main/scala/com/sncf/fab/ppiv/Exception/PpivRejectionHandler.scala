@@ -1,5 +1,8 @@
 package com.sncf.fab.ppiv.Exception
 
+import java.io.FileWriter
+import com.sncf.fab.ppiv.utils.AppConf.EXECUTION_TRACE_FILE
+
 import com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver.LOGGER
 
 /**
@@ -18,8 +21,17 @@ object PpivRejectionHandler extends Serializable {
     // Ecriture d'une ligne dans le fichier final
 
     // Exit du programme
-
     System.exit(0)
 
   }
+
+  def write_execution_message(statut: String, dateExecution: String, currentTgaTgdFile: String, message: String ): Unit ={
+    val fw = new FileWriter(EXECUTION_TRACE_FILE, true)
+    try {
+      fw.write("statut,dateExecution,fichierImplique,message")
+      fw.write(statut + "," + dateExecution + "," + currentTgaTgdFile +  "," + message)
+    }
+    finally fw.close()
+  }
+
 }

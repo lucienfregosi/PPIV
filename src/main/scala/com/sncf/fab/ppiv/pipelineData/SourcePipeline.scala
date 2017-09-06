@@ -3,6 +3,7 @@ package com.sncf.fab.ppiv.pipelineData
 
 import java.nio.file.{Files, Paths}
 
+import com.sncf.fab.ppiv.Exception.PpivRejectionHandler
 import com.sncf.fab.ppiv.business._
 import com.sncf.fab.ppiv.parser.DatasetsParser
 import com.sncf.fab.ppiv.persistence.Persist
@@ -73,79 +74,141 @@ trait SourcePipeline extends Serializable {
 
     import sqlContext.implicits._
 
-    // 1) Chargement des fichiers déjà parsé dans leur classe
+    try{
+      // 1) Chargement des fichiers déjà parsé dans leur classe
+      // Test si le fichier existe
+      val pathFileToLoad = getSource(timeToProcess)
+
+      // On verifie si le fichier que l'on veut charger existe
+      // S'il n'existe pas on sort car on ne peut rien faire pour ce cycle
+
+      val dataTgaTgd                = LoadData.loadTgaTgd(sqlContext, pathFileToLoad)
+      val dataRefGares              = LoadData.loadReferentiel(sqlContext)
+
+      LOGGER.warn("Chargement des fichiers OK")
+
+      try {
+        // 2) Application du sparadrap sur les données au cause du Bug lié au patsse nuit (documenté dans le wiki)
+        // On le conditionne a un flag (apply_sticking_plaster) dans app.conf car dans le futur Obier compte patcher le bug
+        LOGGER.info("2) [OPTIONNEL] Application du sparadrap sur les données au cause du Bug lié au passe nuit")
+        val dataTgaTgdBugFix = if (STICKING_PLASTER == true) {
+          val returnValue = Preprocess.applyStickingPlaster(dataTgaTgd, sqlContext)
+          LOGGER.warn("Application du sparadrap OK")
+          returnValue
+        } else dataTgaTgd
+
+        try{
+          // 3) Validation champ à champ
+          val (dataTgaTgdFielValidated, dataTgaTgdFielRejected)   = ValidateData.validateField(dataTgaTgdBugFix, sqlContext)
+          LOGGER.warn("Validation champ à champ OK")
+
+          try{
+            // 4) Reconstitution des évènements pour chaque trajet
+            // L'objectif de cette fonction est de renvoyer (cycleId | Array(TgaTgdInput) ) afin d'associer à chaque cycle de vie
+            // d'un train terminé la liste de tous ses évènements en vue du calcul des indicateurs
+            val cycleWithEventOver = BuildCycleOver.getCycleOver(dataTgaTgdFielValidated, sc, sqlContext, Panneau(), timeToProcess)
+            LOGGER.warn("Filtre des cycles Terminés OK")
+
+            try{
+              // 5) Boucle sur les cycles finis pour traiter leur liste d'évènements
+              val rddIvTgaTgdWithoutReferentiel = BusinessRules.computeBusinessRules(cycleWithEventOver, timeToProcess)
+              LOGGER.warn("Calcul des indicateurs OK")
 
 
-    // Test si le fichier existe
-    val pathFileToLoad = getSource(timeToProcess)
+              try{
+                // Conversion du résulat en dataset
+                val dsIvTgaTgdWithoutReferentiel = rddIvTgaTgdWithoutReferentiel.toDS()
 
-    // On verifie si le fichier que l'on veut charger existe
-    // S'il n'existe pas on sort car on ne peut rien faire pour ce cycle
-    if(!LoadData.checkIfFileExist(sc,pathFileToLoad)) throw new IllegalArgumentException("File doesn't exist in HDFS")
-
-    val dataTgaTgd                = LoadData.loadTgaTgd(sqlContext, pathFileToLoad)
-    val dataRefGares              = LoadData.loadReferentiel(sqlContext)
-
-    LOGGER.warn("Chargement des fichiers OK")
-
-    // 2) Application du sparadrap sur les données au cause du Bug lié au patsse nuit (documenté dans le wiki)
-    // On le conditionne a un flag (apply_sticking_plaster) dans app.conf car dans le futur Obier compte patcher le bug
-    LOGGER.info("2) [OPTIONNEL] Application du sparadrap sur les données au cause du Bug lié au passe nuit")
-    val dataTgaTgdBugFix = if (STICKING_PLASTER == true) {
-      val returnValue = Preprocess.applyStickingPlaster(dataTgaTgd, sqlContext)
-      LOGGER.warn("Application du sparadrap OK")
-      returnValue
-    } else dataTgaTgd
+                // Filtre sur les cycles invalidés
+                val cycleInvalidated = dsIvTgaTgdWithoutReferentiel.toDF().filter($"cycleId".contains("INV_")).as[TgaTgdIntermediate]
+                val cycleValidated    = dsIvTgaTgdWithoutReferentiel.toDF().filter(not($"cycleId".contains("INV_"))).as[TgaTgdIntermediate]
 
 
+                // Enregistrement des rejets (champs et cycles)
+                Reject.saveFieldRejected(dataTgaTgdFielRejected, sc, hiveContext, timeToProcess, Panneau())
+                Reject.saveCycleRejected(cycleInvalidated, sc, hiveContext, timeToProcess, Panneau())
+
+                LOGGER.warn("Enregistrement des rejets OK")
+
+                // 9) Sauvegarde des données propres
+                // LOGGER.info("9) Sauvegarde des données propres")
+                // A partir de cycleValidate :
+                // Dataset[TgaTgdWithoutRef] -> DataSet[TgaTgdInput]
+                // Puis enregistrer dans l'object PostProcess
+                //PostProcess.saveCleanData(DataSet[TgaTgdInput], sc)
+
+                try{
+                  // 10) Jointure avec le référentiel et inscription dans la classe finale TgaTgdOutput avec conversion et formatage
+                  val dataTgaTgdOutput = Postprocess.postprocess (cycleValidated, dataRefGares, sqlContext, Panneau())
+                  LOGGER.warn("Post Processing OK")
 
 
-    // 3) Validation champ à champ
+                  // On renvoie le data set final pour un Tga ou un Tgd (qui seront fusionné dans le main)
+                  dataTgaTgdOutput
+                }
+                catch {
+                  case e: Throwable => {
+                    // Retour d'une valeur par défaut
+                    e.printStackTrace()
+                    PpivRejectionHandler.handleRejection("KO PostTraitement et jointure avec le referentiel: " + e)
+                    null
+                  }
+                }
+              }
+              catch {
+                case e: Throwable => {
+                  // Retour d'une valeur par défaut
+                  e.printStackTrace()
+                  PpivRejectionHandler.handleRejection("KO Enregisrement des rejets: " + e)
+                  null
+                }
+              }
+            }
+            catch {
+              case e: Throwable => {
+                // Retour d'une valeur par défaut
+                e.printStackTrace()
+                PpivRejectionHandler.handleRejection("KO Calcul des indicateurs: " + e)
+                null
+              }
+            }
+          }
+          catch {
+            case e: Throwable => {
+              // Retour d'une valeur par défaut
+              e.printStackTrace()
+              PpivRejectionHandler.handleRejection("KO Constitution des cycles terminés: " + e)
+              null
+            }
+          }
+        }
+        catch {
+          case e: Throwable => {
+            // Retour d'une valeur par défaut
+            e.printStackTrace()
+            PpivRejectionHandler.handleRejection("KO Validation Champ à champ: " + e)
+            null
+          }
+        }
+      }
+      catch {
+        case e: Throwable => {
+          // Retour d'une valeur par défaut
+          e.printStackTrace()
+          PpivRejectionHandler.handleRejection("KO Application du sparadrap: " + e)
+          null
+        }
+      }
+    }
+    catch {
+      case e: Throwable => {
+        // Retour d'une valeur par défaut
+        e.printStackTrace()
+        PpivRejectionHandler.handleRejection("KO Chargement des fichiers: " + e)
+        null
+      }
+    }
 
-    val (dataTgaTgdFielValidated, dataTgaTgdFielRejected)   = ValidateData.validateField(dataTgaTgdBugFix, sqlContext)
-    LOGGER.warn("Validation champ à champ OK")
-
-    // 4) Reconstitution des évènements pour chaque trajet
-    // L'objectif de cette fonction est de renvoyer (cycleId | Array(TgaTgdInput) ) afin d'associer à chaque cycle de vie
-    // d'un train terminé la liste de tous ses évènements en vue du calcul des indicateurs
-    val cycleWithEventOver = BuildCycleOver.getCycleOver(dataTgaTgdFielValidated, sc, sqlContext, Panneau(), timeToProcess)
-    LOGGER.warn("Filtre des cycles Terminés OK")
-
-    // 5) Boucle sur les cycles finis pour traiter leur liste d'évènements
-    val rddIvTgaTgdWithoutReferentiel = BusinessRules.computeBusinessRules(cycleWithEventOver, timeToProcess)
-    LOGGER.warn("Calcul des indicateurs OK")
-
-
-    // Conversion du résulat en dataset
-    val dsIvTgaTgdWithoutReferentiel = rddIvTgaTgdWithoutReferentiel.toDS()
-
-    // Filtre sur les cycles invalidés
-    val cycleInvalidated = dsIvTgaTgdWithoutReferentiel.toDF().filter($"cycleId".contains("INV_")).as[TgaTgdIntermediate]
-    val cycleValidated    = dsIvTgaTgdWithoutReferentiel.toDF().filter(not($"cycleId".contains("INV_"))).as[TgaTgdIntermediate]
-
-    
-    // Enregistrement des rejets (champs et cycles)
-    Reject.saveFieldRejected(dataTgaTgdFielRejected, sc, hiveContext, timeToProcess, Panneau())
-    Reject.saveCycleRejected(cycleInvalidated, sc, hiveContext, timeToProcess, Panneau())
-
-    LOGGER.warn("Enregistrement des rejets OK")
-
-    // 9) Sauvegarde des données propres
-    // LOGGER.info("9) Sauvegarde des données propres")
-    // A partir de cycleValidate :
-    // Dataset[TgaTgdWithoutRef] -> DataSet[TgaTgdInput]
-    // Puis enregistrer dans l'object PostProcess
-     //PostProcess.saveCleanData(DataSet[TgaTgdInput], sc)
-
-    // 10) Jointure avec le référentiel et inscription dans la classe finale TgaTgdOutput avec conversion et formatage
-    val dataTgaTgdOutput = Postprocess.postprocess (cycleValidated, dataRefGares, sqlContext, Panneau())
-    LOGGER.warn("Post Processing OK")
-
-
-    dataTgaTgdOutput.persist()
-
-    // On renvoie le data set final pour un Tga ou un Tgd (qui seront fusionné dans le main)
-    dataTgaTgdOutput
 
   }
 }

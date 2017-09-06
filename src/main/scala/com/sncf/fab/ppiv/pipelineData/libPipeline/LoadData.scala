@@ -7,6 +7,7 @@ import org.apache.spark.sql.types.LongType
 import org.apache.spark.sql.{Dataset, SQLContext}
 import java.nio.file.{Files, Paths}
 
+import com.sncf.fab.ppiv.Exception.PpivRejectionHandler
 import org.apache.spark.SparkContext
 
 /**
@@ -21,7 +22,7 @@ object LoadData {
 
     // Test si le fichier existe
     if(!checkIfFileExist(sqlContext.sparkContext,path )) {
-      throw new Exception("File: " + path + " doesn't exist")
+      PpivRejectionHandler.handleRejection("KO chargement File: " + path + " doesn't exist")
     }
 
     // Lecture du CSV avec les bons noms de champs

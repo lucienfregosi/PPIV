@@ -28,6 +28,11 @@ object TraitementPPIVDriver extends Serializable {
   val LOGGER = LogManager.getRootLogger
   LOGGER.setLevel(Level.WARN)
 
+
+  // Sauvegarde de l'heure de début du programme dans une variable
+  val startTimePipeline = Conversion.nowToDateTime()
+
+
   def main(args: Array[String]): Unit = {
     // 5 cas de figure pour l'exécution du programme
     //  - Pas d'arguments d'entrée -> Stop
@@ -54,8 +59,6 @@ object TraitementPPIVDriver extends Serializable {
         val sqlContext = GetSparkEnv.getSqlContext()
         val hiveContext = GetHiveEnv.getHiveContext(sc)
 
-        // Sauvegarde de l'heure de début du programme dans une variable
-        val startTimePipeline = Conversion.nowToDateTime()
 
 
         if(args.length == 1){
@@ -128,6 +131,7 @@ object TraitementPPIVDriver extends Serializable {
 
       LOGGER.warn("SUCCESS")
       // Voir pour logger le succès
+      PpivRejectionHandler.write_execution_message("OK", startTimePipeline.toString(),"","")
     }
     catch {
       case e: Throwable => {
