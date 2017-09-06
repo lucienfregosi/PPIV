@@ -28,7 +28,6 @@ object PpivRejectionHandler extends Serializable {
   def write_execution_message(statut: String, dateExecution: String, currentTgaTgdFile: String, message: String ): Unit ={
     val fw = new FileWriter(EXECUTION_TRACE_FILE, true)
     try {
-      fw.write("statut,dateExecution,fichierImplique,message\n")
       fw.write(statut + "," + dateExecution + "," + currentTgaTgdFile +  "," + message + "\n")
     }
     finally fw.close()
