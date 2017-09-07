@@ -37,7 +37,7 @@ trait SourcePipeline extends Serializable {
   /**
     * @return le chemin de la source de données brute
     */
-  def getSource(timeToProcess: DateTime): String
+  def getSource(timeToProcess: DateTime, reprise: Boolean): String
   /**
     *
     * @return le chemin de l'output qualité
@@ -71,7 +71,7 @@ trait SourcePipeline extends Serializable {
   def Panneau(): String
 
   // Lancement du pipeline de traitement soit les TGA ou les TGD
-  def start(sc : SparkContext, sqlContext : SQLContext, hiveContext: HiveContext, timeToProcess: DateTime, reprise: Boolean, daily: Boolean): DataFrame = {
+  def start(sc : SparkContext, sqlContext : SQLContext, hiveContext: HiveContext,  startTimeToProcess : DateTime,endTimeToProcesse: DateTime, reprise: Boolean): DataFrame = {
 
     import sqlContext.implicits._
 
@@ -79,7 +79,7 @@ trait SourcePipeline extends Serializable {
     try {
       // 1) Chargement des fichiers déjà parsé dans leur classe
       // Test si le fichier existe
-      val pathFileToLoad = getSource(timeToProcess)
+      val pathFileToLoad = getSource( startTimeToProcess , reprise)
 
       // On verifie si le fichier que l'on veut charger existe
       // S'il n'existe pas on sort car on ne peut rien faire pour ce cycle
@@ -110,12 +110,12 @@ trait SourcePipeline extends Serializable {
             // 4) Reconstitution des évènements pour chaque trajet
             // L'objectif de cette fonction est de renvoyer (cycleId | Array(TgaTgdInput) ) afin d'associer à chaque cycle de vie
             // d'un train terminé la liste de tous ses évènements en vue du calcul des indicateurs
-            val cycleWithEventOver = BuildCycleOver.getCycleOver(dataTgaTgdFielValidated, sc, sqlContext, Panneau(), timeToProcess, false, false)
+            val cycleWithEventOver = BuildCycleOver.getCycleOver(dataTgaTgdFielValidated, sc, sqlContext, Panneau(),  startTimeToProcess , endTimeToProcesse, false)
             LOGGER.warn("Filtre des cycles Terminés OK")
 
             try {
               // 5) Boucle sur les cycles finis pour traiter leur liste d'évènements
-              val rddIvTgaTgdWithoutReferentiel = BusinessRules.computeBusinessRules(cycleWithEventOver, timeToProcess)
+              val rddIvTgaTgdWithoutReferentiel = BusinessRules.computeBusinessRules(cycleWithEventOver,  startTimeToProcess )
               LOGGER.warn("Calcul des indicateurs OK")
 
 
@@ -129,8 +129,8 @@ trait SourcePipeline extends Serializable {
 
 
                 // Enregistrement des rejets (champs et cycles)
-                Reject.saveFieldRejected(dataTgaTgdFielRejected, sc, hiveContext, timeToProcess, Panneau())
-                Reject.saveCycleRejected(cycleInvalidated, sc, hiveContext, timeToProcess, Panneau())
+                Reject.saveFieldRejected(dataTgaTgdFielRejected, sc, hiveContext, startTimeToProcess , Panneau())
+                Reject.saveCycleRejected(cycleInvalidated, sc, hiveContext,  startTimeToProcess , Panneau())
 
                 LOGGER.warn("Enregistrement des rejets OK")
 
@@ -154,7 +154,7 @@ trait SourcePipeline extends Serializable {
                   case e: Throwable => {
                     // Retour d'une valeur par défaut
                     e.printStackTrace()
-                    PpivRejectionHandler.handleRejection("KO", timeToProcess.toString(), getSource(timeToProcess), "PostTraitement et jointure avec le referentiel: " + e)
+                    PpivRejectionHandler.handleRejection("KO", startTimeToProcess.toString(), getSource(startTimeToProcess,reprise), "PostTraitement et jointure avec le referentiel: " + e)
                     null
                   }
                 }
@@ -163,7 +163,7 @@ trait SourcePipeline extends Serializable {
                 case e: Throwable => {
                   // Retour d'une valeur par défaut
                   e.printStackTrace()
-                  PpivRejectionHandler.handleRejection("KO", timeToProcess.toString(), getSource(timeToProcess), "Enregisrement des rejets: " + e)
+                  PpivRejectionHandler.handleRejection("KO", startTimeToProcess.toString(), getSource(startTimeToProcess,reprise), "Enregisrement des rejets: " + e)
                   null
                 }
               }
@@ -172,7 +172,7 @@ trait SourcePipeline extends Serializable {
               case e: Throwable => {
                 // Retour d'une valeur par défaut
                 e.printStackTrace()
-                PpivRejectionHandler.handleRejection("KO", timeToProcess.toString(), getSource(timeToProcess), "Calcul des indicateurs: " + e)
+                PpivRejectionHandler.handleRejection("KO", startTimeToProcess.toString(), getSource(startTimeToProcess,reprise), "Calcul des indicateurs: " + e)
                 null
               }
             }
@@ -181,7 +181,7 @@ trait SourcePipeline extends Serializable {
             case e: Throwable => {
               // Retour d'une valeur par défaut
               e.printStackTrace()
-              PpivRejectionHandler.handleRejection("KO", timeToProcess.toString(), getSource(timeToProcess), "Constitution des cycles terminés: " + e)
+              PpivRejectionHandler.handleRejection("KO", startTimeToProcess.toString(), getSource(startTimeToProcess,reprise), "Constitution des cycles terminés: " + e)
               null
             }
           }
@@ -190,7 +190,7 @@ trait SourcePipeline extends Serializable {
           case e: Throwable => {
             // Retour d'une valeur par défaut
             e.printStackTrace()
-            PpivRejectionHandler.handleRejection("KO", timeToProcess.toString(), getSource(timeToProcess), "Validation Champ à champ: " + e)
+            PpivRejectionHandler.handleRejection("KO", startTimeToProcess.toString(), getSource(startTimeToProcess,reprise), "Validation Champ à champ: " + e)
             null
           }
         }
@@ -199,7 +199,7 @@ trait SourcePipeline extends Serializable {
         case e: Throwable => {
           // Retour d'une valeur par défaut
           e.printStackTrace()
-          PpivRejectionHandler.handleRejection("KO", timeToProcess.toString(), getSource(timeToProcess), "Application du sparadrap: " + e)
+          PpivRejectionHandler.handleRejection("KO", startTimeToProcess.toString(), getSource(startTimeToProcess,reprise), "Application du sparadrap: " + e)
           null
         }
       }
@@ -208,7 +208,7 @@ trait SourcePipeline extends Serializable {
       case e: Throwable => {
         // Retour d'une valeur par défaut
         e.printStackTrace()
-        PpivRejectionHandler.handleRejection("KO", timeToProcess.toString(), getSource(timeToProcess), "KO Chargement des fichiers: " + e)
+        PpivRejectionHandler.handleRejection("KO", startTimeToProcess.toString(), getSource(startTimeToProcess,reprise), "KO Chargement des fichiers: " + e)
         null
       }
     }

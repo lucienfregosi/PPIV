@@ -27,29 +27,36 @@ object BuildCycleOver {
                    sc: SparkContext,
                    sqlContext: SQLContext,
                    panneau: String,
-                   timeToProcess: DateTime,
-                   reprise: Boolean, daily : Boolean): DataFrame = {
+                   startTimeToProcess: DateTime,
+                   endTimeToProcess: DateTime,
+                   reprise: Boolean): DataFrame = {
 
     // Groupement et création des cycleId (concaténation de gare + panneau + numeroTrain + heureDepart)
     // (cycle_id{gare,panneau,numeroTrain,heureDepart}, heureDepart, retard)
     val cycleIdList = buildCycles(dsTgaTgdInput, sqlContext, panneau)
 
-    //TO_REMOVE
-    print("level 1 : "+ cycleIdList.count())
 
     // Parmi les cyclesId généré précédemment on filtre ceux dont l'heure de départ est deja passé
     // On renvoie le même format de données (cycle_id{gare,panneau,numeroTrain,heureDepart}, heureDepart, retard)
-    val cycleIdListOver = filterCycleOver(cycleIdList, sqlContext, timeToProcess)
-
+    val cycleIdListOver = filterCycleOver(cycleIdList, sqlContext, startTimeToProcess, endTimeToProcess, reprise)
 
     //Load les evenements  du jour j. Le 5ème paramètre sert a définir la journée qui nous intéresse 0 = jour J
-    val tgaTgdRawToDay = loadDataFullPeriod(sc, sqlContext, panneau, timeToProcess)
+    if (!reprise)
+    {
+      val tgaTgdRawToDay = loadDataFullPeriod(sc, sqlContext, panneau, startTimeToProcess)
+      // Pour chaque cycle terminé récupération des différents évènements au cours de la journée
+      // sous la forme d'une structure (cycle_id | Array(TgaTgdInput)
+      val tgaTgdCycleOver = getEventCycleId(tgaTgdRawToDay, cycleIdListOver, sqlContext, sc, panneau)
 
-    // Pour chaque cycle terminé récupération des différents évènements au cours de la journée
-    // sous la forme d'une structure (cycle_id | Array(TgaTgdInput)
-    val tgaTgdCycleOver = getEventCycleId(tgaTgdRawToDay, cycleIdListOver, sqlContext, sc, panneau)
+      tgaTgdCycleOver
+    }
+    else
+    {
+      val tgaTgdCycleOver = getEventCycleId(dsTgaTgdInput, cycleIdListOver, sqlContext, sc, panneau)
+      tgaTgdCycleOver
+    }
 
-    tgaTgdCycleOver
+
   }
 
  // Fonction pour construire les cycles
@@ -79,34 +86,35 @@ object BuildCycleOver {
 
   def filterCycleOver(dsTgaTgdCycles: Dataset[TgaTgdCycleId],
                       sqlContext: SQLContext,
-                      timeToProcess: DateTime,
+                      startTimeToProcess: DateTime,
+                      endTimeToProcess: DateTime,
                      reprise: Boolean): Dataset[TgaTgdCycleId] = {
+
     import sqlContext.implicits._
 
     val heureLimiteCycleCommencant = Conversion.getDateTime(
-      timeToProcess.getYear,
-      timeToProcess.getMonthOfYear,
-      timeToProcess.getDayOfMonth,
-      Conversion.getHourDebutPlageHoraire(timeToProcess).toInt,
+      startTimeToProcess.getYear,
+      startTimeToProcess.getMonthOfYear,
+      startTimeToProcess.getDayOfMonth,
+      Conversion.getHourDebutPlageHoraire(startTimeToProcess).toInt,
       0,
       0)
 
     val heureLimiteCycleFini = if (reprise) {
       Conversion.getDateTime(
-        timeToProcess.getYear,
-        timeToProcess.getMonthOfYear,
-        timeToProcess.getDayOfMonth,
-        Conversion.getHourFinPlageHoraire(timeToProcess).toInt,
-        0,
-        0)
-
+      startTimeToProcess.getYear,
+      startTimeToProcess.getMonthOfYear,
+      startTimeToProcess.getDayOfMonth,
+      Conversion.getHourFinPlageHoraire(endTimeToProcess).toInt,
+      0,
+      0)
     }
     else {
       Conversion.getDateTime(
-      timeToProcess.getYear,
-      timeToProcess.getMonthOfYear,
-      timeToProcess.getDayOfMonth,
-      Conversion.getHourFinPlageHoraire(timeToProcess).toInt,
+        startTimeToProcess.getYear,
+        startTimeToProcess.getMonthOfYear,
+        startTimeToProcess.getDayOfMonth,
+      Conversion.getHourFinPlageHoraire(startTimeToProcess).toInt,
       0,
       0)
     }
@@ -222,7 +230,7 @@ object BuildCycleOver {
           lit(";"),
           $"num",
           lit(";"),
-          $"type",
+           $"type",
           lit(";"),
           $"picto",
           lit(";"),
