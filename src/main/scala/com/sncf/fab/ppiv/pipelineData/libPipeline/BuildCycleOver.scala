@@ -41,7 +41,7 @@ object BuildCycleOver {
     val cycleIdListOver = filterCycleOver(cycleIdList, sqlContext, startTimeToProcess, endTimeToProcess, reprise)
 
     //Load les evenements  du jour j. Le 5ème paramètre sert a définir la journée qui nous intéresse 0 = jour J
-    if (!reprise)
+    if (reprise == false)
     {
 
       val tgaTgdRawToDay = loadDataFullPeriod(sc, sqlContext, panneau, startTimeToProcess)
