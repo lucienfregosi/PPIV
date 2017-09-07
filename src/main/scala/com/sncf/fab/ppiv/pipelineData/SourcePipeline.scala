@@ -163,11 +163,12 @@ trait SourcePipeline extends Serializable {
                   e.printStackTrace()
                   PpivRejectionHandler.handleRejection("KO",Conversion.getHourDebutPlageHoraire(startTimeToProcess),startTimePipeline.toString(),getSource(startTimeToProcess, reprise), "Enregisrement des rejets: " + e)
 
-                  
+
                   null
                 }
               }
             }
+              
             catch {
               case e: Throwable => {
                 // Retour d'une valeur par défaut
