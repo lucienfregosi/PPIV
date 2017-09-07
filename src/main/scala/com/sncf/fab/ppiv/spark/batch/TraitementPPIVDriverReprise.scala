@@ -62,7 +62,7 @@ object TraitementPPIVDriverReprise extends Serializable {
           println("Lancement du batch de reprise sur la journée " + args(1).toString )
 
           //le jour de la reprise sous le format dateTime
-          val startTime = args(1)+"_01"
+          val startTime = args(1) + "_01"
           println(startTime)
           val startTimeToProcess = Conversion.getDateTimeFromArgument(startTime)
           val endTimeToProcessDay   = Conversion.getYearMonthDay(startTimeToProcess.plusDays(1)).toString
@@ -113,6 +113,9 @@ object TraitementPPIVDriverReprise extends Serializable {
     val persistMethod = argsArray(0)
 
     val ivTga = TraitementTga.start(sc, sqlContext, hiveContext, startTimeToProcess ,endTimeToProcess, reprise)
+
+    println("TGA DONE")
+
     val ivTgd = TraitementTgd.start(sc, sqlContext, hiveContext, startTimeToProcess ,endTimeToProcess, reprise)
 
     // 11) Fusion des résultats de TGA et TGD

@@ -111,6 +111,7 @@ trait SourcePipeline extends Serializable {
             // 4) Reconstitution des évènements pour chaque trajet
             // L'objectif de cette fonction est de renvoyer (cycleId | Array(TgaTgdInput) ) afin d'associer à chaque cycle de vie
             // d'un train terminé la liste de tous ses évènements en vue du calcul des indicateurs
+            println("will build cycle over")
             val cycleWithEventOver = BuildCycleOver.getCycleOver(dataTgaTgdFielValidated, sc, sqlContext, Panneau(),  startTimeToProcess , endTimeToProcesse, false)
             LOGGER.warn("Filtre des cycles Terminés OK")
 
