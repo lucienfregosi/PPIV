@@ -102,11 +102,12 @@ object BuildCycleOver {
       0)
 
     //TO_REMOVE
-println("heure filtrage 1: " + heureLimiteCycleCommencant)
+    println("heure filtrage 1: " + heureLimiteCycleCommencant)
+
     val heureLimiteCycleFini = Conversion.getDateTime(
-      startTimeToProcess.getYear,
-      startTimeToProcess.getMonthOfYear,
-      startTimeToProcess.getDayOfMonth,
+      endTimeToProcess.getYear,
+      endTimeToProcess.getMonthOfYear,
+      endTimeToProcess.getDayOfMonth,
       Conversion.getHourFinPlageHoraire(endTimeToProcess).toInt,
       0,
       0)
