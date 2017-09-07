@@ -112,7 +112,7 @@ println("heure filtrage 1: " + heureLimiteCycleCommencant)
       0)
 
     //TO_REMOVE
-    println("heure filtrage 2: " + heureLimiteCycleFini)
+    println("heure filtrage 2: " + heureLimiteCycleFini + " "+ endTimeToProcess)
 
     val timestampLimiteCycleCommencant = Conversion.getTimestampWithLocalTimezone(heureLimiteCycleCommencant)
     val timestampLimiteCycleFini = Conversion.getTimestampWithLocalTimezone(heureLimiteCycleFini)
