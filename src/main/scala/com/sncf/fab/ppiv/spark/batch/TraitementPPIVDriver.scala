@@ -83,8 +83,7 @@ object TraitementPPIVDriver extends Serializable {
 
 
           // Lancement du pipeline pour l'heure demandé
-          startPipeline(args, sc, sqlContext, hiveContext, startTimeToProcess, endTimeToProcess, reprise)
-          startPipeline(args, sc, sqlContext, hiveContext, startTimeToProcess.plusHours(1), endTimeToProcess, reprise)
+           startPipeline(args, sc, sqlContext, hiveContext, startTimeToProcess.plusHours(1), endTimeToProcess, reprise)
 
         }
         else{
