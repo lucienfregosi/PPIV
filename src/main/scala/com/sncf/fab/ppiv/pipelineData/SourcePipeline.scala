@@ -87,6 +87,7 @@ trait SourcePipeline extends Serializable {
       val dataTgaTgd                = LoadData.loadTgaTgd(sqlContext, pathFileToLoad)
       val dataRefGares              = LoadData.loadReferentiel(sqlContext)
 
+
       LOGGER.warn("Chargement des fichiers OK")
 
       try {
