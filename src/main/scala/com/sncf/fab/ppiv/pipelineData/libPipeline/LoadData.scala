@@ -9,6 +9,7 @@ import java.nio.file.{Files, Paths}
 
 import com.sncf.fab.ppiv.Exception.PpivRejectionHandler
 import com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver
+import com.sncf.fab.ppiv.utils.Conversion
 import org.apache.spark.SparkContext
 
 /**
@@ -23,7 +24,7 @@ object LoadData {
 
     // Test si le fichier existe
     if(!checkIfFileExist(sqlContext.sparkContext,path )) {
-      PpivRejectionHandler.handleRejection("KO",TraitementPPIVDriver.startTimePipeline.toString(),path, "Le fichier n'existe pas")
+      PpivRejectionHandler.handleRejection("KO",Conversion.getHourDebutPlageHoraire(TraitementPPIVDriver.startTimePipeline),TraitementPPIVDriver.startTimePipeline.toString(),path, "Le fichier n'existe pas")
     }
 
     // Lecture du CSV avec les bons noms de champs
