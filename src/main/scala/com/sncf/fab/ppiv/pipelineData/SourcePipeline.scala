@@ -168,7 +168,7 @@ trait SourcePipeline extends Serializable {
                 }
               }
             }
-              
+
             catch {
               case e: Throwable => {
                 // Retour d'une valeur par défaut
