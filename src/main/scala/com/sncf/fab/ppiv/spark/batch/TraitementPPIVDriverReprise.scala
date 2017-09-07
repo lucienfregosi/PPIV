@@ -55,7 +55,7 @@ object TraitementPPIVDriverReprise extends Serializable {
 
 
 
-      if (Conversion.validateDateInputFormatForADay(args(1)) == true  && args(2)== null)
+      if ( args.length == 2 && Conversion.validateDateInputFormatForADay(args(1)) == true )
         {
 
           LOGGER.info("Lancement du batch de reprise sur la journée de " + args(1).toString )
