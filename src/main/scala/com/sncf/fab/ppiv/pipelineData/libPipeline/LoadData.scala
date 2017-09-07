@@ -64,7 +64,7 @@ object LoadData {
 
     // Test si le fichier existe
     if(!checkIfFileExist(sqlContext.sparkContext,REF_GARES )) {
-      PpivRejectionHandler.handleRejection("KO",Conversion.getHourDebutPlageHoraire(TraitementPPIVDriver.startTimePipeline),TraitementPPIVDriver.startTimePipeline.toString(),path, "Le fichier n'existe pas")
+      PpivRejectionHandler.handleRejection("KO",Conversion.getHourDebutPlageHoraire(TraitementPPIVDriver.startTimePipeline),TraitementPPIVDriver.startTimePipeline.toString(),REF_GARES, "Le fichier n'existe pas")
     }
 
     // Définition du nom de chacune des colonnes car on recoit les fichiers sans headers

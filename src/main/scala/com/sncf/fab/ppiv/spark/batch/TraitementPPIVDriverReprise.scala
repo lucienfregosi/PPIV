@@ -80,7 +80,7 @@ object TraitementPPIVDriverReprise extends Serializable {
         LOGGER.info("Lancement du batch de reprise sur la période spécifié entre " + args(1).toString + " et " + args(2).toString)
         println("Lancement du batch de reprise sur la période spécifié entre " + args(1).toString + " et " + args(2).toString)
 
-        println("passe chemin 1")
+        println("passe chemin 2")
 
         // Enregistrement de la début et de la fin de la période dans le format dateTime a partir du format string yyyyMMdd_HH
         val startTimeToProcess = Conversion.getDateTimeFromArgument(args(1))
