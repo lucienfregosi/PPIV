@@ -43,6 +43,7 @@ object BuildCycleOver {
     //Load les evenements  du jour j. Le 5ème paramètre sert a définir la journée qui nous intéresse 0 = jour J
     if (!reprise)
     {
+
       val tgaTgdRawToDay = loadDataFullPeriod(sc, sqlContext, panneau, startTimeToProcess)
       // Pour chaque cycle terminé récupération des différents évènements au cours de la journée
       // sous la forme d'une structure (cycle_id | Array(TgaTgdInput)
@@ -148,6 +149,8 @@ object BuildCycleOver {
                          panneau: String,
                          timeToProcess: DateTime ): Dataset[TgaTgdInput] = {
 
+
+    println("passe la ou ca devrait pas")
 
     // Il me faut une liste de Path de 18h a J-1 à l'heure actuelle de j
     // Cela revient à s'intéresser à toutes les heures de -6 à l'heure actuelle
