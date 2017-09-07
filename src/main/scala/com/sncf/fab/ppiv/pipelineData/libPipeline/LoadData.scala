@@ -28,9 +28,6 @@ object LoadData {
      Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard","null")
     }
 
-    println("passe")
-
-    println(checkIfFileExist(sqlContext.sparkContext,path ))
 
 
     // Test si le fichier existe

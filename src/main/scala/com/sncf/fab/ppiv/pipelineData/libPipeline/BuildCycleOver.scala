@@ -150,7 +150,6 @@ object BuildCycleOver {
                          timeToProcess: DateTime ): Dataset[TgaTgdInput] = {
 
 
-    println("passe la ou ca devrait pas")
 
     // Il me faut une liste de Path de 18h a J-1 à l'heure actuelle de j
     // Cela revient à s'intéresser à toutes les heures de -6 à l'heure actuelle
