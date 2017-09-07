@@ -15,7 +15,7 @@ class TraitementTga extends SourcePipeline {
         .getYearMonthDay(timeToProcess) + "_" + Conversion
         .getHourDebutPlageHoraire(timeToProcess) + ".csv"}
     else {REFINERY + Conversion.getYearMonthDay(timeToProcess) + "/TGA-" + Conversion
-      .getYearMonthDay(timeToProcess)}
+      .getYearMonthDay(timeToProcess)+ ".csv"}
   }
 
   override def getOutputRefineryPath(timeToProcess: DateTime) =
