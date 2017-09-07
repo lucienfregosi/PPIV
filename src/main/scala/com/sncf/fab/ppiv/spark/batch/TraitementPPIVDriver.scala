@@ -31,6 +31,8 @@ object TraitementPPIVDriver extends Serializable {
 
   // Sauvegarde de l'heure de début du programme dans une variable
   val startTimePipeline = Conversion.nowToDateTime()
+  val endTimePipeline   = Conversion.nowToDateTime()
+  val reprise = false
 
 
   def main(args: Array[String]): Unit = {
@@ -65,7 +67,7 @@ object TraitementPPIVDriver extends Serializable {
         if(args.length == 1){
           //  - 1 seul et unique argument valide (hive, hdfs, es, fs) -> Nominal : Lancement automatique du batch sur l'heure n-1
           LOGGER.warn("Lancement automatique du batch sur l'heure n-1")
-          startPipeline(args, sc, sqlContext, hiveContext, startTimePipeline)
+          startPipeline(args, sc, sqlContext, hiveContext, startTimePipeline, endTimePipeline, reprise)
         }
         else if(Conversion.validateDateInputFormat(args(1)) == true){
 
@@ -74,14 +76,15 @@ object TraitementPPIVDriver extends Serializable {
           //  - 3 arguments (persistance, date début, date fin) et dates valides -> Lancement du batch sur la période spécifié
           LOGGER.warn("Lancement du batch pour l'heure : " + args(1).toString)
 
-          val timeToProcess = Conversion.getDateTimeFromArgument(args(1))
+          val startTimeToProcess = Conversion.getDateTimeFromArgument(args(1))
+          val endTimeToProcess = Conversion.getDateTimeFromArgument(args(1))
 
-          println(timeToProcess.toString())
+          println(startTimeToProcess.toString())
 
 
           // Lancement du pipeline pour l'heure demandé
-          startPipeline(args, sc, sqlContext, hiveContext, timeToProcess)
-          startPipeline(args, sc, sqlContext, hiveContext, timeToProcess.plusHours(1))
+          startPipeline(args, sc, sqlContext, hiveContext, startTimeToProcess, endTimeToProcess, reprise)
+          startPipeline(args, sc, sqlContext, hiveContext, startTimeToProcess.plusHours(1), endTimeToProcess, reprise)
 
         }
         else{
@@ -100,7 +103,7 @@ object TraitementPPIVDriver extends Serializable {
   }
 
   // Fonction appelé pour le déclenchement d'un pipeline complet pour une heure donnée
-  def startPipeline(argsArray: Array[String], sc: SparkContext, sqlContext: SQLContext, hiveContext: HiveContext, dateTimeToProcess: DateTime): Unit = {
+  def startPipeline(argsArray: Array[String], sc: SparkContext, sqlContext: SQLContext, hiveContext: HiveContext, startTimeToProcess: DateTime, endTimeToProcess: DateTime, reprise: Boolean): Unit = {
 
     import sqlContext.implicits._
 
@@ -109,10 +112,10 @@ object TraitementPPIVDriver extends Serializable {
 
 
     LOGGER.warn("Processing des TGA")
-    val ivTga = TraitementTga.start(sc, sqlContext, hiveContext, dateTimeToProcess,false,false)
+    val ivTga = TraitementTga.start(sc, sqlContext, hiveContext, startTimeToProcess,endTimeToProcess, reprise)
 
     LOGGER.warn("Processing des TGD")
-    val ivTgd = TraitementTgd.start(sc, sqlContext, hiveContext, dateTimeToProcess,false,false)
+    val ivTgd = TraitementTgd.start(sc, sqlContext, hiveContext,startTimeToProcess,endTimeToProcess,reprise)
 
 
 
@@ -124,7 +127,7 @@ object TraitementPPIVDriver extends Serializable {
       // 12) Persistence dans la méthode demandée (hdfs, hive, es, fs)
       LOGGER.warn("Persistence dans la méthode demandée (hdfs, hive, es, fs)")
 
-      Persist.save(ivTgaTgd, persistMethod, sc, dateTimeToProcess, hiveContext)
+      Persist.save(ivTgaTgd, persistMethod, sc, startTimeToProcess, hiveContext)
 
       LOGGER.warn("SUCCESS")
       // Voir pour logger le succès

@@ -9,21 +9,28 @@ import org.joda.time.DateTime
   */
 class TraitementTga extends SourcePipeline {
 
-
   override def getSource(timeToProcess: DateTime, reprise: Boolean): String = {
-   if (!reprise) LANDING_WORK  + Conversion.getYearMonthDay(timeToProcess) + "/TGA-" + Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.getHourDebutPlageHoraire(timeToProcess) + ".csv"
-   else "Chemin vers les fichier journaliers"
+    if (!reprise)
+      LANDING_WORK + Conversion.getYearMonthDay(timeToProcess) + "/TGA-" + Conversion
+        .getYearMonthDay(timeToProcess) + "_" + Conversion
+        .getHourDebutPlageHoraire(timeToProcess) + ".csv"
+    else REFINERY + Conversion.getYearMonthDay(timeToProcess) + "/TGA-" + Conversion
+      .getYearMonthDay(timeToProcess)
   }
-   override def getOutputRefineryPath(timeToProcess: DateTime) = REFINERY + Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.getHourDebutPlageHoraire(timeToProcess) + ".csv"
 
-  override def getOutputGoldPath(timeToProcess: DateTime) = GOLD + Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.getHourDebutPlageHoraire(timeToProcess) + ".csv"
+  override def getOutputRefineryPath(timeToProcess: DateTime) =
+    REFINERY + Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion
+      .getHourDebutPlageHoraire(timeToProcess) + ".csv"
+
+  override def getOutputGoldPath(timeToProcess: DateTime) =
+    GOLD + Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion
+      .getHourDebutPlageHoraire(timeToProcess) + ".csv"
 
   override def Depart(): Boolean = false
 
   override def Arrive(): Boolean = true
 
-  override def Panneau() : String = "TGA"
-
+  override def Panneau(): String = "TGA"
 
 }
 
