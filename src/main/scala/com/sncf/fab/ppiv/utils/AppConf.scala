@@ -29,9 +29,6 @@ object AppConf extends Serializable{
   val TGA          = "TGA.csv"
   val TGD          = "TGD.csv"
 
-  // Noms des fichiers pour les rejets
-  val REJECTED_FIELD = conf.getString("refinery") + conf.getString("reject_field")
-  val REJECTED_CYCLE = conf.getString("refinery") + conf.getString("reject_cycle")
 
   // elastic confs
   val PORT= conf.getString("port")

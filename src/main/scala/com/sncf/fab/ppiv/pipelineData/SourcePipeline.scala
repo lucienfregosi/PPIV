@@ -51,6 +51,11 @@ trait SourcePipeline extends Serializable {
 
   def getOutputRefineryPath(timeToProcess: DateTime): String
 
+  def getRejectCycleRefineryPath(timeToProcess: DateTime): String
+  def getRejectCycleGoldPath(timeToProcess: DateTime): String
+  def getRejectFieldRefineryPath(timeToProcess: DateTime): String
+  def getRejectFieldGoldPath(timeToProcess: DateTime): String
+
 
   /**
     *
@@ -71,7 +76,7 @@ trait SourcePipeline extends Serializable {
   def Panneau(): String
 
   // Lancement du pipeline de traitement soit les TGA ou les TGD
-  def start(sc : SparkContext, sqlContext : SQLContext, hiveContext: HiveContext,  startTimeToProcess : DateTime,endTimeToProcesse: DateTime, reprise: Boolean): DataFrame = {
+  def start(sc : SparkContext, sqlContext : SQLContext, hiveContext: HiveContext,  startTimeToProcess : DateTime, endTimeToProcesse: DateTime, reprise: Boolean): DataFrame = {
 
     import sqlContext.implicits._
 
@@ -81,9 +86,6 @@ trait SourcePipeline extends Serializable {
       // Test si le fichier existe
       val pathFileToLoad = getSource( startTimeToProcess , reprise)
       println(pathFileToLoad)
-
-      // On verifie si le fichier que l'on veut charger existe
-      // S'il n'existe pas on sort car on ne peut rien faire pour ce cycle
 
 
       val dataTgaTgd = LoadData.loadTgaTgd(sqlContext, pathFileToLoad, reprise)
@@ -130,19 +132,11 @@ trait SourcePipeline extends Serializable {
                 val cycleValidated = dsIvTgaTgdWithoutReferentiel.toDF().filter(not($"cycleId".contains("INV_"))).as[TgaTgdIntermediate]
 
 
-                // Enregistrement des rejets (champs et cycles)
-                Reject.saveFieldRejected(dataTgaTgdFielRejected, sc, hiveContext, startTimeToProcess , Panneau())
-                Reject.saveCycleRejected(cycleInvalidated, sc, hiveContext,  startTimeToProcess , Panneau())
+                Reject.saveFieldRejected(dataTgaTgdFielRejected, getRejectFieldRefineryPath(startTimeToProcess))
+                Reject.saveCycleRejected(cycleInvalidated, getRejectCycleRefineryPath(startTimeToProcess))
 
                 LOGGER.warn("Enregistrement des rejets OK")
 
-
-                // 9) Sauvegarde des données propres
-                // LOGGER.info("9) Sauvegarde des données propres")
-                // A partir de cycleValidate :
-                // Dataset[TgaTgdWithoutRef] -> DataSet[TgaTgdInput]
-                // Puis enregistrer dans l'object PostProcess
-                //PostProcess.saveCleanData(DataSet[TgaTgdInput], sc)
 
                 try {
                   // 10) Jointure avec le référentiel et inscription dans la classe finale TgaTgdOutput avec conversion et formatage
