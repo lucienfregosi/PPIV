@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory
 //  */
 
 // Classe main, lancement du programme
-object TraitementPPIVDriver extends Serializable {
+object TraitementPPIVDriverReprise extends Serializable {
 
   var LOGGER = LoggerFactory.getLogger(TraitementPPIVDriver.getClass)
   LOGGER.info("Lancement du batch PPIV REPRISE")
