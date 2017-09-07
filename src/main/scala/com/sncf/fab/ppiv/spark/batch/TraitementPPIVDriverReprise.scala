@@ -68,8 +68,15 @@ object TraitementPPIVDriverReprise extends Serializable {
           val startTime = args(1) + "_01"
           println(startTime)
           val startTimeToProcess = Conversion.getDateTimeFromArgument(startTime)
-          val endTimeToProcessDay   = Conversion.getYearMonthDay(startTimeToProcess.plusDays(1)).toString
-          val endTimeToProcess   = Conversion.getDateTimeFromArgument(endTimeToProcessDay+"_00")
+
+          val endTimeToProcessDay   = Conversion.getYearMonthDay( startTimeToProcess.plusDays(1)).toString
+          println("day end process is  : " + endTimeToProcessDay )
+        val endTime = endTimeToProcessDay+"_00"
+
+         println("time end process is  : " + endTime)
+
+          val endTimeToProcess   = Conversion.getDateTimeFromArgument(endTime)
+          println("time end process is  : " + endTimeToProcessDay)
 
           // Lancement du pipeline pour la journée demandé
           startPipelineReprise(args, sc, sqlContext, hiveContext,startTimeToProcess,endTimeToProcess, true)
