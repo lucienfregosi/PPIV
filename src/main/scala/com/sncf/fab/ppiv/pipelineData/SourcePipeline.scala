@@ -37,7 +37,7 @@ trait SourcePipeline extends Serializable {
   /**
     * @return le chemin de la source de données brute
     */
-  def getSource(timeToProcess: DateTime): String
+  def getSource(timeToProcess: DateTime, reprise: Boolean): String
   /**
     *
     * @return le chemin de l'output qualité
@@ -71,21 +71,23 @@ trait SourcePipeline extends Serializable {
   def Panneau(): String
 
   // Lancement du pipeline de traitement soit les TGA ou les TGD
-  def start(sc : SparkContext, sqlContext : SQLContext, hiveContext: HiveContext, timeToProcess: DateTime): DataFrame = {
+  def start(sc : SparkContext, sqlContext : SQLContext, hiveContext: HiveContext,  startTimeToProcess : DateTime,endTimeToProcesse: DateTime, reprise: Boolean): DataFrame = {
 
     import sqlContext.implicits._
 
-    try{
+
+    try {
       // 1) Chargement des fichiers déjà parsé dans leur classe
       // Test si le fichier existe
-      val pathFileToLoad = getSource(timeToProcess)
+      val pathFileToLoad = getSource( startTimeToProcess , reprise)
+      println(pathFileToLoad)
 
       // On verifie si le fichier que l'on veut charger existe
       // S'il n'existe pas on sort car on ne peut rien faire pour ce cycle
 
 
-      val dataTgaTgd                = LoadData.loadTgaTgd(sqlContext, pathFileToLoad)
-      val dataRefGares              = LoadData.loadReferentiel(sqlContext)
+      val dataTgaTgd = LoadData.loadTgaTgd(sqlContext, pathFileToLoad, reprise)
+      val dataRefGares = LoadData.loadReferentiel(sqlContext)
 
 
       LOGGER.warn("Chargement des fichiers OK")
@@ -100,38 +102,39 @@ trait SourcePipeline extends Serializable {
           returnValue
         } else dataTgaTgd
 
-        try{
+        try {
           // 3) Validation champ à champ
-          val (dataTgaTgdFielValidated, dataTgaTgdFielRejected)   = ValidateData.validateField(dataTgaTgdBugFix, sqlContext)
+          val (dataTgaTgdFielValidated, dataTgaTgdFielRejected) = ValidateData.validateField(dataTgaTgdBugFix, sqlContext)
           LOGGER.warn("Validation champ à champ OK")
 
-          try{
+          try {
             // 4) Reconstitution des évènements pour chaque trajet
             // L'objectif de cette fonction est de renvoyer (cycleId | Array(TgaTgdInput) ) afin d'associer à chaque cycle de vie
             // d'un train terminé la liste de tous ses évènements en vue du calcul des indicateurs
-            val cycleWithEventOver = BuildCycleOver.getCycleOver(dataTgaTgdFielValidated, sc, sqlContext, Panneau(), timeToProcess)
+            val cycleWithEventOver = BuildCycleOver.getCycleOver(dataTgaTgdFielValidated, sc, sqlContext, Panneau(),  startTimeToProcess , endTimeToProcesse, false)
             LOGGER.warn("Filtre des cycles Terminés OK")
 
-            try{
+            try {
               // 5) Boucle sur les cycles finis pour traiter leur liste d'évènements
-              val rddIvTgaTgdWithoutReferentiel = BusinessRules.computeBusinessRules(cycleWithEventOver, timeToProcess)
+              val rddIvTgaTgdWithoutReferentiel = BusinessRules.computeBusinessRules(cycleWithEventOver,  startTimeToProcess )
               LOGGER.warn("Calcul des indicateurs OK")
 
 
-              try{
+              try {
                 // Conversion du résulat en dataset
                 val dsIvTgaTgdWithoutReferentiel = rddIvTgaTgdWithoutReferentiel.toDS()
 
                 // Filtre sur les cycles invalidés
                 val cycleInvalidated = dsIvTgaTgdWithoutReferentiel.toDF().filter($"cycleId".contains("INV_")).as[TgaTgdIntermediate]
-                val cycleValidated    = dsIvTgaTgdWithoutReferentiel.toDF().filter(not($"cycleId".contains("INV_"))).as[TgaTgdIntermediate]
+                val cycleValidated = dsIvTgaTgdWithoutReferentiel.toDF().filter(not($"cycleId".contains("INV_"))).as[TgaTgdIntermediate]
 
 
                 // Enregistrement des rejets (champs et cycles)
-                Reject.saveFieldRejected(dataTgaTgdFielRejected, sc, hiveContext, timeToProcess, Panneau())
-                Reject.saveCycleRejected(cycleInvalidated, sc, hiveContext, timeToProcess, Panneau())
+                Reject.saveFieldRejected(dataTgaTgdFielRejected, sc, hiveContext, startTimeToProcess , Panneau())
+                Reject.saveCycleRejected(cycleInvalidated, sc, hiveContext,  startTimeToProcess , Panneau())
 
                 LOGGER.warn("Enregistrement des rejets OK")
+
 
                 // 9) Sauvegarde des données propres
                 // LOGGER.info("9) Sauvegarde des données propres")
@@ -140,9 +143,9 @@ trait SourcePipeline extends Serializable {
                 // Puis enregistrer dans l'object PostProcess
                 //PostProcess.saveCleanData(DataSet[TgaTgdInput], sc)
 
-                try{
+                try {
                   // 10) Jointure avec le référentiel et inscription dans la classe finale TgaTgdOutput avec conversion et formatage
-                  val dataTgaTgdOutput = Postprocess.postprocess (cycleValidated, dataRefGares, sqlContext, Panneau())
+                  val dataTgaTgdOutput = Postprocess.postprocess(cycleValidated, dataRefGares, sqlContext, Panneau())
                   LOGGER.warn("Post Processing OK")
 
 
@@ -153,7 +156,8 @@ trait SourcePipeline extends Serializable {
                   case e: Throwable => {
                     // Retour d'une valeur par défaut
                     e.printStackTrace()
-                    PpivRejectionHandler.handleRejection("KO",Conversion.getHourDebutPlageHoraire(timeToProcess),startTimePipeline.toString(),getSource(timeToProcess), "PostTraitement et jointure avec le referentiel: " + e)
+                    PpivRejectionHandler.handleRejection("KO",Conversion.getHourDebutPlageHoraire(startTimeToProcess),startTimePipeline.toString(),getSource(startTimeToProcess, reprise), "PostTraitement et jointure avec le referentiel: " + e)
+
                     null
                   }
                 }
@@ -162,7 +166,8 @@ trait SourcePipeline extends Serializable {
                 case e: Throwable => {
                   // Retour d'une valeur par défaut
                   e.printStackTrace()
-                  PpivRejectionHandler.handleRejection("KO",Conversion.getHourDebutPlageHoraire(timeToProcess),startTimePipeline.toString(),getSource(timeToProcess), "Enregisrement des rejets: " + e)
+                  PpivRejectionHandler.handleRejection("KO",Conversion.getHourDebutPlageHoraire(startTimeToProcess),startTimePipeline.toString(),getSource(startTimeToProcess, reprise), "Enregisrement des rejets: " + e)
+
                   null
                 }
               }
@@ -171,7 +176,9 @@ trait SourcePipeline extends Serializable {
               case e: Throwable => {
                 // Retour d'une valeur par défaut
                 e.printStackTrace()
-                PpivRejectionHandler.handleRejection("KO",Conversion.getHourDebutPlageHoraire(timeToProcess),startTimePipeline.toString(),getSource(timeToProcess), "Calcul des indicateurs: " + e)
+
+                PpivRejectionHandler.handleRejection("KO",Conversion.getHourDebutPlageHoraire(startTimeToProcess),startTimePipeline.toString(),getSource(startTimeToProcess, reprise), "Calcul des indicateurs: " + e)
+
                 null
               }
             }
@@ -180,7 +187,9 @@ trait SourcePipeline extends Serializable {
             case e: Throwable => {
               // Retour d'une valeur par défaut
               e.printStackTrace()
-              PpivRejectionHandler.handleRejection("KO",Conversion.getHourDebutPlageHoraire(timeToProcess),startTimePipeline.toString(),getSource(timeToProcess), "Constitution des cycles terminés: " + e)
+
+              PpivRejectionHandler.handleRejection("KO",Conversion.getHourDebutPlageHoraire(startTimeToProcess),startTimePipeline.toString(),getSource(startTimeToProcess, reprise), "Constitution des cycles terminés: " + e)
+
               null
             }
           }
@@ -189,7 +198,9 @@ trait SourcePipeline extends Serializable {
           case e: Throwable => {
             // Retour d'une valeur par défaut
             e.printStackTrace()
-            PpivRejectionHandler.handleRejection("KO",Conversion.getHourDebutPlageHoraire(timeToProcess),startTimePipeline.toString(),getSource(timeToProcess), "Validation Champ à champ: " + e)
+
+            PpivRejectionHandler.handleRejection("KO",Conversion.getHourDebutPlageHoraire(startTimeToProcess),startTimePipeline.toString(),getSource(startTimeToProcess, reprise), "Validation Champ à champ: " + e)
+
             null
           }
         }
@@ -198,7 +209,9 @@ trait SourcePipeline extends Serializable {
         case e: Throwable => {
           // Retour d'une valeur par défaut
           e.printStackTrace()
-          PpivRejectionHandler.handleRejection("KO",Conversion.getHourDebutPlageHoraire(timeToProcess),startTimePipeline.toString(),getSource(timeToProcess), "Application du sparadrap: " + e)
+
+          PpivRejectionHandler.handleRejection("KO",Conversion.getHourDebutPlageHoraire(startTimeToProcess),startTimePipeline.toString(),getSource(startTimeToProcess, reprise), "Application du sparadrap: " + e)
+
           null
         }
       }
@@ -207,12 +220,12 @@ trait SourcePipeline extends Serializable {
       case e: Throwable => {
         // Retour d'une valeur par défaut
         e.printStackTrace()
-        PpivRejectionHandler.handleRejection("KO",Conversion.getHourDebutPlageHoraire(timeToProcess),startTimePipeline.toString(),getSource(timeToProcess), "KO Chargement des fichiers: " + e)
+
+        PpivRejectionHandler.handleRejection("KO",Conversion.getHourDebutPlageHoraire(startTimeToProcess),startTimePipeline.toString(),getSource(startTimeToProcess, reprise), "KO Chargement des fichiers: " + e)
+
         null
       }
     }
-
-
   }
 }
 

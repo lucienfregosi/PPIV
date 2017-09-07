@@ -16,11 +16,19 @@ import org.apache.spark.SparkContext
   * Created by ELFI03951 on 12/07/2017.
   */
 object LoadData {
-  def loadTgaTgd(sqlContext : SQLContext, path: String): Dataset[TgaTgdInput] = {
+  def loadTgaTgd(sqlContext : SQLContext, path: String, reprise : Boolean): Dataset[TgaTgdInput] = {
     import sqlContext.implicits._
 
     // Définition du nom de chacune des colonnes car on recoit les fichiers sans headers
-    val newNamesTgaTgd = Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard","null")
+
+    val newNamesTgaTgd  = if (reprise) {
+      Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard")
+    }
+    else{
+     Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard","null")
+    }
+
+
 
     // Test si le fichier existe
     if(!checkIfFileExist(sqlContext.sparkContext,path )) {
