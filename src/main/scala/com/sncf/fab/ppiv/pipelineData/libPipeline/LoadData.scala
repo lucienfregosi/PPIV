@@ -16,10 +16,16 @@ import org.apache.spark.SparkContext
   * Created by ELFI03951 on 12/07/2017.
   */
 object LoadData {
-  def loadTgaTgd(sqlContext : SQLContext, path: String): Dataset[TgaTgdInput] = {
+  def loadTgaTgd(sqlContext : SQLContext, path: String, reprise : Boolean): Dataset[TgaTgdInput] = {
     import sqlContext.implicits._
 
     // Définition du nom de chacune des colonnes car on recoit les fichiers sans headers
+    if (reprise){
+      val newNamesTgaTgd = Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard")
+    }
+    else
+    {val newNamesTgaTgd = Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard","null")}
+
     val newNamesTgaTgd = Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard","null")
 
     // Test si le fichier existe
@@ -40,7 +46,7 @@ object LoadData {
       .distinct()
       .as[TgaTgdInput]
 
-    
+
     dfTgaTgd
 
     // Parsing du CSV a l'intérieur d'un object TgaTgaInput, conversion en dataset

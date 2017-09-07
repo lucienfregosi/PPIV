@@ -86,7 +86,7 @@ trait SourcePipeline extends Serializable {
       // S'il n'existe pas on sort car on ne peut rien faire pour ce cycle
 
 
-      val dataTgaTgd = LoadData.loadTgaTgd(sqlContext, pathFileToLoad)
+      val dataTgaTgd = LoadData.loadTgaTgd(sqlContext, pathFileToLoad, reprise)
       val dataRefGares = LoadData.loadReferentiel(sqlContext)
 
 
