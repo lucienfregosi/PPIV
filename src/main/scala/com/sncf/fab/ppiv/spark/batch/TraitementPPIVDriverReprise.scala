@@ -62,8 +62,9 @@ object TraitementPPIVDriver extends Serializable {
           println("Lancement du batch de reprise sur la journée " + args(1).toString )
 
           //le jour de la reprise sous le format dateTime
-          val startTimeToProcess = Conversion.getDateTimeFromArgument(args(2)+"_00")
-          val endTimeToProcess   = Conversion.getDateTimeFromArgument(args(3)+"_23")
+          val startTimeToProcess = Conversion.getDateTimeFromArgument(args(2)+"_01")
+          val endTimeToProcessDay   = Conversion.getYearMonthDay(startTimeToProcess.plusDays(1)).toString
+          val endTimeToProcess   = Conversion.getDateTimeFromArgument(endTimeToProcessDay+"_00")
 
           // Lancement du pipeline pour la journée demandé
           startPipelineReprise(args, sc, sqlContext, hiveContext,startTimeToProcess,endTimeToProcess, true)
