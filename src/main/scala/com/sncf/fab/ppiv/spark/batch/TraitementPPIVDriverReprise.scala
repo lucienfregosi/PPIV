@@ -62,7 +62,9 @@ object TraitementPPIVDriverReprise extends Serializable {
           println("Lancement du batch de reprise sur la journée " + args(1).toString )
 
           //le jour de la reprise sous le format dateTime
-          val startTimeToProcess = Conversion.getDateTimeFromArgument(args(2)+"_01")
+          val startTime = args(1)+"_01"
+          println(startTime)
+          val startTimeToProcess = Conversion.getDateTimeFromArgument(startTime)
           val endTimeToProcessDay   = Conversion.getYearMonthDay(startTimeToProcess.plusDays(1)).toString
           val endTimeToProcess   = Conversion.getDateTimeFromArgument(endTimeToProcessDay+"_00")
 
