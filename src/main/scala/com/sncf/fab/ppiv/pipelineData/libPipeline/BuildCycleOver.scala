@@ -102,25 +102,13 @@ object BuildCycleOver {
       0)
 
 
-    val heureLimiteCycleFini = if (reprise) {
-      Conversion.getDateTime(
+    val heureLimiteCycleFini = Conversion.getDateTime(
       startTimeToProcess.getYear,
       startTimeToProcess.getMonthOfYear,
       startTimeToProcess.getDayOfMonth,
       Conversion.getHourFinPlageHoraire(endTimeToProcess).toInt,
       0,
       0)
-    }
-    else {
-      Conversion.getDateTime(
-        startTimeToProcess.getYear,
-        startTimeToProcess.getMonthOfYear,
-        startTimeToProcess.getDayOfMonth,
-      Conversion.getHourFinPlageHoraire(startTimeToProcess).toInt,
-      0,
-      0)
-    }
-
 
 
     val timestampLimiteCycleCommencant = Conversion.getTimestampWithLocalTimezone(heureLimiteCycleCommencant)
