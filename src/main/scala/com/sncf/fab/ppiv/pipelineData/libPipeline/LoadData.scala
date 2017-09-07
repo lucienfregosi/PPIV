@@ -40,6 +40,7 @@ object LoadData {
       .distinct()
       .as[TgaTgdInput]
 
+    
     dfTgaTgd
 
     // Parsing du CSV a l'intérieur d'un object TgaTgaInput, conversion en dataset
