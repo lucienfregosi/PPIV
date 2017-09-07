@@ -85,9 +85,6 @@ trait SourcePipeline extends Serializable {
       // Test si le fichier existe
       val pathFileToLoad = getSource(timeToProcess)
 
-      // On verifie si le fichier que l'on veut charger existe
-      // S'il n'existe pas on sort car on ne peut rien faire pour ce cycle
-
 
       val dataTgaTgd                = LoadData.loadTgaTgd(sqlContext, pathFileToLoad)
       val dataRefGares              = LoadData.loadReferentiel(sqlContext)
@@ -137,13 +134,7 @@ trait SourcePipeline extends Serializable {
                 Reject.saveCycleRejected(cycleInvalidated, getRejectCycleRefineryPath(timeToProcess))
 
                 LOGGER.warn("Enregistrement des rejets OK")
-
-                // 9) Sauvegarde des données propres
-                // LOGGER.info("9) Sauvegarde des données propres")
-                // A partir de cycleValidate :
-                // Dataset[TgaTgdWithoutRef] -> DataSet[TgaTgdInput]
-                // Puis enregistrer dans l'object PostProcess
-                //PostProcess.saveCleanData(DataSet[TgaTgdInput], sc)
+                
 
                 try{
                   // 10) Jointure avec le référentiel et inscription dans la classe finale TgaTgdOutput avec conversion et formatage
