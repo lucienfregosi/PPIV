@@ -54,9 +54,13 @@ object TraitementPPIVDriverReprise extends Serializable {
       val startTimePipeline = Conversion.nowToDateTime()
 
 
+      // Une journée a rattraper
+      // 1er arugment : Persistance
+      // 2ème une date en format YYYYMMDD
+      if ( args.length == 2 && Conversion.validateDateInputFormatForADay(args(1)) == true ) {
 
-      if ( args.length == 2 && Conversion.validateDateInputFormatForADay(args(1)) == true )
-        {
+
+          println("passe chemin 1")
 
           LOGGER.info("Lancement du batch de reprise sur la journée de " + args(1).toString )
           println("Lancement du batch de reprise sur la journée " + args(1).toString )
@@ -70,14 +74,13 @@ object TraitementPPIVDriverReprise extends Serializable {
 
           // Lancement du pipeline pour la journée demandé
           startPipelineReprise(args, sc, sqlContext, hiveContext,startTimeToProcess,endTimeToProcess, true)
-
         }
-
-     if(Conversion.validateDateInputFormat(args(1)) == true && Conversion.validateDateInputFormat(args(2)) == true){
+      else if(Conversion.validateDateInputFormat(args(1)) == true && Conversion.validateDateInputFormat(args(2)) == true){
         //  - 3 arguments (persistance, date début, date fin) et dates valides -> Lancement du batch sur la période spécifié
         LOGGER.info("Lancement du batch de reprise sur la période spécifié entre " + args(1).toString + " et " + args(2).toString)
         println("Lancement du batch de reprise sur la période spécifié entre " + args(1).toString + " et " + args(2).toString)
 
+        println("passe chemin 1")
 
         // Enregistrement de la début et de la fin de la période dans le format dateTime a partir du format string yyyyMMdd_HH
         val startTimeToProcess = Conversion.getDateTimeFromArgument(args(1))

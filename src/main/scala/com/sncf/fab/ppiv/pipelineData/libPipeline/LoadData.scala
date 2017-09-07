@@ -61,6 +61,12 @@ object LoadData {
   def loadReferentiel(sqlContext : SQLContext) : Dataset[ReferentielGare] = {
     import sqlContext.implicits._
 
+
+    // Test si le fichier existe
+    if(!checkIfFileExist(sqlContext.sparkContext,REF_GARES )) {
+      PpivRejectionHandler.handleRejection("KO",Conversion.getHourDebutPlageHoraire(TraitementPPIVDriver.startTimePipeline),TraitementPPIVDriver.startTimePipeline.toString(),path, "Le fichier n'existe pas")
+    }
+
     // Définition du nom de chacune des colonnes car on recoit les fichiers sans headers
     val newNamesRefGares = Seq("CodeGare","IntituleGare","NombrePlateformes","SegmentDRG","UIC","UniteGare","TVS","CodePostal","Commune","DepartementCommune","Departement","Region","AgenceGC","RegionSNCF","NiveauDeService","LongitudeWGS84","LatitudeWGS84","DateFinValiditeGare")
 
