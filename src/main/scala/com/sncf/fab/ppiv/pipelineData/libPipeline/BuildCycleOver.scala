@@ -101,7 +101,8 @@ object BuildCycleOver {
       0,
       0)
 
-
+    //TO_REMOVE
+println("heure filtrage 1: " + heureLimiteCycleCommencant)
     val heureLimiteCycleFini = Conversion.getDateTime(
       startTimeToProcess.getYear,
       startTimeToProcess.getMonthOfYear,
@@ -110,6 +111,8 @@ object BuildCycleOver {
       0,
       0)
 
+    //TO_REMOVE
+    println("heure filtrage 2: " + heureLimiteCycleCommencant)
 
     val timestampLimiteCycleCommencant = Conversion.getTimestampWithLocalTimezone(heureLimiteCycleCommencant)
     val timestampLimiteCycleFini = Conversion.getTimestampWithLocalTimezone(heureLimiteCycleFini)

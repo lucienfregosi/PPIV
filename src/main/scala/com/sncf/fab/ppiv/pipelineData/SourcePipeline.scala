@@ -109,6 +109,9 @@ trait SourcePipeline extends Serializable {
           val (dataTgaTgdFielValidated, dataTgaTgdFielRejected) = ValidateData.validateField(dataTgaTgdBugFix, sqlContext)
           LOGGER.warn("Validation champ à champ OK")
 
+          //TO_REMOVE
+          println("level1: " + dataTgaTgdFielValidated.count())
+
           try {
             // 4) Reconstitution des évènements pour chaque trajet
             // L'objectif de cette fonction est de renvoyer (cycleId | Array(TgaTgdInput) ) afin d'associer à chaque cycle de vie
@@ -116,6 +119,9 @@ trait SourcePipeline extends Serializable {
 
             val cycleWithEventOver = BuildCycleOver.getCycleOver(dataTgaTgdFielValidated, sc, sqlContext, Panneau(),  startTimeToProcess , endTimeToProcesse, reprise)
             LOGGER.warn("Filtre des cycles Terminés OK")
+
+            //TO_REMOVE
+            println("level2: " + cycleWithEventOver.count())
 
             try {
               // 5) Boucle sur les cycles finis pour traiter leur liste d'évènements
@@ -145,7 +151,14 @@ trait SourcePipeline extends Serializable {
 
 
                   // On renvoie le data set final pour un Tga ou un Tgd (qui seront fusionné dans le main)
+
+
+                  //TO_REMOVE
+                  println("level3: " + dataTgaTgdOutput.count())
+
                   dataTgaTgdOutput
+
+
                 }
                 catch {
                   case e: Throwable => {
