@@ -5,7 +5,8 @@ import java.util.Calendar
 
 import com.sncf.fab.ppiv.Exception.PpivRejectionHandler
 import com.sncf.fab.ppiv.business.{ReferentielGare, TgaTgdInput}
-import com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver
+import com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver.startTimePipeline
+import com.sncf.fab.ppiv.utils.Conversion
 import com.sncf.fab.ppiv.pipelineData.SourcePipeline
 import org.apache.log4j.Logger
 import org.apache.spark.sql.Row
@@ -14,7 +15,6 @@ import org.apache.spark.sql.Row
   * Created by Smida Bassem on 16/05/17.
   */
 object DatasetsParser {
-  var LOGGER = Logger.getLogger(DatasetsParser.getClass)
 
   def parseTgaTgdDataset(row: Row): TgaTgdInput = {
     try {
@@ -25,7 +25,7 @@ object DatasetsParser {
     }
     catch {
       case e => {
-        PpivRejectionHandler.handleRejection("KO",TraitementPPIVDriver.startTimePipeline.toString(),"", "Parsing des fichiers Input. Exception: " + e.getMessage)
+        PpivRejectionHandler.handleRejection("KO",Conversion.getHourDebutPlageHoraire(startTimePipeline),startTimePipeline.toString(),"", "Parsing des fichiers Input. Exception: " + e.getMessage)
         null
       }
     }
@@ -44,7 +44,7 @@ object DatasetsParser {
     }
     catch {
       case e => {
-        PpivRejectionHandler.handleRejection("KO",TraitementPPIVDriver.startTimePipeline.toString(),"", "Parsing du fichier Référentiel. Exception: " + e.getMessage)
+        PpivRejectionHandler.handleRejection("KO",Conversion.getHourDebutPlageHoraire(startTimePipeline),startTimePipeline.toString(),"", "Parsing du fichier Référentiel. Exception: " + e.getMessage)
         null
       }
     }
