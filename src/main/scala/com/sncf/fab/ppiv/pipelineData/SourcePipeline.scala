@@ -134,6 +134,7 @@ trait SourcePipeline extends Serializable {
 
                 LOGGER.warn("Enregistrement des rejets OK")
 
+                
                 // 9) Sauvegarde des données propres
                 // LOGGER.info("9) Sauvegarde des données propres")
                 // A partir de cycleValidate :
