@@ -29,7 +29,7 @@ object PpivRejectionHandler extends Serializable {
     val fw = new FileWriter(EXECUTION_TRACE_FILE, true)
     try {
       fw.write("statut,dateTraitement,dateExecution,fichierImplique,message\n")
-      fw.write(statut + "," + dateExecution + "," + currentTgaTgdFile +  "," + message + "\n")
+      fw.write(statut + "," + dateTraitement + "," + dateExecution + "," + currentTgaTgdFile +  "," + message + "\n")
     }
     finally fw.close()
   }
