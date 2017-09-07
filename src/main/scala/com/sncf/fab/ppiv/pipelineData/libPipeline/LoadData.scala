@@ -20,13 +20,15 @@ object LoadData {
     import sqlContext.implicits._
 
     // Définition du nom de chacune des colonnes car on recoit les fichiers sans headers
-    if (reprise){
-      val newNamesTgaTgd = Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard")
-    }
-    else
-    {val newNamesTgaTgd = Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard","null")}
 
-    val newNamesTgaTgd = Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard","null")
+    val newNamesTgaTgd  = if (reprise) {
+      Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard")
+    }
+    else{
+     Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard","null")
+    }
+
+
 
     // Test si le fichier existe
     if(!checkIfFileExist(sqlContext.sparkContext,path )) {
