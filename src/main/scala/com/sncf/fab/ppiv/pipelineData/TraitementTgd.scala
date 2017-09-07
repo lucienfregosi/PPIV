@@ -11,12 +11,12 @@ class TraitementTgd extends SourcePipeline {
 
   override def getSource(timeToProcess: DateTime, reprise : Boolean) = {
 
-    if (!reprise)
-      LANDING_WORK + Conversion.getYearMonthDay(timeToProcess) + "/TGD-" + Conversion
+    if (!reprise){
+      LANDING_WORK + Conversion.getYearMonthDay(timeToProcess) + "/TGA-" + Conversion
         .getYearMonthDay(timeToProcess) + "_" + Conversion
-        .getHourDebutPlageHoraire(timeToProcess) + ".csv"
-    else REFINERY + Conversion.getYearMonthDay(timeToProcess) + "/TGD-" + Conversion
-      .getYearMonthDay(timeToProcess)
+        .getHourDebutPlageHoraire(timeToProcess) + ".csv"}
+    else {REFINERY + Conversion.getYearMonthDay(timeToProcess) + "/TGA-" + Conversion
+      .getYearMonthDay(timeToProcess)}
   }
   override def getOutputGoldPath(timeToProcess: DateTime) = GOLD + Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.getHourDebutPlageHoraire(timeToProcess) + ".csv"
 

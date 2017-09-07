@@ -80,6 +80,7 @@ trait SourcePipeline extends Serializable {
       // 1) Chargement des fichiers déjà parsé dans leur classe
       // Test si le fichier existe
       val pathFileToLoad = getSource( startTimeToProcess , reprise)
+      println(pathFileToLoad)
 
       // On verifie si le fichier que l'on veut charger existe
       // S'il n'existe pas on sort car on ne peut rien faire pour ce cycle

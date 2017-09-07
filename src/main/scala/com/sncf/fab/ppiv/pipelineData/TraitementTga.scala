@@ -10,12 +10,12 @@ import org.joda.time.DateTime
 class TraitementTga extends SourcePipeline {
 
   override def getSource(timeToProcess: DateTime, reprise: Boolean): String = {
-    if (!reprise)
+    if (!reprise){
       LANDING_WORK + Conversion.getYearMonthDay(timeToProcess) + "/TGA-" + Conversion
         .getYearMonthDay(timeToProcess) + "_" + Conversion
-        .getHourDebutPlageHoraire(timeToProcess) + ".csv"
-    else REFINERY + Conversion.getYearMonthDay(timeToProcess) + "/TGA-" + Conversion
-      .getYearMonthDay(timeToProcess)
+        .getHourDebutPlageHoraire(timeToProcess) + ".csv"}
+    else {REFINERY + Conversion.getYearMonthDay(timeToProcess) + "/TGA-" + Conversion
+      .getYearMonthDay(timeToProcess)}
   }
 
   override def getOutputRefineryPath(timeToProcess: DateTime) =
