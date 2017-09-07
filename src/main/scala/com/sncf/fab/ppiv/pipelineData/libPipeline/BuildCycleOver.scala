@@ -174,7 +174,7 @@ object BuildCycleOver {
     }
 
 
-    val tgaTgdAllPerHour = pathAllFile.map( filePath => LoadData.loadTgaTgd(sqlContext, filePath.toString))
+    val tgaTgdAllPerHour = pathAllFile.map( filePath => LoadData.loadTgaTgd(sqlContext, filePath.toString,false ))
 
     // Fusion des datasets entre eux
     val tgaTgdAllPeriod= tgaTgdAllPerHour.reduce((x, y) => x.union(y))
