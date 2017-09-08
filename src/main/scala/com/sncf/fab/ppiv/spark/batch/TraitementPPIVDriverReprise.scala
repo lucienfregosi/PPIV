@@ -1,47 +1,36 @@
 package com.sncf.fab.ppiv.spark.batch
 
-import java.time.Period
-
 import com.sncf.fab.ppiv.Exception.PpivRejectionHandler
 import com.sncf.fab.ppiv.persistence._
-import com.sncf.fab.ppiv.pipelineData.{SourcePipeline, TraitementTga, TraitementTgd}
-import org.apache.log4j.Logger
-import com.sncf.fab.ppiv.utils.AppConf._
+import com.sncf.fab.ppiv.pipelineData.{TraitementTga, TraitementTgd}
+import com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver.startTimePipeline
 import com.sncf.fab.ppiv.utils.{Conversion, GetHiveEnv, GetSparkEnv}
+import org.apache.spark.SparkContext
 import org.apache.spark.sql.SQLContext
-import org.apache.spark.{SparkConf, SparkContext}
+import org.apache.spark.sql.hive.HiveContext
 import org.joda.time.{DateTime, Duration}
 import org.slf4j.LoggerFactory
-import com.sncf.fab.ppiv.pipelineData.libPipeline._
-import org.apache.spark.sql.hive.HiveContext
-import org.apache.log4j.{Level, LogManager, PropertyConfigurator}
 
 /**
 //  * Created by simoh-labdoui on 11/05/2017.
 //  */
 
 // Classe main, lancement du programme
-object TraitementPPIVDriver extends Serializable {
+object TraitementPPIVDriverReprise extends Serializable {
 
-
-  // Définition du logger Spark
-  val LOGGER = LogManager.getRootLogger
-  LOGGER.setLevel(Level.WARN)
-
+  var LOGGER = LoggerFactory.getLogger(TraitementPPIVDriver.getClass)
+  LOGGER.info("Lancement du batch PPIV REPRISE")
 
   // Sauvegarde de l'heure de début du programme dans une variable
   val startTimePipeline = Conversion.nowToDateTime()
-
 
   def main(args: Array[String]): Unit = {
     // 5 cas de figure pour l'exécution du programme
     //  - Pas d'arguments d'entrée -> Stop
     //  - Argument n°1 de persistance non valide -> Stop
     //  - 1 seul et unique argument valide (hive, hdfs, es, fs) -> Nominal : Lancement automatique du batch sur l'heure n-1
-    //  - 2 arguments (persistance, date/heure à processer) mais dates invalide (les dates doivent être de la forme yyyyMMdd_HH) -> Stop
-    //  - 2 arguments (persistance, date/heure à processer) et dates valides -> Lancement du batch sur la période spécifié
-
-
+    //  - 3 arguments (persistance, date début, date fin) mais dates invalide (les dates doivent être de la forme yyyyMMdd_HH) -> Stop
+    //  - 3 arguments (persistance, date début, date fin) et dates valides -> Lancement du batch sur la période spécifié
 
     if (args.length == 0){
       // Pas d'arguments d'entrée -> Stop
@@ -53,59 +42,52 @@ object TraitementPPIVDriver extends Serializable {
     }
     else {
 
-      // Définition du Spark Context et SQL Context à partir de utils/GetSparkEnv
       try{
-
+        // Définition du Spark Context et SQL Context à partir de utils/GetSparkEnv
         val sc         = GetSparkEnv.getSparkContext()
         val sqlContext = GetSparkEnv.getSqlContext()
         val hiveContext = GetHiveEnv.getHiveContext(sc)
 
+        // Set du niveau de log pour ne pas être envahi par les messages
+        sc.setLogLevel("ERROR")
 
-        // 2 cas de figure, soit on a pas d'argument d'entrée
-        // Dans ce cas on prend l'heure actuelle par ex 11h32
-        // et on va chercher le fichier à n-1 donc celui de 10h qui contient tous les évènements de 10h a 11h
-        // On lance donc source pipeline entre 10h et 11
+        // 2 cas de figure
+        // Un argument YYYYMMDD => On fait la reprise sur une journée entière
+        // Debut Periode : YYYYMMDD_00 Fin période : YYYYMM(DD+1)_00
 
-        // 2ème cas de figure on précise l'heure a traiter : par exemple 20170908_11
-        // Dans ce cas on traite le fichier de 11h qui contient les evènements de 11h a 12h
+        // 2 argument type YYYYMMDD_N1 à YYYYMMDD_N2
+        // Debut Periode YYYYMMDD_N1 Fin periode YYYYMMDD_(N2+1)
 
-        if(args.length == 1){
-          //  - 1 seul et unique argument valide (hive, hdfs, es, fs) -> Nominal : Lancement automatique du batch sur l'heure n-1
-          LOGGER.warn("Lancement automatique du batch sur l'heure n-1")
 
-          // Si startTimePipeline = 13h46
+        // Une journée a rattraper
+        // 1er arugment : Persistance
+        // 2ème une date en format YYYYMMDD
+        if ( args.length == 2 && Conversion.validateDateInputFormatForADay(args(1)) == true ) {
 
-          // finPeriode = 13h00
-          val finPeriode = Conversion.getDateTime(
-            startTimePipeline.getYear,
-            startTimePipeline.getMonthOfYear,
-            startTimePipeline.getDayOfMonth,
-            startTimePipeline.getHourOfDay,
-            0,
-            0)
+          // 1er cas de figure
+          LOGGER.warn("Lancement du batch de reprise sur la journée de " + args(1).toString )
 
-          val debutPeriode = finPeriode.plusHours(-1)
+          val debutPeriode = Conversion.getDateTimeFromArgument(args(1) + "_00")
+          val finPeriode = Conversion.getDateTimeFromArgument(args(1) + "_00").plusDays(1)
 
-          startPipeline(args, sc, sqlContext, hiveContext, debutPeriode, finPeriode)
+
+
+          // Lancement du pipeline pour la journée demandé
+          startPipelineReprise(args, sc, sqlContext, hiveContext,debutPeriode, finPeriode, true)
         }
-        else if(Conversion.validateDateInputFormat(args(1)) == true){
-
-          // On a une heure a processer en paramètre
-
+        else if(Conversion.validateDateInputFormat(args(1)) == true && Conversion.validateDateInputFormat(args(2)) == true){
           //  - 3 arguments (persistance, date début, date fin) et dates valides -> Lancement du batch sur la période spécifié
-          LOGGER.warn("Lancement du batch pour l'heure : " + args(1).toString)
+          LOGGER.warn("Lancement du batch de reprise sur la période spécifié entre " + args(1).toString + " et " + args(2).toString)
+
+          // 2ème cas de figure
 
           val debutPeriode = Conversion.getDateTimeFromArgument(args(1))
-          val finPeriode = debutPeriode.plusHours(1)
-
-          println("debut: " + debutPeriode)
-          println("fin: " + finPeriode)
-
-          System.exit(0)
+          val finPeriode = Conversion.getDateTimeFromArgument(args(2))
 
 
-          // Lancement du pipeline pour l'heure demandé (+ 1 car le pipelin est construit par rapport a ce qu'on lui donne l'heure de fin de traitement
-          startPipeline(args, sc, sqlContext, hiveContext, debutPeriode,finPeriode)
+
+          // Lancement du pipeline pour l'heure demandé
+          startPipelineReprise(args, sc, sqlContext, hiveContext,debutPeriode,finPeriode, false)
 
         }
         else{
@@ -124,23 +106,20 @@ object TraitementPPIVDriver extends Serializable {
   }
 
   // Fonction appelé pour le déclenchement d'un pipeline complet pour une heure donnée
-  def startPipeline(argsArray: Array[String], sc: SparkContext, sqlContext: SQLContext, hiveContext: HiveContext, debutPeriode: DateTime, finPeriode: DateTime): Unit = {
-
-    import sqlContext.implicits._
+  def startPipelineReprise(argsArray: Array[String], sc: SparkContext, sqlContext: SQLContext, hiveContext: HiveContext, debutPeriode : DateTime, finPeriode :DateTime, reprise : Boolean): Unit = {
 
     // Récupération argument d'entrées, la méthode de persistance
     val persistMethod = argsArray(0)
 
-    LOGGER.warn("Processing des TGA")
-    val ivTga = TraitementTga.start(sc, sqlContext, hiveContext, debutPeriode, finPeriode, false)
+    val ivTga = TraitementTga.start(sc, sqlContext, hiveContext, debutPeriode ,finPeriode, reprise)
 
-    LOGGER.warn("Processing des TGD")
-    val ivTgd = TraitementTgd.start(sc, sqlContext, hiveContext, debutPeriode, finPeriode, false)
 
+    val ivTgd = TraitementTgd.start(sc, sqlContext, hiveContext, debutPeriode ,finPeriode, reprise)
 
     // 11) Fusion des résultats de TGA et TGD
-    LOGGER.warn("TGA et TGD traités enregistrement")
+    LOGGER.info("11) Fusion des résultats entre TGA et TGD")
     val ivTgaTgd = ivTga.unionAll(ivTgd)
+
 
     try {
       // 12) Persistence dans la méthode demandée (hdfs, hive, es, fs)

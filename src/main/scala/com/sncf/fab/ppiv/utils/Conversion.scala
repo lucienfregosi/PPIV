@@ -161,6 +161,7 @@ object Conversion {
     yearMonthDayFormat.print(date).toInt
   }
 
+
   def getHourString(date: DateTime): String = {
     // Convertir une heure en String
     new DecimalFormat("00").format(date.getHourOfDay)
@@ -240,6 +241,18 @@ object Conversion {
       df.setLenient(false)
       df.parse(date)
 
+      true
+    } catch {
+      case e: ParseException => false
+    }
+
+  def validateDateInputFormatForADay(date: String): Boolean =
+    try {
+      // Création du dateFormat adapté au format que l'on veut voir en entrée
+      val df = new SimpleDateFormat("yyyyMMdd")
+      // Pour que la vérification soit plus stricte
+      df.setLenient(false)
+      df.parse(date)
       true
     } catch {
       case e: ParseException => false
