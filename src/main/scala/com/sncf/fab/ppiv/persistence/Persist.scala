@@ -13,16 +13,16 @@ import org.joda.time.DateTime
 object Persist {
   def save(ivTgaTgd: DataFrame, persistMethod: String, sc: SparkContext, startTimePipeline: DateTime, hiveContext: HiveContext) : Unit ={
     // Persistance dans Hive
-    if (persistMethod.contains("hive"))
+    if (persistMethod.equals("hive"))
       PersistHive.persisteQualiteAffichageHive(ivTgaTgd, sc, hiveContext)
     // Persistance dans HDFS
-    if (persistMethod.contains("hdfs"))
+    else if (persistMethod.equals("hdfs"))
       PersistHdfs.persisteQualiteAffichageIntoHdfs(ivTgaTgd, TraitementTga.getOutputRefineryPath(startTimePipeline))
     // Persistance dans elasticsearch
-    if (persistMethod.contains("es"))
+    else if (persistMethod.equals("es"))
       PersistElastic.persisteQualiteAffichageIntoEs(ivTgaTgd, OUTPUT_INDEX)
     // Persistance dasn le file system
-    if (persistMethod.contains("fs"))
+    else if (persistMethod.equals("fs"))
       PersistLocal.persisteQualiteAffichageIntoFs(ivTgaTgd, TraitementTga.getOutputRefineryPath(startTimePipeline))
   }
 }

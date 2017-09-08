@@ -21,6 +21,7 @@ object PersistHdfs extends Serializable {
     */
   def persisteQualiteAffichageIntoHdfs(df: DataFrame, hdfsGoldPath: String): Unit = {
     // Sauvegarde effective
+    println(hdfsGoldPath)
     df.write.format("com.databricks.spark.csv").save(hdfsGoldPath)
   }
 

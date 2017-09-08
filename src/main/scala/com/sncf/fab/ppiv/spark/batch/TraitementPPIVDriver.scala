@@ -49,7 +49,7 @@ object TraitementPPIVDriver extends Serializable {
       // Pas d'arguments d'entrée -> Stop
       PpivRejectionHandler.handleRejection("KO","",startTimePipeline.toString(),"","Pas d'arguments d'entrée, le batch nécessite au minimum la méthode de persistance (hdfs, hive, fs, es)")
     }
-    else if(!(args(0).contains("hdfs") || args(0).contains("fs") || args(0).contains("es") || args(0).contains("hive")) ){
+    else if(!(args(0).equals("hdfs") || args(0).equals("fs") || args(0).equals("es") || args(0).equals("hive")) ){
       // Argument n°1 de persistance non valide -> Stop
       PpivRejectionHandler.handleRejection("KO","",startTimePipeline.toString(),"","Pas de méthode de persistence (hdfs, fs, hive ou es pour l'agument" + args(0).toString)
     }
