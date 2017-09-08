@@ -100,6 +100,7 @@ object ValidateData {
       if (etatTrain == "SUP" || etatTrain == "IND") {
         (true, "train avec état " + etatTrain)
       }
+        
       else {
         if (cntVoieAffiche == 0) {
           (false, "VoieManquante")
