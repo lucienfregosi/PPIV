@@ -37,7 +37,7 @@ trait SourcePipeline extends Serializable {
   /**
     * @return le chemin de la source de données brute
     */
-  def getSource(timeToProcess: DateTime): String
+  def getSource(timeToProcess: DateTime, reprise_flag : Boolean): String
   /**
     *
     * @return le chemin de l'output qualité
