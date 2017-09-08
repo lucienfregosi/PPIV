@@ -135,6 +135,7 @@ object BuildCycleOver {
        .filter( x => x.heure < timestampLimiteCycleFini || (x.retard != "" && (x.heure +x.retard.toInt *60 < timestampLimiteCycleFini)))
 
     dataTgaTgdCycleOver
+
     
   }
 
