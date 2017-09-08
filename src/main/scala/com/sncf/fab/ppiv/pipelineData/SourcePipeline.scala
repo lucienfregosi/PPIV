@@ -135,7 +135,7 @@ trait SourcePipeline extends Serializable {
 
                 // Enregistrement des rejets (champs et cycles)
                 Reject.saveFieldRejected(dataTgaTgdFielRejected, getRejectFieldRefineryPath(debutPeriode))
-                Reject.saveCycleRejected(cycleInvalidated, getRejectFieldRefineryPath(debutPeriode))
+                Reject.saveCycleRejected(cycleInvalidated, getRejectCycleRefineryPath(debutPeriode))
 
                 LOGGER.warn("Enregistrement des rejets OK")
 
