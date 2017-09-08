@@ -51,7 +51,10 @@ trait SourcePipeline extends Serializable {
 
   def getOutputRefineryPath(timeToProcess: DateTime): String
 
-
+  def getRejectCycleRefineryPath(timeToProcess: DateTime): String
+  def getRejectCycleGoldPath(timeToProcess: DateTime): String
+  def getRejectFieldRefineryPath(timeToProcess: DateTime): String
+  def getRejectFieldGoldPath(timeToProcess: DateTime): String
   /**
     *
     * @return vrai s'il s'agit d'un départ de train, faux s'il s'agit d'un arrivé
@@ -127,8 +130,8 @@ trait SourcePipeline extends Serializable {
 
 
                 // Enregistrement des rejets (champs et cycles)
-                Reject.saveFieldRejected(dataTgaTgdFielRejected, sc, hiveContext, timeToProcess, Panneau())
-                Reject.saveCycleRejected(cycleInvalidated, sc, hiveContext, timeToProcess, Panneau())
+                //Reject.saveFieldRejected(dataTgaTgdFielRejected, sc, hiveContext, timeToProcess, Panneau())
+                //Reject.saveCycleRejected(cycleInvalidated, sc, hiveContext, timeToProcess, Panneau())
 
                 LOGGER.warn("Enregistrement des rejets OK")
 

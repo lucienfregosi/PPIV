@@ -16,13 +16,13 @@ object Persist {
     if (persistMethod.contains("hive"))
       PersistHive.persisteQualiteAffichageHive(ivTgaTgd, sc, hiveContext)
     // Persistance dans HDFS
-    if (persistMethod.contains("hdfs"))
+    else if (persistMethod.contains("hdfs"))
       PersistHdfs.persisteQualiteAffichageIntoHdfs(ivTgaTgd, TraitementTga.getOutputRefineryPath(startTimePipeline))
     // Persistance dans elasticsearch
-    if (persistMethod.contains("es"))
+    else if (persistMethod.contains("es"))
       PersistElastic.persisteQualiteAffichageIntoEs(ivTgaTgd, OUTPUT_INDEX)
     // Persistance dasn le file system
-    if (persistMethod.contains("fs"))
+    else if (persistMethod.contains("fs"))
       PersistLocal.persisteQualiteAffichageIntoFs(ivTgaTgd, TraitementTga.getOutputRefineryPath(startTimePipeline))
   }
 }
