@@ -86,6 +86,7 @@ trait SourcePipeline extends Serializable {
       // Test si le fichier existe
       val pathFileToLoad = getSource( startTimeToProcess , reprise)
       println(pathFileToLoad)
+      println(getRejectFieldRefineryPath(startTimeToProcess))
 
 
       val dataTgaTgd = LoadData.loadTgaTgd(sqlContext, pathFileToLoad, reprise)

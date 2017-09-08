@@ -67,7 +67,7 @@ object TraitementPPIVDriver extends Serializable {
         if(args.length == 1){
           //  - 1 seul et unique argument valide (hive, hdfs, es, fs) -> Nominal : Lancement automatique du batch sur l'heure n-1
           LOGGER.warn("Lancement automatique du batch sur l'heure n-1")
-          startPipeline(args, sc, sqlContext, hiveContext, startTimePipeline, endTimePipeline, reprise)
+          startPipeline(args, sc, sqlContext, hiveContext, startTimePipeline.plusHours(-1), endTimePipeline.plusHours(-1), reprise)
         }
         else if(Conversion.validateDateInputFormat(args(1)) == true){
 
