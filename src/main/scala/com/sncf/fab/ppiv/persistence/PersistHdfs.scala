@@ -1,5 +1,5 @@
 package com.sncf.fab.ppiv.persistence
-import com.sncf.fab.ppiv.business.{TgaTgdInput, TgaTgdOutput}
+import com.sncf.fab.ppiv.business.{TgaTgdInput, TgaTgdIntermediate, TgaTgdOutput}
 import com.sncf.fab.ppiv.utils.{AppConf, Conversion}
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.{DataFrame, Dataset, SaveMode}
@@ -22,7 +22,15 @@ object PersistHdfs extends Serializable {
   def persisteQualiteAffichageIntoHdfs(df: DataFrame, hdfsGoldPath: String): Unit = {
     // Sauvegarde effective
     df.persist()
-    df.count()
+    println("count:" + df.count())
     df.write.format("com.databricks.spark.csv").save(hdfsGoldPath)
+  }
+
+  def persisteRejectField(ds: Dataset[TgaTgdInput], pathToSave: String): Unit = {
+    ds.toDF().write.format("com.databricks.spark.csv").save(pathToSave)
+  }
+
+  def persisteRejectCycle(ds: Dataset[TgaTgdIntermediate], pathToSave: String): Unit = {
+    ds.toDF().write.format("com.databricks.spark.csv").save(pathToSave)
   }
 }

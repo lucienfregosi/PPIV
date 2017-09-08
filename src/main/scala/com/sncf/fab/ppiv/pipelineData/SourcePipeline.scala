@@ -134,17 +134,10 @@ trait SourcePipeline extends Serializable {
 
 
                 // Enregistrement des rejets (champs et cycles)
-                //Reject.saveFieldRejected(dataTgaTgdFielRejected, sc, hiveContext, timeToProcess, Panneau())
-                //Reject.saveCycleRejected(cycleInvalidated, sc, hiveContext, timeToProcess, Panneau())
+                Reject.saveFieldRejected(dataTgaTgdFielRejected, sc, getRejectFieldRefineryPath(debutPeriode))
+                Reject.saveCycleRejected(cycleInvalidated, sc, getRejectFieldRefineryPath(debutPeriode))
 
                 LOGGER.warn("Enregistrement des rejets OK")
-
-                // 9) Sauvegarde des données propres
-                // LOGGER.info("9) Sauvegarde des données propres")
-                // A partir de cycleValidate :
-                // Dataset[TgaTgdWithoutRef] -> DataSet[TgaTgdInput]
-                // Puis enregistrer dans l'object PostProcess
-                //PostProcess.saveCleanData(DataSet[TgaTgdInput], sc)
 
                 try{
                   // 10) Jointure avec le référentiel et inscription dans la classe finale TgaTgdOutput avec conversion et formatage

@@ -95,11 +95,12 @@ object TraitementPPIVDriver extends Serializable {
           //  - 3 arguments (persistance, date début, date fin) et dates valides -> Lancement du batch sur la période spécifié
           LOGGER.warn("Lancement du batch pour l'heure : " + args(1).toString)
 
-          val timeToProcess = Conversion.getDateTimeFromArgument(args(1))
+          val debutPeriode = Conversion.getDateTimeFromArgument(args(1))
+          val finPeriode = debutPeriode.plusHours(1)
 
 
           // Lancement du pipeline pour l'heure demandé (+ 1 car le pipelin est construit par rapport a ce qu'on lui donne l'heure de fin de traitement
-          startPipeline(args, sc, sqlContext, hiveContext, timeToProcess,timeToProcess)
+          startPipeline(args, sc, sqlContext, hiveContext, debutPeriode,finPeriode)
 
         }
         else{
