@@ -97,6 +97,7 @@ object TraitementPPIVDriver extends Serializable {
 
           val debutPeriodeZone = Conversion.getDateTimeFromArgument(args(1))
 
+          // On ne prend pas en compte les timezone, elles seront prises en compte plus tard
           val debutPeriode = Conversion.getDateTime(
             debutPeriodeZone.getYear,
             debutPeriodeZone.getMonthOfYear,
