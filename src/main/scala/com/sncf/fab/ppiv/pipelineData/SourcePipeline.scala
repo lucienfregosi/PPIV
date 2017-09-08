@@ -87,7 +87,7 @@ trait SourcePipeline extends Serializable {
       val pathFileToLoad = getSource( startTimeToProcess , reprise)
       println(pathFileToLoad)
       println(getRejectFieldRefineryPath(startTimeToProcess))
-      
+
 
       val dataTgaTgd = LoadData.loadTgaTgd(sqlContext, pathFileToLoad, reprise)
       val dataRefGares = LoadData.loadReferentiel(sqlContext)
