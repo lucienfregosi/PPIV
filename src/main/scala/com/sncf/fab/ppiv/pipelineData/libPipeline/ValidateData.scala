@@ -77,7 +77,13 @@ object ValidateData {
       try {
 
         //To-REMOVE
-        println(seqTgaTgdSeq)
+        println(seqTgaTgdSeq.length)
+        seqTgaTgdSeq.foreach(println)
+        val length = seqTgaTgdSeq.filter(_.maj + retard <= departReel).length
+        println("sequence filtré length : " + length)
+        seqTgaTgdSeq.filter(_.maj + retard <= departReel).foreach(println)
+        System.exit(0)
+
         val voieAuMomentDepart = seqTgaTgdSeq.filter(_.maj + retard <= departReel).sortBy(_.maj).reverse(0).voie
 
         if (voieAuMomentDepart == "") {
