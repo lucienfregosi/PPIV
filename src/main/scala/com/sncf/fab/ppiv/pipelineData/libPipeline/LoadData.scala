@@ -16,11 +16,17 @@ import org.joda.time.DateTime
   * Created by ELFI03951 on 12/07/2017.
   */
 object LoadData {
-  def loadTgaTgd(sqlContext : SQLContext, path: String, debutPeriode: DateTime): Dataset[TgaTgdInput] = {
+  def loadTgaTgd(sqlContext : SQLContext, path: String, debutPeriode: DateTime, reprise_flag : Boolean): Dataset[TgaTgdInput] = {
     import sqlContext.implicits._
 
+
     // Définition du nom de chacune des colonnes car on recoit les fichiers sans headers
-    val newNamesTgaTgd = Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard","null")
+    val newNamesTgaTgd = if (reprise_flag == false) {
+      Seq("gare", "maj", "train", "ordes", "num", "type", "picto", "attribut_voie", "voie", "heure", "etat", "retard", "null")
+    }
+    else {
+      Seq("gare", "maj", "train", "ordes", "num", "type", "picto", "attribut_voie", "voie", "heure", "etat", "retard")
+    }
 
     println(path)
 
