@@ -259,10 +259,11 @@ object Conversion {
     }
 
   def getDateTimeFromArgument(date: String): DateTime = {
-    val ParisTimeZone: DateTimeZone = DateTimeZone.forID("Europe/Paris")
+   // val ParisTimeZone: DateTimeZone = DateTimeZone.forID("Europe/Paris")
 
     // Set de la bonne zone pour avoir les bons résultats
-    val df = DateTimeFormat.forPattern("yyyyMMdd_HH").withZone(ParisTimeZone)
+    val df = DateTimeFormat.forPattern("yyyyMMdd_HH")
+      //.withZone(ParisTimeZone)
     // On renvoie le dateTime
     df.parseDateTime(date)
   }
