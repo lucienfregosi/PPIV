@@ -9,6 +9,7 @@ import java.nio.file.{Files, Paths}
 
 import com.sncf.fab.ppiv.Exception.PpivRejectionHandler
 import com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver
+import com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver.LOGGER
 import com.sncf.fab.ppiv.utils.Conversion
 import org.apache.spark.SparkContext
 
@@ -31,7 +32,7 @@ object LoadData {
     }
 
 
-    println(path)
+    LOGGER.warn(path)
 
     // Test si le fichier existe
     if(!checkIfFileExist(sqlContext.sparkContext,path )) {

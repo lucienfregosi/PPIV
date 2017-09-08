@@ -16,7 +16,9 @@ import org.apache.spark.sql.hive.HiveContext
 import org.apache.spark.sql.types.LongType
 import org.apache.spark.storage.StorageLevel
 import org.joda.time.{DateTime, DateTimeZone}
-import java.nio.file.{Paths, Files}
+import java.nio.file.{Files, Paths}
+
+import com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver.LOGGER
 
 
 /**
@@ -102,7 +104,7 @@ object BuildCycleOver {
       0)
 
     //TO_REMOVE
-    println("heure filtrage 1: " + heureLimiteCycleCommencant)
+    LOGGER.warn("heure filtrage 1: " + heureLimiteCycleCommencant)
 
     val heureLimiteCycleFini = Conversion.getDateTime(
       endTimeToProcess.getYear,
@@ -113,7 +115,7 @@ object BuildCycleOver {
       0)
 
     //TO_REMOVE
-    println("heure filtrage 2: " + heureLimiteCycleFini + " "+ endTimeToProcess)
+    LOGGER.warn("heure filtrage 2: " + heureLimiteCycleFini + " "+ endTimeToProcess)
 
     val timestampLimiteCycleCommencant = Conversion.getTimestampWithLocalTimezone(heureLimiteCycleCommencant)
     val timestampLimiteCycleFini = Conversion.getTimestampWithLocalTimezone(heureLimiteCycleFini)
