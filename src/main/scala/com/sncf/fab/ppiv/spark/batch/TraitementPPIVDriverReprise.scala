@@ -67,13 +67,28 @@ object TraitementPPIVDriverReprise extends Serializable {
           // 1er cas de figure
           LOGGER.warn("Lancement du batch de reprise sur la journée de " + args(1).toString )
 
-          val debutPeriode = Conversion.getDateTimeFromArgument(args(1) + "_00")
-          val finPeriode = Conversion.getDateTimeFromArgument(args(1) + "_00").plusDays(1)
+          val debutPeriodeZone = Conversion.getDateTimeFromArgument(args(1) + "_00")
+          val debutPeriode = Conversion.getDateTime(
+            debutPeriodeZone.getYear,
+            debutPeriodeZone.getMonthOfYear,
+            debutPeriodeZone.getDayOfMonth,
+            debutPeriodeZone.getHourOfDay,
+            0,
+            0)
+
+          val finPeriodeZone = Conversion.getDateTimeFromArgument(args(1) + "_00").plusDays(1)
+          val finPeriode = Conversion.getDateTime(
+            debutPeriodeZone.getYear,
+            debutPeriodeZone.getMonthOfYear,
+            debutPeriodeZone.getDayOfMonth,
+            debutPeriodeZone.getHourOfDay,
+            0,
+            0)
 
 
 
           // Lancement du pipeline pour la journée demandé
-          startPipelineReprise(args, sc, sqlContext, hiveContext,debutPeriode, finPeriode, true)
+          startPipelineReprise(args, sc, sqlContext, hiveContext,debutPeriode, finPeriode)
         }
         else if(Conversion.validateDateInputFormat(args(1)) == true && Conversion.validateDateInputFormat(args(2)) == true){
           //  - 3 arguments (persistance, date début, date fin) et dates valides -> Lancement du batch sur la période spécifié
@@ -81,13 +96,27 @@ object TraitementPPIVDriverReprise extends Serializable {
 
           // 2ème cas de figure
 
-          val debutPeriode = Conversion.getDateTimeFromArgument(args(1))
-          val finPeriode = Conversion.getDateTimeFromArgument(args(2))
+          val debutPeriodeZone = Conversion.getDateTimeFromArgument(args(1))
+          val debutPeriode = Conversion.getDateTime(
+            debutPeriodeZone.getYear,
+            debutPeriodeZone.getMonthOfYear,
+            debutPeriodeZone.getDayOfMonth,
+            debutPeriodeZone.getHourOfDay,
+            0,
+            0)
 
+          val finPeriodeZone = Conversion.getDateTimeFromArgument(args(2))
+          val finPeriode = Conversion.getDateTime(
+            debutPeriodeZone.getYear,
+            debutPeriodeZone.getMonthOfYear,
+            debutPeriodeZone.getDayOfMonth,
+            debutPeriodeZone.getHourOfDay,
+            0,
+            0)
 
 
           // Lancement du pipeline pour l'heure demandé
-          startPipelineReprise(args, sc, sqlContext, hiveContext,debutPeriode,finPeriode, false)
+          startPipelineReprise(args, sc, sqlContext, hiveContext,debutPeriode,finPeriode)
 
         }
         else{
@@ -106,15 +135,15 @@ object TraitementPPIVDriverReprise extends Serializable {
   }
 
   // Fonction appelé pour le déclenchement d'un pipeline complet pour une heure donnée
-  def startPipelineReprise(argsArray: Array[String], sc: SparkContext, sqlContext: SQLContext, hiveContext: HiveContext, debutPeriode : DateTime, finPeriode :DateTime, reprise : Boolean): Unit = {
+  def startPipelineReprise(argsArray: Array[String], sc: SparkContext, sqlContext: SQLContext, hiveContext: HiveContext, debutPeriode : DateTime, finPeriode :DateTime): Unit = {
 
     // Récupération argument d'entrées, la méthode de persistance
     val persistMethod = argsArray(0)
 
-    val ivTga = TraitementTga.start(sc, sqlContext, hiveContext, debutPeriode ,finPeriode, reprise)
+    val ivTga = TraitementTga.start(sc, sqlContext, hiveContext, debutPeriode ,finPeriode, true)
 
 
-    val ivTgd = TraitementTgd.start(sc, sqlContext, hiveContext, debutPeriode ,finPeriode, reprise)
+    val ivTgd = TraitementTgd.start(sc, sqlContext, hiveContext, debutPeriode ,finPeriode, true)
 
     // 11) Fusion des résultats de TGA et TGD
     LOGGER.info("11) Fusion des résultats entre TGA et TGD")
@@ -125,7 +154,7 @@ object TraitementPPIVDriverReprise extends Serializable {
       // 12) Persistence dans la méthode demandée (hdfs, hive, es, fs)
       LOGGER.warn("Persistence dans la méthode demandée (hdfs, hive, es, fs)")
 
-      Persist.save(ivTgaTgd, persistMethod, sc, debutPeriode, hiveContext)
+      Persist.save(ivTgaTgd, persistMethod, sc, debutPeriode, hiveContext, true)
 
       LOGGER.warn("SUCCESS")
       // Voir pour logger le succès

@@ -11,18 +11,18 @@ import org.joda.time.DateTime
   */
 // TODO: Améliorer ca avec un switch
 object Persist {
-  def save(ivTgaTgd: DataFrame, persistMethod: String, sc: SparkContext, startTimePipeline: DateTime, hiveContext: HiveContext) : Unit ={
+  def save(ivTgaTgd: DataFrame, persistMethod: String, sc: SparkContext, startTimePipeline: DateTime, hiveContext: HiveContext, reprise_flag : Boolean) : Unit ={
     // Persistance dans Hive
     if (persistMethod.contains("hive"))
       PersistHive.persisteQualiteAffichageHive(ivTgaTgd, sc, hiveContext)
     // Persistance dans HDFS
     else if (persistMethod.contains("hdfs"))
-      PersistHdfs.persisteQualiteAffichageIntoHdfs(ivTgaTgd, TraitementTga.getOutputRefineryPath(startTimePipeline))
+      PersistHdfs.persisteQualiteAffichageIntoHdfs(ivTgaTgd, TraitementTga.getOutputRefineryPath(startTimePipeline, reprise_flag))
     // Persistance dans elasticsearch
     else if (persistMethod.contains("es"))
       PersistElastic.persisteQualiteAffichageIntoEs(ivTgaTgd, OUTPUT_INDEX)
     // Persistance dasn le file system
     else if (persistMethod.contains("fs"))
-      PersistLocal.persisteQualiteAffichageIntoFs(ivTgaTgd, TraitementTga.getOutputRefineryPath(startTimePipeline))
+      PersistLocal.persisteQualiteAffichageIntoFs(ivTgaTgd, TraitementTga.getOutputRefineryPath(startTimePipeline, reprise_flag))
   }
 }

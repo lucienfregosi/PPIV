@@ -28,7 +28,8 @@ object BuildCycleOver {
                    sqlContext: SQLContext,
                    panneau: String,
                    debutPeriode: DateTime,
-                   finPeriode: DateTime): DataFrame = {
+                   finPeriode: DateTime,
+                   reprise_flag : Boolean): DataFrame = {
 
     // Groupement et création des cycleId (concaténation de gare + panneau + numeroTrain + heureDepart)
     // (cycle_id{gare,panneau,numeroTrain,heureDepart}, heureDepart, retard)
@@ -41,15 +42,23 @@ object BuildCycleOver {
     // On renvoie le même format de données (cycle_id{gare,panneau,numeroTrain,heureDepart}, heureDepart, retard)
     val cycleIdListOver = filterCycleOver(cycleIdList, sqlContext, debutPeriode, finPeriode)
 
+    if (reprise_flag == false) {
 
-    //Load les evenements  du jour j. Le 5ème paramètre sert a définir la journée qui nous intéresse 0 = jour J
-    val tgaTgdRawToDay = loadDataFullPeriod(sc, sqlContext, panneau, debutPeriode, finPeriode)
+      //Load les evenements  du jour j. Le 5ème paramètre sert a définir la journée qui nous intéresse 0 = jour J
+      val tgaTgdRawToDay = loadDataFullPeriod(sc, sqlContext, panneau, debutPeriode, finPeriode)
 
-    // Pour chaque cycle terminé récupération des différents évènements au cours de la journée
-    // sous la forme d'une structure (cycle_id | Array(TgaTgdInput)
-    val tgaTgdCycleOver = getEventCycleId(tgaTgdRawToDay, cycleIdListOver, sqlContext, sc, panneau)
+      // Pour chaque cycle terminé récupération des différents évènements au cours de la journée
+      // sous la forme d'une structure (cycle_id | Array(TgaTgdInput)
+      val tgaTgdCycleOver = getEventCycleId(tgaTgdRawToDay, cycleIdListOver, sqlContext, sc, panneau)
 
-    tgaTgdCycleOver
+      tgaTgdCycleOver
+    }
+    else {
+      // Pour chaque cycle terminé récupération des différents évènements au cours de la journée
+      // sous la forme d'une structure (cycle_id | Array(TgaTgdInput)
+      val tgaTgdCycleOver = getEventCycleId(dsTgaTgdInput, cycleIdListOver, sqlContext, sc, panneau)
+      tgaTgdCycleOver
+    }
   }
 
  // Fonction pour construire les cycles

@@ -42,19 +42,19 @@ trait SourcePipeline extends Serializable {
     *
     * @return le chemin de l'output qualité
     */
-  def getOutputGoldPath(timeToProcess: DateTime): String
+  def getOutputGoldPath(timeToProcess: DateTime, reprise_flag : Boolean): String
 
   /**
     *
     * @return the path used to store the cleaned TgaTgaPased
     */
 
-  def getOutputRefineryPath(timeToProcess: DateTime): String
+  def getOutputRefineryPath(timeToProcess: DateTime, reprise_flag  :Boolean): String
 
-  def getRejectCycleRefineryPath(timeToProcess: DateTime): String
-  def getRejectCycleGoldPath(timeToProcess: DateTime): String
-  def getRejectFieldRefineryPath(timeToProcess: DateTime): String
-  def getRejectFieldGoldPath(timeToProcess: DateTime): String
+  def getRejectCycleRefineryPath(timeToProcess: DateTime , reprise_flag  :Boolean): String
+  def getRejectCycleGoldPath(timeToProcess: DateTime , reprise_flag  :Boolean): String
+  def getRejectFieldRefineryPath(timeToProcess: DateTime , reprise_flag  :Boolean): String
+  def getRejectFieldGoldPath(timeToProcess: DateTime , reprise_flag  :Boolean): String
   /**
     *
     * @return vrai s'il s'agit d'un départ de train, faux s'il s'agit d'un arrivé
@@ -117,7 +117,7 @@ trait SourcePipeline extends Serializable {
             // 4) Reconstitution des évènements pour chaque trajet
             // L'objectif de cette fonction est de renvoyer (cycleId | Array(TgaTgdInput) ) afin d'associer à chaque cycle de vie
             // d'un train terminé la liste de tous ses évènements en vue du calcul des indicateurs
-            val cycleWithEventOver = BuildCycleOver.getCycleOver(dataTgaTgdFielValidated, sc, sqlContext, Panneau(), debutPeriode, finPeriode)
+            val cycleWithEventOver = BuildCycleOver.getCycleOver(dataTgaTgdFielValidated, sc, sqlContext, Panneau(), debutPeriode, finPeriode, reprise_flag)
             LOGGER.warn("Filtre des cycles Terminés OK")
 
             try{
@@ -136,8 +136,8 @@ trait SourcePipeline extends Serializable {
 
 
                 // Enregistrement des rejets (champs et cycles)
-                Reject.saveFieldRejected(dataTgaTgdFielRejected, getRejectFieldRefineryPath(debutPeriode))
-                Reject.saveCycleRejected(cycleInvalidated, getRejectCycleRefineryPath(debutPeriode))
+                Reject.saveFieldRejected(dataTgaTgdFielRejected, getRejectFieldRefineryPath(debutPeriode, reprise_flag: Boolean))
+                Reject.saveCycleRejected(cycleInvalidated, getRejectCycleRefineryPath(debutPeriode, reprise_flag: Boolean))
 
                 LOGGER.warn("Enregistrement des rejets OK")
 

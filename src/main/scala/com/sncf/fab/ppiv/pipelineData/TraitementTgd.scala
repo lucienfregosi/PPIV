@@ -15,17 +15,23 @@ class TraitementTgd extends SourcePipeline {
       LANDING_WORK + Conversion.getYearMonthDay(timeToProcess) + "/TGD-" + Conversion
         .getYearMonthDay(timeToProcess) + "_" + Conversion
         .getHourString(timeToProcess) + ".csv"}
-    else {REFINERY + Conversion.getYearMonthDay(timeToProcess) + "/TGD-" + Conversion
+    else {REFINERY + Conversion.getYearMonthDay(timeToProcess) + "/TGA-" + Conversion
       .getYearMonthDay(timeToProcess)+ ".csv"}
   }
 
 
-  override def getOutputRefineryPath(timeToProcess: DateTime) = REFINERY + "ppiv/" +  Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.getHourString(timeToProcess) + "/output/" + Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.getHourString(timeToProcess) + ".csv"
-  override def getOutputGoldPath(timeToProcess: DateTime) = GOLD + "ppiv/" + Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.getHourString(timeToProcess) + "/output/" + Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.getHourString(timeToProcess) + ".csv"
-  override def getRejectCycleRefineryPath(timeToProcess: DateTime) = REFINERY + "ppiv/" + Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.getHourString(timeToProcess) + "/reject_cycle/" +"TGD-"+ Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.getHourString(timeToProcess) + ".csv"
-  override def getRejectCycleGoldPath(timeToProcess: DateTime): String = GOLD + "ppiv/" + Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.getHourString(timeToProcess) + "/reject_cycle/" +"TGD-"+ Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.getHourString(timeToProcess) + ".csv"
-  override def getRejectFieldRefineryPath(timeToProcess: DateTime): String = REFINERY + "ppiv/" + Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.getHourString(timeToProcess) + "/reject_field/" +"TGD-"+ Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.getHourString(timeToProcess) + ".csv"
-  override def getRejectFieldGoldPath(timeToProcess: DateTime): String = GOLD + "ppiv/" + Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.getHourString(timeToProcess) + "/reject_field/" +"TGD-"+ Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.getHourString(timeToProcess) + ".csv"
+  override def getOutputRefineryPath(timeToProcess: DateTime, reprise : Boolean) = if (reprise == false ) {REFINERY + "ppiv/" +  Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.getHourString(timeToProcess) + "/output/" + Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.getHourString(timeToProcess) + ".csv"}
+  else {REFINERY + "ppiv/" +  Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.getHourString(timeToProcess) + "/output/" + Conversion.getYearMonthDay(timeToProcess) + ".csv"}
+  override def getOutputGoldPath(timeToProcess: DateTime, reprise : Boolean) = if (reprise == false ) {GOLD + "ppiv/" + Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.getHourString(timeToProcess) + "/output/" + Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.getHourString(timeToProcess) + ".csv"}
+  else {GOLD + "ppiv/" + Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.getHourString(timeToProcess) + "/output/" + Conversion.getYearMonthDay(timeToProcess) + ".csv"}
+  override def getRejectCycleRefineryPath(timeToProcess: DateTime, reprise : Boolean) = if (reprise == false ) {REFINERY + "ppiv/" + Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.getHourString(timeToProcess) + "/reject_cycle/" +"TGD-"+ Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.getHourString(timeToProcess) + ".csv"}
+  else {REFINERY + "ppiv/" + Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.getHourString(timeToProcess) + "/reject_cycle/" +"TGD-"+ Conversion.getYearMonthDay(timeToProcess) +  ".csv"}
+  override def getRejectCycleGoldPath(timeToProcess: DateTime, reprise : Boolean): String = if (reprise == false )  {GOLD + "ppiv/" + Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.getHourString(timeToProcess) + "/reject_cycle/" +"TGD-"+ Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.getHourString(timeToProcess) + ".csv"}
+  else {GOLD + "ppiv/" + Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.getHourString(timeToProcess) + "/reject_cycle/" +"TGD-"+ Conversion.getYearMonthDay(timeToProcess) +  ".csv"}
+  override def getRejectFieldRefineryPath(timeToProcess: DateTime, reprise : Boolean): String = if (reprise == false ) {REFINERY + "ppiv/" + Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.getHourString(timeToProcess) + "/reject_field/" +"TGD-"+ Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.getHourString(timeToProcess) + ".csv"}
+  else {REFINERY + "ppiv/" + Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.getHourString(timeToProcess) + "/reject_field/" +"TGD-"+ Conversion.getYearMonthDay(timeToProcess) +  ".csv"}
+  override def getRejectFieldGoldPath(timeToProcess: DateTime, reprise : Boolean): String = if (reprise == false ) {GOLD + "ppiv/" + Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.getHourString(timeToProcess) + "/reject_field/" +"TGD-"+ Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.getHourString(timeToProcess) + ".csv"}
+  else {GOLD + "ppiv/" + Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.getHourString(timeToProcess) + "/reject_field/" +"TGD-"+ Conversion.getYearMonthDay(timeToProcess) +".csv"}
   override def Depart(): Boolean = true
   override def Arrive(): Boolean = false
   override def Panneau() : String = "TGD"
