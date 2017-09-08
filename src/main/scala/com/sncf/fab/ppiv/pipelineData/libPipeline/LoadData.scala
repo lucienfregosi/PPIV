@@ -31,6 +31,7 @@ object LoadData {
     }
 
 
+    println(path)
 
     // Test si le fichier existe
     if(!checkIfFileExist(sqlContext.sparkContext,path )) {
