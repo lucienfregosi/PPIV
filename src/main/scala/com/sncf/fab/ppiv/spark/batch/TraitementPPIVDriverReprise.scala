@@ -100,7 +100,7 @@ object TraitementPPIVDriverReprise extends Serializable {
         val nbHours = period.toStandardHours.getHours()
 
 
-          println("Lancement du Pipeline pour la période: " + Conversion.getHourDebutPlageHoraire(startTimeToProcess) + " et " + Conversion.getHourFinPlageHoraire(endTimeToProcess))
+          println("Lancement du Pipeline pour la période: " + Conversion.getHourFinPlageHoraire(startTimeToProcess) + " et " + Conversion.getHourFinPlageHoraire(endTimeToProcess))
           LOGGER.info("Lancement du Pipeline pour la date/Time: " + startTimeToProcess.toString())
 
           // Lancement du pipeline pour l'heure demandé
@@ -140,12 +140,12 @@ object TraitementPPIVDriverReprise extends Serializable {
 
       LOGGER.warn("SUCCESS")
       // Voir pour logger le succès
-      PpivRejectionHandler.write_execution_message("OK", Conversion.getHourDebutPlageHoraire(startTimeToProcess), startTimePipeline.toString(),"","")
+      PpivRejectionHandler.write_execution_message("OK", Conversion.getHourFinPlageHoraire(startTimeToProcess), startTimePipeline.toString(),"","")
     }
     catch {
       case e: Throwable => {
         e.printStackTrace()
-        PpivRejectionHandler.handleRejection("KO", Conversion.getHourDebutPlageHoraire(startTimeToProcess), startTimePipeline.toString(),"","enregistrement dans Hive. Exception: " + e.getMessage)
+        PpivRejectionHandler.handleRejection("KO", Conversion.getHourFinPlageHoraire(startTimeToProcess), startTimePipeline.toString(),"","enregistrement dans Hive. Exception: " + e.getMessage)
       }
     }
   }

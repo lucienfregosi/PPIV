@@ -25,7 +25,7 @@ object DatasetsParser {
     }
     catch {
       case e => {
-        PpivRejectionHandler.handleRejection("KO",Conversion.getHourDebutPlageHoraire(startTimePipeline),startTimePipeline.toString(),"", "Parsing des fichiers Input. Exception: " + e.getMessage)
+        PpivRejectionHandler.handleRejection("KO",Conversion.getHourFinPlageHoraire(startTimePipeline),startTimePipeline.toString(),"", "Parsing des fichiers Input. Exception: " + e.getMessage)
         null
       }
     }
@@ -44,7 +44,7 @@ object DatasetsParser {
     }
     catch {
       case e => {
-        PpivRejectionHandler.handleRejection("KO",Conversion.getHourDebutPlageHoraire(startTimePipeline),startTimePipeline.toString(),"", "Parsing du fichier Référentiel. Exception: " + e.getMessage)
+        PpivRejectionHandler.handleRejection("KO",Conversion.getHourFinPlageHoraire(startTimePipeline),startTimePipeline.toString(),"", "Parsing du fichier Référentiel. Exception: " + e.getMessage)
         null
       }
     }
