@@ -85,12 +85,14 @@ trait SourcePipeline extends Serializable {
       // 1) Chargement des fichiers déjà parsé dans leur classe
       // Test si le fichier existe
       val pathFileToLoad = getSource( startTimeToProcess , reprise)
-      println(pathFileToLoad)
-      println(getRejectFieldRefineryPath(startTimeToProcess))
 
 
       val dataTgaTgd = LoadData.loadTgaTgd(sqlContext, pathFileToLoad, reprise)
       val dataRefGares = LoadData.loadReferentiel(sqlContext)
+
+      println(getOutputRefineryPath(startTimeToProcess))
+
+      System.exit(0)
 
 
       LOGGER.warn("Chargement des fichiers OK")
@@ -157,7 +159,7 @@ trait SourcePipeline extends Serializable {
                   case e: Throwable => {
                     // Retour d'une valeur par défaut
                     e.printStackTrace()
-                    PpivRejectionHandler.handleRejection("KO",Conversion.getHourDebutPlageHoraire(startTimeToProcess),startTimePipeline.toString(),getSource(startTimeToProcess, reprise), "PostTraitement et jointure avec le referentiel: " + e)
+                    PpivRejectionHandler.handleRejection("KO",Conversion.getHourFinPlageHoraire(startTimeToProcess),startTimePipeline.toString(),getSource(startTimeToProcess, reprise), "PostTraitement et jointure avec le referentiel: " + e)
 
                     null
                   }
@@ -167,7 +169,7 @@ trait SourcePipeline extends Serializable {
                 case e: Throwable => {
                   // Retour d'une valeur par défaut
                   e.printStackTrace()
-                  PpivRejectionHandler.handleRejection("KO",Conversion.getHourDebutPlageHoraire(startTimeToProcess),startTimePipeline.toString(),getSource(startTimeToProcess, reprise), "Enregisrement des rejets: " + e)
+                  PpivRejectionHandler.handleRejection("KO",Conversion.getHourFinPlageHoraire(startTimeToProcess),startTimePipeline.toString(),getSource(startTimeToProcess, reprise), "Enregisrement des rejets: " + e)
 
 
                   null
@@ -180,7 +182,7 @@ trait SourcePipeline extends Serializable {
                 // Retour d'une valeur par défaut
                 e.printStackTrace()
 
-                PpivRejectionHandler.handleRejection("KO",Conversion.getHourDebutPlageHoraire(startTimeToProcess),startTimePipeline.toString(),getSource(startTimeToProcess, reprise), "Calcul des indicateurs: " + e)
+                PpivRejectionHandler.handleRejection("KO",Conversion.getHourFinPlageHoraire(startTimeToProcess),startTimePipeline.toString(),getSource(startTimeToProcess, reprise), "Calcul des indicateurs: " + e)
 
                 null
               }
@@ -191,7 +193,7 @@ trait SourcePipeline extends Serializable {
               // Retour d'une valeur par défaut
               e.printStackTrace()
 
-              PpivRejectionHandler.handleRejection("KO",Conversion.getHourDebutPlageHoraire(startTimeToProcess),startTimePipeline.toString(),getSource(startTimeToProcess, reprise), "Constitution des cycles terminés: " + e)
+              PpivRejectionHandler.handleRejection("KO",Conversion.getHourFinPlageHoraire(startTimeToProcess),startTimePipeline.toString(),getSource(startTimeToProcess, reprise), "Constitution des cycles terminés: " + e)
 
               null
             }
@@ -202,7 +204,7 @@ trait SourcePipeline extends Serializable {
             // Retour d'une valeur par défaut
             e.printStackTrace()
 
-            PpivRejectionHandler.handleRejection("KO",Conversion.getHourDebutPlageHoraire(startTimeToProcess),startTimePipeline.toString(),getSource(startTimeToProcess, reprise), "Validation Champ à champ: " + e)
+            PpivRejectionHandler.handleRejection("KO",Conversion.getHourFinPlageHoraire(startTimeToProcess),startTimePipeline.toString(),getSource(startTimeToProcess, reprise), "Validation Champ à champ: " + e)
 
             null
           }
@@ -213,7 +215,7 @@ trait SourcePipeline extends Serializable {
           // Retour d'une valeur par défaut
           e.printStackTrace()
 
-          PpivRejectionHandler.handleRejection("KO",Conversion.getHourDebutPlageHoraire(startTimeToProcess),startTimePipeline.toString(),getSource(startTimeToProcess, reprise), "Application du sparadrap: " + e)
+          PpivRejectionHandler.handleRejection("KO",Conversion.getHourFinPlageHoraire(startTimeToProcess),startTimePipeline.toString(),getSource(startTimeToProcess, reprise), "Application du sparadrap: " + e)
 
           null
         }
@@ -224,7 +226,7 @@ trait SourcePipeline extends Serializable {
         // Retour d'une valeur par défaut
         e.printStackTrace()
 
-        PpivRejectionHandler.handleRejection("KO",Conversion.getHourDebutPlageHoraire(startTimeToProcess),startTimePipeline.toString(),getSource(startTimeToProcess, reprise), "KO Chargement des fichiers: " + e)
+        PpivRejectionHandler.handleRejection("KO",Conversion.getHourFinPlageHoraire(startTimeToProcess),startTimePipeline.toString(),getSource(startTimeToProcess, reprise), "KO Chargement des fichiers: " + e)
 
         null
       }
