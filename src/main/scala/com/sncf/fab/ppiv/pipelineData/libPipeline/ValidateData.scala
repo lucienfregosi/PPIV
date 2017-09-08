@@ -50,7 +50,7 @@ object ValidateData {
 
 
     // Décompte des évènements ou la voir est renseignée
-    val cntVoieAffiche = seqTgaTgdSeq.filter(x => (x.voie!= null ) && (x.voie!= "")).length
+    val cntVoieAffiche = seqTgaTgdSeq.filter(x => (x.voie != null) && (x.voie != "")).length
 
     // Compter le nombre d'évènements après le départ théorique + retard
     val departThéorique = seqTgaTgdSeq(0).heure.toLong
@@ -63,36 +63,47 @@ object ValidateData {
 
 
     // Décompte des évènements se passant après le départ du triain
-    val cntEventApresDepart = seqTgaTgdSeq.filter(x=>( x.maj > departReel)).length
+    val cntEventApresDepart = seqTgaTgdSeq.filter(x => (x.maj > departReel)).length
 
     // Si la séquence est composé de moins de deux lignes on ne valide pas on ne pourra rien en faire
-    if(seqTgaTgdSeq.length < 2){
+    if (seqTgaTgdSeq.length < 2) {
       (false, "pasAssezEvent")
     }
 
-
+    else {
     // Si le compte de voie est différent de 0 ou le compte des évènement après la date est égale a la somme des event (= tous les évènements postérieurs à la date de départ du train
-    if(cntVoieAffiche != 0 && cntEventApresDepart != seqTgaTgdSeq.length  && etatTrain != "SUP"){
+    if (cntVoieAffiche != 0 && cntEventApresDepart != seqTgaTgdSeq.length && etatTrain != "SUP") {
       // On teste si au moment du départ la voie est bien affichée
-      try{
-        val voieAuMomentDepart = seqTgaTgdSeq.filter(_.maj + retard <= departReel ).sortBy(_.maj).reverse(0).voie
-        if(voieAuMomentDepart == ""){
+      try {
+
+        println(seqTgaTgdSeq)
+        val voieAuMomentDepart = seqTgaTgdSeq.filter(_.maj + retard <= departReel).sortBy(_.maj).reverse(0).voie
+
+        if (voieAuMomentDepart == "") {
           (false, "PasDeVoieAuMomentDepart")
         }
-        else {(true, "ValidCycle")}
+        else {
+          (true, "ValidCycle")
+        }
       }
     }
-    else{
+    else {
       // Si jamais le train a un état spécial (Supprimé ou retard indéterminé) cela ne veut pas dire qu'il ne faut pas le valider
       // Get de l'état du train. Si IND ou SUP on valide
-          if(etatTrain == "SUP" || etatTrain == "IND"){
+      if (etatTrain == "SUP" || etatTrain == "IND") {
         (true, "train avec état " + etatTrain)
       }
-      else{
-        if (cntVoieAffiche == 0 ) {(false,"VoieManquante")}
-        else {(false,"EventApresDepart")}
+      else {
+        if (cntVoieAffiche == 0) {
+          (false, "VoieManquante")
+        }
+        else {
+          (false, "EventApresDepart")
+        }
       }
     }
+
+   }
   }
 
 }
