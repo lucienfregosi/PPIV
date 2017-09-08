@@ -87,8 +87,6 @@ object TraitementPPIVDriverReprise extends Serializable {
             0).plusDays(1)
 
 
-         //TO-REMOVE
-          println(finPeriode)
 
           // Lancement du pipeline pour la journée demandé
           startPipelineReprise(args, sc, sqlContext, hiveContext,debutPeriode, finPeriode)
