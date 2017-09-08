@@ -86,11 +86,6 @@ object TraitementPPIVDriver extends Serializable {
 
           val debutPeriode = finPeriode.plusHours(-1)
 
-          println(debutPeriode.toString())
-          println(finPeriode.toString())
-
-          System.exit(0)
-
           startPipeline(args, sc, sqlContext, hiveContext, debutPeriode, finPeriode)
         }
         else if(Conversion.validateDateInputFormat(args(1)) == true){

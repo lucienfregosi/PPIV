@@ -22,6 +22,8 @@ object LoadData {
     // Définition du nom de chacune des colonnes car on recoit les fichiers sans headers
     val newNamesTgaTgd = Seq("gare","maj","train","ordes","num","type","picto","attribut_voie","voie","heure","etat","retard","null")
 
+    println(path)
+
     // Test si le fichier existe
     if(!checkIfFileExist(sqlContext.sparkContext,path )) {
       PpivRejectionHandler.handleRejection("KO",debutPeriode.toString, TraitementPPIVDriver.startTimePipeline.toString(),path, "Le fichier n'existe pas")
@@ -52,6 +54,8 @@ object LoadData {
 
     // Définition du nom de chacune des colonnes car on recoit les fichiers sans headers
     val newNamesRefGares = Seq("CodeGare","IntituleGare","NombrePlateformes","SegmentDRG","UIC","UniteGare","TVS","CodePostal","Commune","DepartementCommune","Departement","Region","AgenceGC","RegionSNCF","NiveauDeService","LongitudeWGS84","LatitudeWGS84","DateFinValiditeGare")
+
+
 
     // Chargement du CSV référentiel
     val refGares = sqlContext.read
