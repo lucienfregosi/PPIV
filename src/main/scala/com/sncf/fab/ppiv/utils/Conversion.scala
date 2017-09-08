@@ -5,7 +5,7 @@ import java.util.concurrent.TimeUnit
 
 import org.joda.time.{DateTime, DateTimeZone}
 import org.joda.time.format.{DateTimeFormat, DateTimeFormatter, ISODateTimeFormat}
-import java.util.{Calendar, Date, TimeZone}
+import java.util.{Calendar, Date}
 
 import com.sncf.fab.ppiv.utils.Conversion.ParisTimeZone
 import org.apache.hive.common.util.DateUtils
@@ -65,10 +65,6 @@ object Conversion {
 
   def getDateTime(time: Long): DateTime = {
     new DateTime(time, ParisTimeZone)
-  }
-
-  def getDateTimeWithoutZone(time: Long): DateTime = {
-    new DateTime(time)
   }
 
   def getDateTime(time: Long, dateTimeZone: DateTimeZone): DateTime = {
@@ -267,10 +263,9 @@ object Conversion {
 
     // Set de la bonne zone pour avoir les bons résultats
     val df = DateTimeFormat.forPattern("yyyyMMdd_HH")
+      //.withZone(ParisTimeZone)
     // On renvoie le dateTime
-    val timestamp = df.parseDateTime(date).getMillis / 1000
-
-    Conversion.getDateTimeWithoutZone(timestamp)
+    df.parseDateTime(date)
   }
 
   def getTimestampWithLocalTimezone(dateTime:DateTime): Long ={

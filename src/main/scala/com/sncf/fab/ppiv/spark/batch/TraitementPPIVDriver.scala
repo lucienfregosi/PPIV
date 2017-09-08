@@ -95,7 +95,16 @@ object TraitementPPIVDriver extends Serializable {
           //  - 3 arguments (persistance, date début, date fin) et dates valides -> Lancement du batch sur la période spécifié
           LOGGER.warn("Lancement du batch pour l'heure : " + args(1).toString)
 
-          val debutPeriode = Conversion.getDateTimeFromArgument(args(1))
+          val debutPeriodeZone = Conversion.getDateTimeFromArgument(args(1))
+
+          val debutPeriode = Conversion.getDateTime(
+            debutPeriodeZone.getYear,
+            debutPeriodeZone.getMonthOfYear,
+            debutPeriodeZone.getDayOfMonth,
+            debutPeriodeZone.getHourOfDay,
+            0,
+            0)
+
           val finPeriode = debutPeriode.plusHours(1)
 
 
