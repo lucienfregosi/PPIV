@@ -84,7 +84,7 @@ trait SourcePipeline extends Serializable {
     try{
       // 1) Chargement des fichiers déjà parsé dans leur classe
       // Test si le fichier existe
-      val pathFileToLoad = getSource(debutPeriode)
+      val pathFileToLoad = getSource(debutPeriode, reprise_flag)
 
       // On verifie si le fichier que l'on veut charger existe
       // S'il n'existe pas on sort car on ne peut rien faire pour ce cycle
@@ -154,7 +154,7 @@ trait SourcePipeline extends Serializable {
                   case e: Throwable => {
                     // Retour d'une valeur par défaut
                     e.printStackTrace()
-                    PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),getSource(debutPeriode), "PostTraitement et jointure avec le referentiel: " + e)
+                    PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),getSource(debutPeriode,reprise_flag), "PostTraitement et jointure avec le referentiel: " + e)
                     null
                   }
                 }
@@ -163,7 +163,7 @@ trait SourcePipeline extends Serializable {
                 case e: Throwable => {
                   // Retour d'une valeur par défaut
                   e.printStackTrace()
-                  PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),getSource(debutPeriode), "Enregisrement des rejets: " + e)
+                  PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),getSource(debutPeriode,reprise_flag), "Enregisrement des rejets: " + e)
                   null
                 }
               }
@@ -172,7 +172,7 @@ trait SourcePipeline extends Serializable {
               case e: Throwable => {
                 // Retour d'une valeur par défaut
                 e.printStackTrace()
-                PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),getSource(debutPeriode), "Calcul des indicateurs: " + e)
+                PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),getSource(debutPeriode,reprise_flag), "Calcul des indicateurs: " + e)
                 null
               }
             }
@@ -181,7 +181,7 @@ trait SourcePipeline extends Serializable {
             case e: Throwable => {
               // Retour d'une valeur par défaut
               e.printStackTrace()
-              PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),getSource(debutPeriode), "Constitution des cycles terminés: " + e)
+              PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),getSource(debutPeriode,reprise_flag), "Constitution des cycles terminés: " + e)
               null
             }
           }
@@ -190,7 +190,7 @@ trait SourcePipeline extends Serializable {
           case e: Throwable => {
             // Retour d'une valeur par défaut
             e.printStackTrace()
-            PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),getSource(debutPeriode), "Validation Champ à champ: " + e)
+            PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),getSource(debutPeriode,reprise_flag), "Validation Champ à champ: " + e)
             null
           }
         }
@@ -199,7 +199,7 @@ trait SourcePipeline extends Serializable {
         case e: Throwable => {
           // Retour d'une valeur par défaut
           e.printStackTrace()
-          PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),getSource(debutPeriode), "Application du sparadrap: " + e)
+          PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),getSource(debutPeriode,reprise_flag), "Application du sparadrap: " + e)
           null
         }
       }
@@ -208,7 +208,7 @@ trait SourcePipeline extends Serializable {
       case e: Throwable => {
         // Retour d'une valeur par défaut
         e.printStackTrace()
-        PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),getSource(debutPeriode), "KO Chargement des fichiers: " + e)
+        PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),getSource(debutPeriode,reprise_flag), "KO Chargement des fichiers: " + e)
         null
       }
     }
