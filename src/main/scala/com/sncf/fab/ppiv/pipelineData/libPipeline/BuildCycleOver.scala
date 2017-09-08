@@ -95,13 +95,16 @@ object BuildCycleOver {
 
     import sqlContext.implicits._
 
+    // Pour le fichier de 10h on doit filtrer de 10h a 11h
+
+
     val heureLimiteCycleCommencant = Conversion.getDateTime(
       startTimeToProcess.getYear,
       startTimeToProcess.getMonthOfYear,
       startTimeToProcess.getDayOfMonth,
       Conversion.getHourDebutPlageHoraire(startTimeToProcess).toInt,
       0,
-      0)
+      0).plusHours(1)
 
     //TO_REMOVE
     LOGGER.warn("heure filtrage 1: " + heureLimiteCycleCommencant)
@@ -112,7 +115,7 @@ object BuildCycleOver {
       endTimeToProcess.getDayOfMonth,
       Conversion.getHourFinPlageHoraire(endTimeToProcess).toInt,
       0,
-      0)
+      0).plusHours(1)
 
     //TO_REMOVE
     LOGGER.warn("heure filtrage 2: " + heureLimiteCycleFini + " "+ endTimeToProcess)

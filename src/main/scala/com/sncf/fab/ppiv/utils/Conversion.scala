@@ -161,7 +161,6 @@ object Conversion {
     yearMonthDayFormat.print(date).toInt
   }
 
-  // TODO Remplacer par -1 en PROD
   def getHourDebutPlageHoraire(date: DateTime): String = {
     // Retrancher une heure à la date actuelle pour traiter fichier à H-1
     val HourToProcess = date.plusHours(-1)
