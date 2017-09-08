@@ -61,10 +61,36 @@ object TraitementPPIVDriver extends Serializable {
         val hiveContext = GetHiveEnv.getHiveContext(sc)
 
 
+        // 2 cas de figure, soit on a pas d'argument d'entrée
+        // Dans ce cas on prend l'heure actuelle par ex 11h32
+        // et on va chercher le fichier à n-1 donc celui de 10h qui contient tous les évènements de 10h a 11h
+        // On lance donc source pipeline entre 10h et 11
+
+        // 2ème cas de figure on précise l'heure a traiter : par exemple 20170908_11
+        // Dans ce cas on traite le fichier de 11h qui contient les evènements de 11h a 12h
 
         if(args.length == 1){
           //  - 1 seul et unique argument valide (hive, hdfs, es, fs) -> Nominal : Lancement automatique du batch sur l'heure n-1
           LOGGER.warn("Lancement automatique du batch sur l'heure n-1")
+
+          // Si startTimePipeline = 13h46
+
+          // finPeriode = 13h00
+          val finPeriode = Conversion.getDateTime(
+            startTimePipeline.getYear,
+            startTimePipeline.getMonthOfYear,
+            startTimePipeline.getDayOfMonth,
+            startTimePipeline.getHourOfDay,
+            0,
+            0)
+
+          val debutPeriode = finPeriode.plusHours(-1)
+
+          println(debutPeriode.toString())
+          println(finPeriode.toString())
+
+          System.exit(0)
+
           startPipeline(args, sc, sqlContext, hiveContext, startTimePipeline)
         }
         else if(Conversion.validateDateInputFormat(args(1)) == true){
