@@ -98,10 +98,6 @@ object TraitementPPIVDriver extends Serializable {
           val debutPeriode = Conversion.getDateTimeFromArgument(args(1))
           val finPeriode = debutPeriode.plusHours(1)
 
-          println("debut: " + debutPeriode)
-          println("fin: " + finPeriode)
-
-          System.exit(0)
 
 
           // Lancement du pipeline pour l'heure demandé (+ 1 car le pipelin est construit par rapport a ce qu'on lui donne l'heure de fin de traitement
