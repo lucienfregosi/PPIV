@@ -25,7 +25,7 @@ object DatasetsParser {
     }
     catch {
       case e => {
-        PpivRejectionHandler.handleRejection("KO",TraitementPPIVDriver.startTimePipeline.toString(),"", "Parsing des fichiers Input. Exception: " + e.getMessage)
+        PpivRejectionHandler.handleRejection("KO","",TraitementPPIVDriver.startTimePipeline.toString(),"", "Parsing des fichiers Input. Exception: " + e.getMessage)
         null
       }
     }
@@ -44,7 +44,7 @@ object DatasetsParser {
     }
     catch {
       case e => {
-        PpivRejectionHandler.handleRejection("KO",TraitementPPIVDriver.startTimePipeline.toString(),"", "Parsing du fichier Référentiel. Exception: " + e.getMessage)
+        PpivRejectionHandler.handleRejection("KO","",TraitementPPIVDriver.startTimePipeline.toString(),"", "Parsing du fichier Référentiel. Exception: " + e.getMessage)
         null
       }
     }

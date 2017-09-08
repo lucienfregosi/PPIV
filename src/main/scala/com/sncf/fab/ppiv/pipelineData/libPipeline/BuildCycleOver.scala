@@ -27,7 +27,8 @@ object BuildCycleOver {
                    sc: SparkContext,
                    sqlContext: SQLContext,
                    panneau: String,
-                   timeToProcess: DateTime): DataFrame = {
+                   debutPeriode: DateTime,
+                   finPeriode: DateTime): DataFrame = {
 
     // Groupement et création des cycleId (concaténation de gare + panneau + numeroTrain + heureDepart)
     // (cycle_id{gare,panneau,numeroTrain,heureDepart}, heureDepart, retard)
@@ -38,11 +39,11 @@ object BuildCycleOver {
 
     // Parmi les cyclesId généré précédemment on filtre ceux dont l'heure de départ est deja passé
     // On renvoie le même format de données (cycle_id{gare,panneau,numeroTrain,heureDepart}, heureDepart, retard)
-    val cycleIdListOver = filterCycleOver(cycleIdList, sqlContext, timeToProcess)
+    val cycleIdListOver = filterCycleOver(cycleIdList, sqlContext, debutPeriode, finPeriode)
 
 
     //Load les evenements  du jour j. Le 5ème paramètre sert a définir la journée qui nous intéresse 0 = jour J
-    val tgaTgdRawToDay = loadDataFullPeriod(sc, sqlContext, panneau, timeToProcess)
+    val tgaTgdRawToDay = loadDataFullPeriod(sc, sqlContext, panneau, debutPeriode, finPeriode)
 
     // Pour chaque cycle terminé récupération des différents évènements au cours de la journée
     // sous la forme d'une structure (cycle_id | Array(TgaTgdInput)
@@ -78,27 +79,13 @@ object BuildCycleOver {
 
   def filterCycleOver(dsTgaTgdCycles: Dataset[TgaTgdCycleId],
                       sqlContext: SQLContext,
-                      timeToProcess: DateTime): Dataset[TgaTgdCycleId] = {
+                      debutPeriode: DateTime,
+                      finPeriode: DateTime): Dataset[TgaTgdCycleId] = {
     import sqlContext.implicits._
 
-    val heureLimiteCycleCommencant = Conversion.getDateTime(
-      timeToProcess.getYear,
-      timeToProcess.getMonthOfYear,
-      timeToProcess.getDayOfMonth,
-      Conversion.getHourDebutPlageHoraire(timeToProcess).toInt,
-      0,
-      0)
 
-    val heureLimiteCycleFini = Conversion.getDateTime(
-      timeToProcess.getYear,
-      timeToProcess.getMonthOfYear,
-      timeToProcess.getDayOfMonth,
-      Conversion.getHourFinPlageHoraire(timeToProcess).toInt,
-      0,
-      0)
-
-    val timestampLimiteCycleCommencant = Conversion.getTimestampWithLocalTimezone(heureLimiteCycleCommencant)
-    val timestampLimiteCycleFini = Conversion.getTimestampWithLocalTimezone(heureLimiteCycleFini)
+    val timestampLimiteCycleCommencant = Conversion.getTimestampWithLocalTimezone(debutPeriode)
+    val timestampLimiteCycleFini = Conversion.getTimestampWithLocalTimezone(finPeriode)
 
 
 
@@ -121,24 +108,23 @@ object BuildCycleOver {
   def loadDataFullPeriod(sc: SparkContext,
                          sqlContext: SQLContext,
                          panneau: String,
-                         timeToProcess: DateTime ): Dataset[TgaTgdInput] = {
+                         debutPeriode: DateTime,
+                         finPeriode: DateTime): Dataset[TgaTgdInput] = {
 
 
     // Il me faut une liste de Path de 18h a J-1 à l'heure actuelle de j
     // Cela revient à s'intéresser à toutes les heures de -6 à l'heure actuelle
-    val hoursListJ = 0 to Conversion.getHourFinPlageHoraire(timeToProcess).toInt
+    val hoursListJ = 0 to Conversion.getHourInteger(debutPeriode)
     val hoursListJMoins1 = 18 to 23
 
 
-
-
-    val pathFileJ = hoursListJ.map(x => LANDING_WORK + Conversion.getYearMonthDay(timeToProcess) + "/" + panneau + "-" +
-      Conversion.getYearMonthDay(timeToProcess) + "_" + Conversion.HourFormat(x) + ".csv")
+    val pathFileJ = hoursListJ.map(x => LANDING_WORK + Conversion.getYearMonthDay(debutPeriode) + "/" + panneau + "-" +
+      Conversion.getYearMonthDay(debutPeriode) + "_" + Conversion.HourFormat(x) + ".csv")
 
     var pathAllFile = IndexedSeq[String]()
     if(STICKING_PLASTER != true){
-      val pathFileJMoins1 = hoursListJMoins1.map(x => LANDING_WORK + Conversion.getYearMonthDay(timeToProcess.plusDays(-1)) + "/" + panneau + "-" +
-        Conversion.getYearMonthDay(timeToProcess.plusDays(-1)) + "_" + Conversion.HourFormat(x) + ".csv")
+      val pathFileJMoins1 = hoursListJMoins1.map(x => LANDING_WORK + Conversion.getYearMonthDay(debutPeriode.plusDays(-1)) + "/" + panneau + "-" +
+        Conversion.getYearMonthDay(debutPeriode.plusDays(-1)) + "_" + Conversion.HourFormat(x) + ".csv")
 
       // Fusion des paths à télécharger
       pathAllFile = pathFileJMoins1.union(pathFileJ)
@@ -149,7 +135,7 @@ object BuildCycleOver {
     }
 
 
-    val tgaTgdAllPerHour = pathAllFile.map( filePath => LoadData.loadTgaTgd(sqlContext, filePath.toString))
+    val tgaTgdAllPerHour = pathAllFile.map( filePath => LoadData.loadTgaTgd(sqlContext, filePath.toString,debutPeriode))
 
     // Fusion des datasets entre eux
     val tgaTgdAllPeriod= tgaTgdAllPerHour.reduce((x, y) => x.union(y))

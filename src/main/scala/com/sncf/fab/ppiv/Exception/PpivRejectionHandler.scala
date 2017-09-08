@@ -14,21 +14,21 @@ import org.apache.log4j.Logger
 object PpivRejectionHandler extends Serializable {
 
 
-  def handleRejection(statut: String, dateExecution: String, currentTgaTgdFile: String, message: String ): Unit = {
+  def handleRejection(statut: String, dateFichierObier: String, dateExecution: String, currentTgaTgdFile: String, message: String ): Unit = {
     // Log de l'erreur
     LOGGER.error("KO Exception renvoye: " + message)
 
     // Ecriture d'une ligne dans le fichier final
-    write_execution_message(statut, dateExecution,currentTgaTgdFile, message)
+    write_execution_message(statut,dateFichierObier, dateExecution,currentTgaTgdFile, message)
     // Exit du programme
     System.exit(0)
 
   }
 
-  def write_execution_message(statut: String, dateExecution: String, currentTgaTgdFile: String, message: String ): Unit ={
+  def write_execution_message(statut: String, dateFichierObier: String, dateExecution: String, currentTgaTgdFile: String, message: String ): Unit ={
     val fw = new FileWriter(EXECUTION_TRACE_FILE, true)
     try {
-      fw.write(statut + "," + dateExecution + "," + currentTgaTgdFile +  "," + message + "\n")
+      fw.write(statut + "," + dateFichierObier + "," + dateExecution + "," + currentTgaTgdFile +  "," + message + "\n")
     }
     finally fw.close()
   }

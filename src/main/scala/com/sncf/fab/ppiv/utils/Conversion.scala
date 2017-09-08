@@ -161,23 +161,16 @@ object Conversion {
     yearMonthDayFormat.print(date).toInt
   }
 
-  // TODO Remplacer par -1 en PROD
-  def getHourDebutPlageHoraire(date: DateTime): String = {
-    // Retrancher une heure à la date actuelle pour traiter fichier à H-1
-    val HourToProcess = date.plusHours(-1)
-    // Convertir sous le format HH type 01 au lieu de 1
-    //println(new DecimalFormat("00").format(HourToProcess.getHourOfDay))
-    new DecimalFormat("00").format(HourToProcess.getHourOfDay)
+  def getHourString(date: DateTime): String = {
+    // Convertir une heure en String
+    new DecimalFormat("00").format(date.getHourOfDay)
   }
 
-  // TODO Enlever le -1 en PROD (remplacer par 0)
-  def getHourFinPlageHoraire(date: DateTime): String = {
-    // Retrancher une heure à la date actuelle pour traiter fichier à H-1
-    val HourToProcess = date // DEV
-    // Convertir sous le format HH type 01 au lieu de 1
-    //println(new DecimalFormat("00").format(HourToProcess.getHourOfDay))
-    new DecimalFormat("00").format(HourToProcess.getHourOfDay)
+  def getHourInteger(date: DateTime): Integer = {
+    // Convertir une heure en String
+    date.getHourOfDay
   }
+
 
   def getYesterdaysDate(): Int = {
     val ft = new SimpleDateFormat("yyyyMMdd")

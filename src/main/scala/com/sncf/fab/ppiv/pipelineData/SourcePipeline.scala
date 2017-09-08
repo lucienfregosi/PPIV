@@ -74,22 +74,24 @@ trait SourcePipeline extends Serializable {
   def Panneau(): String
 
   // Lancement du pipeline de traitement soit les TGA ou les TGD
-  //
-  def start(sc : SparkContext, sqlContext : SQLContext, hiveContext: HiveContext, debutPeriode: DateTime, finPipeline: DateTime): DataFrame = {
+  // On donne deux dates a source pipeline, la date de début de traitement et la date de fin
+  // Par exemple si on traite le fichier XXXX_11
+  // On aura une période de 11h a 12h
+  def start(sc : SparkContext, sqlContext : SQLContext, hiveContext: HiveContext, debutPeriode: DateTime, finPeriode: DateTime): DataFrame = {
 
     import sqlContext.implicits._
 
     try{
       // 1) Chargement des fichiers déjà parsé dans leur classe
       // Test si le fichier existe
-      val pathFileToLoad = getSource(timeToProcess)
+      val pathFileToLoad = getSource(debutPeriode)
 
       // On verifie si le fichier que l'on veut charger existe
       // S'il n'existe pas on sort car on ne peut rien faire pour ce cycle
 
       println(pathFileToLoad)
 
-      val dataTgaTgd                = LoadData.loadTgaTgd(sqlContext, pathFileToLoad)
+      val dataTgaTgd                = LoadData.loadTgaTgd(sqlContext, pathFileToLoad,debutPeriode)
       val dataRefGares              = LoadData.loadReferentiel(sqlContext)
 
       LOGGER.warn("Chargement des fichiers OK")
@@ -113,12 +115,12 @@ trait SourcePipeline extends Serializable {
             // 4) Reconstitution des évènements pour chaque trajet
             // L'objectif de cette fonction est de renvoyer (cycleId | Array(TgaTgdInput) ) afin d'associer à chaque cycle de vie
             // d'un train terminé la liste de tous ses évènements en vue du calcul des indicateurs
-            val cycleWithEventOver = BuildCycleOver.getCycleOver(dataTgaTgdFielValidated, sc, sqlContext, Panneau(), timeToProcess)
+            val cycleWithEventOver = BuildCycleOver.getCycleOver(dataTgaTgdFielValidated, sc, sqlContext, Panneau(), debutPeriode, finPeriode)
             LOGGER.warn("Filtre des cycles Terminés OK")
 
             try{
               // 5) Boucle sur les cycles finis pour traiter leur liste d'évènements
-              val rddIvTgaTgdWithoutReferentiel = BusinessRules.computeBusinessRules(cycleWithEventOver, timeToProcess)
+              val rddIvTgaTgdWithoutReferentiel = BusinessRules.computeBusinessRules(cycleWithEventOver, debutPeriode)
               LOGGER.warn("Calcul des indicateurs OK")
 
 
@@ -157,7 +159,7 @@ trait SourcePipeline extends Serializable {
                   case e: Throwable => {
                     // Retour d'une valeur par défaut
                     e.printStackTrace()
-                    PpivRejectionHandler.handleRejection("KO",timeToProcess.toString(),getSource(timeToProcess), "PostTraitement et jointure avec le referentiel: " + e)
+                    PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),getSource(debutPeriode), "PostTraitement et jointure avec le referentiel: " + e)
                     null
                   }
                 }
@@ -166,7 +168,7 @@ trait SourcePipeline extends Serializable {
                 case e: Throwable => {
                   // Retour d'une valeur par défaut
                   e.printStackTrace()
-                  PpivRejectionHandler.handleRejection("KO",timeToProcess.toString(),getSource(timeToProcess), "Enregisrement des rejets: " + e)
+                  PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),getSource(debutPeriode), "Enregisrement des rejets: " + e)
                   null
                 }
               }
@@ -175,7 +177,7 @@ trait SourcePipeline extends Serializable {
               case e: Throwable => {
                 // Retour d'une valeur par défaut
                 e.printStackTrace()
-                PpivRejectionHandler.handleRejection("KO",timeToProcess.toString(),getSource(timeToProcess), "Calcul des indicateurs: " + e)
+                PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),getSource(debutPeriode), "Calcul des indicateurs: " + e)
                 null
               }
             }
@@ -184,7 +186,7 @@ trait SourcePipeline extends Serializable {
             case e: Throwable => {
               // Retour d'une valeur par défaut
               e.printStackTrace()
-              PpivRejectionHandler.handleRejection("KO",timeToProcess.toString(),getSource(timeToProcess), "Constitution des cycles terminés: " + e)
+              PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),getSource(debutPeriode), "Constitution des cycles terminés: " + e)
               null
             }
           }
@@ -193,7 +195,7 @@ trait SourcePipeline extends Serializable {
           case e: Throwable => {
             // Retour d'une valeur par défaut
             e.printStackTrace()
-            PpivRejectionHandler.handleRejection("KO",timeToProcess.toString(),getSource(timeToProcess), "Validation Champ à champ: " + e)
+            PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),getSource(debutPeriode), "Validation Champ à champ: " + e)
             null
           }
         }
@@ -202,7 +204,7 @@ trait SourcePipeline extends Serializable {
         case e: Throwable => {
           // Retour d'une valeur par défaut
           e.printStackTrace()
-          PpivRejectionHandler.handleRejection("KO",timeToProcess.toString(),getSource(timeToProcess), "Application du sparadrap: " + e)
+          PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),getSource(debutPeriode), "Application du sparadrap: " + e)
           null
         }
       }
@@ -211,7 +213,7 @@ trait SourcePipeline extends Serializable {
       case e: Throwable => {
         // Retour d'une valeur par défaut
         e.printStackTrace()
-        PpivRejectionHandler.handleRejection("KO",timeToProcess.toString(),getSource(timeToProcess), "KO Chargement des fichiers: " + e)
+        PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),getSource(debutPeriode), "KO Chargement des fichiers: " + e)
         null
       }
     }

@@ -45,11 +45,11 @@ object TraitementPPIVDriver extends Serializable {
 
     if (args.length == 0){
       // Pas d'arguments d'entrée -> Stop
-      PpivRejectionHandler.handleRejection("KO",startTimePipeline.toString(),"","Pas d'arguments d'entrée, le batch nécessite au minimum la méthode de persistance (hdfs, hive, fs, es)")
+      PpivRejectionHandler.handleRejection("KO","",startTimePipeline.toString(),"","Pas d'arguments d'entrée, le batch nécessite au minimum la méthode de persistance (hdfs, hive, fs, es)")
     }
     else if(!(args(0).contains("hdfs") || args(0).contains("fs") || args(0).contains("es") || args(0).contains("hive")) ){
       // Argument n°1 de persistance non valide -> Stop
-      PpivRejectionHandler.handleRejection("KO",startTimePipeline.toString(),"","Pas de méthode de persistence (hdfs, fs, hive ou es pour l'agument" + args(0).toString)
+      PpivRejectionHandler.handleRejection("KO","",startTimePipeline.toString(),"","Pas de méthode de persistence (hdfs, fs, hive ou es pour l'agument" + args(0).toString)
     }
     else {
 
@@ -104,26 +104,26 @@ object TraitementPPIVDriver extends Serializable {
 
 
           // Lancement du pipeline pour l'heure demandé (+ 1 car le pipelin est construit par rapport a ce qu'on lui donne l'heure de fin de traitement
-          startPipeline(args, sc, sqlContext, hiveContext, timeToProcess)
+          startPipeline(args, sc, sqlContext, hiveContext, timeToProcess,timeToProcess)
 
         }
         else{
           //  - 3 arguments (persistance, date début, date fin) mais dates invalide (les dates doivent être de la forme yyyyMMdd_HH) -> Stop
-          PpivRejectionHandler.handleRejection("KO",startTimePipeline.toString(),"","Les dates de plage horaire ne sont pas dans le bon format yyyyMMdd_HH pour " + args(1) + " ou " + args(2))
+          PpivRejectionHandler.handleRejection("KO","",startTimePipeline.toString(),"","Les dates de plage horaire ne sont pas dans le bon format yyyyMMdd_HH pour " + args(1) + " ou " + args(2))
         }
       }
       catch {
         case e: Throwable => {
           // Retour d'une valeur par défaut
           e.printStackTrace()
-          PpivRejectionHandler.handleRejection("KO",startTimePipeline.toString(),"","Pb driver principal. exception: " + e)
+          PpivRejectionHandler.handleRejection("KO","",startTimePipeline.toString(),"","Pb driver principal. exception: " + e)
         }
       }
     }
   }
 
   // Fonction appelé pour le déclenchement d'un pipeline complet pour une heure donnée
-  def startPipeline(argsArray: Array[String], sc: SparkContext, sqlContext: SQLContext, hiveContext: HiveContext, dateTimeToProcess: DateTime): Unit = {
+  def startPipeline(argsArray: Array[String], sc: SparkContext, sqlContext: SQLContext, hiveContext: HiveContext, debutPeriode: DateTime, finPeriode: DateTime): Unit = {
 
     import sqlContext.implicits._
 
@@ -131,10 +131,10 @@ object TraitementPPIVDriver extends Serializable {
     val persistMethod = argsArray(0)
 
     LOGGER.warn("Processing des TGA")
-    val ivTga = TraitementTga.start(sc, sqlContext, hiveContext, dateTimeToProcess)
+    val ivTga = TraitementTga.start(sc, sqlContext, hiveContext, debutPeriode, finPeriode)
 
     LOGGER.warn("Processing des TGD")
-    val ivTgd = TraitementTgd.start(sc, sqlContext, hiveContext, dateTimeToProcess)
+    val ivTgd = TraitementTgd.start(sc, sqlContext, hiveContext, debutPeriode, finPeriode)
 
 
     // 11) Fusion des résultats de TGA et TGD
@@ -145,16 +145,16 @@ object TraitementPPIVDriver extends Serializable {
       // 12) Persistence dans la méthode demandée (hdfs, hive, es, fs)
       LOGGER.warn("Persistence dans la méthode demandée (hdfs, hive, es, fs)")
 
-      Persist.save(ivTgaTgd, persistMethod, sc, dateTimeToProcess, hiveContext)
+      Persist.save(ivTgaTgd, persistMethod, sc, debutPeriode, hiveContext)
 
       LOGGER.warn("SUCCESS")
       // Voir pour logger le succès
-      PpivRejectionHandler.write_execution_message("OK", startTimePipeline.toString(),"","")
+      PpivRejectionHandler.write_execution_message("OK",debutPeriode.toString(), startTimePipeline.toString(),"","")
     }
     catch {
       case e: Throwable => {
         e.printStackTrace()
-        PpivRejectionHandler.handleRejection("KO",startTimePipeline.toString(),"","enregistrement dans Hive. Exception: " + e.getMessage)
+        PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), startTimePipeline.toString(),"","enregistrement dans Hive. Exception: " + e.getMessage)
       }
     }
   }

@@ -10,12 +10,13 @@ import java.nio.file.{Files, Paths}
 import com.sncf.fab.ppiv.Exception.PpivRejectionHandler
 import com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver
 import org.apache.spark.SparkContext
+import org.joda.time.DateTime
 
 /**
   * Created by ELFI03951 on 12/07/2017.
   */
 object LoadData {
-  def loadTgaTgd(sqlContext : SQLContext, path: String): Dataset[TgaTgdInput] = {
+  def loadTgaTgd(sqlContext : SQLContext, path: String, debutPeriode: DateTime): Dataset[TgaTgdInput] = {
     import sqlContext.implicits._
 
     // Définition du nom de chacune des colonnes car on recoit les fichiers sans headers
@@ -23,7 +24,7 @@ object LoadData {
 
     // Test si le fichier existe
     if(!checkIfFileExist(sqlContext.sparkContext,path )) {
-      PpivRejectionHandler.handleRejection("KO",TraitementPPIVDriver.startTimePipeline.toString(),path, "Le fichier n'existe pas")
+      PpivRejectionHandler.handleRejection("KO",debutPeriode.toString, TraitementPPIVDriver.startTimePipeline.toString(),path, "Le fichier n'existe pas")
     }
 
     // Lecture du CSV avec les bons noms de champs
