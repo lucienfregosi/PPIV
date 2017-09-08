@@ -93,6 +93,7 @@ trait SourcePipeline extends Serializable {
       println("debut: " + debutPeriode)
       println("fin: " + finPeriode)
 
+      System.exit(0)
       val dataTgaTgd                = LoadData.loadTgaTgd(sqlContext, pathFileToLoad,debutPeriode, reprise_flag : Boolean)
       val dataRefGares              = LoadData.loadReferentiel(sqlContext)
 

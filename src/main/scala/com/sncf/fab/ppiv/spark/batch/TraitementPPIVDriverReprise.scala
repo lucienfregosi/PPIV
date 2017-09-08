@@ -76,16 +76,19 @@ object TraitementPPIVDriverReprise extends Serializable {
             0,
             0)
 
-          val finPeriodeZone = Conversion.getDateTimeFromArgument(args(1) + "_00").plusDays(1)
+          val finPeriodeZone = Conversion.getDateTimeFromArgument(args(1) + "_00")
+
           val finPeriode = Conversion.getDateTime(
             debutPeriodeZone.getYear,
             debutPeriodeZone.getMonthOfYear,
             debutPeriodeZone.getDayOfMonth,
             debutPeriodeZone.getHourOfDay,
             0,
-            0)
+            0).plusDays(1)
 
 
+         //TO-REMOVE
+          println(finPeriode)
 
           // Lancement du pipeline pour la journée demandé
           startPipelineReprise(args, sc, sqlContext, hiveContext,debutPeriode, finPeriode)
