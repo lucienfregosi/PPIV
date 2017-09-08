@@ -121,6 +121,7 @@ trait SourcePipeline extends Serializable {
             val cycleWithEventOver = BuildCycleOver.getCycleOver(dataTgaTgdFielValidated, sc, sqlContext, Panneau(), debutPeriode, finPeriode, reprise_flag)
             LOGGER.warn("Filtre des cycles Terminés OK")
 
+
             try{
               // 5) Boucle sur les cycles finis pour traiter leur liste d'évènements
               val rddIvTgaTgdWithoutReferentiel = BusinessRules.computeBusinessRules(cycleWithEventOver, debutPeriode)
