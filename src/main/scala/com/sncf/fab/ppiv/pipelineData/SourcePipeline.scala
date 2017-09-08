@@ -74,7 +74,8 @@ trait SourcePipeline extends Serializable {
   def Panneau(): String
 
   // Lancement du pipeline de traitement soit les TGA ou les TGD
-  def start(sc : SparkContext, sqlContext : SQLContext, hiveContext: HiveContext, timeToProcess: DateTime): DataFrame = {
+  //
+  def start(sc : SparkContext, sqlContext : SQLContext, hiveContext: HiveContext, debutPeriode: DateTime, finPipeline: DateTime): DataFrame = {
 
     import sqlContext.implicits._
 

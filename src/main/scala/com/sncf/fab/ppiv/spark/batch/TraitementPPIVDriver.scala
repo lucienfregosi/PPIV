@@ -91,7 +91,7 @@ object TraitementPPIVDriver extends Serializable {
 
           System.exit(0)
 
-          startPipeline(args, sc, sqlContext, hiveContext, startTimePipeline)
+          startPipeline(args, sc, sqlContext, hiveContext, debutPeriode, finPeriode)
         }
         else if(Conversion.validateDateInputFormat(args(1)) == true){
 
