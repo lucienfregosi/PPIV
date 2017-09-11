@@ -27,7 +27,7 @@ object PersistHive extends Serializable {
 
   }
 
-  def persisteRejectFeield(ds: Dataset[TgaTgdInput], sc : SparkContext, hiveContext: HiveContext): Unit = {
+  def persisteRejectField(ds: Dataset[TgaTgdInput], sc : SparkContext, hiveContext: HiveContext): Unit = {
 
     val dfHiveField = hiveContext.createDataFrame(ds.toDF().rdd, ds.toDF().schema)
     dfHiveField.registerTempTable("rejetField")

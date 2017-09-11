@@ -13,10 +13,10 @@ import org.apache.spark.sql.hive.HiveContext
   */
 object Reject {
 
-  def saveFieldRejected(dsFieldRejected: Dataset[TgaTgdInput], pathToSave: String): Unit ={
+  def saveFieldRejected(dsFieldRejected: Dataset[TgaTgdInput], sparkContext: SparkContext, hiveContext: HiveContext, pathToSave: String): Unit ={
     // Sauvegarde des rejets de champs dans HDFS
-    //PersistHive.persisteRejectFeield(dsFieldRejected,  sparkContext, hiveContext)
-    PersistHdfs.persisteRejectField(dsFieldRejected, pathToSave)
+    PersistHive.persisteRejectField(dsFieldRejected,  sparkContext, hiveContext)
+    //PersistHdfs.persisteRejectField(dsFieldRejected, pathToSave)
   }
   def saveCycleRejected(dsFieldRejected: Dataset[TgaTgdIntermediate], pathToSave: String): Unit ={
     // Sauvegarde des rejets de cycle dans hive
