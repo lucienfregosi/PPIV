@@ -39,7 +39,7 @@ object LoadData {
     val dfTgaTgd = sqlContext.read
       .format("com.databricks.spark.csv")
       .option("header", "false")
-      .option("delimiter", ";")
+      .option("delimiter", ",")
       .load(path).toDF(newNamesTgaTgd: _*)
       .withColumn("maj", 'maj.cast(LongType))
       .withColumn("heure", 'heure.cast(LongType))
