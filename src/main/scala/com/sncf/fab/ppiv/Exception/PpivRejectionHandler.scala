@@ -20,8 +20,9 @@ object PpivRejectionHandler extends Serializable {
 
     // Ecriture d'une ligne dans le fichier final
     write_execution_message(statut,dateFichierObier, dateExecution,currentTgaTgdFile, message)
-    // Exit du programme
-    System.exit(0)
+
+    // Levé d'une exception
+    throw new Exception("Exception thrown")
 
   }
 
