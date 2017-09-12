@@ -121,9 +121,8 @@ object TraitementPPIVDriver extends Serializable {
       }
       catch {
         case e: Throwable => {
-          // Retour d'une valeur par défaut
-          e.printStackTrace()
-          PpivRejectionHandler.handleRejection("KO","",startTimePipeline.toString(),"","Pb driver principal. exception: " + e)
+          // Catch final, c'est ici qu'on écrit dans le fichier de résultat
+          PpivRejectionHandler.handleRejectionFinal("KO","",startTimePipeline.toString(),"","Exception relevé pendant l'execution: " + e)
         }
       }
     }

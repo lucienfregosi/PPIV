@@ -14,16 +14,21 @@ import org.apache.log4j.Logger
 object PpivRejectionHandler extends Serializable {
 
 
-  def handleRejection(statut: String, dateFichierObier: String, dateExecution: String, currentTgaTgdFile: String, message: String ): Unit = {
-    // Log de l'erreur
-    LOGGER.error("KO Exception renvoye: " + message)
+  def handleRejectionFinal(statut: String, dateFichierObier: String, dateExecution: String, currentTgaTgdFile: String, message: String ): Unit = {
 
     // Ecriture d'une ligne dans le fichier final
     write_execution_message(statut,dateFichierObier, dateExecution,currentTgaTgdFile, message)
 
-    // Levé d'une exception
-    throw new Exception("Exception thrown")
+    // Fin du programme
 
+  }
+
+  def handleRejection(statut: String, dateFichierObier: String, dateExecution: String, currentTgaTgdFile: String, message: String ): Unit = {
+    // Log de l'erreur
+    LOGGER.error("KO Exception renvoye: " + message)
+
+    // Levé d'une exception
+    throw new Exception(message)
   }
 
   def write_execution_message(statut: String, dateFichierObier: String, dateExecution: String, currentTgaTgdFile: String, message: String ): Unit ={
