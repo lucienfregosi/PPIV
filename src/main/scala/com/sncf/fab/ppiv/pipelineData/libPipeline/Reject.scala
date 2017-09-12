@@ -20,7 +20,7 @@ object Reject {
   }
   def saveCycleRejected(dsFieldRejected: Dataset[TgaTgdIntermediate], sparkContext: SparkContext, hiveContext: HiveContext, pathToSave: String): Unit ={
     // Sauvegarde des rejets de cycle dans hive
-    PersistHive.persisteRejectCycle(dsFieldRejected,  sparkContext, hiveContext)
+    //PersistHive.persisteRejectCycle(dsFieldRejected,  sparkContext, hiveContext)
     PersistHdfs.persisteRejectCycle(dsFieldRejected, pathToSave)
   }
 
