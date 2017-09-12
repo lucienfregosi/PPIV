@@ -1,4 +1,4 @@
-CREATE EXTERNAL TABLE IF NOT EXISTS ppiv_ref.iv_tgatgd_rejet_cycle(
+CREATE EXTERNAL TABLE IF NOT EXISTS ppiv_ref.iv_tgatgd_rejet_cycle3(
           cycleid string,
 		  gare string,
 		  origine_destination string,
@@ -26,4 +26,4 @@ ROW FORMAT DELIMITED
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
 STORED AS TEXTFILE
-LOCATION '/data1/GARES/refinery/PPIV_PHASE2/hive/iv_tgatgd_rejet_cycle2'
+LOCATION '/data1/GARES/refinery/PPIV_PHASE2/hive/iv_tgatgd_rejet_cycle3'
