@@ -32,11 +32,16 @@ object PpivRejectionHandler extends Serializable {
   }
 
   def write_execution_message(statut: String, dateFichierObier: String, dateExecution: String, currentTgaTgdFile: String, message: String ): Unit ={
+
+    // Ecriture sur le fichier de sortie résumant l'exécution du programme
     val fw = new FileWriter(EXECUTION_TRACE_FILE, true)
     try {
       fw.write(statut + "," + dateFichierObier + "," + dateExecution + "," + currentTgaTgdFile +  "," + message + "\n")
     }
     finally fw.close()
+
+    // Publication des métriques dans graphite
+
   }
 
 }
