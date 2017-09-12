@@ -1,5 +1,6 @@
 package com.sncf.fab.ppiv.parser
 
+import java.io.{PrintWriter, StringWriter}
 import java.sql.Date
 import java.util.Calendar
 
@@ -25,7 +26,9 @@ object DatasetsParser {
     }
     catch {
       case e => {
-        PpivRejectionHandler.handleRejection("KO","",TraitementPPIVDriver.startTimePipeline.toString(),"", "Parsing des fichiers Input. Exception: " + e.getMessage)
+        val sw = new StringWriter
+        e.printStackTrace(new PrintWriter(sw))
+        PpivRejectionHandler.handleRejection("KO","",TraitementPPIVDriver.startTimePipeline.toString(),"", "Parsing des fichiers Input. Exception: " + e.getMessage, sw.toString)
         null
       }
     }
@@ -44,7 +47,9 @@ object DatasetsParser {
     }
     catch {
       case e => {
-        PpivRejectionHandler.handleRejection("KO","",TraitementPPIVDriver.startTimePipeline.toString(),"", "Parsing du fichier Référentiel. Exception: " + e.getMessage)
+        val sw = new StringWriter
+        e.printStackTrace(new PrintWriter(sw))
+        PpivRejectionHandler.handleRejection("KO","",TraitementPPIVDriver.startTimePipeline.toString(),"", "Parsing du fichier Référentiel. Exception: " + e.getMessage, sw.toString)
         null
       }
     }

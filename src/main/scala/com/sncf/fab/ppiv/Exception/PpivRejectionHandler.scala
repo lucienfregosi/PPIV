@@ -23,12 +23,13 @@ object PpivRejectionHandler extends Serializable {
 
   }
 
-  def handleRejection(statut: String, dateFichierObier: String, dateExecution: String, currentTgaTgdFile: String, message: String ): Unit = {
+  def handleRejection(statut: String, dateFichierObier: String, dateExecution: String, currentTgaTgdFile: String, message: String, stackTrace: String ): Unit = {
     // Log de l'erreur
-    LOGGER.error("KO Exception renvoye: " + message)
+    val log = "KO Exception renvoye: " + message + " Stacktrace: " + stackTrace
+    LOGGER.error(log)
 
     // Levé d'une exception
-    throw new Exception(message)
+    throw new Exception(log)
   }
 
   def write_execution_message(statut: String, dateFichierObier: String, dateExecution: String, currentTgaTgdFile: String, message: String ): Unit ={

@@ -1,6 +1,7 @@
 package com.sncf.fab.ppiv.pipelineData
 
 
+import java.io.{PrintWriter, StringWriter}
 import java.nio.file.{Files, Paths}
 
 import com.sncf.fab.ppiv.Exception.PpivRejectionHandler
@@ -155,8 +156,9 @@ trait SourcePipeline extends Serializable {
                 catch {
                   case e: Throwable => {
                     // Retour d'une valeur par défaut
-                    e.printStackTrace()
-                    PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),getSource(debutPeriode,reprise_flag), "PostTraitement et jointure avec le referentiel: " + e)
+                    val sw = new StringWriter
+                    e.printStackTrace(new PrintWriter(sw))
+                    PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),getSource(debutPeriode,reprise_flag), "PostTraitement et jointure avec le referentiel: " + e, sw.toString)
                     null
                   }
                 }
@@ -164,8 +166,9 @@ trait SourcePipeline extends Serializable {
               catch {
                 case e: Throwable => {
                   // Retour d'une valeur par défaut
-                  e.printStackTrace()
-                  PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),getSource(debutPeriode,reprise_flag), "Enregisrement des rejets: " + e)
+                  val sw = new StringWriter
+                  e.printStackTrace(new PrintWriter(sw))
+                  PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),getSource(debutPeriode,reprise_flag), "Enregisrement des rejets: " + e, sw.toString)
                   null
                 }
               }
@@ -173,8 +176,9 @@ trait SourcePipeline extends Serializable {
             catch {
               case e: Throwable => {
                 // Retour d'une valeur par défaut
-                e.printStackTrace()
-                PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),getSource(debutPeriode,reprise_flag), "Calcul des indicateurs: " + e)
+                val sw = new StringWriter
+                e.printStackTrace(new PrintWriter(sw))
+                PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),getSource(debutPeriode,reprise_flag), "Calcul des indicateurs: " + e, sw.toString)
                 null
               }
             }
@@ -182,8 +186,9 @@ trait SourcePipeline extends Serializable {
           catch {
             case e: Throwable => {
               // Retour d'une valeur par défaut
-              e.printStackTrace()
-              PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),getSource(debutPeriode,reprise_flag), "Constitution des cycles terminés: " + e)
+              val sw = new StringWriter
+              e.printStackTrace(new PrintWriter(sw))
+              PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),getSource(debutPeriode,reprise_flag), "Constitution des cycles terminés: " + e, sw.toString)
               null
             }
           }
@@ -191,8 +196,9 @@ trait SourcePipeline extends Serializable {
         catch {
           case e: Throwable => {
             // Retour d'une valeur par défaut
-            e.printStackTrace()
-            PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),getSource(debutPeriode,reprise_flag), "Validation Champ à champ: " + e)
+            val sw = new StringWriter
+            e.printStackTrace(new PrintWriter(sw))
+            PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),getSource(debutPeriode,reprise_flag), "Validation Champ à champ: " + e, sw.toString)
             null
           }
         }
@@ -200,8 +206,9 @@ trait SourcePipeline extends Serializable {
       catch {
         case e: Throwable => {
           // Retour d'une valeur par défaut
-          e.printStackTrace()
-          PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),getSource(debutPeriode,reprise_flag), "Application du sparadrap: " + e)
+          val sw = new StringWriter
+          e.printStackTrace(new PrintWriter(sw))
+          PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),getSource(debutPeriode,reprise_flag), "Application du sparadrap: " + e, sw.toString)
           null
         }
       }
@@ -209,8 +216,9 @@ trait SourcePipeline extends Serializable {
     catch {
       case e: Throwable => {
         // Retour d'une valeur par défaut
-        e.printStackTrace()
-        PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),getSource(debutPeriode,reprise_flag), "KO Chargement des fichiers: " + e)
+        val sw = new StringWriter
+        e.printStackTrace(new PrintWriter(sw))
+        PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),getSource(debutPeriode,reprise_flag), "KO Chargement des fichiers: " + e, sw.toString)
         null
       }
     }

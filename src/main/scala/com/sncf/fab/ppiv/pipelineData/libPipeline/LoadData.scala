@@ -32,7 +32,7 @@ object LoadData {
 
     // Test si le fichier existe
     if(!checkIfFileExist(sqlContext.sparkContext,path )) {
-      PpivRejectionHandler.handleRejection("KO",debutPeriode.toString, TraitementPPIVDriver.startTimePipeline.toString(),path, "Le fichier n'existe pas")
+      PpivRejectionHandler.handleRejection("KO",debutPeriode.toString, TraitementPPIVDriver.startTimePipeline.toString(),path, "Le fichier n'existe pas","")
     }
 
     // Lecture du CSV avec les bons noms de champs

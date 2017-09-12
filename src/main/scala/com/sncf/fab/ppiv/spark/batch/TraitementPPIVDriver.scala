@@ -1,5 +1,6 @@
 package com.sncf.fab.ppiv.spark.batch
 
+import java.io.{PrintWriter, StringWriter}
 import java.time.Period
 
 import com.sncf.fab.ppiv.Exception.PpivRejectionHandler
@@ -45,11 +46,11 @@ object TraitementPPIVDriver extends Serializable {
 
     if (args.length == 0){
       // Pas d'arguments d'entrée -> Stop
-      PpivRejectionHandler.handleRejection("KO","",startTimePipeline.toString(),"","Pas d'arguments d'entrée, le batch nécessite au minimum la méthode de persistance (hdfs, hive, fs, es)")
+      PpivRejectionHandler.handleRejection("KO","",startTimePipeline.toString(),"","Pas d'arguments d'entrée, le batch nécessite au minimum la méthode de persistance (hdfs, hive, fs, es)","")
     }
     else if(!(args(0).contains("hdfs") || args(0).contains("fs") || args(0).contains("es") || args(0).contains("hive")) ){
       // Argument n°1 de persistance non valide -> Stop
-      PpivRejectionHandler.handleRejection("KO","",startTimePipeline.toString(),"","Pas de méthode de persistence (hdfs, fs, hive ou es pour l'agument" + args(0).toString)
+      PpivRejectionHandler.handleRejection("KO","",startTimePipeline.toString(),"","Pas de méthode de persistence (hdfs, fs, hive ou es pour l'agument" + args(0).toString,"")
     }
     else {
 
@@ -116,13 +117,13 @@ object TraitementPPIVDriver extends Serializable {
         }
         else{
           //  - 3 arguments (persistance, date début, date fin) mais dates invalide (les dates doivent être de la forme yyyyMMdd_HH) -> Stop
-          PpivRejectionHandler.handleRejection("KO","",startTimePipeline.toString(),"","Les dates de plage horaire ne sont pas dans le bon format yyyyMMdd_HH pour " + args(1) + " ou " + args(2))
+          PpivRejectionHandler.handleRejection("KO","",startTimePipeline.toString(),"","Les dates de plage horaire ne sont pas dans le bon format yyyyMMdd_HH pour " + args(1) + " ou " + args(2), "")
         }
       }
       catch {
         case e: Throwable => {
           // Catch final, c'est ici qu'on écrit dans le fichier de résultat
-          PpivRejectionHandler.handleRejectionFinal("KO","",startTimePipeline.toString(),"","Exception relevé pendant l'execution: " + e + " Stacktrace :" + e.printStackTrace())
+          PpivRejectionHandler.handleRejectionFinal("KO","",startTimePipeline.toString(),"","Exception relevé pendant l'execution: " + e + " Stacktrace :")
         }
       }
     }
@@ -159,8 +160,9 @@ object TraitementPPIVDriver extends Serializable {
     }
     catch {
       case e: Throwable => {
-        e.printStackTrace()
-        PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), startTimePipeline.toString(),"","enregistrement dans Hive. Exception: " + e.getMessage)
+        val sw = new StringWriter
+        e.printStackTrace(new PrintWriter(sw))
+        PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), startTimePipeline.toString(),"","enregistrement dans Hive. Exception: " + e.getMessage, sw.toString)
       }
     }
   }
