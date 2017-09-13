@@ -23,9 +23,9 @@ object PpivRejectionHandler extends Serializable {
 
   }
 
-  def handleRejection(statut: String, dateFichierObier: String, dateExecution: String, currentTgaTgdFile: String, message: String, stackTrace: String ): Unit = {
+  def handleRejection(statut: String, dateFichierObier: String, dateExecution: String, currentTgaTgdFile: String, message: String ): Unit = {
     // Log de l'erreur
-    val log = "KO Exception renvoye: " + message + " Stacktrace: " + stackTrace
+    val log = "KO Exception renvoye: " + message
     LOGGER.error(log)
 
     // Levé d'une exception
