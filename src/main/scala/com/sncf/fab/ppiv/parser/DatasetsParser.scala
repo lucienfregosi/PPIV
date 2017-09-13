@@ -28,7 +28,7 @@ object DatasetsParser {
       case e => {
         val sw = new StringWriter
         e.printStackTrace(new PrintWriter(sw))
-        PpivRejectionHandler.handleRejection("KO","",TraitementPPIVDriver.startTimePipeline.toString(),"", "Parsing des fichiers Input. Exception: " + e.getMessage, sw.toString)
+        PpivRejectionHandler.handleRejection("KO","",TraitementPPIVDriver.startTimePipeline.toString(),"", "Parsing des fichiers Input. Exception: " + e.getMessage)
         null
       }
     }
@@ -49,7 +49,7 @@ object DatasetsParser {
       case e => {
         val sw = new StringWriter
         e.printStackTrace(new PrintWriter(sw))
-        PpivRejectionHandler.handleRejection("KO","",TraitementPPIVDriver.startTimePipeline.toString(),"", "Parsing du fichier Référentiel. Exception: " + e.getMessage, sw.toString)
+        PpivRejectionHandler.handleRejection("KO","",TraitementPPIVDriver.startTimePipeline.toString(),"", "Parsing du fichier Référentiel. Exception: " + e.getMessage)
         null
       }
     }
