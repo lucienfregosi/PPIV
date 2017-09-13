@@ -17,12 +17,12 @@ object Persist {
       PersistHive.persisteQualiteAffichageHive(ivTgaTgd, sc, hiveContext)
     // Persistance dans HDFS
     else if (persistMethod.contains("hdfs"))
-      PersistHdfs.persisteQualiteAffichageIntoHdfs(ivTgaTgd, TraitementTga.getOutputRefineryPath(startTimePipeline, reprise_flag))
+      PersistHdfs.persisteQualiteAffichageIntoHdfs(ivTgaTgd, TraitementTga.getOutputRefineryPath(startTimePipeline, startTimePipeline, reprise_flag))
     // Persistance dans elasticsearch
     else if (persistMethod.contains("es"))
       PersistElastic.persisteQualiteAffichageIntoEs(ivTgaTgd, OUTPUT_INDEX)
     // Persistance dasn le file system
     else if (persistMethod.contains("fs"))
-      PersistLocal.persisteQualiteAffichageIntoFs(ivTgaTgd, TraitementTga.getOutputRefineryPath(startTimePipeline, reprise_flag))
+      PersistLocal.persisteQualiteAffichageIntoFs(ivTgaTgd, TraitementTga.getOutputRefineryPath(startTimePipeline, startTimePipeline,reprise_flag))
   }
 }
