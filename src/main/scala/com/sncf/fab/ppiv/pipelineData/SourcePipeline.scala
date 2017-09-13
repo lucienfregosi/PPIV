@@ -43,19 +43,19 @@ trait SourcePipeline extends Serializable {
     *
     * @return le chemin de l'output qualité
     */
-  def getOutputGoldPath(timeToProcess: DateTime, reprise_flag : Boolean): String
+  def getOutputGoldPath(debutPeriode: DateTime, finPeriode: DateTime, reprise_flag : Boolean): String
 
   /**
     *
     * @return the path used to store the cleaned TgaTgaPased
     */
 
-  def getOutputRefineryPath(timeToProcess: DateTime, reprise_flag  :Boolean): String
+  def getOutputRefineryPath(debutPeriode: DateTime, finPeriode: DateTime, reprise_flag  :Boolean): String
 
-  def getRejectCycleRefineryPath(timeToProcess: DateTime , reprise_flag  :Boolean): String
-  def getRejectCycleGoldPath(timeToProcess: DateTime , reprise_flag  :Boolean): String
-  def getRejectFieldRefineryPath(timeToProcess: DateTime , reprise_flag  :Boolean): String
-  def getRejectFieldGoldPath(timeToProcess: DateTime , reprise_flag  :Boolean): String
+  def getRejectCycleRefineryPath(debutPeriode: DateTime, finPeriode: DateTime, reprise_flag  :Boolean): String
+  def getRejectCycleGoldPath(debutPeriode: DateTime, finPeriode: DateTime, reprise_flag  :Boolean): String
+  def getRejectFieldRefineryPath(debutPeriode: DateTime, finPeriode: DateTime, reprise_flag  :Boolean): String
+  def getRejectFieldGoldPath(debutPeriode: DateTime, finPeriode: DateTime, reprise_flag  :Boolean): String
   /**
     *
     * @return vrai s'il s'agit d'un départ de train, faux s'il s'agit d'un arrivé
