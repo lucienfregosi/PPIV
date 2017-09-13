@@ -168,7 +168,7 @@ object TraitementPPIVDriverReprise extends Serializable {
       case e: Throwable => {
         val sw = new StringWriter
         e.printStackTrace(new PrintWriter(sw))
-        PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), startTimePipeline.toString(),"","enregistrement dans Hive. Exception: " + e.getMessage)
+        PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), startTimePipeline.toString(),"","enregistrement dans Hive. Exception: " + e)
       }
     }
   }
