@@ -123,7 +123,7 @@ object TraitementPPIVDriver extends Serializable {
       catch {
         case e: Throwable => {
           // Catch final, c'est ici qu'on écrit dans le fichier de résultat
-          PpivRejectionHandler.handleRejectionFinal("KO","",startTimePipeline.toString(),"","Exception relevé pendant l'execution: " + e + " Stacktrace :")
+          PpivRejectionHandler.handleRejectionFinal("KO","",startTimePipeline.toString(),"","Exception relevé pendant l'execution: " + e.getStackTrace)
         }
       }
     }
