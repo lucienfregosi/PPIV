@@ -1,5 +1,7 @@
 package com.sncf.fab.ppiv.pipelineData.libPipeline
 
+import java.io.{PrintWriter, StringWriter}
+
 import com.sncf.fab.ppiv.business.{ReferentielGare, TgaTgdInput}
 import com.sncf.fab.ppiv.parser.DatasetsParser
 import com.sncf.fab.ppiv.utils.AppConf.REF_GARES
@@ -35,27 +37,36 @@ object LoadData {
       PpivRejectionHandler.handleRejection("KO",debutPeriode.toString, TraitementPPIVDriver.startTimePipeline.toString(),path, "Le fichier n'existe pas")
     }
 
-    // Lecture du CSV avec les bons noms de champs
-    val dfTgaTgd = sqlContext.read
-      .format("com.databricks.spark.csv")
-      .option("header", "false")
-      .option("delimiter", ";")
-      .load(path).toDF(newNamesTgaTgd: _*)
-      .withColumn("maj", 'maj.cast(LongType))
-      .withColumn("heure", 'heure.cast(LongType))
-      .filter($"maj".isNotNull)
-      .filter($"heure".isNotNull)
-      .distinct()
-      .as[TgaTgdInput]
+    try{
+      // Lecture du CSV avec les bons noms de champs
+      val dfTgaTgd = sqlContext.read
+        .format("com.databricks.spark.csv")
+        .option("header", "false")
+        .option("delimiter", ";")
+        .load(path).toDF(newNamesTgaTgd: _*)
+        .withColumn("maj", 'maj.cast(LongType))
+        .withColumn("heure", 'heure.cast(LongType))
+        .filter($"maj".isNotNull)
+        .filter($"heure".isNotNull)
+        .distinct()
+        .as[TgaTgdInput]
 
 
-    dfTgaTgd
+      dfTgaTgd
+    }
+    catch {
+      case e: Throwable => {
+        // Retour d'une valeur par défaut
+        PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),path, "Impossible de parser le fichier: " + e)
+        null
+      }
+    }
 
-    // Parsing du CSV a l'intérieur d'un object TgaTgaInput, conversion en dataset
-    //dsTgaTgd.map(row => DatasetsParser.parseTgaTgdDataset(row)).toDS()
+
+
   }
 
-  def loadReferentiel(sqlContext : SQLContext) : Dataset[ReferentielGare] = {
+  def loadReferentiel(sqlContext : SQLContext, debutPeriode: DateTime) : Dataset[ReferentielGare] = {
     import sqlContext.implicits._
 
     // Définition du nom de chacune des colonnes car on recoit les fichiers sans headers
@@ -63,19 +74,29 @@ object LoadData {
 
 
 
-    // Chargement du CSV référentiel
-    val refGares = sqlContext.read
-      .option("delimiter", ";")
-      .option("header", "true")
-      .option("charset", "UTF8")
-      .format("com.databricks.spark.csv")
-      .load(REF_GARES)
-      .toDF(newNamesRefGares: _*)
-      .distinct()
-      .as[ReferentielGare]
+    try{
+      // Chargement du CSV référentiel
+      val refGares = sqlContext.read
+        .option("delimiter", ";")
+        .option("header", "true")
+        .option("charset", "UTF8")
+        .format("com.databricks.spark.csv")
+        .load(REF_GARES)
+        .toDF(newNamesRefGares: _*)
+        .distinct()
+        .as[ReferentielGare]
 
-    // Parsing du CSV a l'intérieur d'un object ReferentielGare, conversion en dataset
-    refGares.toDF().map(DatasetsParser.parseRefGares).toDS()
+      // Parsing du CSV a l'intérieur d'un object ReferentielGare, conversion en dataset
+      refGares.toDF().map(DatasetsParser.parseRefGares).toDS()
+    }
+    catch {
+      case e: Throwable => {
+        // Retour d'une valeur par défaut
+        PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),REF_GARES, "Impossible de parser le référentiel: " + e)
+        null
+      }
+    }
+
 
   }
 
