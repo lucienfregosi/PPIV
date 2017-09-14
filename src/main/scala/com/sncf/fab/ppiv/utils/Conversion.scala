@@ -1,5 +1,6 @@
 package com.sncf.fab.ppiv.utils
 
+import java.io.File
 import java.text.{DecimalFormat, ParseException, SimpleDateFormat}
 import java.util.concurrent.TimeUnit
 
@@ -9,6 +10,8 @@ import java.util.{Calendar, Date}
 
 import com.sncf.fab.ppiv.utils.Conversion.ParisTimeZone
 import org.apache.hive.common.util.DateUtils
+
+import scala.util.Try
 
 /**
   * Created by simoh-labdoui on 11/05/2017.
@@ -281,5 +284,8 @@ object Conversion {
     // On fait l'arrondi si il y a plus de 60 secondes
     if (secondes > 30) minutes + 1 else minutes
   }
+
+  def renameFile(oldName: String, newName: String) =
+    Try(new File(oldName).renameTo(new File(newName))).getOrElse(false)
 
 }

@@ -152,7 +152,12 @@ object TraitementPPIVDriver extends Serializable {
       // 12) Persistence dans la méthode demandée (hdfs, hive, es, fs)
       LOGGER.warn("Persistence dans la méthode demandée (hdfs, hive, es, fs)")
 
+      // Sauvegarde dans HDFS
       Persist.save(ivTgaTgd, persistMethod, sc, debutPeriode, hiveContext, false)
+
+      // Renommage du fichier car il a fini d'écrire
+      Conversion.renameFile(TraitementTga.getOutputGoldPathTMP(debutPeriode, finPeriode,false), TraitementTga.getOutputGoldPath(debutPeriode, finPeriode,false))
+
 
       LOGGER.warn("SUCCESS")
       // Voir pour logger le succès
@@ -162,7 +167,7 @@ object TraitementPPIVDriver extends Serializable {
       case e: Throwable => {
         val sw = new StringWriter
         e.printStackTrace(new PrintWriter(sw))
-        PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), startTimePipeline.toString(),"","enregistrement dans Hive. Exception: " + e)
+        PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), startTimePipeline.toString(),"","Enregistrement dans "+ persistMethod + ". Exception: " + e)
       }
     }
   }

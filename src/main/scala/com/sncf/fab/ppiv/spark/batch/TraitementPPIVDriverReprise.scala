@@ -160,6 +160,9 @@ object TraitementPPIVDriverReprise extends Serializable {
 
       Persist.save(ivTgaTgd, persistMethod, sc, debutPeriode, hiveContext, true)
 
+      // Renommage du fichier car il a fini d'écrire
+      Conversion.renameFile(TraitementTga.getOutputGoldPathTMP(debutPeriode, finPeriode,true), TraitementTga.getOutputGoldPath(debutPeriode, finPeriode,true))
+
       LOGGER.warn("SUCCESS")
       // Voir pour logger le succès
       PpivRejectionHandler.write_execution_message("OK",debutPeriode.toString(), startTimePipeline.toString(),"","")
