@@ -18,7 +18,9 @@ object AppConf extends Serializable{
   val REF_GARES    = conf.getString("ref_gares")
 
   // Chemin ou enregistrer les logs
-  val LOG_PATH     = conf.getString("log")
+  val LOG_PATH     = conf.getString("log_folder")
+  val LOG_LEVEL    = "LEVEL." + conf.getString("log_level")
+
   val EXECUTION_TRACE_FILE = conf.getString("trace_execution_file")
   val TMP_FILE_HIVE = conf.getString("tmpFileForHive")
 

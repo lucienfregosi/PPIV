@@ -16,6 +16,8 @@ import org.slf4j.LoggerFactory
 import com.sncf.fab.ppiv.pipelineData.libPipeline._
 import org.apache.spark.sql.hive.HiveContext
 import org.apache.log4j.{Level, LogManager, PropertyConfigurator}
+import scala.reflect.runtime.universe
+import scala.tools.reflect.ToolBox
 
 /**
 //  * Created by simoh-labdoui on 11/05/2017.
@@ -26,8 +28,9 @@ object TraitementPPIVDriver extends Serializable {
 
 
   // Définition du logger Spark
+  val tb = universe.runtimeMirror(getClass.getClassLoader).mkToolBox()
   val LOGGER = LogManager.getRootLogger
-  LOGGER.setLevel(Level.WARN)
+  LOGGER.setLevel(tb.eval(tb.parse(LOG_LEVEL)).asInstanceOf[Level])
 
 
   // Sauvegarde de l'heure de début du programme dans une variable
@@ -43,6 +46,7 @@ object TraitementPPIVDriver extends Serializable {
     //  - 2 arguments (persistance, date/heure à processer) et dates valides -> Lancement du batch sur la période spécifié
 
 
+    LOGGER.warn("Démarrage de l'application PPIV")
 
     if (args.length == 0){
       // Pas d'arguments d'entrée -> Stop
