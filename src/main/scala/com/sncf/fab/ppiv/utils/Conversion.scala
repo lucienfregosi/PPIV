@@ -292,7 +292,7 @@ object Conversion {
 
   def writeTmpFile(pathOutput : String, pathRejectCyle: String, pathRejectField: String) = {
     val file = new File(TMP_FILE_HIVE)
-    val fw = new FileWriter(file)
+    val fw = new FileWriter(TMP_FILE_HIVE, true)
     try {
       fw.write(pathOutput + "," + pathRejectCyle + "," + pathRejectField + "\n")
     }
