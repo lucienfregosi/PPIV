@@ -1,13 +1,15 @@
 package com.sncf.fab.ppiv.utils
 
-import java.io.File
+import java.io.{File, FileWriter}
 import java.text.{DecimalFormat, ParseException, SimpleDateFormat}
 import java.util.concurrent.TimeUnit
 
 import org.joda.time.{DateTime, DateTimeZone}
 import org.joda.time.format.{DateTimeFormat, DateTimeFormatter, ISODateTimeFormat}
 import java.util.{Calendar, Date}
+import com.sncf.fab.ppiv.utils.AppConf.TMP_FILE_HIVE
 
+import com.sncf.fab.ppiv.utils.AppConf.EXECUTION_TRACE_FILE
 import com.sncf.fab.ppiv.utils.Conversion.ParisTimeZone
 import org.apache.hive.common.util.DateUtils
 
@@ -287,5 +289,14 @@ object Conversion {
 
   def renameFile(oldName: String, newName: String) =
     Try(new File(oldName).renameTo(new File(newName))).getOrElse(false)
+
+  def writeTmpFile(pathOutput : String, pathRejectCyle: String, pathRejectField: String) = {
+    val file = new File(TMP_FILE_HIVE)
+    val fw = new FileWriter(file)
+    try {
+      fw.write(pathOutput + "," + pathRejectCyle + "," + pathRejectField + "\n")
+    }
+    finally fw.close()
+  }
 
 }

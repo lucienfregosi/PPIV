@@ -30,11 +30,10 @@ object LoadData {
       Seq("gare", "maj", "train", "ordes", "num", "type", "picto", "attribut_voie", "voie", "heure", "etat", "retard")
     }
 
-    println(path)
 
     // Test si le fichier existe
     if(!checkIfFileExist(sqlContext.sparkContext,path )) {
-      PpivRejectionHandler.handleRejection("KO",debutPeriode.toString, TraitementPPIVDriver.startTimePipeline.toString(),path, "Le fichier n'existe pas")
+      PpivRejectionHandler.handleRejection("KO",debutPeriode.toString, TraitementPPIVDriver.startTimePipeline.toString(),path, "Le fichier " + path + " n'existe pas")
     }
 
     try{
@@ -57,7 +56,7 @@ object LoadData {
     catch {
       case e: Throwable => {
         // Retour d'une valeur par défaut
-        PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),path, "Impossible de parser le fichier: " + e)
+        PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),path, "Impossible de parser le fichier " + path + " " + e)
         null
       }
     }
@@ -72,7 +71,10 @@ object LoadData {
     // Définition du nom de chacune des colonnes car on recoit les fichiers sans headers
     val newNamesRefGares = Seq("CodeGare","IntituleGare","NombrePlateformes","SegmentDRG","UIC","UniteGare","TVS","CodePostal","Commune","DepartementCommune","Departement","Region","AgenceGC","RegionSNCF","NiveauDeService","LongitudeWGS84","LatitudeWGS84","DateFinValiditeGare")
 
-
+    // Test si le fichier existe
+    if(!checkIfFileExist(sqlContext.sparkContext,REF_GARES )) {
+      PpivRejectionHandler.handleRejection("KO",debutPeriode.toString, TraitementPPIVDriver.startTimePipeline.toString(),REF_GARES, "Le référentiel  " + REF_GARES + " n'existe pas")
+    }
 
     try{
       // Chargement du CSV référentiel
@@ -92,7 +94,7 @@ object LoadData {
     catch {
       case e: Throwable => {
         // Retour d'une valeur par défaut
-        PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),REF_GARES, "Impossible de parser le référentiel: " + e)
+        PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),REF_GARES, "Impossible de parser le référentiel: " + REF_GARES + " " + e)
         null
       }
     }

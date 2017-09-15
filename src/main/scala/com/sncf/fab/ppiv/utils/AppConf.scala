@@ -20,6 +20,7 @@ object AppConf extends Serializable{
   // Chemin ou enregistrer les logs
   val LOG_PATH     = conf.getString("log")
   val EXECUTION_TRACE_FILE = conf.getString("trace_execution_file")
+  val TMP_FILE_HIVE = conf.getString("tmpFileForHive")
 
   // Variable pour le prijet
   val STICKING_PLASTER = conf.getBoolean("apply_sticking_plaster")

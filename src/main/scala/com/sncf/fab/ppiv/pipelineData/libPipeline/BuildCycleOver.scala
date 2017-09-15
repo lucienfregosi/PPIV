@@ -98,8 +98,6 @@ object BuildCycleOver {
     val timestampLimiteCycleFini = Conversion.getTimestampWithLocalTimezone(finPeriode)
 
 
-    println(timestampLimiteCycleCommencant)
-    println(timestampLimiteCycleFini)
 
  
 

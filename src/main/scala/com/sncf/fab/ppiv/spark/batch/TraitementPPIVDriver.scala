@@ -156,8 +156,10 @@ object TraitementPPIVDriver extends Serializable {
       Persist.save(ivTgaTgd, persistMethod, sc, debutPeriode, hiveContext, false)
 
       // Renommage du fichier car il a fini d'écrire
-      Conversion.renameFile(TraitementTga.getOutputGoldPathTMP(debutPeriode, finPeriode,false), TraitementTga.getOutputGoldPath(debutPeriode, finPeriode,false))
+      Conversion.renameFile(TraitementTga.getOutputRefineryPathTMP(debutPeriode, finPeriode,false), TraitementTga.getOutputRefineryPath(debutPeriode, finPeriode,false))
 
+      // Ecriture d'un fichier permettant aux scripts Hive de trouver les bon path
+      Conversion.writeTmpFile(TraitementTga.getOutputRefineryPath(debutPeriode, finPeriode,false), TraitementTga.getRejectCycleRefineryPath(debutPeriode, finPeriode,false), TraitementTga.getRejectFieldRefineryPath(debutPeriode, finPeriode,false) )
 
       LOGGER.warn("SUCCESS")
       // Voir pour logger le succès
@@ -167,7 +169,7 @@ object TraitementPPIVDriver extends Serializable {
       case e: Throwable => {
         val sw = new StringWriter
         e.printStackTrace(new PrintWriter(sw))
-        PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), startTimePipeline.toString(),"","Enregistrement dans "+ persistMethod + ". Exception: " + e)
+        PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), startTimePipeline.toString(),"","Echec Enregistrement dans "+ persistMethod + ". Exception: " + e)
       }
     }
   }

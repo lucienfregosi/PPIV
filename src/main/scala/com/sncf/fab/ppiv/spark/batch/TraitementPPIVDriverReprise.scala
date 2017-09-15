@@ -161,7 +161,11 @@ object TraitementPPIVDriverReprise extends Serializable {
       Persist.save(ivTgaTgd, persistMethod, sc, debutPeriode, hiveContext, true)
 
       // Renommage du fichier car il a fini d'écrire
-      Conversion.renameFile(TraitementTga.getOutputGoldPathTMP(debutPeriode, finPeriode,true), TraitementTga.getOutputGoldPath(debutPeriode, finPeriode,true))
+      Conversion.renameFile(TraitementTga.getOutputRefineryPathTMP(debutPeriode, finPeriode,true), TraitementTga.getOutputRefineryPath(debutPeriode, finPeriode,true))
+
+      // Ecriture d'un fichier permettant aux scripts Hive de trouver les bon path
+      Conversion.writeTmpFile(TraitementTga.getOutputRefineryPath(debutPeriode, finPeriode,false), TraitementTga.getRejectCycleRefineryPath(debutPeriode, finPeriode,false), TraitementTga.getRejectFieldRefineryPath(debutPeriode, finPeriode,false) )
+
 
       LOGGER.warn("SUCCESS")
       // Voir pour logger le succès
