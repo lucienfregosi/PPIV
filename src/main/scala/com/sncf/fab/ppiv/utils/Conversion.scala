@@ -304,7 +304,7 @@ object Conversion {
 
     val df = Seq((pathOutput,pathRejectCyle,pathRejectField)).toDF()
 
-    df.coalesce(1).write.format("com.databricks.spark.csv").save(TMP_FILE_HIVE)
+    df.coalesce(1).write.format("com.databricks.spark.csv").mode("overwrite").save(TMP_FILE_HIVE)
 
   }
 
