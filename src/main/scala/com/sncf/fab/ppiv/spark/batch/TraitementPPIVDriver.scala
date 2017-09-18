@@ -28,9 +28,8 @@ object TraitementPPIVDriver extends Serializable {
 
 
   // Définition du logger Spark
-  val tb = universe.runtimeMirror(getClass.getClassLoader).mkToolBox()
   val LOGGER = LogManager.getRootLogger
-  LOGGER.setLevel(tb.eval(tb.parse(LOG_LEVEL)).asInstanceOf[Level])
+  LOGGER.setLevel(Level.WARN)
 
 
   // Sauvegarde de l'heure de début du programme dans une variable

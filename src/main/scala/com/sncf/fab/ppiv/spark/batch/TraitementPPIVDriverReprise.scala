@@ -5,13 +5,19 @@ import java.io.{PrintWriter, StringWriter}
 import com.sncf.fab.ppiv.Exception.PpivRejectionHandler
 import com.sncf.fab.ppiv.persistence._
 import com.sncf.fab.ppiv.pipelineData.{TraitementTga, TraitementTgd}
-import com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver.{LOGGER, startTimePipeline}
+import com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver.{LOGGER, getClass, startTimePipeline}
+import com.sncf.fab.ppiv.utils.AppConf.LOG_LEVEL
 import com.sncf.fab.ppiv.utils.{Conversion, GetHiveEnv, GetSparkEnv}
+import org.apache.log4j.{Level, LogManager}
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.SQLContext
 import org.apache.spark.sql.hive.HiveContext
 import org.joda.time.{DateTime, Duration}
 import org.slf4j.LoggerFactory
+
+import org.apache.log4j.{Level, LogManager, PropertyConfigurator}
+import scala.reflect.runtime.universe
+import scala.tools.reflect.ToolBox
 
 /**
 //  * Created by simoh-labdoui on 11/05/2017.
@@ -20,8 +26,10 @@ import org.slf4j.LoggerFactory
 // Classe main, lancement du programme
 object TraitementPPIVDriverReprise extends Serializable {
 
-  var LOGGER = LoggerFactory.getLogger(TraitementPPIVDriver.getClass)
-  LOGGER.info("Lancement du batch PPIV REPRISE")
+  val LOGGER = LogManager.getRootLogger
+  LOGGER.setLevel(Level.WARN)
+
+
 
   // Sauvegarde de l'heure de début du programme dans une variable
   val startTimePipeline = Conversion.nowToDateTime()
