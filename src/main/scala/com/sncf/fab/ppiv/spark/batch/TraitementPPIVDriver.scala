@@ -62,7 +62,7 @@ object TraitementPPIVDriver extends Serializable {
 
         val sc         = GetSparkEnv.getSparkContext()
         val sqlContext = GetSparkEnv.getSqlContext()
-        val hiveContext = GetHiveEnv.getHiveContext(sc)
+        //val hiveContext = GetHiveEnv.getHiveContext(sc)
 
 
         // 2 cas de figure, soit on a pas d'argument d'entrée
@@ -90,7 +90,7 @@ object TraitementPPIVDriver extends Serializable {
 
           val debutPeriode = finPeriode.plusHours(-1)
 
-          startPipeline(args, sc, sqlContext, hiveContext, debutPeriode, finPeriode)
+          startPipeline(args, sc, sqlContext, debutPeriode, finPeriode)
         }
         else if(Conversion.validateDateInputFormat(args(1)) == true){
 
@@ -115,7 +115,7 @@ object TraitementPPIVDriver extends Serializable {
 
 
           // Lancement du pipeline pour l'heure demandé (+ 1 car le pipelin est construit par rapport a ce qu'on lui donne l'heure de fin de traitement
-          startPipeline(args, sc, sqlContext, hiveContext, debutPeriode,finPeriode)
+          startPipeline(args, sc, sqlContext, debutPeriode,finPeriode)
 
         }
         else{
@@ -133,7 +133,7 @@ object TraitementPPIVDriver extends Serializable {
   }
 
   // Fonction appelé pour le déclenchement d'un pipeline complet pour une heure donnée
-  def startPipeline(argsArray: Array[String], sc: SparkContext, sqlContext: SQLContext, hiveContext: HiveContext, debutPeriode: DateTime, finPeriode: DateTime): Unit = {
+  def startPipeline(argsArray: Array[String], sc: SparkContext, sqlContext: SQLContext, debutPeriode: DateTime, finPeriode: DateTime): Unit = {
 
     import sqlContext.implicits._
 
@@ -141,10 +141,10 @@ object TraitementPPIVDriver extends Serializable {
     val persistMethod = argsArray(0)
 
     LOGGER.warn("Processing des TGA")
-    val ivTga = TraitementTga.start(sc, sqlContext, hiveContext, debutPeriode, finPeriode, false)
+    val ivTga = TraitementTga.start(sc, sqlContext, debutPeriode, finPeriode, false)
 
     LOGGER.warn("Processing des TGD")
-    val ivTgd = TraitementTgd.start(sc, sqlContext, hiveContext, debutPeriode, finPeriode, false)
+    val ivTgd = TraitementTgd.start(sc, sqlContext, debutPeriode, finPeriode, false)
 
 
     // 11) Fusion des résultats de TGA et TGD
@@ -156,7 +156,7 @@ object TraitementPPIVDriver extends Serializable {
       LOGGER.warn("Persistence dans la méthode demandée (hdfs, hive, es, fs)")
 
       // Sauvegarde dans HDFS
-      Persist.save(ivTgaTgd, persistMethod, sc, debutPeriode, hiveContext, false)
+      Persist.save(ivTgaTgd, persistMethod, sc, debutPeriode, false)
 
       // Renommage du fichier car il a fini d'écrire
       Conversion.renameFile(TraitementTga.getOutputRefineryPathTMP(debutPeriode, finPeriode,false), TraitementTga.getOutputRefineryPath(debutPeriode, finPeriode,false))

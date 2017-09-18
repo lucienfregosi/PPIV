@@ -77,7 +77,7 @@ trait SourcePipeline extends Serializable {
   // On donne deux dates a source pipeline, la date de début de traitement et la date de fin
   // Par exemple si on traite le fichier XXXX_11
   // On aura une période de 11h a 12h
-  def start(sc : SparkContext, sqlContext : SQLContext, hiveContext: HiveContext, debutPeriode: DateTime, finPeriode: DateTime, reprise_flag: Boolean): DataFrame = {
+  def start(sc : SparkContext, sqlContext : SQLContext, debutPeriode: DateTime, finPeriode: DateTime, reprise_flag: Boolean): DataFrame = {
 
     import sqlContext.implicits._
 
@@ -136,8 +136,8 @@ trait SourcePipeline extends Serializable {
 
 
                 // Enregistrement des rejets (champs et cycles)
-                Reject.saveFieldRejected(dataTgaTgdFielRejected,sc, hiveContext, getRejectFieldRefineryPath(debutPeriode, finPeriode, reprise_flag: Boolean))
-                Reject.saveCycleRejected(cycleInvalidated,sc, hiveContext, getRejectCycleRefineryPath(debutPeriode, finPeriode, reprise_flag: Boolean))
+                Reject.saveFieldRejected(dataTgaTgdFielRejected,sc, getRejectFieldRefineryPath(debutPeriode, finPeriode, reprise_flag: Boolean))
+                Reject.saveCycleRejected(cycleInvalidated,sc, getRejectCycleRefineryPath(debutPeriode, finPeriode, reprise_flag: Boolean))
 
                 LOGGER.warn("Enregistrement des rejets OK")
 
