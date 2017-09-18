@@ -58,7 +58,6 @@ object Postprocess {
         panneau,
         Conversion.unixTimestampToDateTime(row.getLong(7)).toString,
         BusinessConversion.getDateExtract(row.getLong(20),row.getString(6),row.getLong(5)),
-        BusinessConversion.getMois(row.getLong(20)),
         BusinessConversion.getAnnee(row.getLong(20)),
         Conversion.unixTimestampToDateTime(row.getLong(5)).toString,
         BusinessConversion.getCreneau_horaire(row.getLong(5)),
@@ -119,7 +118,8 @@ object Postprocess {
         BusinessConversion.geTaux_affichage_45 (row.getLong(8)),
         BusinessConversion.geTaux_affichage_45 (row.getLong(10)),
         BusinessConversion.geTaux_affichage_15 (row.getLong(8)),
-        BusinessConversion.geTaux_affichage_15 (row.getLong(10))
+        BusinessConversion.geTaux_affichage_15 (row.getLong(10)),
+        BusinessConversion.getMois(row.getLong(20))
       )
     })
 
@@ -137,7 +137,6 @@ object Postprocess {
       "first.type_panneau",
       "first.premier_affichage",
       "first.date_extract",
-      "first.mois",
       "first.annee",
       "first.dateheure2",
       "first.creneau_horaire",
@@ -185,7 +184,8 @@ object Postprocess {
       "taux_affichage_45",
       "taux_affichage2_45",
       "taux_affichage_15",
-      "taux_affichage2_15"
+      "taux_affichage2_15",
+      "mois"
     )
     dfFinal
   }

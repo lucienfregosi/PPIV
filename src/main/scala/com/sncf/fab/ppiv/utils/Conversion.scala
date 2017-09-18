@@ -293,13 +293,7 @@ object Conversion {
     Try(new File(oldName).renameTo(new File(newName))).getOrElse(false)
 
   def writeTmpFile(sc: SparkContext, sqlContext : SQLContext, pathOutput : String, pathRejectCyle: String, pathRejectField: String) = {
-    /*val file = new File(TMP_FILE_HIVE)
-    val fw = new FileWriter(TMP_FILE_HIVE, true)
-    try {
-      fw.write(pathOutput + "," + pathRejectCyle + "," + pathRejectField + "\n")
-    }
-    finally fw.close()
-    */
+
     import sqlContext.implicits._
 
     val df = Seq((pathOutput,pathRejectCyle,pathRejectField)).toDF()
