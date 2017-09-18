@@ -7,11 +7,13 @@ import java.util.concurrent.TimeUnit
 import org.joda.time.{DateTime, DateTimeZone}
 import org.joda.time.format.{DateTimeFormat, DateTimeFormatter, ISODateTimeFormat}
 import java.util.{Calendar, Date}
-import com.sncf.fab.ppiv.utils.AppConf.TMP_FILE_HIVE
 
+import com.sncf.fab.ppiv.utils.AppConf.TMP_FILE_HIVE
 import com.sncf.fab.ppiv.utils.AppConf.EXECUTION_TRACE_FILE
 import com.sncf.fab.ppiv.utils.Conversion.ParisTimeZone
 import org.apache.hive.common.util.DateUtils
+import org.apache.spark.SparkContext
+import org.apache.spark.sql.SQLContext
 
 import scala.util.Try
 
@@ -290,13 +292,20 @@ object Conversion {
   def renameFile(oldName: String, newName: String) =
     Try(new File(oldName).renameTo(new File(newName))).getOrElse(false)
 
-  def writeTmpFile(pathOutput : String, pathRejectCyle: String, pathRejectField: String) = {
-    val file = new File(TMP_FILE_HIVE)
+  def writeTmpFile(sc: SparkContext, sqlContext : SQLContext, pathOutput : String, pathRejectCyle: String, pathRejectField: String) = {
+    /*val file = new File(TMP_FILE_HIVE)
     val fw = new FileWriter(TMP_FILE_HIVE, true)
     try {
       fw.write(pathOutput + "," + pathRejectCyle + "," + pathRejectField + "\n")
     }
     finally fw.close()
+    */
+    import sqlContext.implicits._
+
+    val df = Seq((pathOutput,pathRejectCyle,pathRejectField)).toDF()
+
+    df.coalesce(1).write.format("com.databricks.spark.csv").save(TMP_FILE_HIVE)
+
   }
 
 }
