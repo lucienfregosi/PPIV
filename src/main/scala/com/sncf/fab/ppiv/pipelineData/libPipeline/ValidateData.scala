@@ -81,16 +81,30 @@ object ValidateData {
         }
         else {(true, "ValidCycle")}
       }
+      catch {
+        case e: Throwable => {
+          // Retour d'une valeur par défaut
+          else {(false, "ErrorUnknown")}
+        }
+      }
     }
     else{
-      // Si jamais le train a un état spécial (Supprimé ou retard indéterminé) cela ne veut pas dire qu'il ne faut pas le valider
-      // Get de l'état du train. Si IND ou SUP on valide
-          if(etatTrain == "SUP" || etatTrain == "IND"){
-        (true, "train avec état " + etatTrain)
+      try{
+        // Si jamais le train a un état spécial (Supprimé ou retard indéterminé) cela ne veut pas dire qu'il ne faut pas le valider
+        // Get de l'état du train. Si IND ou SUP on valide
+        if(etatTrain == "SUP" || etatTrain == "IND"){
+          (true, "train avec état " + etatTrain)
+        }
+        else{
+          if (cntVoieAffiche == 0 ) {(false,"VoieManquante")}
+          else {(false,"EventApresDepart")}
+        }
       }
-      else{
-        if (cntVoieAffiche == 0 ) {(false,"VoieManquante")}
-        else {(false,"EventApresDepart")}
+      catch {
+        case e: Throwable => {
+          // Retour d'une valeur par défaut
+          else {(false, "ErrorUnknown")}
+        }
       }
     }
   }
