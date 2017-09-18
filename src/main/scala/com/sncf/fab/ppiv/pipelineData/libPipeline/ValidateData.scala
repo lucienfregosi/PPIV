@@ -84,7 +84,7 @@ object ValidateData {
       catch {
         case e: Throwable => {
           // Retour d'une valeur par défaut
-          else {(false, "ErrorUnknown")}
+          (false, "ErrorUnknown")
         }
       }
     }
@@ -103,7 +103,7 @@ object ValidateData {
       catch {
         case e: Throwable => {
           // Retour d'une valeur par défaut
-          else {(false, "ErrorUnknown")}
+         (false, "ErrorUnknown")
         }
       }
     }
