@@ -20,6 +20,7 @@ object PpivRejectionHandler extends Serializable {
     write_execution_message(statut,dateFichierObier, dateExecution,currentTgaTgdFile, message)
 
     // Fin du programme
+    LOGGER.warn("ERROR")
 
   }
 

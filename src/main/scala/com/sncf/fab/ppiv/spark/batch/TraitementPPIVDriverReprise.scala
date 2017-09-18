@@ -5,7 +5,7 @@ import java.io.{PrintWriter, StringWriter}
 import com.sncf.fab.ppiv.Exception.PpivRejectionHandler
 import com.sncf.fab.ppiv.persistence._
 import com.sncf.fab.ppiv.pipelineData.{TraitementTga, TraitementTgd}
-import com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver.startTimePipeline
+import com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver.{LOGGER, startTimePipeline}
 import com.sncf.fab.ppiv.utils.{Conversion, GetHiveEnv, GetSparkEnv}
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.SQLContext
@@ -33,6 +33,9 @@ object TraitementPPIVDriverReprise extends Serializable {
     //  - 1 seul et unique argument valide (hive, hdfs, es, fs) -> Nominal : Lancement automatique du batch sur l'heure n-1
     //  - 3 arguments (persistance, date début, date fin) mais dates invalide (les dates doivent être de la forme yyyyMMdd_HH) -> Stop
     //  - 3 arguments (persistance, date début, date fin) et dates valides -> Lancement du batch sur la période spécifié
+
+
+    LOGGER.warn("Démarrage de l'application PPIV-Reprise")
 
     if (args.length == 0){
       // Pas d'arguments d'entrée -> Stop

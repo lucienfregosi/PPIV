@@ -165,9 +165,15 @@ object TraitementPPIVDriver extends Serializable {
       // Ecriture d'un fichier permettant aux scripts Hive de trouver les bon path
       Conversion.writeTmpFile(TraitementTga.getOutputRefineryPath(debutPeriode, finPeriode,false), TraitementTga.getRejectCycleRefineryPath(debutPeriode, finPeriode,false), TraitementTga.getRejectFieldRefineryPath(debutPeriode, finPeriode,false) )
 
-      LOGGER.warn("SUCCESS")
+
       // Voir pour logger le succès
       PpivRejectionHandler.write_execution_message("OK",debutPeriode.toString(), startTimePipeline.toString(),"","")
+
+      LOGGER.warn("OK")
+
+      LOGGER.warn("temps d'execution en secondes: " + ((Conversion.nowToDateTime().getMillis - startTimePipeline.getMillis) / 1000 ))
+
+
     }
     catch {
       case e: Throwable => {

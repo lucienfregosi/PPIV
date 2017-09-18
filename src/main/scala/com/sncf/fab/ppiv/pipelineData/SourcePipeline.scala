@@ -20,6 +20,7 @@ import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.hive.HiveContext
 import org.apache.spark.storage.StorageLevel
+import org.apache.spark.util.SizeEstimator
 import org.joda.time.{DateTime, DateTimeZone}
 
 /**
@@ -88,15 +89,13 @@ trait SourcePipeline extends Serializable {
       // On verifie si le fichier que l'on veut charger existe
       // S'il n'existe pas on sort car on ne peut rien faire pour ce cycle
 
-      println(pathFileToLoad)
-      println("debut: " + debutPeriode)
-      println("fin: " + finPeriode)
-
 
       val dataTgaTgd                = LoadData.loadTgaTgd(sqlContext, pathFileToLoad,debutPeriode, reprise_flag : Boolean)
       val dataRefGares              = LoadData.loadReferentiel(sqlContext, debutPeriode)
 
-      LOGGER.warn("Chargement des fichiers OK")
+
+
+      LOGGER.warn("Chargement des fichiers OK. Taille du fichier d'entrée en Byte" +  SizeEstimator.estimate(dataTgaTgd.rdd))
 
       try {
         // 2) Application du sparadrap sur les données au cause du Bug lié au patsse nuit (documenté dans le wiki)
