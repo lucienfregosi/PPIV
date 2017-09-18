@@ -167,7 +167,7 @@ object TraitementPPIVDriverReprise extends Serializable {
       Conversion.renameFile(TraitementTga.getOutputRefineryPathTMP(debutPeriode, finPeriode,true), TraitementTga.getOutputRefineryPath(debutPeriode, finPeriode,true))
 
       // Ecriture d'un fichier permettant aux scripts Hive de trouver les bon path
-      Conversion.writeTmpFile(TraitementTga.getOutputRefineryPath(debutPeriode, finPeriode,true), TraitementTga.getRejectCycleRefineryPath(debutPeriode, finPeriode,true), TraitementTga.getRejectFieldRefineryPath(debutPeriode, finPeriode,true) )
+      Conversion.writeTmpFile(sc, sqlContext,TraitementTga.getOutputRefineryPath(debutPeriode, finPeriode,true), TraitementTga.getRejectCycleRefineryPath(debutPeriode, finPeriode,true), TraitementTga.getRejectFieldRefineryPath(debutPeriode, finPeriode,true) )
 
 
       LOGGER.warn("SUCCESS")
