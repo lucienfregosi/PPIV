@@ -36,8 +36,6 @@ object BuildCycleOver {
     val cycleIdList = buildCycles(dsTgaTgdInput, sqlContext, panneau)
 
 
-   //TO-REMOVE
-    println ( "nb of cycle per day : " + cycleIdList.count())
 
     // Parmi les cyclesId généré précédemment on filtre ceux dont l'heure de départ est deja passé
     // On renvoie le même format de données (cycle_id{gare,panneau,numeroTrain,heureDepart}, heureDepart, retard)
