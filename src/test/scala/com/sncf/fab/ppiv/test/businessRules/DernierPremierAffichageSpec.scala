@@ -60,7 +60,7 @@ This is a specification for the "getPremierAffichage"  and "getDernierAffichage"
 
   def e1 = BusinessRules.getDernierAffichage(dsDernierAffichage).toString must beEqualTo("1498948063")
   def e2 = BusinessRules.getPremierAffichage(dsDernierAffichage).toString must beEqualTo("1498947708")
-  def e3 = BusinessRules.getPremierAffichage(dsRecette).toString must beEqualTo("1504428183")
+  def e3 = BusinessRules.getPremierAffichage(dsRecette).toString must beEqualTo("1504428182")
 
 
 }
