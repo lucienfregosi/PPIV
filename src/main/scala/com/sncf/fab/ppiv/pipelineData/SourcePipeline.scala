@@ -94,7 +94,6 @@ trait SourcePipeline extends Serializable {
       val dataRefGares              = LoadData.loadReferentiel(sqlContext, debutPeriode)
 
 
-
       LOGGER.warn("Chargement des fichiers OK. Taille du fichier d'entrée en Byte" +  SizeEstimator.estimate(dataTgaTgd.rdd))
 
       try {
