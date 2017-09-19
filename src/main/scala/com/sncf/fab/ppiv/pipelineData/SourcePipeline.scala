@@ -92,10 +92,7 @@ trait SourcePipeline extends Serializable {
 
       val dataTgaTgd                = LoadData.loadTgaTgd(sqlContext, pathFileToLoad,debutPeriode, reprise_flag : Boolean)
       val dataRefGares              = LoadData.loadReferentiel(sqlContext, debutPeriode)
-
-      println("Ficher a trouver: " + dataTgaTgd.filter(x => x.num.equals("883760")).count())
-
-      System.exit(0)
+      
 
       LOGGER.warn("Chargement des fichiers OK. Taille du fichier d'entrée en Byte" +  SizeEstimator.estimate(dataTgaTgd.rdd))
 
