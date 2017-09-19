@@ -128,7 +128,7 @@ object TraitementPPIVDriver extends Serializable {
       catch {
         case e: Throwable => {
           // Catch final, c'est ici qu'on écrit dans le fichier de résultat
-          GraphiteConf.startGraphite()
+
           PpivRejectionHandler.handleRejectionFinal("KO","",startTimePipeline.toString(),"","Exception relevé pendant l'execution: " + e)
 
         }
@@ -140,7 +140,7 @@ object TraitementPPIVDriver extends Serializable {
   def startPipeline(argsArray: Array[String], sc: SparkContext, sqlContext: SQLContext, debutPeriode: DateTime, finPeriode: DateTime): Unit = {
 
     import sqlContext.implicits._
-
+    GraphiteConf.startGraphite()
     // Récupération argument d'entrées, la méthode de persistance
     val persistMethod = argsArray(0)
 
