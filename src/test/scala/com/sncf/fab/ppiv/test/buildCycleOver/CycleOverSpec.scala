@@ -40,7 +40,7 @@ The  number of finished cycles should be equal to two                           
 
 
   val dsCycleOver = Seq(("AMQTGA8600111500997860","15079","00"), ("AMQTGA8600111500997860","179",""))
-  val newNamesTgaTgdCycle = Seq("cycle_id","heure","retard")
+  val newNamesTgaTgdCycle = Seq("cycle_id","heure","retard.csv")
 
   val  cycleDf = sc.parallelize(dsCycleOver)
     .toDF(newNamesTgaTgdCycle: _*)

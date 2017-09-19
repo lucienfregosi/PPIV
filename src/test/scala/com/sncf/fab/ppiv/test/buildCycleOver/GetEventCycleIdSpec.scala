@@ -56,7 +56,7 @@ The 'getEventCycleIdSpec'  output count   should
 
 
   //Load Finished cycles file
- val newNamesTgaTgdCycle = Seq("cycle_id","heure","retard")
+ val newNamesTgaTgdCycle = Seq("cycle_id","heure","retard.csv")
  val cycledf = sqlContext.read.format("com.databricks.spark.csv").load(path2).toDF(newNamesTgaTgdCycle: _*).withColumn("heure", 'heure.cast(LongType)).as[TgaTgdCycleId]
 
   val eventsGroupedByCycleId =  BuildCycleOver.getEventCycleId (eventdf, cycledf, sqlContext, sc, "TGA")._1
