@@ -20,8 +20,8 @@ object GraphiteConf {
 
  // val mR = new MetricRegistry().register(MetricRegistry.name("",""), new Gauge[String]{})
 
-  val reporter = GraphiteReporter.forRegistry(
-    SharedMetricRegistries.getOrCreate(prefix))
+  var registry = SharedMetricRegistries.getOrCreate("default_test")
+  val reporter = GraphiteReporter.forRegistry(registry)
     .prefixedWith(s"$prefix.${java.net.InetAddress.getLocalHost.getHostName}")
     .convertRatesTo(SECONDS)
     .convertDurationsTo(MILLISECONDS)
@@ -37,6 +37,7 @@ object GraphiteConf {
       reporter.start(config.metricRefreshInterval, SECONDS)
       reporter.report()
       println(graphite.isConnected())
+      registry.counter("cpu")
     }
   }
 }
