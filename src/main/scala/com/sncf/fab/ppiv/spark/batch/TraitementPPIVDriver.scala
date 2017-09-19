@@ -68,7 +68,7 @@ object TraitementPPIVDriver extends Serializable {
     val hiveContext = GetHiveEnv.getHiveContext(sc)
     val dfHive = hiveContext.createDataFrame(data.rdd, data.schema)
     dfHive.registerTempTable("dataToSaveToHive")
-    hiveContext.sql("CREATE TABLE iv_tgatgdinputrecette2 as select * from dataToSaveToHive")
+    hiveContext.sql("CREATE TABLE ppiv_ref.iv_tgatgdinputrecette2 as select * from dataToSaveToHive")
 
     System.exit(0)
 
