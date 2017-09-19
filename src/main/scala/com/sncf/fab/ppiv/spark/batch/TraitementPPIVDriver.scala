@@ -73,10 +73,10 @@ object TraitementPPIVDriver extends Serializable {
     val dataTGD2 = BuildCycleOver.loadDataFullPeriod(sc,sqlContext,"TGD", date2,date2).toDF()
 
 
-    val data1 = dataTGA.unionAll(dataTGD)
-    val data2 = dataTGA2.unionAll(dataTGD2)
+    val data = dataTGA.unionAll(dataTGD)
+    //val data2 = dataTGA2.unionAll(dataTGD2)
 
-    val data = data1.unionAll(data2)
+    //val data = data1.unionAll(data2)
 
     val hiveContext = GetHiveEnv.getHiveContext(sc)
 
