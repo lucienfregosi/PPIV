@@ -20,6 +20,7 @@ class RetardSpec extends Specification {
 This is a specification for 'getDernierRetardAnnonce' and ' getAffichageRetard'  output
   'getDernierRetardAnnonce' output should be  equal to  7 * 60 seconds                             $e1
   'getAffichageRetard" should  be a equal to 1499077209                                            $e2
+  'getAffichageRetard" for recette should  be a equal to 1504459514                                $e3                      $e2
   """
 
 
@@ -33,7 +34,11 @@ This is a specification for 'getDernierRetardAnnonce' and ' getAffichageRetard' 
 
   //val pathRetardFile = new File("PPIV/src/test/resources/data/ExampleOfEventsForRetardTest.csv").getAbsolutePath
   val pathRetardFile = new File("src/test/resources/data/businessRules/ExampleOfEventsForRetardTest.csv").getAbsolutePath
+  val pathRetardFile2 = new File("src/test/resources/data/businessRules/retard.csv").getAbsolutePath
+
+
   val dsRetardSpec = readFile(pathRetardFile).toSeq
+  val dsRetardSpec2 = readFile(pathRetardFile2).toSeq
 
 
   val Retard = (7 * 60).toString
@@ -41,5 +46,7 @@ This is a specification for 'getDernierRetardAnnonce' and ' getAffichageRetard' 
   def e1 = BusinessRules.getDernierRetardAnnonce(dsRetardSpec).toString must beEqualTo(Retard)
 
   def e2 = BusinessRules.getAffichageRetard(dsRetardSpec).toString must beEqualTo("1499077209")
+  def e3 = BusinessRules.getAffichageRetard(dsRetardSpec2).toString must beEqualTo("1504459514")
+
 
 }

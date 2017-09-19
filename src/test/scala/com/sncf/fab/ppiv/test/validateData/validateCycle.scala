@@ -22,8 +22,8 @@ This is a specification fot the "validateCycle" output
 The 'validateCycle'  output   should
   Cycle without voie shoud be false                                     $e1
   Cycle with one voie but not during the departure should be false      $e2
-  Maj after the departure date  retard  10 shoud be false               $e3
-  Maj at least one before departure plus retard plus 10 should be true  $e4
+  Maj after the departure date  retard.csv  10 shoud be false               $e3
+  Maj at least one before departure plus retard.csv plus 10 should be true  $e4
   Cycle with one voie during the derparture should be true              $e5
   Cycle with 0 voie during the derparture should be false               $e6
   Cycle recette should be validated                                     $e7

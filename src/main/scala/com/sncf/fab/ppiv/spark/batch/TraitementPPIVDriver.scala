@@ -45,7 +45,7 @@ object TraitementPPIVDriver extends Serializable {
     //  - 2 arguments (persistance, date/heure à processer) mais dates invalide (les dates doivent être de la forme yyyyMMdd_HH) -> Stop
     //  - 2 arguments (persistance, date/heure à processer) et dates valides -> Lancement du batch sur la période spécifié
 
-    
+
 
     LOGGER.warn("Démarrage de l'application PPIV")
 
