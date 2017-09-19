@@ -59,7 +59,7 @@ object TraitementPPIVDriverReprise extends Serializable {
         // Définition du Spark Context et SQL Context à partir de utils/GetSparkEnv
         val sc         = GetSparkEnv.getSparkContext()
         val sqlContext = GetSparkEnv.getSqlContext()
-        val hiveContext = GetHiveEnv.getHiveContext(sc)
+        //val hiveContext = GetHiveEnv.getHiveContext(sc)
 
         // Set du niveau de log pour ne pas être envahi par les messages
         sc.setLogLevel("ERROR")
@@ -102,7 +102,7 @@ object TraitementPPIVDriverReprise extends Serializable {
 
 
           // Lancement du pipeline pour la journée demandé
-          startPipelineReprise(args, sc, sqlContext, hiveContext,debutPeriode, finPeriode)
+          startPipelineReprise(args, sc, sqlContext,debutPeriode, finPeriode)
         }
         else if(Conversion.validateDateInputFormat(args(1)) == true && Conversion.validateDateInputFormat(args(2)) == true){
           //  - 3 arguments (persistance, date début, date fin) et dates valides -> Lancement du batch sur la période spécifié
@@ -130,7 +130,7 @@ object TraitementPPIVDriverReprise extends Serializable {
 
 
           // Lancement du pipeline pour l'heure demandé
-          startPipelineReprise(args, sc, sqlContext, hiveContext,debutPeriode,finPeriode)
+          startPipelineReprise(args, sc, sqlContext,debutPeriode,finPeriode)
 
         }
         else{
@@ -150,15 +150,15 @@ object TraitementPPIVDriverReprise extends Serializable {
   }
 
   // Fonction appelé pour le déclenchement d'un pipeline complet pour une heure donnée
-  def startPipelineReprise(argsArray: Array[String], sc: SparkContext, sqlContext: SQLContext, hiveContext: HiveContext, debutPeriode : DateTime, finPeriode :DateTime): Unit = {
+  def startPipelineReprise(argsArray: Array[String], sc: SparkContext, sqlContext: SQLContext, debutPeriode : DateTime, finPeriode :DateTime): Unit = {
 
     // Récupération argument d'entrées, la méthode de persistance
     val persistMethod = argsArray(0)
 
-    val ivTga = TraitementTga.start(sc, sqlContext, hiveContext, debutPeriode ,finPeriode, true)
+    val ivTga = TraitementTga.start(sc, sqlContext, debutPeriode ,finPeriode, true)
 
 
-    val ivTgd = TraitementTgd.start(sc, sqlContext, hiveContext, debutPeriode ,finPeriode, true)
+    val ivTgd = TraitementTgd.start(sc, sqlContext, debutPeriode ,finPeriode, true)
 
     // 11) Fusion des résultats de TGA et TGD
     LOGGER.info("11) Fusion des résultats entre TGA et TGD")
@@ -169,7 +169,7 @@ object TraitementPPIVDriverReprise extends Serializable {
       // 12) Persistence dans la méthode demandée (hdfs, hive, es, fs)
       LOGGER.warn("Persistence dans la méthode demandée (hdfs, hive, es, fs)")
 
-      Persist.save(ivTgaTgd, persistMethod, sc, debutPeriode, hiveContext, true)
+      Persist.save(ivTgaTgd, persistMethod, sc, debutPeriode, true)
 
       // Renommage du fichier car il a fini d'écrire
       Conversion.renameFile(TraitementTga.getOutputRefineryPathTMP(debutPeriode, finPeriode,true), TraitementTga.getOutputRefineryPath(debutPeriode, finPeriode,true))

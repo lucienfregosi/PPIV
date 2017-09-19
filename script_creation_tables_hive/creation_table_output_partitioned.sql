@@ -1,4 +1,4 @@
-CREATE EXTERNAL TABLE IF NOT EXISTS ppiv_ref.iv_tgatgdRecette(
+CREATE EXTERNAL TABLE IF NOT EXISTS ppiv_ref.iv_tgatgdTestPartition(
                             nom_de_la_gare String,
                             agence String,
                             segmentation String,
@@ -13,7 +13,6 @@ CREATE EXTERNAL TABLE IF NOT EXISTS ppiv_ref.iv_tgatgdRecette(
                             premier_affichage String,
                             date_extract String,
                             annee String,
-                            mois String,
                             dateheure2 String,
                             creneau_horaire String,
                             jour_depart_arrivee Int,
@@ -62,10 +61,12 @@ CREATE EXTERNAL TABLE IF NOT EXISTS ppiv_ref.iv_tgatgdRecette(
                             taux_affichage_15 Int,
                             taux_affichage2_15 Int
 )
+PARTITIONED BY(mois STRING)
 ROW FORMAT DELIMITED
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
 STORED AS TEXTFILE
-LOCATION '/data1/GARES/refinery/PPIV_PHASE2/hive/iv_tgatgdRecette'
+LOCATION '/data1/GARES/refinery/PPIV_PHASE2/hive/iv_tgatgdTestPartition'
+
 
 

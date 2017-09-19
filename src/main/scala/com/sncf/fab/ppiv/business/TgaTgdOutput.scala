@@ -23,6 +23,7 @@ case class VingPremierChamp(nom_de_la_gare: String,
                             type_panneau: String,
                             premier_affichage: String,
                             date_extract: String,
+                            mois: String,
                             annee: String,
                             dateheure2: String,
                             creneau_horaire: String,
@@ -81,6 +82,5 @@ case class TgaTgdOutput(
                         taux_affichage_45: Int,
                         taux_affichage2_45: Int,
                         taux_affichage_15: Int,
-                        taux_affichage2_15: Int,
-                        mois: String
+                        taux_affichage2_15: Int
                        )
