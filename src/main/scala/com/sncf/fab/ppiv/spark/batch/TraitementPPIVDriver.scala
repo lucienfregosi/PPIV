@@ -69,8 +69,8 @@ object TraitementPPIVDriver extends Serializable {
 
     val dataTGA = BuildCycleOver.loadDataFullPeriod(sc,sqlContext,"TGA", date,date).toDF()
     val dataTGD = BuildCycleOver.loadDataFullPeriod(sc,sqlContext,"TGD", date,date).toDF()
-    val dataTGA2 = BuildCycleOver.loadDataFullPeriod(sc,sqlContext,"TGA", date2,date2).toDF()
-    val dataTGD2 = BuildCycleOver.loadDataFullPeriod(sc,sqlContext,"TGD", date2,date2).toDF()
+    //val dataTGA2 = BuildCycleOver.loadDataFullPeriod(sc,sqlContext,"TGA", date2,date2).toDF()
+    //val dataTGD2 = BuildCycleOver.loadDataFullPeriod(sc,sqlContext,"TGD", date2,date2).toDF()
 
 
     val data = dataTGA.unionAll(dataTGD)
@@ -82,7 +82,7 @@ object TraitementPPIVDriver extends Serializable {
 
     val dfHive = hiveContext.createDataFrame(data.rdd, data.schema)
     dfHive.registerTempTable("dataToSaveToHive")
-    hiveContext.sql("CREATE TABLE ppiv_ref.iv_tgatgdinputrecette3 as select * from dataToSaveToHive")
+    hiveContext.sql("CREATE TABLE IF NOT EXISTS ppiv_ref.iv_tgatgdinputrecette3 as select * from dataToSaveToHive")
     System.exit(0)
 
     LOGGER.warn("Démarrage de l'application PPIV")
