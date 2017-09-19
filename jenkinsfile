@@ -13,27 +13,8 @@ node {
        sh "sbt clean compile"
     }
 
-    // Analysis by sonar
-    stage('coverage') {
-       sh "sbt coverage"
-    }
 
 
-    //test stage
-    stage('test') {
-        sh "sbt test"
-    }
-
-
-    //Cleaning stage
-    stage('report') {
-        sh "sbt coverageReport"
-    }
-
-    //Quality Gates
-    stage('sonar') {
-        sh "export http_proxy= && export https_proxy= && sbt sonar"
-    }
 
     //Build du JAR
     stage('assembly') {
@@ -58,6 +39,7 @@ node {
            ssh -t -t hdpppip1@cuccaro ls -lR ./DEV
         """
     }
+
 
 
     // Launch Spark Submit with the JAR

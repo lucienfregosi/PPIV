@@ -26,6 +26,7 @@ object GraphiteConf {
 
     def startGraphite(): Unit = {
     if (config.metricEnabled) {
+      println("GRAPHITE STARTED")
       reporter.start(config.metricRefreshInterval, SECONDS)
     }
   }
