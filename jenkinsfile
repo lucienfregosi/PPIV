@@ -19,10 +19,6 @@ node {
     }
 
 
-    //test stage
-    stage('test') {
-        sh "sbt test"
-    }
 
 
     //Cleaning stage
