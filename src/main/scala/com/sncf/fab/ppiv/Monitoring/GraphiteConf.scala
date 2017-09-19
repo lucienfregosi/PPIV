@@ -1,3 +1,5 @@
+package com.sncf.fab.ppiv.Monitoring
+
 import java.net.InetSocketAddress
 import java.util.concurrent.TimeUnit._
 import com.codahale.metrics.graphite.{Graphite, GraphiteReporter}
@@ -5,7 +7,7 @@ import com.codahale.metrics.{MetricFilter, SharedMetricRegistries}
 import com.sncf.fab.ppiv.utils.AppConf
 
 
-object Graphite {
+object GraphiteConf {
 
   lazy val config = AppConf
 
@@ -22,7 +24,7 @@ object Graphite {
     .filter(MetricFilter.ALL)
     .build(graphite)
 
-  def startGraphite(): Unit = {
+    def startGraphite(): Unit = {
     if (config.metricEnabled) {
       reporter.start(config.metricRefreshInterval, SECONDS)
     }

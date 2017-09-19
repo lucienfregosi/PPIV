@@ -9,6 +9,7 @@ import com.sncf.fab.ppiv.pipelineData.{SourcePipeline, TraitementTga, Traitement
 import org.apache.log4j.Logger
 import com.sncf.fab.ppiv.utils.AppConf._
 import com.sncf.fab.ppiv.utils.{Conversion, GetHiveEnv, GetSparkEnv}
+import com.sncf.fab.ppiv.Monitoring.GraphiteConf
 import org.apache.spark.sql.SQLContext
 import org.apache.spark.{SparkConf, SparkContext}
 import org.joda.time.{DateTime, Duration}
@@ -127,7 +128,9 @@ object TraitementPPIVDriver extends Serializable {
       catch {
         case e: Throwable => {
           // Catch final, c'est ici qu'on écrit dans le fichier de résultat
+          GraphiteConf.startGraphite()
           PpivRejectionHandler.handleRejectionFinal("KO","",startTimePipeline.toString(),"","Exception relevé pendant l'execution: " + e)
+
         }
       }
     }
