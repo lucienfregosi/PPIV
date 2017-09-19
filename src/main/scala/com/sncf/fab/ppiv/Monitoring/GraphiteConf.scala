@@ -2,8 +2,9 @@ package com.sncf.fab.ppiv.Monitoring
 
 import java.net.InetSocketAddress
 import java.util.concurrent.TimeUnit._
+
 import com.codahale.metrics.graphite.{Graphite, GraphiteReporter}
-import com.codahale.metrics.{MetricFilter, SharedMetricRegistries}
+import com.codahale.metrics.{Gauge, MetricFilter, MetricRegistry, SharedMetricRegistries}
 import com.sncf.fab.ppiv.utils.AppConf
 
 
@@ -16,6 +17,8 @@ object GraphiteConf {
 
 
   lazy val prefix: String = config.metricPrefix
+
+ // val mR = new MetricRegistry().register(MetricRegistry.name("",""), new Gauge[String]{})
 
   val reporter = GraphiteReporter.forRegistry(
     SharedMetricRegistries.getOrCreate(prefix))
