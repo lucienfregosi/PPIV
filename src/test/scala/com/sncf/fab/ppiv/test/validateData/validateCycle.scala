@@ -25,7 +25,8 @@ The 'validateCycle'  output   should
   Maj after the departure date  retard  10 shoud be false               $e3
   Maj at least one before departure plus retard plus 10 should be true  $e4
   Cycle with one voie during the derparture should be true              $e5
-  Cycle with 0 voie during the derparture should be false              $e5
+  Cycle with 0 voie during the derparture should be false               $e6
+  Cycle recette should be validated                                     $e7
   """
 
 
@@ -46,7 +47,7 @@ The 'validateCycle'  output   should
   val pathAvecEventAvant = new File("src/test/resources/data/validateData/event_avant_depart.csv").getAbsolutePath()
   val pathAvecVoieFin = new File("src/test/resources/data/validateData/trajet_avec_voie_fin.csv").getAbsolutePath()
   val pathSansVoieFin = new File("src/test/resources/data/businessRules/test.csv").getAbsolutePath()
-
+  val pathRecette = new File("src/test/resources/data/validateData/recette.csv").getAbsolutePath()
 
 
   val dsSansVoie = readFile(pathSansVoie).toSeq
@@ -55,6 +56,7 @@ The 'validateCycle'  output   should
   val dsAvecEventAvant = readFile(pathAvecEventAvant).toSeq
   val dsAvecVoieFin = readFile(pathAvecVoieFin).toSeq
   val dsSansVoieFin = readFile(pathSansVoieFin).toSeq
+  val dsRecette = readFile(pathRecette).toSeq
 
 
 
@@ -64,6 +66,7 @@ The 'validateCycle'  output   should
   def e4 = ValidateData.validateCycle(dsAvecEventAvant)._1 must beTrue
   def e5 = ValidateData.validateCycle(dsAvecVoieFin)._1 must beTrue
   def e6 = ValidateData.validateCycle(dsSansVoieFin)._1 must beTrue
+  def e7 = ValidateData.validateCycle(dsRecette)._1 must beTrue
 
 
 
