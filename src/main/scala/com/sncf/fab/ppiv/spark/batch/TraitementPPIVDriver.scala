@@ -44,7 +44,7 @@ object TraitementPPIVDriver extends Serializable {
     //  - 1 seul et unique argument valide (hive, hdfs, es, fs) -> Nominal : Lancement automatique du batch sur l'heure n-1
     //  - 2 arguments (persistance, date/heure à processer) mais dates invalide (les dates doivent être de la forme yyyyMMdd_HH) -> Stop
     //  - 2 arguments (persistance, date/heure à processer) et dates valides -> Lancement du batch sur la période spécifié
-
+    
 
 
     LOGGER.warn("Démarrage de l'application PPIV")
