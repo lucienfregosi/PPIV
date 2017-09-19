@@ -20,6 +20,7 @@ class DernierPremierAffichageSpec extends Specification{
 This is a specification for the "getPremierAffichage"  and "getDernierAffichage"output
   Dernier affichage  should be a equal to   1498948063                              $e1
   Premier affichage  should  be a equal to  1498947708                             $e2
+  Premier affichage should be equal to 1504428183                                  $e3
   """
 
 
@@ -35,7 +36,10 @@ This is a specification for the "getPremierAffichage"  and "getDernierAffichage"
   // val pathDernierAffichage = new File("PPIV/src/test/resources/data/ExampleOfEventsForPremier_DernierAffichageTest.csv").getAbsolutePath
 
   val path = new File("src/test/resources/data/businessRules/test.csv").getAbsolutePath
+  val pathRecette = new File("src/test/resources/data/validateData/recette.csv").getAbsolutePath
+
   val file  = readFile(path).toSeq
+  val fileRecette = readFile(pathRecette).toSeq
 
   val retard = BusinessRules.getCycleRetard (file)
 
@@ -50,10 +54,13 @@ This is a specification for the "getPremierAffichage"  and "getDernierAffichage"
 
   //Load File
   val dsDernierAffichage = readFile(pathDernierAffichage).toSeq
+  val dsRecette = readFile(pathRecette).toSeq
+
+  println(BusinessRules.getPremierAffichage(dsRecette).toString)
 
   def e1 = BusinessRules.getDernierAffichage(dsDernierAffichage).toString must beEqualTo("1498948063")
   def e2 = BusinessRules.getPremierAffichage(dsDernierAffichage).toString must beEqualTo("1498947708")
-
+  def e3 = BusinessRules.getPremierAffichage(dsRecette).toString must beEqualTo("1504428182")
 
 
 }
