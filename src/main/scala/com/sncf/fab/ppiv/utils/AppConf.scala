@@ -42,6 +42,11 @@ object AppConf extends Serializable{
   val OUTPUT_INDEX         =conf.getString("ivTgaTgdIndex")
   val FIELD_REJECTED_INDEX =conf.getString("rejectFieldValidationIndex")
   val CYCLE_REJECTED_INDEX =conf.getString("rejectCycleValidationIndex")
+  val metricHost = "10.98.104.78"
+  val metricPort = 2013
+  val metricPrefix = "DT.snb.projets.ppiv.PROJET_1"
+  val metricEnabled = true
+  val metricRefreshInterval = 60
 
 
 
