@@ -14,6 +14,7 @@ object GraphiteConf {
   val graphite = new Graphite(new InetSocketAddress(
     config.metricHost, config.metricPort))
 
+
   lazy val prefix: String = config.metricPrefix
 
   val reporter = GraphiteReporter.forRegistry(
@@ -26,12 +27,15 @@ object GraphiteConf {
 
 
 
+
    println("carac : " + reporter.toString)
     def startGraphite(): Unit = {
     if (config.metricEnabled) {
       println("GRAPHITE STARTED")
+       println(graphite.isConnected())
       reporter.start(config.metricRefreshInterval, SECONDS)
-
+      reporter.report()
+      println(graphite.isConnected())
     }
   }
 }
