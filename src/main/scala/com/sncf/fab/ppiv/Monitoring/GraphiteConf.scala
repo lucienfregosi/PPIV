@@ -24,10 +24,14 @@ object GraphiteConf {
     .filter(MetricFilter.ALL)
     .build(graphite)
 
+
+
+   println("carac : " + reporter.toString)
     def startGraphite(): Unit = {
     if (config.metricEnabled) {
       println("GRAPHITE STARTED")
       reporter.start(config.metricRefreshInterval, SECONDS)
+
     }
   }
 }
