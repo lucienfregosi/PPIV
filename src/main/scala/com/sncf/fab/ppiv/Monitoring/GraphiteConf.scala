@@ -26,8 +26,6 @@ object GraphiteConf {
     .build(graphite)
 
 
-
-
    println("carac : " + reporter.toString)
     def startGraphite(): Unit = {
     if (config.metricEnabled) {
