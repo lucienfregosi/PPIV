@@ -18,9 +18,10 @@ node {
        sh "sbt coverage"
     }
 
-
-
-
+  //test stage
+    stage('test') {
+        sh "sbt test"
+    }
     //Cleaning stage
     stage('report') {
         sh "sbt coverageReport"
