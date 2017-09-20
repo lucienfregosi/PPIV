@@ -82,9 +82,8 @@ object TraitementPPIVDriver extends Serializable {
 
     val dfHive = hiveContext.createDataFrame(data.rdd, data.schema)
     dfHive.registerTempTable("dataToSaveToHive")
-    hiveContext.sql("CREATE TABLE ppiv_ref.iv_tgatgdinputrecette3_test2 as select * from dataToSaveToHive")
-//    GraphiteConf.startGraphite()
-//    System.exit(0)
+    hiveContext.sql("CREATE TABLE ppiv_ref.iv_tgatgdinputrecette3 as select * from dataToSaveToHive")
+    System.exit(0)
 
     LOGGER.warn("Démarrage de l'application PPIV")
 
