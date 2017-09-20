@@ -84,9 +84,9 @@ object TraitementPPIVDriver extends Serializable {
     dfHive.registerTempTable("dataToSaveToHive")
     hiveContext.sql("CREATE TABLE ppiv_ref.iv_tgatgdinputrecette3 as select * from dataToSaveToHive")
     System.exit(0)
-
-    LOGGER.warn("Démarrage de l'application PPIV")
 */
+    LOGGER.warn("Démarrage de l'application PPIV")
+
     if (args.length == 0){
       // Pas d'arguments d'entrée -> Stop
       PpivRejectionHandler.handleRejection("KO","",startTimePipeline.toString(),"","Pas d'arguments d'entrée, le batch nécessite au minimum la méthode de persistance (hdfs, hive, fs, es)")

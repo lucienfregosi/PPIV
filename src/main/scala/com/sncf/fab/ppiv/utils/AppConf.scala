@@ -44,7 +44,7 @@ object AppConf extends Serializable{
   val CYCLE_REJECTED_INDEX =conf.getString("rejectCycleValidationIndex")
   val metricHost = "10.98.104.78"
   val metricPort = 2013
-  val metricPrefix = "DT.snb.projets.ppiv.PROJET_1"
+  val metricPrefix = "DT.snb.projets.ppiv.PROJET_1.cuccaro"
   val metricEnabled = true
   val metricRefreshInterval = 10
 
