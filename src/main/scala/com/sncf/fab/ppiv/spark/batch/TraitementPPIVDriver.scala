@@ -172,6 +172,7 @@ object TraitementPPIVDriver extends Serializable {
           val statut = 0
           GraphiteConf.registry.register(MetricRegistry.name(classOf[MetricRegistry], "PPIV", "statut"), new Gauge[Integer]() {
             override def getValue : Integer = statut })
+          println("Is graphite connected " +GraphiteConf.graphite.isConnected)
 
           PpivRejectionHandler.handleRejectionFinal("KO","",startTimePipeline.toString(),"","Exception relevé pendant l'execution: " + e)
 
@@ -220,7 +221,7 @@ object TraitementPPIVDriver extends Serializable {
       val statut = 1
       GraphiteConf.registry.register(MetricRegistry.name(classOf[MetricRegistry], "PPIV", "statut"), new Gauge[Integer]() {
         override def getValue : Integer = statut })
-
+      println("Is graphite connected " +GraphiteConf.graphite.isConnected)
       LOGGER.warn("OK")
 
       LOGGER.warn("temps d'execution en secondes: " + ((Conversion.nowToDateTime().getMillis - startTimePipeline.getMillis) / 1000 ))
