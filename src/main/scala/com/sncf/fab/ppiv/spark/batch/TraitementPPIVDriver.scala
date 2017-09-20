@@ -3,6 +3,7 @@ package com.sncf.fab.ppiv.spark.batch
 import java.io.{PrintWriter, StringWriter}
 import java.time.Period
 
+import com.codahale.metrics.{Gauge, MetricRegistry}
 import com.sncf.fab.ppiv.Exception.PpivRejectionHandler
 import com.sncf.fab.ppiv.persistence._
 import com.sncf.fab.ppiv.pipelineData.{SourcePipeline, TraitementTga, TraitementTgd}
@@ -17,6 +18,7 @@ import org.slf4j.LoggerFactory
 import com.sncf.fab.ppiv.pipelineData.libPipeline._
 import org.apache.spark.sql.hive.HiveContext
 import org.apache.log4j.{Level, LogManager, PropertyConfigurator}
+
 import scala.reflect.runtime.universe
 import scala.tools.reflect.ToolBox
 
@@ -209,6 +211,10 @@ object TraitementPPIVDriver extends Serializable {
 
       // Voir pour logger le succès
       PpivRejectionHandler.write_execution_message("OK",debutPeriode.toString(), startTimePipeline.toString(),"","")
+
+      // l'envoie du OK/KO  à graphite
+      GraphiteConf.registry.register(MetricRegistry.name(classOf[MetricRegistry], "PPIV", "statut"), new Gauge[Integer]() {
+        override def getValue : Integer = 1 })
 
       LOGGER.warn("OK")
 
