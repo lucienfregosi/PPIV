@@ -66,7 +66,7 @@ object TraitementPPIVDriver extends Serializable {
     val sc         = GetSparkEnv.getSparkContext()
     val sqlContext = GetSparkEnv.getSqlContext()
     import sqlContext.implicits._
-
+/*
     val dataTGA = BuildCycleOver.loadDataFullPeriod(sc,sqlContext,"TGA", date,date).toDF()
     val dataTGD = BuildCycleOver.loadDataFullPeriod(sc,sqlContext,"TGD", date,date).toDF()
     //val dataTGA2 = BuildCycleOver.loadDataFullPeriod(sc,sqlContext,"TGA", date2,date2).toDF()
@@ -86,7 +86,7 @@ object TraitementPPIVDriver extends Serializable {
     System.exit(0)
 
     LOGGER.warn("Démarrage de l'application PPIV")
-
+*/
     if (args.length == 0){
       // Pas d'arguments d'entrée -> Stop
       PpivRejectionHandler.handleRejection("KO","",startTimePipeline.toString(),"","Pas d'arguments d'entrée, le batch nécessite au minimum la méthode de persistance (hdfs, hive, fs, es)")
