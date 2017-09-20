@@ -20,12 +20,11 @@ object PpivRejectionHandler extends Serializable {
 
   def handleRejectionFinal(statut: String, dateFichierObier: String, dateExecution: String, currentTgaTgdFile: String, message: String ): Unit = {
 
+   // l'envoie du OK/KO  à graphite
+    GraphiteConf.registry.register(MetricRegistry.name(classOf[MetricRegistry], "PPIV", "statut"), new Gauge[Integer]() {
+      override def getValue : Integer = 1 })
 
-    import org.apache.hadoop.mapred.QueueManager
 
-    val metrics = new MetricRegistry
-    GraphiteConf.registry.register(MetricRegistry.name(classOf[MetricRegistry], "PPIV", "statut"), new Gauge[String]() {
-      override def getValue : String = statut })
     // Ecriture d'une ligne dans le fichier final
     write_execution_message(statut,dateFichierObier, dateExecution,currentTgaTgdFile, message)
 
