@@ -39,6 +39,7 @@ object GraphiteConf {
       println("GRAPHITE STARTED")
        println(graphite.isConnected())
       reporter.start(config.metricRefreshInterval, SECONDS)
+      reporter.report()
       println(graphite.isConnected())
       registry.counter("cpu")
     }
