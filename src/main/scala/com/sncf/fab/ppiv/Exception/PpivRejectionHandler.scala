@@ -1,9 +1,13 @@
 package com.sncf.fab.ppiv.Exception
 
 import java.io.FileWriter
-import com.sncf.fab.ppiv.utils.AppConf.EXECUTION_TRACE_FILE
 
+import com.codahale.metrics.Gauge
+import com.sncf.fab.ppiv.utils.AppConf.EXECUTION_TRACE_FILE
 import com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver.LOGGER
+import com.codahale.metrics.MetricRegistry
+import com.codahale.metrics.Gauge
+import com.sncf.fab.ppiv.Monitoring.GraphiteConf
 
 /**
   * Created by simoh-labdoui on 11/05/2017.
@@ -16,6 +20,12 @@ object PpivRejectionHandler extends Serializable {
 
   def handleRejectionFinal(statut: String, dateFichierObier: String, dateExecution: String, currentTgaTgdFile: String, message: String ): Unit = {
 
+
+    import org.apache.hadoop.mapred.QueueManager
+
+    val metrics = new MetricRegistry
+    GraphiteConf.registry.register(MetricRegistry.name(classOf[MetricRegistry], "PPIV", "statut"), new Gauge[Integer]() {
+      override def getValue: String = statut })
     // Ecriture d'une ligne dans le fichier final
     write_execution_message(statut,dateFichierObier, dateExecution,currentTgaTgdFile, message)
 

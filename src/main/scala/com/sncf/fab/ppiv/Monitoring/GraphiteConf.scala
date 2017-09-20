@@ -18,6 +18,10 @@ object GraphiteConf {
 
   lazy val prefix: String = config.metricPrefix
 
+  import com.codahale.metrics.MetricRegistry
+
+  val metrics = new MetricRegistry
+
   var registry = SharedMetricRegistries.getOrCreate("default_test")
 
   val reporter = GraphiteReporter.
@@ -30,13 +34,11 @@ object GraphiteConf {
     .build(graphite)
 
 
-    println("carac : " + reporter.toString)
     def startGraphite(): Unit = {
     if (config.metricEnabled) {
       println("GRAPHITE STARTED")
        println(graphite.isConnected())
       reporter.start(config.metricRefreshInterval, SECONDS)
-      reporter.report()
       println(graphite.isConnected())
       registry.counter("cpu")
     }
