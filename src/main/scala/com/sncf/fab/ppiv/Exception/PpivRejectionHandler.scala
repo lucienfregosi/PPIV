@@ -20,12 +20,7 @@ object PpivRejectionHandler extends Serializable {
 
   def handleRejectionFinal(statut: String, dateFichierObier: String, dateExecution: String, currentTgaTgdFile: String, message: String ): Unit = {
 
-   // l'envoie du OK/KO  à graphite
-    GraphiteConf.registry.register(MetricRegistry.name(classOf[MetricRegistry], "PPIV", "statut"), new Gauge[Integer]() {
-      override def getValue : Integer = 1 })
-
-
-    // Ecriture d'une ligne dans le fichier final
+     // Ecriture d'une ligne dans le fichier final
     write_execution_message(statut,dateFichierObier, dateExecution,currentTgaTgdFile, message)
 
     // Fin du programme
