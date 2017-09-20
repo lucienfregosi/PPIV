@@ -24,8 +24,8 @@ object PpivRejectionHandler extends Serializable {
     import org.apache.hadoop.mapred.QueueManager
 
     val metrics = new MetricRegistry
-    GraphiteConf.registry.register(MetricRegistry.name(classOf[MetricRegistry], "PPIV", "statut"), new Gauge[Integer]() {
-      override def getValue: String = statut })
+    GraphiteConf.registry.register(MetricRegistry.name(classOf[MetricRegistry], "PPIV", "statut"), new Gauge[String]() {
+      override def getValue : String = statut })
     // Ecriture d'une ligne dans le fichier final
     write_execution_message(statut,dateFichierObier, dateExecution,currentTgaTgdFile, message)
 
