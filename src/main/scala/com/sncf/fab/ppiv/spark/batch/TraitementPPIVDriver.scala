@@ -117,7 +117,8 @@ object TraitementPPIVDriver extends Serializable {
             0)
 
           val finPeriode = debutPeriode.plusHours(1)
-          PpivRejectionHandler.write_execution_message("OK",debutPeriode.toString(), startTimePipeline.toString(),"","")
+
+          Conversion.writeTmpFile(sc,sqlContext, TraitementTga.getOutputRefineryPath(debutPeriode, finPeriode,false), TraitementTga.getRejectCycleRefineryPath(debutPeriode, finPeriode,false), TraitementTga.getRejectFieldRefineryPath(debutPeriode, finPeriode,false), false )
 
 
           System.exit(0)
