@@ -15,6 +15,7 @@ object AppConf extends Serializable{
   val GOLD         = conf.getString("gold")
   val REFINERY     = conf.getString("refinery")
   val LANDING_WORK = conf.getString("landing_work")
+  val LANDING_WORK_2 = conf.getString("landing_work_2")
   val REF_GARES    = conf.getString("ref_gares")
 
   // Chemin ou enregistrer les logs
@@ -23,6 +24,7 @@ object AppConf extends Serializable{
 
   val EXECUTION_TRACE_FILE = conf.getString("trace_execution_file")
   val TMP_FILE_HIVE = conf.getString("refinery") + conf.getString("tmpFileForHive")
+  val TMP_FILE_HIVE_REPRISE = conf.getString("refinery") + conf.getString("tmpFileForHiveReprise")
 
   // Variable pour le prijet
   val STICKING_PLASTER = conf.getBoolean("apply_sticking_plaster")
