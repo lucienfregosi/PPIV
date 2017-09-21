@@ -41,6 +41,7 @@ object GraphiteConf {
       reporter.report()
       println(graphite.isConnected())
       registry.counter("cpu")
+      registry.counter("cpu")
 
     }
   }
