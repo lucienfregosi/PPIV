@@ -25,17 +25,17 @@ class TraitementTgd extends SourcePipeline {
   override def getOutputGoldPath(debutPeriode: DateTime, finPeriode: DateTime, reprise : Boolean) = if (reprise == false ) {GOLD + "current/output.csv"}
   else {GOLD + "currentReprise/output.csv"}
 
-  override def getRejectCycleRefineryPath(debutPeriode: DateTime, finPeriode: DateTime, reprise : Boolean) = if (reprise == false ) {REFINERY + "current/reject_cycle.csv"}
-  else {REFINERY + "currentReprise/reject_cycle.csv"}
+  override def getRejectCycleRefineryPath(debutPeriode: DateTime, finPeriode: DateTime, reprise : Boolean) = if (reprise == false ) {REFINERY + "current/reject_cycleTGD.csv"}
+  else {REFINERY + "currentReprise/reject_cycleTGD.csv"}
 
-  override def getRejectCycleGoldPath(debutPeriode: DateTime, finPeriode: DateTime, reprise : Boolean) = if (reprise == false ) {GOLD + "current/reject_cycle.csv"}
-  else {GOLD + "currentReprise/reject_cycle.csv"}
+  override def getRejectCycleGoldPath(debutPeriode: DateTime, finPeriode: DateTime, reprise : Boolean) = if (reprise == false ) {GOLD + "current/reject_cycleTGD.csv"}
+  else {GOLD + "currentReprise/reject_cycleTGD.csv"}
 
-  override def getRejectFieldRefineryPath(debutPeriode: DateTime, finPeriode: DateTime, reprise : Boolean) = if (reprise == false ) {REFINERY + "current/reject_field.csv"}
-  else {REFINERY + "currentReprise/reject_field.csv"}
+  override def getRejectFieldRefineryPath(debutPeriode: DateTime, finPeriode: DateTime, reprise : Boolean) = if (reprise == false ) {REFINERY + "current/reject_fieldTGD.csv"}
+  else {REFINERY + "currentReprise/reject_fieldTGD.csv"}
 
-  override def getRejectFieldGoldPath(debutPeriode: DateTime, finPeriode: DateTime, reprise : Boolean) = if (reprise == false ) {GOLD + "current/reject_field.csv"}
-  else {GOLD + "currentReprise/reject_field.csv"}
+  override def getRejectFieldGoldPath(debutPeriode: DateTime, finPeriode: DateTime, reprise : Boolean) = if (reprise == false ) {GOLD + "current/reject_fieldTGD.csv"}
+  else {GOLD + "currentReprise/reject_fieldTGD.csv"}
 
   override def Depart(): Boolean = true
   override def Arrive(): Boolean = false
