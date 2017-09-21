@@ -172,6 +172,7 @@ object TraitementPPIVDriver extends Serializable {
           val statut = 0
           GraphiteConf.registry.register(MetricRegistry.name(classOf[MetricRegistry], "PPIV", "statut"), new Gauge[Integer]() {
             override def getValue : Integer = statut })
+          GraphiteConf.reporter.report()
           println("Is graphite connected " +GraphiteConf.graphite.isConnected)
 
           PpivRejectionHandler.handleRejectionFinal("KO","",startTimePipeline.toString(),"","Exception relevé pendant l'execution: " + e)
