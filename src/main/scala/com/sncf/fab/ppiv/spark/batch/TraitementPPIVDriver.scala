@@ -119,6 +119,7 @@ object TraitementPPIVDriver extends Serializable {
           val finPeriode = debutPeriode.plusHours(1)
           PpivRejectionHandler.write_execution_message("OK",debutPeriode.toString(), startTimePipeline.toString(),"","")
 
+
           System.exit(0)
 
 
