@@ -2,7 +2,9 @@ package com.sncf.fab.ppiv.spark.batch
 
 import java.io.{PrintWriter, StringWriter}
 import java.time.Period
+import java.lang.Thread
 
+import com.codahale.metrics.{Gauge, MetricRegistry}
 import com.sncf.fab.ppiv.Exception.PpivRejectionHandler
 import com.sncf.fab.ppiv.persistence._
 import com.sncf.fab.ppiv.pipelineData.{SourcePipeline, TraitementTga, TraitementTgd}
@@ -17,6 +19,8 @@ import org.slf4j.LoggerFactory
 import com.sncf.fab.ppiv.pipelineData.libPipeline._
 import org.apache.spark.sql.hive.HiveContext
 import org.apache.log4j.{Level, LogManager, PropertyConfigurator}
+import org.apache.spark.util.SizeEstimator
+
 import scala.reflect.runtime.universe
 import scala.tools.reflect.ToolBox
 
@@ -44,7 +48,9 @@ object TraitementPPIVDriver extends Serializable {
     //  - 1 seul et unique argument valide (hive, hdfs, es, fs) -> Nominal : Lancement automatique du batch sur l'heure n-1
     //  - 2 arguments (persistance, date/heure à processer) mais dates invalide (les dates doivent être de la forme yyyyMMdd_HH) -> Stop
     //  - 2 arguments (persistance, date/heure à processer) et dates valides -> Lancement du batch sur la période spécifié
-    
+
+
+
     LOGGER.warn("Démarrage de l'application PPIV")
 
     if (args.length == 0){
@@ -111,6 +117,9 @@ object TraitementPPIVDriver extends Serializable {
             0)
 
           val finPeriode = debutPeriode.plusHours(1)
+          PpivRejectionHandler.write_execution_message("OK",debutPeriode.toString(), startTimePipeline.toString(),"","")
+
+          System.exit(0)
 
 
 
@@ -126,6 +135,12 @@ object TraitementPPIVDriver extends Serializable {
       catch {
         case e: Throwable => {
           // Catch final, c'est ici qu'on écrit dans le fichier de résultat
+          // l'envoie du OK/KO  à graphite
+          val statut = 1
+          GraphiteConf.registry.register(MetricRegistry.name(classOf[MetricRegistry], "PPIV", "statut"), new Gauge[Integer]() {
+            override def getValue : Integer = statut })
+          Thread.sleep(5*1000);
+          println("Is graphite connected " +GraphiteConf.graphite.isConnected)
 
           PpivRejectionHandler.handleRejectionFinal("KO","",startTimePipeline.toString(),"","Exception relevé pendant l'execution: " + e)
 
@@ -160,17 +175,26 @@ object TraitementPPIVDriver extends Serializable {
       // Sauvegarde dans HDFS
       Persist.save(ivTgaTgd, persistMethod, sc, debutPeriode, false)
 
+
       // Renommage du fichier car il a fini d'écrire
       Conversion.renameFile(TraitementTga.getOutputRefineryPathTMP(debutPeriode, finPeriode,false), TraitementTga.getOutputRefineryPath(debutPeriode, finPeriode,false))
 
       // Ecriture d'un fichier permettant aux scripts Hive de trouver les bon path
-      Conversion.writeTmpFile(sc,sqlContext, TraitementTga.getOutputRefineryPath(debutPeriode, finPeriode,false), TraitementTga.getRejectCycleRefineryPath(debutPeriode, finPeriode,false), TraitementTga.getRejectFieldRefineryPath(debutPeriode, finPeriode,false) )
+      Conversion.writeTmpFile(sc,sqlContext, TraitementTga.getOutputRefineryPath(debutPeriode, finPeriode,false), TraitementTga.getRejectCycleRefineryPath(debutPeriode, finPeriode,false), TraitementTga.getRejectFieldRefineryPath(debutPeriode, finPeriode,false), false )
 
 
       // Voir pour logger le succès
       PpivRejectionHandler.write_execution_message("OK",debutPeriode.toString(), startTimePipeline.toString(),"","")
 
+      // l'envoie du OK/KO  à graphite
+      val statut = 0
+      GraphiteConf.registry.register(MetricRegistry.name(classOf[MetricRegistry], "PPIV", "statut"), new Gauge[Integer]() {
+        override def getValue : Integer = statut })
+      Thread.sleep(5*1000);
+      println("Is graphite connected " +GraphiteConf.graphite.isConnected)
       LOGGER.warn("OK")
+
+      LOGGER.warn(" Taille du fichier de sortie en Byte : " +  SizeEstimator.estimate(ivTgaTgd.rdd))
 
       LOGGER.warn("temps d'execution en secondes: " + ((Conversion.nowToDateTime().getMillis - startTimePipeline.getMillis) / 1000 ))
 

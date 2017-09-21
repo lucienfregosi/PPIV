@@ -2,8 +2,10 @@ package com.sncf.fab.ppiv.Monitoring
 
 import java.net.InetSocketAddress
 import java.util.concurrent.TimeUnit._
+
 import com.codahale.metrics.graphite.{Graphite, GraphiteReporter}
-import com.codahale.metrics.{MetricFilter, SharedMetricRegistries}
+import com.codahale.metrics.{Gauge, MetricFilter, MetricRegistry, SharedMetricRegistries}
+import com.codahale.metrics
 import com.sncf.fab.ppiv.utils.AppConf
 
 
@@ -17,8 +19,13 @@ object GraphiteConf {
 
   lazy val prefix: String = config.metricPrefix
 
-  val reporter = GraphiteReporter.forRegistry(
-    SharedMetricRegistries.getOrCreate(prefix))
+
+  var registry = SharedMetricRegistries.getOrCreate("default_test")
+
+
+  val reporter = GraphiteReporter.
+    forRegistry(registry)
+    //.prefixedWith(s"$prefix.${java.net.InetAddress.getLocalHost.getHostName}")
     .prefixedWith(s"$prefix.${java.net.InetAddress.getLocalHost.getHostName}")
     .convertRatesTo(SECONDS)
     .convertDurationsTo(MILLISECONDS)
@@ -26,16 +33,15 @@ object GraphiteConf {
     .build(graphite)
 
 
-
-
-   println("carac : " + reporter.toString)
     def startGraphite(): Unit = {
     if (config.metricEnabled) {
       println("GRAPHITE STARTED")
        println(graphite.isConnected())
       reporter.start(config.metricRefreshInterval, SECONDS)
-      reporter.report()
       println(graphite.isConnected())
+      registry.counter("cpu")
+      //registry.counter("cpu")
+
     }
   }
 }

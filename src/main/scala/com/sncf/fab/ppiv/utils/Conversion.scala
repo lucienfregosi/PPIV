@@ -9,6 +9,7 @@ import org.joda.time.format.{DateTimeFormat, DateTimeFormatter, ISODateTimeForma
 import java.util.{Calendar, Date}
 
 import com.sncf.fab.ppiv.utils.AppConf.TMP_FILE_HIVE
+import com.sncf.fab.ppiv.utils.AppConf.TMP_FILE_HIVE_REPRISE
 import com.sncf.fab.ppiv.utils.AppConf.EXECUTION_TRACE_FILE
 import com.sncf.fab.ppiv.utils.Conversion.ParisTimeZone
 import org.apache.hive.common.util.DateUtils
@@ -292,13 +293,18 @@ object Conversion {
   def renameFile(oldName: String, newName: String) =
     Try(new File(oldName).renameTo(new File(newName))).getOrElse(false)
 
-  def writeTmpFile(sc: SparkContext, sqlContext : SQLContext, pathOutput : String, pathRejectCyle: String, pathRejectField: String) = {
+  def writeTmpFile(sc: SparkContext, sqlContext : SQLContext, pathOutput : String, pathRejectCyle: String, pathRejectField: String, reprise_flag: Boolean) = {
 
     import sqlContext.implicits._
 
     val df = Seq((pathOutput,pathRejectCyle,pathRejectField)).toDF()
 
-    df.coalesce(1).write.format("com.databricks.spark.csv").mode("overwrite").save(TMP_FILE_HIVE)
+    if (reprise_flag == false) {
+      df.coalesce(1).write.format("com.databricks.spark.csv").mode("overwrite").save(TMP_FILE_HIVE)
+    }
+    else {
+      df.coalesce(1).write.format("com.databricks.spark.csv").mode("overwrite").save(TMP_FILE_HIVE_REPRISE)
+    }
 
   }
 

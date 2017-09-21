@@ -155,7 +155,9 @@ object BusinessRules {
 
 
       // Récupération du dernier retard. -1 pour aller chercher sur le dernier index
-      val minuteRetard = seqFiltered(seqFiltered.length - 1).retard.toLong
+      val minuteRetard = seqFiltered.groupBy(_.retard).map(x => (x._1.toLong, x._2))
+        .map(x => (x._1, x._2.minBy(_.maj).maj)).toSeq
+        .sortBy(_._1).reverse(0)._1
 
       // Multipliation par 60 pour renvoyer un résultat en secondes
       minuteRetard * 60
@@ -299,7 +301,11 @@ object BusinessRules {
         0
       } else {
         // Récupération du permier  retard.
-        val affichageRetard = seqFiltered(0).maj.toLong
+        val affichageRetard = seqFiltered.groupBy(_.retard).map(x => (x._1.toLong, x._2))
+          .map(x => (x._1, x._2.minBy(_.maj).maj)).toSeq
+          .sortBy(_._1).reverse(0)._2
+
+
         affichageRetard
       }
     }

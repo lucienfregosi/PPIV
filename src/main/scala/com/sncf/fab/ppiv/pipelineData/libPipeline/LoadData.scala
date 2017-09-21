@@ -14,6 +14,7 @@ import com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver
 import org.apache.spark.SparkContext
 import org.joda.time.DateTime
 
+
 /**
   * Created by ELFI03951 on 12/07/2017.
   */
@@ -49,6 +50,7 @@ object LoadData {
         .filter($"heure".isNotNull)
         .distinct()
         .as[TgaTgdInput]
+
 
 
       dfTgaTgd
