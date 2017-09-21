@@ -48,9 +48,6 @@ trait SourcePipeline extends Serializable {
   def getOutputGoldPath(debutPeriode: DateTime, finPeriode: DateTime, reprise_flag : Boolean): String
   def getOutputRefineryPath(debutPeriode: DateTime, finPeriode: DateTime, reprise_flag  :Boolean): String
 
-  def getOutputGoldPathTMP(debutPeriode: DateTime, finPeriode: DateTime, reprise_flag : Boolean): String
-  def getOutputRefineryPathTMP(debutPeriode: DateTime, finPeriode: DateTime, reprise_flag  :Boolean): String
-
   def getRejectCycleRefineryPath(debutPeriode: DateTime, finPeriode: DateTime, reprise_flag  :Boolean): String
   def getRejectCycleGoldPath(debutPeriode: DateTime, finPeriode: DateTime, reprise_flag  :Boolean): String
 

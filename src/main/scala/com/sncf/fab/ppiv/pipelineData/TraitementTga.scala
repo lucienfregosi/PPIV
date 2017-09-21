@@ -21,25 +21,24 @@ class TraitementTga extends SourcePipeline {
   }
 
 
-  override def getOutputRefineryPath(debutPeriode: DateTime, finPeriode: DateTime, reprise : Boolean) = if (reprise == false ) {REFINERY + "ppiv/" + Conversion.getYearMonthDay(debutPeriode) + "_" + Conversion.getHourString(debutPeriode) + "/output/" + Conversion.getYearMonthDay(debutPeriode) + "_" + Conversion.getHourString(debutPeriode)+ ".csv"}
-  else {REFINERY + "ppiv/" + Conversion.getYearMonthDay(debutPeriode) + "_" + Conversion.getHourString(debutPeriode)+ "_" + Conversion.getHourString(finPeriode) + "/output/" + Conversion.getYearMonthDay(debutPeriode) + "_" + Conversion.getHourString(debutPeriode)+ "_" + Conversion.getHourString(finPeriode)+ ".csv"}
-  override def getOutputGoldPath(debutPeriode: DateTime, finPeriode: DateTime, reprise : Boolean) = if (reprise == false ) {GOLD + "ppiv/" + Conversion.getYearMonthDay(debutPeriode) + "_" + Conversion.getHourString(debutPeriode) + "/output/" + Conversion.getYearMonthDay(debutPeriode) + "_" + Conversion.getHourString(debutPeriode) + ".csv"}
-  else {GOLD + "ppiv/" + Conversion.getYearMonthDay(debutPeriode) + "_" + Conversion.getHourString(debutPeriode) + "_" + Conversion.getHourString(finPeriode)+ "/output/" + Conversion.getYearMonthDay(debutPeriode) + "_" + Conversion.getHourString(debutPeriode)+ "_" + Conversion.getHourString(finPeriode)+".csv"}
+  override def getOutputRefineryPath(debutPeriode: DateTime, finPeriode: DateTime, reprise : Boolean) = if (reprise == false ) {REFINERY + "current/output.csv"}
+  else {REFINERY + "currentReprise/output.csv"}
 
-  override def getOutputRefineryPathTMP(debutPeriode: DateTime, finPeriode: DateTime, reprise : Boolean) = if (reprise == false ) {REFINERY + "ppiv/" + Conversion.getYearMonthDay(debutPeriode) + "_" + Conversion.getHourString(debutPeriode) + "/output/" + Conversion.getYearMonthDay(debutPeriode) + "_" + Conversion.getHourString(debutPeriode)+ ".csv.tmp"}
-  else {REFINERY + "ppiv/" + Conversion.getYearMonthDay(debutPeriode) + "_" + Conversion.getHourString(debutPeriode)+ "_" + Conversion.getHourString(finPeriode) + "/output/" + Conversion.getYearMonthDay(debutPeriode) + "_" + Conversion.getHourString(debutPeriode)+ "_" + Conversion.getHourString(finPeriode)+ ".csv.tmp"}
-  override def getOutputGoldPathTMP(debutPeriode: DateTime, finPeriode: DateTime, reprise : Boolean) = if (reprise == false ) {GOLD + "ppiv/" + Conversion.getYearMonthDay(debutPeriode) + "_" + Conversion.getHourString(debutPeriode) + "/output/" + Conversion.getYearMonthDay(debutPeriode) + "_" + Conversion.getHourString(debutPeriode) + ".csv.tmp"}
-  else {GOLD + "ppiv/" + Conversion.getYearMonthDay(debutPeriode) + "_" + Conversion.getHourString(debutPeriode) + "_" + Conversion.getHourString(finPeriode)+ "/output/" + Conversion.getYearMonthDay(debutPeriode) + "_" + Conversion.getHourString(debutPeriode)+ "_" + Conversion.getHourString(finPeriode)+".csv.tmp"}
+  override def getOutputGoldPath(debutPeriode: DateTime, finPeriode: DateTime, reprise : Boolean) = if (reprise == false ) {GOLD + "current/output.csv"}
+  else {GOLD + "currentReprise/output.csv"}
 
-  override def getRejectCycleRefineryPath(debutPeriode: DateTime, finPeriode: DateTime, reprise : Boolean) = if ( reprise == false) {REFINERY + "ppiv/" + Conversion.getYearMonthDay(debutPeriode) + "_" + Conversion.getHourString(debutPeriode) + "/reject_cycle/" +"TGA-"+ Conversion.getYearMonthDay(debutPeriode) + "_" + Conversion.getHourString(debutPeriode) + ".csv"}
-  else {REFINERY + "ppiv/" + Conversion.getYearMonthDay(debutPeriode) + "_" + Conversion.getHourString(debutPeriode)+ "_" + Conversion.getHourString(finPeriode) + "/reject_cycle/" +"TGA-"+ Conversion.getYearMonthDay(debutPeriode) + "_" + Conversion.getHourString(debutPeriode)+ "_" + Conversion.getHourString(finPeriode)+".csv"}
-  override def getRejectCycleGoldPath(debutPeriode: DateTime, finPeriode: DateTime, reprise : Boolean): String = if ( reprise == false) {GOLD + "ppiv/" + Conversion.getYearMonthDay(debutPeriode) + "_" + Conversion.getHourString(debutPeriode) + "/reject_cycle/" +"TGA-"+ Conversion.getYearMonthDay(debutPeriode) + "_" + Conversion.getHourString(debutPeriode) + ".csv"}
-  else {GOLD + "ppiv/" + Conversion.getYearMonthDay(debutPeriode) + "_" + Conversion.getHourString(debutPeriode) + "_" + Conversion.getHourString(finPeriode)+ "/reject_cycle/" +"TGA-"+ Conversion.getYearMonthDay(debutPeriode)+ "_" + Conversion.getHourString(debutPeriode) + "_" + Conversion.getHourString(finPeriode)+ ".csv"}
+  override def getRejectCycleRefineryPath(debutPeriode: DateTime, finPeriode: DateTime, reprise : Boolean) = if (reprise == false ) {REFINERY + "current/reject_cycle.csv"}
+  else {REFINERY + "currentReprise/reject_cycle.csv"}
 
-  override def getRejectFieldRefineryPath(debutPeriode: DateTime, finPeriode: DateTime, reprise : Boolean): String = if (reprise == false) { REFINERY + "ppiv/" + Conversion.getYearMonthDay(debutPeriode) + "_" + Conversion.getHourString(debutPeriode) + "/reject_field/" +"TGA-"+ Conversion.getYearMonthDay(debutPeriode) + "_" + Conversion.getHourString(debutPeriode) + ".csv"}
-  else { REFINERY + "ppiv/" + Conversion.getYearMonthDay(debutPeriode) + "_" + Conversion.getHourString(debutPeriode) + "_" + Conversion.getHourString(finPeriode)+ "/reject_field/" +"TGA-"+ Conversion.getYearMonthDay(debutPeriode) + "_" + Conversion.getHourString(debutPeriode) + "_" + Conversion.getHourString(finPeriode)+ ".csv"}
-  override def getRejectFieldGoldPath(debutPeriode: DateTime, finPeriode: DateTime, reprise : Boolean): String =  if (reprise == false) {GOLD + "ppiv/" + Conversion.getYearMonthDay(debutPeriode) + "_" + Conversion.getHourString(debutPeriode) + "/reject_field/" +"TGA-"+ Conversion.getYearMonthDay(debutPeriode) + "_" + Conversion.getHourString(debutPeriode) + ".csv"}
-  else {GOLD + "ppiv/" + Conversion.getYearMonthDay(debutPeriode) + "_" + Conversion.getHourString(debutPeriode)+ "_" + Conversion.getHourString(finPeriode) + "/reject_field/" +"TGA-"+ Conversion.getYearMonthDay(debutPeriode) + "_" + Conversion.getHourString(debutPeriode)+  "_" + Conversion.getHourString(finPeriode)+".csv"}
+  override def getRejectCycleGoldPath(debutPeriode: DateTime, finPeriode: DateTime, reprise : Boolean) = if (reprise == false ) {GOLD + "current/reject_cycle.csv"}
+  else {GOLD + "currentReprise/reject_cycle.csv"}
+
+  override def getRejectFieldRefineryPath(debutPeriode: DateTime, finPeriode: DateTime, reprise : Boolean) = if (reprise == false ) {REFINERY + "current/reject_field.csv"}
+  else {REFINERY + "currentReprise/reject_field.csv"}
+
+  override def getRejectFieldGoldPath(debutPeriode: DateTime, finPeriode: DateTime, reprise : Boolean) = if (reprise == false ) {GOLD + "current/reject_field.csv"}
+  else {GOLD + "currentReprise/reject_field.csv"}
+
 
   override def Depart(): Boolean = false
   override def Arrive(): Boolean = true
