@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory
 import com.sncf.fab.ppiv.pipelineData.libPipeline._
 import org.apache.spark.sql.hive.HiveContext
 import org.apache.log4j.{Level, LogManager, PropertyConfigurator}
+import org.apache.spark.util.SizeEstimator
 
 import scala.reflect.runtime.universe
 import scala.tools.reflect.ToolBox
@@ -207,6 +208,7 @@ object TraitementPPIVDriver extends Serializable {
       // Sauvegarde dans HDFS
       Persist.save(ivTgaTgd, persistMethod, sc, debutPeriode, false)
 
+
       // Renommage du fichier car il a fini d'écrire
       Conversion.renameFile(TraitementTga.getOutputRefineryPathTMP(debutPeriode, finPeriode,false), TraitementTga.getOutputRefineryPath(debutPeriode, finPeriode,false))
 
@@ -223,6 +225,8 @@ object TraitementPPIVDriver extends Serializable {
         override def getValue : Integer = statut })
       println("Is graphite connected " +GraphiteConf.graphite.isConnected)
       LOGGER.warn("OK")
+
+      LOGGER.warn(" Taille du fichier de sortie en Byte : " +  SizeEstimator.estimate(ivTgaTgd.rdd))
 
       LOGGER.warn("temps d'execution en secondes: " + ((Conversion.nowToDateTime().getMillis - startTimePipeline.getMillis) / 1000 ))
 

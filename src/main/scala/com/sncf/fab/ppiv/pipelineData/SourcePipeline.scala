@@ -23,6 +23,7 @@ import org.apache.spark.storage.StorageLevel
 import org.apache.spark.util.SizeEstimator
 import org.joda.time.{DateTime, DateTimeZone}
 
+
 /**
   * Created by simoh-labdoui on 11/05/2017.
   */
@@ -94,7 +95,7 @@ trait SourcePipeline extends Serializable {
       val dataRefGares              = LoadData.loadReferentiel(sqlContext, debutPeriode)
 
 
-      LOGGER.warn("Chargement des fichiers OK. Taille du fichier d'entrée en Byte" +  SizeEstimator.estimate(dataTgaTgd.rdd))
+      LOGGER.warn("Chargement des fichiers OK. Taille du fichier d'entrée en Byte : " +  SizeEstimator.estimate(dataTgaTgd.rdd))
 
       try {
         // 2) Application du sparadrap sur les données au cause du Bug lié au patsse nuit (documenté dans le wiki)

@@ -14,8 +14,9 @@ import org.apache.spark.sql.SQLContext
 import org.apache.spark.sql.hive.HiveContext
 import org.joda.time.{DateTime, Duration}
 import org.slf4j.LoggerFactory
-
 import org.apache.log4j.{Level, LogManager, PropertyConfigurator}
+import org.apache.spark.util.SizeEstimator
+
 import scala.reflect.runtime.universe
 import scala.tools.reflect.ToolBox
 
@@ -181,6 +182,10 @@ object TraitementPPIVDriverReprise extends Serializable {
       LOGGER.warn("SUCCESS")
       // Voir pour logger le succès
       PpivRejectionHandler.write_execution_message("OK",debutPeriode.toString(), startTimePipeline.toString(),"","")
+
+      LOGGER.warn(" Taille du fichier de sortie en Byte : " +  SizeEstimator.estimate(ivTgaTgd.rdd))
+
+      LOGGER.warn("temps d'execution en secondes: " + ((Conversion.nowToDateTime().getMillis - startTimePipeline.getMillis) / 1000 ))
     }
     catch {
       case e: Throwable => {
