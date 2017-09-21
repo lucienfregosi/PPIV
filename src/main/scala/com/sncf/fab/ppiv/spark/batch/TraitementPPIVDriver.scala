@@ -44,47 +44,7 @@ object TraitementPPIVDriver extends Serializable {
     //  - 1 seul et unique argument valide (hive, hdfs, es, fs) -> Nominal : Lancement automatique du batch sur l'heure n-1
     //  - 2 arguments (persistance, date/heure à processer) mais dates invalide (les dates doivent être de la forme yyyyMMdd_HH) -> Stop
     //  - 2 arguments (persistance, date/heure à processer) et dates valides -> Lancement du batch sur la période spécifié
-
-    val date = Conversion.getDateTime(
-      2017,
-      9,
-      18,
-      23,
-      0,
-      0)
-
-    val date2 = Conversion.getDateTime(
-      2017,
-      9,
-      17,
-      22,
-      0,
-      0)
-
-
-
-    val sc         = GetSparkEnv.getSparkContext()
-    val sqlContext = GetSparkEnv.getSqlContext()
-    import sqlContext.implicits._
-
-    val dataTGA = BuildCycleOver.loadDataFullPeriod(sc,sqlContext,"TGA", date,date).toDF()
-    val dataTGD = BuildCycleOver.loadDataFullPeriod(sc,sqlContext,"TGD", date,date).toDF()
-    //val dataTGA2 = BuildCycleOver.loadDataFullPeriod(sc,sqlContext,"TGA", date2,date2).toDF()
-    //val dataTGD2 = BuildCycleOver.loadDataFullPeriod(sc,sqlContext,"TGD", date2,date2).toDF()
-
-
-    val data = dataTGA.unionAll(dataTGD)
-    //val data2 = dataTGA2.unionAll(dataTGD2)
-
-    //val data = data1.unionAll(data2)
-
-    val hiveContext = GetHiveEnv.getHiveContext(sc)
-
-    val dfHive = hiveContext.createDataFrame(data.rdd, data.schema)
-    dfHive.registerTempTable("dataToSaveToHive")
-    hiveContext.sql("CREATE TABLE ppiv_ref.iv_tgatgdinputrecette3 as select * from dataToSaveToHive")
-    System.exit(0)
-
+    
     LOGGER.warn("Démarrage de l'application PPIV")
 
     if (args.length == 0){
