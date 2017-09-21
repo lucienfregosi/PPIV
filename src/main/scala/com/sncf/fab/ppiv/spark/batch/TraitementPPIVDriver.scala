@@ -170,10 +170,9 @@ object TraitementPPIVDriver extends Serializable {
         case e: Throwable => {
           // Catch final, c'est ici qu'on écrit dans le fichier de résultat
           // l'envoie du OK/KO  à graphite
-          val statut = 0
+          val statut = 1
           GraphiteConf.registry.register(MetricRegistry.name(classOf[MetricRegistry], "PPIV", "statut"), new Gauge[Integer]() {
             override def getValue : Integer = statut })
-          GraphiteConf.reporter.report()
           Thread.sleep(5*1000);
           println("Is graphite connected " +GraphiteConf.graphite.isConnected)
 
@@ -221,9 +220,10 @@ object TraitementPPIVDriver extends Serializable {
       PpivRejectionHandler.write_execution_message("OK",debutPeriode.toString(), startTimePipeline.toString(),"","")
 
       // l'envoie du OK/KO  à graphite
-      val statut = 1
+      val statut = 0
       GraphiteConf.registry.register(MetricRegistry.name(classOf[MetricRegistry], "PPIV", "statut"), new Gauge[Integer]() {
         override def getValue : Integer = statut })
+      Thread.sleep(5*1000);
       println("Is graphite connected " +GraphiteConf.graphite.isConnected)
       LOGGER.warn("OK")
 
