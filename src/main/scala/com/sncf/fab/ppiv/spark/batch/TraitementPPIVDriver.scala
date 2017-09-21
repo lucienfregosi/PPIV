@@ -2,6 +2,7 @@ package com.sncf.fab.ppiv.spark.batch
 
 import java.io.{PrintWriter, StringWriter}
 import java.time.Period
+import java.lang.Thread
 
 import com.codahale.metrics.{Gauge, MetricRegistry}
 import com.sncf.fab.ppiv.Exception.PpivRejectionHandler
@@ -173,6 +174,7 @@ object TraitementPPIVDriver extends Serializable {
           GraphiteConf.registry.register(MetricRegistry.name(classOf[MetricRegistry], "PPIV", "statut"), new Gauge[Integer]() {
             override def getValue : Integer = statut })
           GraphiteConf.reporter.report()
+          Thread.sleep(5*1000);
           println("Is graphite connected " +GraphiteConf.graphite.isConnected)
 
           PpivRejectionHandler.handleRejectionFinal("KO","",startTimePipeline.toString(),"","Exception relevé pendant l'execution: " + e)
