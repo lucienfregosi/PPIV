@@ -48,7 +48,7 @@ object AppConf extends Serializable{
   val metricPort = 2013
   val metricPrefix = "DT.snb.projets.ppiv.PROJET_1"
   val metricEnabled = true
-  val metricRefreshInterval = 10
+  val metricRefreshInterval = 1
 
 
 
