@@ -27,10 +27,10 @@ object PersistHdfs extends Serializable {
   }
 
   def persisteRejectField(ds: Dataset[TgaTgdInput], pathToSave: String): Unit = {
-    ds.toDF().coalesce(1).write.format("com.databricks.spark.csv").save(pathToSave)
+    ds.toDF().write.format("com.databricks.spark.csv").save(pathToSave)
   }
 
   def persisteRejectCycle(ds: Dataset[TgaTgdIntermediate], pathToSave: String): Unit = {
-    ds.toDF().coalesce(1).write.format("com.databricks.spark.csv").save(pathToSave)
+    ds.toDF().write.format("com.databricks.spark.csv").save(pathToSave)
   }
 }
