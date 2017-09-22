@@ -1,4 +1,4 @@
-CREATE EXTERNAL TABLE IF NOT EXISTS ppiv_ref.iv_tgatgdtestpartition_stage2(
+CREATE EXTERNAL TABLE IF NOT EXISTS iv_tgatgd_input_recette4(
                             nom_de_la_gare String,
                             agence String,
                             segmentation String,
@@ -66,6 +66,6 @@ ROW FORMAT DELIMITED
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
 STORED AS TEXTFILE
-LOCATION '/data1/GARES/refinery/PPIV_PHASE2/hive/iv_tgatgdtestpartition_stage2'
+LOCATION '/data1/GARES/refinery/PPIV_PHASE2/hive/iv_tgatgd_input_recette4'
 
 
