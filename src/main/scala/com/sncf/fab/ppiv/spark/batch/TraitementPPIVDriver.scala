@@ -50,7 +50,6 @@ object TraitementPPIVDriver extends Serializable {
     //  - 2 arguments (persistance, date/heure à processer) et dates valides -> Lancement du batch sur la période spécifié
 
 
-
     LOGGER.warn("Démarrage de l'application PPIV")
 
     if (args.length == 0){
@@ -84,8 +83,8 @@ object TraitementPPIVDriver extends Serializable {
           LOGGER.warn("Lancement automatique du batch sur l'heure n-1")
 
           // Si startTimePipeline = 13h46
-
           // finPeriode = 13h00
+
           val finPeriode = Conversion.getDateTime(
             startTimePipeline.getYear,
             startTimePipeline.getMonthOfYear,
@@ -94,6 +93,7 @@ object TraitementPPIVDriver extends Serializable {
             0,
             0)
 
+          // On traite
           val debutPeriode = finPeriode.plusHours(-1)
 
           startPipeline(args, sc, sqlContext, debutPeriode, finPeriode)
@@ -151,35 +151,7 @@ object TraitementPPIVDriver extends Serializable {
     GraphiteConf.startGraphite()
     // Récupération argument d'entrées, la méthode de persistance
     val persistMethod = argsArray(0)
-
-
-    //TO-REMOVE To save input table of 03/09/2017
-    val date = Conversion.getDateTime(
-      2017,
-      9,
-      3,
-      0,
-      0,
-      0)
-
-    val date2 = Conversion.getDateTime(
-      2017,
-      9,
-      3,
-      23,
-      0,
-      0)
-
-    val dataTGA = BuildCycleOver.loadDataFullPeriod(sc,sqlContext,"TGA", date,date2).toDF()
-    val dataTGD = BuildCycleOver.loadDataFullPeriod(sc,sqlContext,"TGD", date,date2).toDF()
-
-    val data = dataTGA.unionAll(dataTGD)
-
-    val hiveContext = GetHiveEnv.getHiveContext(sc)
-    val dfHive = hiveContext.createDataFrame(data.rdd, data.schema)
-    dfHive.registerTempTable("dataToSaveToHive2")
-    hiveContext.sql("CREATE TABLE iv_tgatgdinputrecette4 as select * from dataToSaveToHive2")
-    /// TO -REMOVE Above
+    
 
 
     LOGGER.warn("Processing des TGA")
