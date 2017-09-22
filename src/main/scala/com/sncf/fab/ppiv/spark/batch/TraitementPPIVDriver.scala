@@ -118,8 +118,6 @@ object TraitementPPIVDriver extends Serializable {
 
           val finPeriode = debutPeriode.plusHours(1)
 
-
-
           // Lancement du pipeline pour l'heure demandé (+ 1 car le pipelin est construit par rapport a ce qu'on lui donne l'heure de fin de traitement
           startPipeline(args, sc, sqlContext, debutPeriode,finPeriode)
 
@@ -153,6 +151,36 @@ object TraitementPPIVDriver extends Serializable {
     GraphiteConf.startGraphite()
     // Récupération argument d'entrées, la méthode de persistance
     val persistMethod = argsArray(0)
+
+
+    //TO-REMOVE To save input table of 03/09/2017
+    val date = Conversion.getDateTime(
+      2017,
+      9,
+      3,
+      0,
+      0,
+      0)
+
+    val date2 = Conversion.getDateTime(
+      2017,
+      9,
+      3,
+      23,
+      0,
+      0)
+
+    val dataTGA = BuildCycleOver.loadDataFullPeriod(sc,sqlContext,"TGA", date,date2).toDF()
+    val dataTGD = BuildCycleOver.loadDataFullPeriod(sc,sqlContext,"TGD", date,date2).toDF()
+
+    val data = dataTGA.unionAll(dataTGD)
+
+    val hiveContext = GetHiveEnv.getHiveContext(sc)
+    val dfHive = hiveContext.createDataFrame(data.rdd, data.schema)
+    dfHive.registerTempTable("dataToSaveToHive2")
+    hiveContext.sql("CREATE TABLE iv_tgatgdinputrecette4 as select * from dataToSaveToHive2")
+    /// TO -REMOVE Above
+
 
     LOGGER.warn("Processing des TGA")
     val ivTga = TraitementTga.start(sc, sqlContext, debutPeriode, finPeriode, false)
