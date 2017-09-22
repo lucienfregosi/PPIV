@@ -24,7 +24,7 @@ object PersistHive extends Serializable {
     val hiveContext = GetHiveEnv.getHiveContext(sc)
     val dfHive = hiveContext.createDataFrame(df.rdd, df.schema)
     dfHive.registerTempTable("dataToSaveToHive")
-    hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgdrecette select * from dataToSaveToHive")
+    hiveContext.sql("set hive.exec.dynamic.partition=true;set hive.exec.dynamic.partition.mode=nonstrict;INSERT INTO TABLE ppiv_ref.iv_tgatgd_extract_new_data partition(mois) select * from dataToSaveToHive")
 
   }
 
