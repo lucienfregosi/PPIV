@@ -98,7 +98,7 @@ trait SourcePipeline extends Serializable {
         // 2) Application du sparadrap sur les données au cause du Bug lié au patsse nuit (documenté dans le wiki)
         // On le conditionne a un flag (apply_sticking_plaster) dans app.conf car dans le futur Obier compte patcher le bug
         LOGGER.info("2) [OPTIONNEL] Application du sparadrap sur les données au cause du Bug lié au passe nuit")
-        val dataTgaTgdBugFix = if (STICKING_PLASTER == true) {
+        val dataTgaTgdBugFix = if (STICKING_PLASTER) {
           val returnValue = Preprocess.applyStickingPlaster(dataTgaTgd, sqlContext)
           LOGGER.warn("Application du sparadrap OK")
           returnValue

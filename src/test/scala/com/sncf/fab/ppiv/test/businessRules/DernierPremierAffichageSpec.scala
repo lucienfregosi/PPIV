@@ -56,7 +56,6 @@ This is a specification for the "getPremierAffichage"  and "getDernierAffichage"
   val dsDernierAffichage = readFile(pathDernierAffichage).toSeq
   val dsRecette = readFile(pathRecette).toSeq
 
-  println(BusinessRules.getPremierAffichage(dsRecette).toString)
 
   def e1 = BusinessRules.getDernierAffichage(dsDernierAffichage).toString must beEqualTo("1498948063")
   def e2 = BusinessRules.getPremierAffichage(dsDernierAffichage).toString must beEqualTo("1498947708")
