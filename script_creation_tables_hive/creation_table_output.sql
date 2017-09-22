@@ -13,7 +13,6 @@ CREATE EXTERNAL TABLE IF NOT EXISTS iv_tgatgd_input_recette4(
                             premier_affichage String,
                             date_extract String,
                             annee String,
-                            mois String,
                             dateheure2 String,
                             creneau_horaire String,
                             jour_depart_arrivee Int,
@@ -60,7 +59,8 @@ CREATE EXTERNAL TABLE IF NOT EXISTS iv_tgatgd_input_recette4(
                             taux_affichage_45 Int,
                             taux_affichage2_45 Int,
                             taux_affichage_15 Int,
-                            taux_affichage2_15 Int
+                            taux_affichage2_15 Int,
+                            mois String
 )
 ROW FORMAT DELIMITED
 FIELDS TERMINATED BY ','
