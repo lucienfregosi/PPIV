@@ -48,11 +48,11 @@ object TraitementPPIVDriverReprise extends Serializable {
 
     if (args.length == 0){
       // Pas d'arguments d'entrée -> Stop
-      PpivRejectionHandler.handleRejection("KO","",startTimePipeline.toString(),"","Pas d'arguments d'entrée, le batch nécessite au minimum la méthode de persistance (hdfs, hive, fs, es)")
+      PpivRejectionHandler.handleRejectionError("KO","",startTimePipeline.toString(),"","Pas d'arguments d'entrée, le batch nécessite au minimum la méthode de persistance (hdfs, hive, fs, es)")
     }
     else if(!(args(0).contains("hdfs") || args(0).contains("fs") || args(0).contains("es") || args(0).contains("hive")) ){
       // Argument n°1 de persistance non valide -> Stop
-      PpivRejectionHandler.handleRejection("KO","",startTimePipeline.toString(),"","Pas de méthode de persistence (hdfs, fs, hive ou es pour l'agument" + args(0).toString)
+      PpivRejectionHandler.handleRejectionError("KO","",startTimePipeline.toString(),"","Pas de méthode de persistence (hdfs, fs, hive ou es pour l'agument" + args(0).toString)
     }
     else {
 
@@ -60,10 +60,7 @@ object TraitementPPIVDriverReprise extends Serializable {
         // Définition du Spark Context et SQL Context à partir de utils/GetSparkEnv
         val sc         = GetSparkEnv.getSparkContext()
         val sqlContext = GetSparkEnv.getSqlContext()
-        //val hiveContext = GetHiveEnv.getHiveContext(sc)
 
-        // Set du niveau de log pour ne pas être envahi par les messages
-        sc.setLogLevel("ERROR")
 
         // 2 cas de figure
         // Un argument YYYYMMDD => On fait la reprise sur une journée entière
@@ -101,7 +98,6 @@ object TraitementPPIVDriverReprise extends Serializable {
             0).plusDays(1)
 
 
-
           // Lancement du pipeline pour la journée demandé
           startPipelineReprise(args, sc, sqlContext,debutPeriode, finPeriode)
         }
@@ -136,15 +132,13 @@ object TraitementPPIVDriverReprise extends Serializable {
         }
         else{
           //  - 3 arguments (persistance, date début, date fin) mais dates invalide (les dates doivent être de la forme yyyyMMdd_HH) -> Stop
-          PpivRejectionHandler.handleRejection("KO","",startTimePipeline.toString(),"","Les dates de plage horaire ne sont pas dans le bon format yyyyMMdd_HH pour " + args(1) + " ou " + args(2))
+          PpivRejectionHandler.handleRejectionError("KO","",startTimePipeline.toString(),"","Les dates de plage horaire ne sont pas dans le bon format yyyyMMdd_HH pour " + args(1) + " ou " + args(2))
         }
       }
       catch {
         case e: Throwable => {
           // Retour d'une valeur par défaut
-          val sw = new StringWriter
-          e.printStackTrace(new PrintWriter(sw))
-          PpivRejectionHandler.handleRejection("KO","",startTimePipeline.toString(),"","Pb driver principal. exception: " + e)
+          PpivRejectionHandler.handleRejectionError("KO","",startTimePipeline.toString(),"","Pb driver principal. exception: " + e)
         }
       }
     }
@@ -157,7 +151,6 @@ object TraitementPPIVDriverReprise extends Serializable {
     val persistMethod = argsArray(0)
 
     val ivTga = TraitementTga.start(sc, sqlContext, debutPeriode ,finPeriode, true)
-
 
     val ivTgd = TraitementTgd.start(sc, sqlContext, debutPeriode ,finPeriode, true)
 
@@ -172,16 +165,14 @@ object TraitementPPIVDriverReprise extends Serializable {
 
       Persist.save(ivTgaTgd, persistMethod, sc, debutPeriode, true)
 
-      // Renommage du fichier car il a fini d'écrire
-      //Conversion.renameFile(TraitementTga.getOutputRefineryPathTMP(debutPeriode, finPeriode,true), TraitementTga.getOutputRefineryPath(debutPeriode, finPeriode,true))
 
-      // Ecriture d'un fichier permettant aux scripts Hive de trouver les bon path
-      //Conversion.writeTmpFile(sc, sqlContext,TraitementTga.getOutputRefineryPath(debutPeriode, finPeriode,true), TraitementTga.getRejectCycleRefineryPath(debutPeriode, finPeriode,true), TraitementTga.getRejectFieldRefineryPath(debutPeriode, finPeriode,true), true )
+      // l'envoie du OK (statut = 0) à graphite pour dire que tout s'est bien passé
+      PpivRejectionHandler.manageGraphite(0)
 
-
-      LOGGER.warn("SUCCESS")
-      // Voir pour logger le succès
+      // Ecriture d'une ligne dans le fichier de sortie execution
       PpivRejectionHandler.write_execution_message("OK",debutPeriode.toString(), startTimePipeline.toString(),"","")
+
+      LOGGER.warn("OK")
 
       LOGGER.warn(" Taille du fichier de sortie en Byte : " +  SizeEstimator.estimate(ivTgaTgd.rdd))
 
@@ -189,9 +180,7 @@ object TraitementPPIVDriverReprise extends Serializable {
     }
     catch {
       case e: Throwable => {
-        val sw = new StringWriter
-        e.printStackTrace(new PrintWriter(sw))
-        PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), startTimePipeline.toString(),"","enregistrement dans Hive. Exception: " + e)
+        PpivRejectionHandler.handleRejectionError("KO",debutPeriode.toString(), startTimePipeline.toString(),"","enregistrement dans Hive. Exception: " + e)
       }
     }
   }

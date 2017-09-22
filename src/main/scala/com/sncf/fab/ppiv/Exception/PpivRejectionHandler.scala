@@ -18,7 +18,18 @@ import org.apache.log4j.Logger
 object PpivRejectionHandler extends Serializable {
 
 
-  def handleRejectionFinal(statut: String, dateFichierObier: String, dateExecution: String, currentTgaTgdFile: String, message: String ): Unit = {
+  def manageGraphite(statut: Integer): Unit = {
+    // !! 1 signifie erreur
+    // et 0 signifie succès
+    GraphiteConf.registry.register(MetricRegistry.name(classOf[MetricRegistry], "PPIV", "statut"), new Gauge[Integer]() {
+      override def getValue : Integer = statut })
+    Thread.sleep(5*1000)
+  }
+
+  def handleRejectionFinProgramme(statut: String, dateFichierObier: String, dateExecution: String, currentTgaTgdFile: String, message: String ): Unit = {
+
+    // Ecriture des métriques KO dans Graphite
+    manageGraphite(1)
 
      // Ecriture d'une ligne dans le fichier final
     write_execution_message(statut,dateFichierObier, dateExecution,currentTgaTgdFile, message)
@@ -28,7 +39,7 @@ object PpivRejectionHandler extends Serializable {
 
   }
 
-  def handleRejection(statut: String, dateFichierObier: String, dateExecution: String, currentTgaTgdFile: String, message: String ): Unit = {
+  def handleRejectionError(statut: String, dateFichierObier: String, dateExecution: String, currentTgaTgdFile: String, message: String ): Unit = {
     // Log de l'erreur
     val log = "KO Exception renvoye: " + message
     LOGGER.error(log)

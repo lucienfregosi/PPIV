@@ -154,10 +154,18 @@ object BusinessRules {
     } else {
 
 
-      // Récupération du dernier retard. -1 pour aller chercher sur le dernier index
-      val minuteRetard = seqFiltered.groupBy(_.retard).map(x => (x._1.toLong, x._2))
+      // La structure de données en input en enlevant les colonnes ou le retard est nul est la suivante
+      // 5, 5, 5, 5, 10, 10, 15, 15
+      // On groupe les retards ensemble et on sélectionne le plus grand (on part de l'hypothèse que les retards sont croissants)
+      // Pour le retard le plus grand on sélectionne son maj (heure d'évènement le plus petit) pour avoir le moment
+      // précis ou le dernier retard a été affiché en gare
+      val minuteRetard = seqFiltered
+        .groupBy(_.retard)
+        .map(x => (x._1.toLong, x._2))
         .map(x => (x._1, x._2.minBy(_.maj).maj)).toSeq
-        .sortBy(_._1).reverse(0)._1
+        .sortBy(_._1)
+        .reverse(0)
+        ._1
 
       // Multipliation par 60 pour renvoyer un résultat en secondes
       minuteRetard * 60
@@ -288,7 +296,6 @@ object BusinessRules {
   //Fonction qui renvoie la date de l'affichage du retard por la première fois
   def getAffichageRetard(seqTgaTgd: Seq[TgaTgdInput]): Long = {
 
-
     try{
       // Tri sur les horaires d'évènements en croissant puis filtre sur la colonne retard
       val seqFiltered = seqTgaTgd
@@ -412,7 +419,6 @@ object BusinessRules {
 
   //Fonction qui renvoie le dernier quai affiché
   def getDernierQuaiAffiche(seqTgaTgd: Seq[TgaTgdInput]): String = {
-
 
     try{
       //filtrage des lignes avec voies
@@ -584,7 +590,7 @@ object BusinessRules {
   }
 
 
-  // Fonction pour gérer les rejets de cycle
+  // Fonction pour gérer les rejets de cycle et les renvoyer comme tel
   def manageInvalidateCycle(cycleId: String, seqTgaTgd: Seq[TgaTgdInput], rejectReason: String): TgaTgdIntermediate ={
 
     val cycleIdInv = "INV_" + cycleId

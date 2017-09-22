@@ -41,6 +41,8 @@ object BuildCycleOver {
     // On renvoie le même format de données (cycle_id{gare,panneau,numeroTrain,heureDepart}, heureDepart, retard)
     val cycleIdListOver = filterCycleOver(cycleIdList, sqlContext, debutPeriode, finPeriode)
 
+    // traitement différent si l'on est en reprise ou non. En effet en reprise pas besoin de charger toute la journée
+    // vu qu'elle a déjà été chargée
     if (reprise_flag == false) {
 
       //Load les evenements  du jour j. Le 5ème paramètre sert a définir la journée qui nous intéresse 0 = jour J
@@ -83,8 +85,7 @@ object BuildCycleOver {
   }
 
 
-  // TODO faire passer l'heure a jouer en paramètre
-
+  // Filtre des cycles par rapport aux heure de début et de fin de période passé en paramètre par le pipeline
   def filterCycleOver(dsTgaTgdCycles: Dataset[TgaTgdCycleId],
                       sqlContext: SQLContext,
                       debutPeriode: DateTime,
@@ -92,14 +93,10 @@ object BuildCycleOver {
     import sqlContext.implicits._
 
 
+    // Conversion des date time en timestamp en prenant en compte le fuseau horaire
     val timestampLimiteCycleCommencant = Conversion.getTimestampWithLocalTimezone(debutPeriode)
     val timestampLimiteCycleFini = Conversion.getTimestampWithLocalTimezone(finPeriode)
 
-
-
- 
-
-    //DEVLOGGER.info("Filtre sur les cycles dont l'heure de départ est comprise entre : " + heureLimiteCycleCommencant.toString() + " et " + heureLimiteCycleFini.toString() + "en prenant en compte le retard de chaque cycle")
     // On veut filtrer les cycles dont l'heure de départ est situé entre l'heure de début du traitement du batch et celle de fin
     val dataTgaTgdCycleOver = dsTgaTgdCycles
       // Filtre sur les cycles terminés après le début de la plage en intégrant le retard
@@ -111,9 +108,7 @@ object BuildCycleOver {
   }
 
 
-  // Une fonction globale pour le chargement des fichiers sur la période optimale avec deux sous cas de figure
-  // Soit le train est un train normal et on charge les fichiers de la même journée
-  // Soit le train est un passe nuit (affichage après 18h la veille et départ avant midi le lendemain) et on charge aussi les fichiers à partir de 18h
+  // Fonction pour charger tous les fichiers horaires d'une journée
   def loadDataFullPeriod(sc: SparkContext,
                          sqlContext: SQLContext,
                          panneau: String,
@@ -127,30 +122,32 @@ object BuildCycleOver {
     val hoursListJMoins1 = 18 to 23
 
 
+    // Création d'une liste de path à charger
     val pathFileJ = hoursListJ.map(x => LANDING_WORK + Conversion.getYearMonthDay(debutPeriode) + "/" + panneau + "-" +
       Conversion.getYearMonthDay(debutPeriode) + "_" + Conversion.HourFormat(x) + ".csv")
 
     var pathAllFile = IndexedSeq[String]()
+    // Si STICKING_PLASTER n'est plus appliqué on doit aller chercher les données sur les heure de la veille
     if(STICKING_PLASTER != true){
       val pathFileJMoins1 = hoursListJMoins1.map(x => LANDING_WORK + Conversion.getYearMonthDay(debutPeriode.plusDays(-1)) + "/" + panneau + "-" +
         Conversion.getYearMonthDay(debutPeriode.plusDays(-1)) + "_" + Conversion.HourFormat(x) + ".csv")
 
       // Fusion des paths à télécharger
       pathAllFile = pathFileJMoins1.union(pathFileJ)
-      // Chargement de tous les fichiers dans un dataset par fichier
     }
     else{
       pathAllFile = pathFileJ
     }
 
 
+    // Chargement de tous les path horaire
     val tgaTgdAllPerHour = pathAllFile.map( filePath => LoadData.loadTgaTgd(sqlContext, filePath.toString,debutPeriode, false))
 
     // Fusion des datasets entre eux
     val tgaTgdAllPeriod= tgaTgdAllPerHour.reduce((x, y) => x.union(y))
 
 
-    // On applique le sparadrap si besoin
+    // Appliation du nettoyage et du sparadrap si besoin
     val tgaTgdStickingPlaster = if (STICKING_PLASTER == true) {
       Preprocess.applyStickingPlaster(tgaTgdAllPeriod, sqlContext)
     } else tgaTgdAllPeriod
@@ -160,7 +157,14 @@ object BuildCycleOver {
     tgaTgdValidated._1
   }
 
-  // Fonction pour aller chercher tous les évènements d'un cycle
+  // L'objectif de cette fonction est à partir d'un cycle id donné et de la liste des évènements de toute la journée
+  // d'associer tous les évènements à chaque cycle ID
+  // on se retrouve en sortie avec la structure suivante
+  // cycle_id1, [EventTgaTgdInput1, EventTgaTgdInput2, ... ,EventTgaTgdInputN]
+  // cycle_id2, [EventTgaTgdInput1, EventTgaTgdInput2, ... ,EventTgaTgdInputN]
+  // .
+  // .
+  // cycle_idN, [EventTgaTgdInput1, EventTgaTgdInput2, ... ,EventTgaTgdInputN]
   def getEventCycleId(tgaTgdRawAllDay: Dataset[TgaTgdInput],
                       dsTgaTgdCyclesOver: Dataset[TgaTgdCycleId],
                       sqlContext: SQLContext,
@@ -183,7 +187,6 @@ object BuildCycleOver {
       .select("cycle_id")
       .join(tgaTgdInputAllDay, $"cycle_id" === $"cycle_id2", "inner")
 
-    // TODO : En parler a Mohamed
     // On concatène toutes les colonnes en une pour pouvoir les manipuler plus facilement (en spark 1.6 pas possible de recréer un tgaTgdInput dans le collect list)
     val dfeventsAsString = dfJoin
       .drop("cycle_id2")

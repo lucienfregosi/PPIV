@@ -33,6 +33,7 @@ object Preprocess {
         TgaTgdInput(row.gare, newMaj.asInstanceOf[java.lang.Long], row.train, row.ordes, row.num,row.`type`, row.picto, row.attribut_voie, row.voie, row.heure, row.etat, row.retard)
     }*/
 
+
     // Tout a changé on cherche à éliminer les trains dont l'heure est avant midi et le maj est après 18
     // Mon sparadrap était mieux mais bon ...
     val dsTgaTgdWithStickingPlaster = dsTgaTgd.toDF().filter($"maj" < 18 || $"heure" > 12).as[TgaTgdInput]

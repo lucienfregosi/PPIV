@@ -34,7 +34,7 @@ object LoadData {
 
     // Test si le fichier existe
     if(!checkIfFileExist(sqlContext.sparkContext,path )) {
-      PpivRejectionHandler.handleRejection("KO",debutPeriode.toString, TraitementPPIVDriver.startTimePipeline.toString(),path, "Le fichier " + path + " n'existe pas")
+      PpivRejectionHandler.handleRejectionError("KO",debutPeriode.toString, TraitementPPIVDriver.startTimePipeline.toString(),path, "Le fichier " + path + " n'existe pas")
     }
 
     try{
@@ -58,7 +58,7 @@ object LoadData {
     catch {
       case e: Throwable => {
         // Retour d'une valeur par défaut
-        PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),path, "Impossible de parser le fichier " + path + " " + e)
+        PpivRejectionHandler.handleRejectionError("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),path, "Impossible de parser le fichier " + path + " " + e)
         null
       }
     }
@@ -75,7 +75,7 @@ object LoadData {
 
     // Test si le fichier existe
     if(!checkIfFileExist(sqlContext.sparkContext,REF_GARES )) {
-      PpivRejectionHandler.handleRejection("KO",debutPeriode.toString, TraitementPPIVDriver.startTimePipeline.toString(),REF_GARES, "Le référentiel  " + REF_GARES + " n'existe pas")
+      PpivRejectionHandler.handleRejectionError("KO",debutPeriode.toString, TraitementPPIVDriver.startTimePipeline.toString(),REF_GARES, "Le référentiel  " + REF_GARES + " n'existe pas")
     }
 
     try{
@@ -96,7 +96,7 @@ object LoadData {
     catch {
       case e: Throwable => {
         // Retour d'une valeur par défaut
-        PpivRejectionHandler.handleRejection("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),REF_GARES, "Impossible de parser le référentiel: " + REF_GARES + " " + e)
+        PpivRejectionHandler.handleRejectionError("KO",debutPeriode.toString(), TraitementPPIVDriver.startTimePipeline.toString(),REF_GARES, "Impossible de parser le référentiel: " + REF_GARES + " " + e)
         null
       }
     }
