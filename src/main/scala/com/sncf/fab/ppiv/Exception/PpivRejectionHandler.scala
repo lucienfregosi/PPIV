@@ -23,6 +23,7 @@ object PpivRejectionHandler extends Serializable {
     // et 0 signifie succès
     GraphiteConf.registry.register(MetricRegistry.name(classOf[MetricRegistry], "PPIV", "statut"), new Gauge[Integer]() {
       override def getValue : Integer = statut })
+    GraphiteConf.reporter.report()
     Thread.sleep(5*1000)
   }
 
