@@ -153,6 +153,7 @@ object TraitementPPIVDriver extends Serializable {
     try {
       // 12) Persistence dans la méthode demandée (hdfs, hive, es, fs)
       LOGGER.warn("Persistence dans la méthode demandée (hdfs, hive, es, fs)")
+      println("Persistance Methode : " + persistMethod)
 
       // Sauvegarde dans HDFS
       Persist.save(ivTgaTgd, persistMethod, sc, debutPeriode, false)
