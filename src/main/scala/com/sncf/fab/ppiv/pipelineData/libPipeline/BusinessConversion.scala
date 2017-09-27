@@ -36,8 +36,9 @@ object BusinessConversion {
 
   //Function to Extract month from timestamp
   def getMois(timestamp: Long): String = {
-    val mois = Conversion.unixTimestampToDateTime(timestamp).monthOfYear().getAsShortText()
-    mois
+    if (timestamp==0) ""
+    else  Conversion.unixTimestampToDateTime(timestamp).monthOfYear().getAsShortText()
+
   }
 
   // function to Extract Year from Timestamp
