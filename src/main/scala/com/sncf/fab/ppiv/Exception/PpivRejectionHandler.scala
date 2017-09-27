@@ -21,10 +21,11 @@ object PpivRejectionHandler extends Serializable {
   def manageGraphite(statut: Integer): Unit = {
     // !! 1 signifie erreur
     // et 0 signifie succès
-    GraphiteConf.registry.register(MetricRegistry.name(classOf[MetricRegistry], "PPIV", "statut"), new Gauge[Integer]() {
+
+    /*GraphiteConf.registry.register(MetricRegistry.name(classOf[MetricRegistry], "PPIV", "statut"), new Gauge[Integer]() {
       override def getValue : Integer = statut })
     GraphiteConf.reporter.report()
-    Thread.sleep(5*1000)
+    Thread.sleep(5*1000) */
   }
 
   def handleRejectionFinProgramme(statut: String, dateFichierObier: String, dateExecution: String, currentTgaTgdFile: String, message: String ): Unit = {
