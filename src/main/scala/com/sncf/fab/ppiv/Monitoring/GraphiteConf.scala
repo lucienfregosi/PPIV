@@ -25,7 +25,7 @@ object GraphiteConf {
 
   val reporter = GraphiteReporter.
     forRegistry(registry)
-    .prefixedWith(s"$prefix.${java.net.InetAddress.getLocalHost.getHostName}")
+    .prefixedWith(s"$prefix")
     .convertRatesTo(SECONDS)
     .convertDurationsTo(MILLISECONDS)
     .filter(MetricFilter.ALL)
