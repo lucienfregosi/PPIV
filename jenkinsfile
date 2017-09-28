@@ -55,7 +55,7 @@ node {
                     ssh -t -t hdpppip1@cuccaro md5sum /nas/ppivjobs/ppiv_2.10.jar
                 """
             }
-            
+
 
     // Launch Spark Submit with the JAR
     stage('Launch Spark Submit') {
