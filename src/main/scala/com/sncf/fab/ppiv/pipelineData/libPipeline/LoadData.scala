@@ -27,6 +27,7 @@ object LoadData {
     val newNamesTgaTgd = Seq("gare", "maj", "train", "ordes", "num", "type", "picto", "attribut_voie", "voie", "heure", "etat", "retard", "null")
 
 
+
     // Test si le fichier existe
     if(!checkIfFileExist(sqlContext.sparkContext,path )) {
       PpivRejectionHandler.handleRejectionError("KO",debutPeriode.toString, TraitementPPIVDriver.startTimePipeline.toString(),path, "Le fichier " + path + " n'existe pas")

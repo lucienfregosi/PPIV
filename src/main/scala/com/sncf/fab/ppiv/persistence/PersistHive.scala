@@ -24,7 +24,7 @@ object PersistHive extends Serializable {
     val hiveContext = GetHiveEnv.getHiveContext(sc)
     val dfHive = hiveContext.createDataFrame(df.rdd, df.schema)
     dfHive.registerTempTable("dataToSaveToHive")
-    hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgd_test_montparnasse partition(mois) select * from dataToSaveToHive")
+    hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgd_test_montparnasse_24h partition(mois) select * from dataToSaveToHive")
 
   }
 
@@ -32,7 +32,7 @@ object PersistHive extends Serializable {
 
     val dfHiveField = hiveContext.createDataFrame(ds.toDF().rdd, ds.toDF().schema)
     dfHiveField.registerTempTable("rejetField")
-    hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgd_rejet_field_test_montparnasse select * from rejetField")
+    hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgd_rejet_field select * from rejetField")
   }
 
 
@@ -40,7 +40,7 @@ object PersistHive extends Serializable {
 
     val dfHiveCycle = hiveContext.createDataFrame(ds.toDF().rdd, ds.toDF().schema)
     dfHiveCycle.registerTempTable("rejetCycle")
-    hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgd_rejet_cycle_test_montparnasse select * from rejetCycle")
+    hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_tgatgd_rejet_cycle select * from rejetCycle")
 
   }
 }
