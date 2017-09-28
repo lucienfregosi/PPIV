@@ -15,7 +15,7 @@ object AppConf extends Serializable{
   val GOLD         = conf.getString("gold")
   val REFINERY     = conf.getString("refinery")
   val LANDING_WORK = conf.getString("landing_work")
-  val LANDING_WORK_2 = conf.getString("landing_work_2")
+  val LANDING_WORK_Journalier = conf.getString("landing_work_Journalier")
   val REF_GARES    = conf.getString("ref_gares")
 
   // Chemin ou enregistrer les logs
