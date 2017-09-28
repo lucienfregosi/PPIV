@@ -47,7 +47,7 @@ This is a specification for 'getDernierRetardAnnonce' and ' getAffichageRetard' 
 
   val Retard = (7 * 60).toString
 
-  
+
 
   def e1 = BusinessRules.getDernierRetardAnnonce(dsRetardSpec).toString must beEqualTo(Retard)
   def e2 = BusinessRules.getAffichageRetard(dsRetardSpec).toString must beEqualTo("1499077281")

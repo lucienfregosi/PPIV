@@ -284,7 +284,8 @@ object Conversion {
 
   def getMinutesRounded(timestamp: Long) : Long = {
     val minutes  = TimeUnit.MILLISECONDS.toMinutes(timestamp )
-    val secondes  = TimeUnit.MILLISECONDS.toSeconds(timestamp )
+    // On retranche les minutes
+    val secondes  = TimeUnit.MILLISECONDS.toSeconds(timestamp ) - (minutes * 60)
 
     // On fait l'arrondi si il y a plus de 60 secondes
     if (secondes > 30) minutes + 1 else minutes
