@@ -24,12 +24,7 @@ object LoadData {
 
 
     // Définition du nom de chacune des colonnes car on recoit les fichiers sans headers
-    val newNamesTgaTgd = if (reprise_flag == false) {
-      Seq("gare", "maj", "train", "ordes", "num", "type", "picto", "attribut_voie", "voie", "heure", "etat", "retard", "null")
-    }
-    else {
-      Seq("gare", "maj", "train", "ordes", "num", "type", "picto", "attribut_voie", "voie", "heure", "etat", "retard")
-    }
+    val newNamesTgaTgd = Seq("gare", "maj", "train", "ordes", "num", "type", "picto", "attribut_voie", "voie", "heure", "etat", "retard", "null")
 
 
     // Test si le fichier existe
