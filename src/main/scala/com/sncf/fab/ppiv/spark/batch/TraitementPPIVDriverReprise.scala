@@ -1,24 +1,14 @@
 package com.sncf.fab.ppiv.spark.batch
 
-import java.io.{PrintWriter, StringWriter}
-
 import com.sncf.fab.ppiv.Exception.PpivRejectionHandler
 import com.sncf.fab.ppiv.persistence._
 import com.sncf.fab.ppiv.pipelineData.{TraitementTga, TraitementTgd}
-import com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver.{LOGGER, getClass, startTimePipeline}
-import com.sncf.fab.ppiv.utils.AppConf.LOG_LEVEL
-import com.sncf.fab.ppiv.utils.{Conversion, GetHiveEnv, GetSparkEnv}
+import com.sncf.fab.ppiv.utils.{Conversion, GetSparkEnv}
 import org.apache.log4j.{Level, LogManager}
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.SQLContext
-import org.apache.spark.sql.hive.HiveContext
-import org.joda.time.{DateTime, Duration}
-import org.slf4j.LoggerFactory
-import org.apache.log4j.{Level, LogManager, PropertyConfigurator}
 import org.apache.spark.util.SizeEstimator
-
-import scala.reflect.runtime.universe
-import scala.tools.reflect.ToolBox
+import org.joda.time.DateTime
 
 /**
 //  * Created by simoh-labdoui on 11/05/2017.

@@ -16,7 +16,7 @@ class TraitementTga extends SourcePipeline {
       LANDING_WORK + Conversion.getYearMonthDay(timeToProcess) + "/TGA-" + Conversion
         .getYearMonthDay(timeToProcess) + "_" + Conversion
         .getHourString(timeToProcess) + ".csv"}
-    else {LANDING_WORK_Journalier  + Conversion.getYearMonthDay(timeToProcess) + "/TGA-" + Conversion
+    else {LANDING_WORK_JOURNALIER  + Conversion.getYearMonthDay(timeToProcess) + "/TGA-" + Conversion
       .getYearMonthDay(timeToProcess)+ ".csv"}
   }
 

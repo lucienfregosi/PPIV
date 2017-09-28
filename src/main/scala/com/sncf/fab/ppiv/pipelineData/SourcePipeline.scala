@@ -1,27 +1,17 @@
 package com.sncf.fab.ppiv.pipelineData
 
 
-import java.io.{PrintWriter, StringWriter}
-import java.nio.file.{Files, Paths}
-
 import com.sncf.fab.ppiv.Exception.PpivRejectionHandler
 import com.sncf.fab.ppiv.business._
-import com.sncf.fab.ppiv.parser.DatasetsParser
-import com.sncf.fab.ppiv.persistence.Persist
-import com.sncf.fab.ppiv.pipelineData.libPipeline.LoadData.checkIfFileExist
 import com.sncf.fab.ppiv.pipelineData.libPipeline._
 import com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver
 import com.sncf.fab.ppiv.spark.batch.TraitementPPIVDriver.LOGGER
 import com.sncf.fab.ppiv.utils.AppConf._
-import com.sncf.fab.ppiv.utils.Conversion
-import org.apache.spark.sql._
 import org.apache.spark.SparkContext
+import org.apache.spark.sql._
 import org.apache.spark.sql.functions._
-import org.apache.spark.sql.types._
-import org.apache.spark.sql.hive.HiveContext
-import org.apache.spark.storage.StorageLevel
 import org.apache.spark.util.SizeEstimator
-import org.joda.time.{DateTime, DateTimeZone}
+import org.joda.time.DateTime
 
 
 /**

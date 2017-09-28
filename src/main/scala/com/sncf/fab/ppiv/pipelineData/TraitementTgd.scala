@@ -15,7 +15,7 @@ class TraitementTgd extends SourcePipeline {
       LANDING_WORK + Conversion.getYearMonthDay(timeToProcess) + "/TGD-" + Conversion
         .getYearMonthDay(timeToProcess) + "_" + Conversion
         .getHourString(timeToProcess) + ".csv"}
-    else {LANDING_WORK_Journalier  + Conversion.getYearMonthDay(timeToProcess) + "/TGD-" + Conversion
+    else {LANDING_WORK_JOURNALIER  + Conversion.getYearMonthDay(timeToProcess) + "/TGD-" + Conversion
       .getYearMonthDay(timeToProcess)+ ".csv"}
   }
 

@@ -1,17 +1,17 @@
 package com.sncf.fab.ppiv.spark.batch
 
 import java.io.{PrintWriter, StringWriter}
-import com.codahale.metrics.{Gauge, MetricRegistry}
+
 import com.sncf.fab.ppiv.Exception.PpivRejectionHandler
+import com.sncf.fab.ppiv.Monitoring.GraphiteConf
 import com.sncf.fab.ppiv.persistence._
 import com.sncf.fab.ppiv.pipelineData.{TraitementTga, TraitementTgd}
 import com.sncf.fab.ppiv.utils.{Conversion, GetSparkEnv}
-import com.sncf.fab.ppiv.Monitoring.GraphiteConf
-import org.apache.spark.sql.SQLContext
-import org.apache.spark.SparkContext
-import org.joda.time.DateTime
 import org.apache.log4j.{Level, LogManager}
+import org.apache.spark.SparkContext
+import org.apache.spark.sql.SQLContext
 import org.apache.spark.util.SizeEstimator
+import org.joda.time.DateTime
 
 
 
@@ -131,8 +131,6 @@ object TraitementPPIVDriver extends Serializable {
 
   // Fonction appelé pour le déclenchement d'un pipeline complet pour une heure donnée
   def startPipeline(argsArray: Array[String], sc: SparkContext, sqlContext: SQLContext, debutPeriode: DateTime, finPeriode: DateTime): Unit = {
-
-    import sqlContext.implicits._
     GraphiteConf.startGraphite()
     // Récupération argument d'entrées, la méthode de persistance
     val persistMethod = argsArray(0)
