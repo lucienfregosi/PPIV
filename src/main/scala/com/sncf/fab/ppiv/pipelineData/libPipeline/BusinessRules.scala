@@ -156,9 +156,14 @@ object BusinessRules {
 
       // La structure de données en input en enlevant les colonnes ou le retard est nul est la suivante
       // 5, 5, 5, 5, 10, 10, 15, 15
+
+
+      /*
       // On groupe les retards ensemble et on sélectionne le plus grand (on part de l'hypothèse que les retards sont croissants)
       // Pour le retard le plus grand on sélectionne son maj (heure d'évènement le plus petit) pour avoir le moment
       // précis ou le dernier retard a été affiché en gare
+
+
       val minuteRetard = seqFiltered
         .groupBy(_.retard)
         .map(x => (x._1.toLong, x._2))
@@ -167,8 +172,30 @@ object BusinessRules {
         .reverse(0)
         ._1
 
+
+      */
+
+      // On prend maintenant en compte l'hypothèse que le retard peut augmenter à nouveau
+      // On doit donc modifier le fonctionnement de notre fonction
+
+      val minutesRetard = seqFiltered
+        .sortBy(_.maj)
+        .map(x => (x.retard, x.maj))
+        .groupBy(_._1)
+        // On a le format de données (retard, max(maj), min(maj), Seq(maj))
+        .map(x => (x._1, x._2.maxBy(_._2)._2, x._2.minBy(_._2)._2, x._2.map(y => y._2)))
+        .toSeq
+        .sortBy(_._2)
+        .reverse
+        .map(x => x._1.toLong)
+        .take(1)
+        .last
+
+
+
       // Multipliation par 60 pour renvoyer un résultat en secondes
-      minuteRetard * 60
+      minutesRetard * 60
+
     }
   }
 
@@ -307,13 +334,30 @@ object BusinessRules {
       if (seqFiltered.isEmpty) {
         0
       } else {
-        // Récupération du permier  retard.
-        val affichageRetard = seqFiltered.groupBy(_.retard).map(x => (x._1.toLong, x._2))
-          .map(x => (x._1, x._2.minBy(_.maj).maj)).toSeq
-          .sortBy(_._1).reverse(0)._2
+        // On veut récupérer la date d'évènement à laquel on a affiché le retard
+
+        val groupByRetard = seqFiltered
+          .sortBy(_.maj)
+          .map(x => (x.retard, x.maj))
+          .groupBy(_._1)
+          // On a le format de données (retard, max(maj), min(maj), Seq(maj))
+          .map(x => (x._1, x._2.maxBy(_._2)._2, x._2.minBy(_._2)._2, x._2.map(y => y._2)))
+          .toSeq
+          .sortBy(_._2)
+          .reverse
+
+        // On extrait les deux premier retards
+        val retardMax        = groupByRetard.take(1).last
+        val retardMaxMoinsUn = groupByRetard.take(2).last
+
+        // On récupère le maj max pour le retard n - 1
+        val majMaxRetardMoinsUn = retardMaxMoinsUn._2
+
+        // On filtre les évènements qui se passe après cette data
+        val retardMaxFiltered = retardMax._4.toList.filter(_ >= majMaxRetardMoinsUn)
 
 
-        affichageRetard
+        retardMaxFiltered.min
       }
     }
     catch {
