@@ -15,13 +15,13 @@ object Reject {
 
   def saveFieldRejected(dsFieldRejected: Dataset[TgaTgdInput],sparkContext: SparkContext, pathToSave: String): Unit ={
     // Sauvegarde des rejets de champs dans HDFS
-    PersistHive.persisteRejectField(dsFieldRejected,  sparkContext)
-    //PersistHdfs.persisteRejectField(dsFieldRejected, pathToSave)
+    //PersistHive.persisteRejectField(dsFieldRejected,  sparkContext)
+    PersistHdfs.persisteRejectField(dsFieldRejected, pathToSave)
   }
   def saveCycleRejected(dsFieldRejected: Dataset[TgaTgdIntermediate], sparkContext: SparkContext, pathToSave: String): Unit ={
     // Sauvegarde des rejets de cycle dans hive
-    PersistHive.persisteRejectCycle(dsFieldRejected,  sparkContext)
-    //PersistHdfs.persisteRejectCycle(dsFieldRejected, pathToSave)
+    //PersistHive.persisteRejectCycle(dsFieldRejected,  sparkContext)
+    PersistHdfs.persisteRejectCycle(dsFieldRejected, pathToSave)
   }
 
 }
