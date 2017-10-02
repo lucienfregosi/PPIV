@@ -21,10 +21,12 @@ object PersistHive extends Serializable {
     */
   def persisteQualiteAffichageHive(df: DataFrame, sc : SparkContext): Unit = {
 
+    //TO_REMOVE
+    println("Le nb de ligne avant sauvgarde est: " + df.count())
     val hiveContext = GetHiveEnv.getHiveContext(sc)
     val dfHive = hiveContext.createDataFrame(df.rdd, df.schema)
     dfHive.registerTempTable("dataToSaveToHive")
-    hiveContext.sql("INSERT INTO TABLE ppiv_gold.iv_tgatgd_gold partition(mois) select * from dataToSaveToHive")
+    hiveContext.sql("INSERT INTO TABLE ppiv_ref.iv_test_to_compare_reprise_nominal partition(mois) select * from dataToSaveToHive")
 
   }
 
