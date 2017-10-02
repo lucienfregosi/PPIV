@@ -58,7 +58,7 @@ object Postprocess {
         panneau,
         Conversion.unixTimestampToDateTime(row.getLong(7)).toString,
         BusinessConversion.getDateExtract(row.getLong(20),row.getString(6),row.getLong(5)),
-        BusinessConversion.getAnnee(row.getLong(20)),
+        BusinessConversion.getAnnee(row.getLong(5)),
         Conversion.unixTimestampToDateTime(row.getLong(5)).toString,
         BusinessConversion.getCreneau_horaire(row.getLong(5)),
         BusinessConversion.getNumberoftheday(row.getLong(5)),
@@ -119,7 +119,7 @@ object Postprocess {
         BusinessConversion.geTaux_affichage_45 (row.getLong(10)),
         BusinessConversion.geTaux_affichage_15 (row.getLong(8)),
         BusinessConversion.geTaux_affichage_15 (row.getLong(10)),
-        BusinessConversion.getMois(row.getLong(20))
+        BusinessConversion.getMois(row.getLong(5))
       )
     })
 
