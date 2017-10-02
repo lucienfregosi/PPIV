@@ -81,6 +81,8 @@ trait SourcePipeline extends Serializable {
       val dataTgaTgd                = LoadData.loadTgaTgd(sqlContext, pathFileToLoad,debutPeriode, reprise_flag : Boolean)
       val dataRefGares              = LoadData.loadReferentiel(sqlContext, debutPeriode)
 
+      //To_REMOVE
+      println("Nb de ligne charge est : " + dataTgaTgd.toDF().count())
 
       LOGGER.warn("Chargement des fichiers OK. Taille du fichier d'entrée en Byte : " +  SizeEstimator.estimate(dataTgaTgd.rdd))
 
@@ -123,8 +125,8 @@ trait SourcePipeline extends Serializable {
 
 
                 // Enregistrement des rejets (champs et cycles)
-                Reject.saveFieldRejected(dataTgaTgdFielRejected,sc, getRejectFieldGoldPath(debutPeriode, finPeriode, reprise_flag: Boolean))
-                Reject.saveCycleRejected(cycleInvalidated,sc, getRejectCycleGoldPath(debutPeriode, finPeriode, reprise_flag: Boolean))
+                //Reject.saveFieldRejected(dataTgaTgdFielRejected,sc, getRejectFieldGoldPath(debutPeriode, finPeriode, reprise_flag: Boolean))
+                //Reject.saveCycleRejected(cycleInvalidated,sc, getRejectCycleGoldPath(debutPeriode, finPeriode, reprise_flag: Boolean))
 
                 LOGGER.warn("Enregistrement des rejets OK")
 
