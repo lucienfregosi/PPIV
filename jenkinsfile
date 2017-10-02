@@ -49,6 +49,16 @@ node {
         """
     }
 
+         // Copie dans HDFS
+                stage('copy to hdfs'){
+                    def version = sh returnStdout: true, script: "export http_proxy= && export https_proxy= &&  curl --silent 'http://rogno.socrate.vsct.fr:60090/service/local/lucene/search?g=ppiv&a=ppiv_2.10&repositoryId=snapshots' | sed -n 's|<latestSnapshot>\\(.*\\)</latestSnapshot>|\\1|p' | sed -e 's/^[ \\t]*//' | tail -1 | tr -d '\n' "
+                    // Copier sur la VM
+                    sh """
+                        ssh -t -t hdpppip1@cuccaro wget http://rogno.socrate.vsct.fr:60090/content/repositories/snapshots/ppiv/ppiv_2.10/${version}/ppiv_2.10-${version}.jar -O /nas/ppivjobs/jar/ppiv_2.10.jar
+                        ssh -t -t hdpppip1@cuccaro md5sum /nas/ppivjobs/jar/ppiv_2.10.jar
+                    """
+                }
+
 
 
     stage('Launch Spark Submit') {
