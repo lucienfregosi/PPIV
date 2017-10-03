@@ -17,7 +17,7 @@ object Persist {
       PersistHive.persisteQualiteAffichageHive(ivTgaTgd, sc)
     // Persistance dans HDFS
     else if (persistMethod.contains("hdfs"))
-      PersistHdfs.persisteQualiteAffichageIntoHdfs(ivTgaTgd, TraitementTga.getOutputGoldPath(startTimePipeline, startTimePipeline, reprise_flag))
+      PersistHdfs.persisteQualiteAffichageIntoHdfs(ivTgaTgd, TraitementTga.getOutputRefineryPath(startTimePipeline, startTimePipeline, reprise_flag))
     // Persistance dans elasticsearch
     else if (persistMethod.contains("es"))
       PersistElastic.persisteQualiteAffichageIntoEs(ivTgaTgd, OUTPUT_INDEX)
