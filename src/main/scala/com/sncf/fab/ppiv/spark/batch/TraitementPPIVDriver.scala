@@ -145,8 +145,7 @@ object TraitementPPIVDriver extends Serializable {
     LOGGER.warn("Processing des TGD")
     val ivTgd = TraitementTgd.start(sc, sqlContext, debutPeriode, finPeriode, false)
 
-//TO-REMOVE
-    Thread.sleep(5460*1000)
+
     // 11) Fusion des résultats de TGA et TGD
     LOGGER.warn("TGA et TGD traités enregistrement")
     val ivTgaTgd = ivTga.unionAll(ivTgd)
