@@ -136,6 +136,8 @@ object TraitementPPIVDriver extends Serializable {
     val persistMethod = argsArray(0)
 
 
+    LOGGER.warn("Lancement de PPIV pour la plage horaire : "+ debutPeriode+ "-" + finPeriode)
+
 
     LOGGER.warn("Processing des TGA")
     val ivTga = TraitementTga.start(sc, sqlContext, debutPeriode, finPeriode, false)
