@@ -24,6 +24,7 @@ This is a specification for 'getDernierRetardAnnonce' and ' getAffichageRetard' 
   'getAffichageRetard" for complexe recette should  be a equal to 1504459514                       $e4
   'getDernierRetardAnnonce" for complexe recette should  be a equal to 300sec                      $e5
   'getAffichageRetard" for recette 05102017  should  be a equal to 1506521940                      $e6
+  'getAffichageRetard" for train number 2868  should  be a equal to 1506511752                      $e6
   """
 
 
@@ -40,12 +41,15 @@ This is a specification for 'getDernierRetardAnnonce' and ' getAffichageRetard' 
   val pathRetardFile2 = new File("src/test/resources/data/businessRules/retard.csv").getAbsolutePath
   val pathRetardFile3 = new File("src/test/resources/data/businessRules/retardComplexe.csv").getAbsolutePath
   val pathRetardFile4 = new File("src/test/resources/data/businessRules/retardRecette05102017.csv").getAbsolutePath
+  val pathRetardFile5 = new File("src/test/resources/data/businessRules/retard2868.csv").getAbsolutePath
+
 
 
   val dsRetardSpec = readFile(pathRetardFile).toSeq
   val dsRetardSpec2 = readFile(pathRetardFile2).toSeq
   val dsRetardSpec3 = readFile(pathRetardFile3).toSeq
   val dsRetardSpec4 = readFile(pathRetardFile4).toSeq
+  val dsRetardSpec5 = readFile(pathRetardFile5).toSeq
 
 
   val Retard = (7 * 60).toString
@@ -59,6 +63,7 @@ This is a specification for 'getDernierRetardAnnonce' and ' getAffichageRetard' 
   def e4 = BusinessRules.getAffichageRetard(dsRetardSpec3).toString must beEqualTo("1504460856")
   def e5 = BusinessRules.getDernierRetardAnnonce(dsRetardSpec3).toString must beEqualTo("300")
   def e6 = BusinessRules.getAffichageRetard(dsRetardSpec4).toString must beEqualTo("1506521940")
+  def e7 = BusinessRules.getAffichageRetard(dsRetardSpec5).toString must beEqualTo("1506511752")
 
 
 
