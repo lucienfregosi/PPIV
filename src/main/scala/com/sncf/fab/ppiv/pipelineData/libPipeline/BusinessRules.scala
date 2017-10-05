@@ -17,12 +17,11 @@ import scala.collection.immutable.{ListMap, SortedMap}
 object BusinessRules {
 
   // Traitement des cycles valides + calcul des KPIs
-  def computeBusinessRules(
-      cycleWithEventOver: DataFrame, timeToProcess: DateTime): RDD[TgaTgdIntermediate] = {
+  def computeBusinessRules(cycleWithEventOver: DataFrame,
+                           timeToProcess: DateTime): RDD[TgaTgdIntermediate] = {
 
     // On boucle sur tous les cycles ID
     val rddIvTgaTgdWithoutReferentiel = cycleWithEventOver.map { x =>
-
       // Récupération du cycleId (première colonne)
       var cycleId = x.getString(0)
 
@@ -49,7 +48,6 @@ object BusinessRules {
       })
 
       // 6) Validation des cycles
-
 
       val isCycleValidated = ValidateData.validateCycle(seqTgaTgd)
       if (isCycleValidated._1 == false) {
@@ -88,16 +86,25 @@ object BusinessRules {
           BusinessRules.getDernierQuaiAffiche(dataTgaTgdCycleCleaned)
 
         // Get des informations liés au dévoiement commun aux fonction de type dévoiement
-        val devoiementInfo = BusinessRules.allDevoimentInfo(dataTgaTgdCycleCleaned)
+        val devoiementInfo =
+          BusinessRules.allDevoimentInfo(dataTgaTgdCycleCleaned)
 
         val type_devoiement =
-          BusinessRules.getTypeDevoiement(dataTgaTgdCycleCleaned, devoiementInfo, 1)
+          BusinessRules.getTypeDevoiement(dataTgaTgdCycleCleaned,
+                                          devoiementInfo,
+                                          1)
         val type_devoiement2 =
-          BusinessRules.getTypeDevoiement(dataTgaTgdCycleCleaned, devoiementInfo, 2)
+          BusinessRules.getTypeDevoiement(dataTgaTgdCycleCleaned,
+                                          devoiementInfo,
+                                          2)
         val type_devoiement3 =
-          BusinessRules.getTypeDevoiement(dataTgaTgdCycleCleaned, devoiementInfo, 3)
+          BusinessRules.getTypeDevoiement(dataTgaTgdCycleCleaned,
+                                          devoiementInfo,
+                                          3)
         val type_devoiement4 =
-          BusinessRules.getTypeDevoiement(dataTgaTgdCycleCleaned, devoiementInfo, 4)
+          BusinessRules.getTypeDevoiement(dataTgaTgdCycleCleaned,
+                                          devoiementInfo,
+                                          4)
         val dernier_affichage =
           BusinessRules.getDernierAffichage(dataTgaTgdCycleCleaned)
         val date_process = BusinessRules.getDateProcess(timeToProcess)
@@ -107,8 +114,7 @@ object BusinessRules {
         if (premierAffichage == 0) {
           val rejectReason = "pasPremierAffichage"
           manageInvalidateCycle(cycleId, seqTgaTgd, rejectReason)
-        }
-        else {
+        } else {
           // 9) Création de la classe de sortie sans le référentiel
           TgaTgdIntermediate(
             cycleId,
@@ -144,26 +150,33 @@ object BusinessRules {
   def getCycleRetard(dsTgaTgd: Seq[TgaTgdInput]): Long = {
 
     // si pas de retrad au moment du depart du train alors pas de retard
-    val retardMomentDepart = dsTgaTgd.sortBy(x => x.maj).filter(x=> x.maj  <=x.heure).last.retard
-        if (retardMomentDepart == null  || retardMomentDepart == "" || retardMomentDepart == "0"){
+    val retardMomentDepartSeq =
+      dsTgaTgd.sortBy(x => x.maj).filter(x => x.maj <= x.heure)
+
+    val retardMomentDepart = if (retardMomentDepartSeq.isEmpty == false) {
+      retardMomentDepartSeq.last.retard
+    } else {
+      "0"
+    }
+
+    if (retardMomentDepart == null || retardMomentDepart == "" || retardMomentDepart == "0") {
       0
     } else {
-          // Tri sur les horaires d'évènements en croissant puis filtre sur la colonne retard
-          val seqFiltered = dsTgaTgd
-            .sortBy(x => x.maj)
-            .filter(x => (x.retard != null) && (x.retard != "") && (x.retard != "0"))
+      // Tri sur les horaires d'évènements en croissant puis filtre sur la colonne retard
+      val seqFiltered = dsTgaTgd
+        .sortBy(x => x.maj)
+        .filter(x =>
+          (x.retard != null) && (x.retard != "") && (x.retard != "0"))
 
-          // Si pas de lignes retournée => pas de retard on revoie 0
-          if (seqFiltered.isEmpty) {
-            0
-          } else {
+      // Si pas de lignes retournée => pas de retard on revoie 0
+      if (seqFiltered.isEmpty) {
+        0
+      } else {
 
+        // La structure de données en input en enlevant les colonnes ou le retard est nul est la suivante
+        // 5, 5, 5, 5, 10, 10, 15, 15
 
-            // La structure de données en input en enlevant les colonnes ou le retard est nul est la suivante
-            // 5, 5, 5, 5, 10, 10, 15, 15
-
-
-            /*
+        /*
             // On groupe les retards ensemble et on sélectionne le plus grand (on part de l'hypothèse que les retards sont croissants)
             // Pour le retard le plus grand on sélectionne son maj (heure d'évènement le plus petit) pour avoir le moment
             // précis ou le dernier retard a été affiché en gare
@@ -178,32 +191,34 @@ object BusinessRules {
               ._1
 
 
-            */
+         */
 
-            // On prend maintenant en compte l'hypothèse que le retard peut augmenter à nouveau
-            // On doit donc modifier le fonctionnement de notre fonction
+        // On prend maintenant en compte l'hypothèse que le retard peut augmenter à nouveau
+        // On doit donc modifier le fonctionnement de notre fonction
 
-            val minutesRetard = seqFiltered
-              .sortBy(_.maj)
-              .map(x => (x.retard, x.maj))
-              .groupBy(_._1)
-              // On a le format de données (retard, max(maj), min(maj), Seq(maj))
-              .map(x => (x._1, x._2.maxBy(_._2)._2, x._2.minBy(_._2)._2, x._2.map(y => y._2)))
-              .toSeq
-              .sortBy(_._2)
-              .reverse
-              .map(x => x._1.toLong)
-              .take(1)
-              .last
+        val minutesRetard = seqFiltered
+          .sortBy(_.maj)
+          .map(x => (x.retard, x.maj))
+          .groupBy(_._1)
+          // On a le format de données (retard, max(maj), min(maj), Seq(maj))
+          .map(
+            x =>
+              (x._1,
+               x._2.maxBy(_._2)._2,
+               x._2.minBy(_._2)._2,
+               x._2.map(y => y._2)))
+          .toSeq
+          .sortBy(_._2)
+          .reverse
+          .map(x => x._1.toLong)
+          .take(1)
+          .last
 
+        // Multipliation par 60 pour renvoyer un résultat en secondes
+        minutesRetard * 60
 
-
-            // Multipliation par 60 pour renvoyer un résultat en secondes
-            minutesRetard * 60
-
-          }
-        }
-
+      }
+    }
 
   }
 
@@ -224,23 +239,32 @@ object BusinessRules {
       // En comptant la marge
       // 10 minutes : pour la marge d'erreur imposé par le métier (défini dans app.conf)
 
-      val seqWithoutEventAfterDeparture = seqTgaTgd.filter(x => x.maj < x.heure + retard + MARGE_APRES_DEPART_REEL)
+      val seqWithoutEventAfterDeparture = seqTgaTgd.filter(x =>
+        x.maj < x.heure + retard + MARGE_APRES_DEPART_REEL)
 
       // Case Class créé pour l'occasion pour pouvoir garder notre nomenclature
       case class SeqShort(maj: Long, voie: String)
 
       // On remplace les voies vides par des ~
-      val seqShort = seqWithoutEventAfterDeparture.map(x => SeqShort(
-        x.maj,
-        if(x.voie == "") x.voie.replace("","~") else x.voie
-      ))
+      val seqShort = seqWithoutEventAfterDeparture.map(
+        x =>
+          SeqShort(
+            x.maj,
+            if (x.voie == "") x.voie.replace("", "~") else x.voie
+        ))
 
       // Tri de la séquence
       // On forme un tableau de maj par voie
-      val groupByVoieDistincte = seqShort.sortBy(_.maj)
+      val groupByVoieDistincte = seqShort
+        .sortBy(_.maj)
         .reverse
         .groupBy(_.voie)
-        .map(x => (x._1, x._2.maxBy(_.maj).maj, x._2.minBy(_.maj).maj, x._2.map(x => x.maj)))
+        .map(
+          x =>
+            (x._1,
+             x._2.maxBy(_.maj).maj,
+             x._2.minBy(_.maj).maj,
+             x._2.map(x => x.maj)))
         .toSeq
         .sortBy(_._2)
         .reverse
@@ -248,13 +272,12 @@ object BusinessRules {
       // Si on a qu'une voie distincte (IE : la voie est affiché sur toutes les lignes et toujours la même
       // On traite différemlent car le cas est beaucoup plus simple on renvoie la valeur mini de maj
 
-      if(groupByVoieDistincte.length == 1){
+      if (groupByVoieDistincte.length == 1) {
 
         // On retourne la valeur minimum pour le groupement
         groupByVoieDistincte.take(1).last._3
 
-      }
-      else{
+      } else {
 
         // On extrait la séquence n°1 et n°2
         val sequence1 = groupByVoieDistincte.take(1).last
@@ -270,8 +293,7 @@ object BusinessRules {
         sequence1Filtered.min
 
       }
-    }
-    catch {
+    } catch {
       case e: Throwable => {
         // Retour d'une valeur par défaut
         0
@@ -282,7 +304,7 @@ object BusinessRules {
   // Fonction qui renvoie le timestamp durant lequel le train est resté affiché
   def getAffichageDuree1(seqTgaTgdSeq: Seq[TgaTgdInput]): Long = {
 
-    try{
+    try {
       //Récupération de la date du départ theorique
       val departTheorique = seqTgaTgdSeq(0).heure.toLong
 
@@ -291,8 +313,7 @@ object BusinessRules {
 
       departTheorique - premierAffichage
 
-    }
-    catch {
+    } catch {
       case e: Throwable => {
         // Retour d'une valeur par défaut
         0l
@@ -303,7 +324,7 @@ object BusinessRules {
   // Fonction qui renvoie le timestamp durant lequel le train est resté affiché retard inclus
   def getAffichageDuree2(seqTgaTgd: Seq[TgaTgdInput]): Long = {
 
-    try{
+    try {
       //Récupération du affichageDuree1
       val affichageDuree1 = getAffichageDuree1(seqTgaTgd)
 
@@ -311,8 +332,7 @@ object BusinessRules {
       val retard = getCycleRetard(seqTgaTgd)
 
       affichageDuree1 + retard
-    }
-    catch {
+    } catch {
       case e: Throwable => {
         // Retour d'une valeur par défaut
         0l
@@ -332,14 +352,17 @@ object BusinessRules {
   def getAffichageRetard(seqTgaTgd: Seq[TgaTgdInput]): Long = {
 
     // si pas de retrad au moment du depart du train alors pas de retard
-    val retardMomentDepart = seqTgaTgd.sortBy(x => x.maj).filter(x=> x.maj  <=x.heure).last.retard
-    if (retardMomentDepart == null  || retardMomentDepart == "" || retardMomentDepart == "0"){
-      0} else {
-      try{
+    val retardMomentDepart =
+      seqTgaTgd.sortBy(x => x.maj).filter(x => x.maj <= x.heure).last.retard
+    if (retardMomentDepart == null || retardMomentDepart == "" || retardMomentDepart == "0") {
+      0
+    } else {
+      try {
         // Tri sur les horaires d'évènements en croissant puis filtre sur la colonne retard
         val seqFiltered = seqTgaTgd
           .sortBy(x => x.maj)
-          .filter(x => (x.retard != null) && (x.retard != "") && (x.retard != "0"))
+          .filter(x =>
+            (x.retard != null) && (x.retard != "") && (x.retard != "0"))
           .sortBy(x => x.maj)
 
         // Si pas de lignes retournée => pas de retard on revoie 0
@@ -353,37 +376,45 @@ object BusinessRules {
             .map(x => (x.retard, x.maj))
             .groupBy(_._1)
 
-
           // On ne traite pas pareil le retard si on a un ou plusieurs retards au cours du cycle
-          if(groupByRetardTmp.size == 1){
-            seqFiltered.groupBy(_.retard).map(x => (x._1.toLong, x._2))
-              .map(x => (x._1, x._2.minBy(_.maj).maj)).toSeq
-              .sortBy(_._1).reverse(0)._2
-          }
-          else{
+          if (groupByRetardTmp.size == 1) {
+            seqFiltered
+              .groupBy(_.retard)
+              .map(x => (x._1.toLong, x._2))
+              .map(x => (x._1, x._2.minBy(_.maj).maj))
+              .toSeq
+              .sortBy(_._1)
+              .reverse(0)
+              ._2
+          } else {
 
             // On a le format de données (retard, max(maj), min(maj), Seq(maj))
-            val groupByRetard = groupByRetardTmp.map(x => (x._1, x._2.maxBy(_._2)._2, x._2.minBy(_._2)._2, x._2.map(y => y._2)))
+            val groupByRetard = groupByRetardTmp
+              .map(
+                x =>
+                  (x._1,
+                   x._2.maxBy(_._2)._2,
+                   x._2.minBy(_._2)._2,
+                   x._2.map(y => y._2)))
               .toSeq
               .sortBy(_._2)
               .reverse
 
             // On extrait les deux premier retards
-            val retardMax        = groupByRetard.take(1).last
+            val retardMax = groupByRetard.take(1).last
             val retardMaxMoinsUn = groupByRetard.take(2).last
 
             // On récupère le maj max pour le retard n - 1
             val majMaxRetardMoinsUn = retardMaxMoinsUn._2
 
             // On filtre les évènements qui se passe après cette data
-            val retardMaxFiltered = retardMax._4.toList.filter(_ >= majMaxRetardMoinsUn)
-
+            val retardMaxFiltered =
+              retardMax._4.toList.filter(_ >= majMaxRetardMoinsUn)
 
             retardMaxFiltered.min
           }
         }
-      }
-      catch {
+      } catch {
         case e: Throwable => {
           // Retour d'une valeur par défaut
           0
@@ -392,24 +423,21 @@ object BusinessRules {
 
     }
 
-
   }
   // Fonction qui renvoie la durée de l'affichage du retrad (si pas de retard  elle renvoie 0)
   def getAffichageDureeRetard(seqTgaTgd: Seq[TgaTgdInput]): Long = {
 
-
-    try{
+    try {
       val departTheorique = seqTgaTgd(0).heure.toLong
       val retard = getCycleRetard(seqTgaTgd)
-        val departReel = departTheorique + retard.toInt
+      val departReel = departTheorique + retard.toInt
 
       val affichageRetard = getAffichageRetard(seqTgaTgd)
 
       if (affichageRetard != 0) departReel - affichageRetard
       else 0l
 
-    }
-    catch {
+    } catch {
       case e: Throwable => {
         // Retour d'une valeur par défaut
         0l
@@ -424,22 +452,18 @@ object BusinessRules {
     // si au moins une fois IND alors Ind: Retard Inderminé
     // si une fois SUPP alors Supp: Train supprimé
 
-
-
-      val seqFiltered = seqTgaTgd
-        .sortBy(x => x.maj)
-        .filter(x => (x.etat != null) && (x.etat != "") && (x.etat != "ARR"))
+    val seqFiltered = seqTgaTgd
+      .sortBy(x => x.maj)
+      .filter(x => (x.etat != null) && (x.etat != "") && (x.etat != "ARR"))
 
     val seqOfEtat = seqFiltered.map(row => row.etat)
 
     if (seqOfEtat.contains("IND")) {
       "IND"
-    }
-    else {
+    } else {
       if (seqOfEtat.contains("SUP")) {
         "SUP"
-      }
-      else ""
+      } else ""
     }
 
   }
@@ -447,7 +471,7 @@ object BusinessRules {
   //Fonction qui renvoie la date de l'affichage de l'etat deu train
   def getDateAffichageEtatTrain(seqTgaTgd: Seq[TgaTgdInput]): Long = {
 
-    try{
+    try {
       val seqFiltered = seqTgaTgd
         .sortBy(x => x.maj)
         .filter(x => (x.etat != null) && (x.etat != "") && (x.etat != "ARR"))
@@ -456,8 +480,7 @@ object BusinessRules {
       } else {
         seqFiltered(0).maj.toLong
       }
-    }
-    catch {
+    } catch {
       case e: Throwable => {
         // Retour d'une valeur par défaut
         0l
@@ -469,7 +492,7 @@ object BusinessRules {
   def getDelaiAffichageEtatTrainAvantDepartArrive(
       seqTgaTgd: Seq[TgaTgdInput]): Long = {
 
-    try{
+    try {
       //Récupération de la date du départ théorique
       val departTheorique = seqTgaTgd(0).heure.toLong
       //Récupération de la date Affichage etat train
@@ -479,8 +502,7 @@ object BusinessRules {
       } else {
         0
       }
-    }
-    catch {
+    } catch {
       case e: Throwable => {
         // Retour d'une valeur par défaut
         0l
@@ -491,7 +513,7 @@ object BusinessRules {
   //Fonction qui renvoie le dernier quai affiché
   def getDernierQuaiAffiche(seqTgaTgd: Seq[TgaTgdInput]): String = {
 
-    try{
+    try {
       //filtrage des lignes avec voies
       val dsVoie = seqTgaTgd
         .sortBy(_.maj)
@@ -503,8 +525,7 @@ object BusinessRules {
         dsVoie(0).voie.toString
       }
 
-    }
-    catch {
+    } catch {
       case e: Throwable => {
         // Retour d'une valeur par défaut
         ""
@@ -515,14 +536,14 @@ object BusinessRules {
   // Renvoie toutes les informations utiles à un dévoiement.
   // Soit un triplet (Voie, maj de la voie, affiché ou non)
   // A partir de ces informations on est capable de faire tous les autres calculs
-  def allDevoimentInfo(
-      seqTgaTgd: Seq[TgaTgdInput]): Seq[(String, Int)] = {
+  def allDevoimentInfo(seqTgaTgd: Seq[TgaTgdInput]): Seq[(String, Int)] = {
 
-    try{
+    try {
 
       // Prise en compte du retard pour filtrer les lignes après le départ
       val retard = getCycleRetard(seqTgaTgd)
-      val seqWithoutEventAfterDeparture = seqTgaTgd.filter(x => x.maj < x.heure + retard + MARGE_APRES_DEPART_REEL)
+      val seqWithoutEventAfterDeparture = seqTgaTgd.filter(x =>
+        x.maj < x.heure + retard + MARGE_APRES_DEPART_REEL)
 
       // On doit gérer le cas où les voies sont les mêmes
       // EX : 2 2 2 2 4 4 4 2 2 doit renvoyer deux devoiements 2 -> 4 et 4 -> 2
@@ -532,7 +553,12 @@ object BusinessRules {
         .reverse
         .filter(x => x.voie != null && x.voie != "")
         .groupBy(_.voie)
-        .map(x => (x._1, x._2.maxBy(_.maj).maj, x._2.map(x => x.maj), x._2.map(x => x.attribut_voie)))
+        .map(
+          x =>
+            (x._1,
+             x._2.maxBy(_.maj).maj,
+             x._2.map(x => x.maj),
+             x._2.map(x => x.attribut_voie)))
         .toSeq
         .sortBy(_._2)
         .reverse
@@ -544,27 +570,26 @@ object BusinessRules {
       // On répete le split Devoiement 3 fois (max de devoiement = 4 ) pour être sur d'avoir bien extrait toutes les valeures
       val newSeq = splitDevoiement(splitDevoiement(splitDevoiement(dsVoie)))
 
+      newSeq.sortBy(_._2).map(x => (x._1, x._4.filter(x => x != "I").length))
 
-      newSeq.sortBy(_._2).map(x => (x._1,x._4.filter(x => x != "I").length))
-
-    }
-    catch {
+    } catch {
       case e: Throwable => {
         // Retour d'une valeur par défaut
-        Seq(("",0))
+        Seq(("", 0))
       }
     }
   }
 
-  def splitDevoiement(seqTgaTgd: Seq[(String,Long,Seq[Long],Seq[String])]) : Seq[(String,Long,Seq[Long],Seq[String])] = {
+  def splitDevoiement(seqTgaTgd: Seq[(String, Long, Seq[Long], Seq[String])])
+    : Seq[(String, Long, Seq[Long], Seq[String])] = {
 
-    var newDsVoie  = new ListBuffer[(String,Long,Seq[Long],Seq[String])]()
-    for (i <- 0 to seqTgaTgd.length - 1){
+    var newDsVoie = new ListBuffer[(String, Long, Seq[Long], Seq[String])]()
+    for (i <- 0 to seqTgaTgd.length - 1) {
 
       val current = seqTgaTgd(i)
 
       // Gestion du cas ou on est au bout de la liste
-      if(i == seqTgaTgd.length - 1) newDsVoie += current
+      if (i == seqTgaTgd.length - 1) newDsVoie += current
       else {
 
         val next = seqTgaTgd(i + 1)
@@ -574,12 +599,18 @@ object BusinessRules {
 
         // Si on a des éléments après on modifie dsVoie, on sauvegarde enregistre 2 lignes
         if (eventAfterNext.length > 0) {
-          val split1 =  (current._1,current._2,current._3.filter(x => x > next._2),current._4.take(current._3.filter(x => x > next._2).length))
+          val split1 =
+            (current._1,
+             current._2,
+             current._3.filter(x => x > next._2),
+             current._4.take(current._3.filter(x => x > next._2).length))
           newDsVoie += split1
-          val split2 = (seqTgaTgd(i)._1, eventAfterNext.max, eventAfterNext, current._4.reverse.take(eventAfterNext.length) )
+          val split2 = (seqTgaTgd(i)._1,
+                        eventAfterNext.max,
+                        eventAfterNext,
+                        current._4.reverse.take(eventAfterNext.length))
           newDsVoie += split2
-        }
-        else {
+        } else {
           newDsVoie += current
         }
       }
@@ -589,9 +620,11 @@ object BusinessRules {
   }
 
   //Fonction qui renvoie le type du devoiement1 (Affiche ou non Affiché)
-  def getTypeDevoiement(seqTgaTgd: Seq[TgaTgdInput], devoiementInfo: Seq[(String,Int)], devoiementNumber: Int): String = {
+  def getTypeDevoiement(seqTgaTgd: Seq[TgaTgdInput],
+                        devoiementInfo: Seq[(String, Int)],
+                        devoiementNumber: Int): String = {
 
-    try{
+    try {
 
       if (devoiementInfo.size <= devoiementNumber) {
         // Valeur par défaut
@@ -607,8 +640,7 @@ object BusinessRules {
           voie_1 + "-" + voie_2 + "-" + "Non_Affiche"
         }
       }
-    }
-    catch {
+    } catch {
       case e: Throwable => {
         // Retour d'une valeur par défaut
         ""
@@ -623,10 +655,8 @@ object BusinessRules {
       val etat_train = getEtatTrain(seqTgaTgd)
       // si le train est supperimé le denier
       if (etat_train == "SUP") {
-       0
-      }
-      else {
-
+        0
+      } else {
 
         val dernier_affichage = seqTgaTgd
           .sortBy(_.maj)
@@ -634,12 +664,15 @@ object BusinessRules {
           .groupBy(_.voie)
           .toSeq
           .map(row => (row._1, row._2.maxBy(_.maj)))
-          .sortBy(_._2.maj).reverse.head._2.maj
+          .sortBy(_._2.maj)
+          .reverse
+          .head
+          ._2
+          .maj
 
         dernier_affichage
       }
-    }
-    catch {
+    } catch {
       case e: Throwable => {
         // Retour d'une valeur par défaut
         0l
@@ -649,10 +682,9 @@ object BusinessRules {
 
   //Fonction qui renvoie la date a laquelle le batch s'est lancé pour un trajet
   def getDateProcess(timeToProcess: DateTime): Long = {
-    try{
+    try {
       timeToProcess.getMillis / 1000
-    }
-    catch {
+    } catch {
       case e: Throwable => {
         // Retour d'une valeur par défaut
         0l
@@ -660,9 +692,10 @@ object BusinessRules {
     }
   }
 
-
   // Fonction pour gérer les rejets de cycle et les renvoyer comme tel
-  def manageInvalidateCycle(cycleId: String, seqTgaTgd: Seq[TgaTgdInput], rejectReason: String): TgaTgdIntermediate ={
+  def manageInvalidateCycle(cycleId: String,
+                            seqTgaTgd: Seq[TgaTgdInput],
+                            rejectReason: String): TgaTgdIntermediate = {
 
     val cycleIdInv = "INV_" + cycleId
     TgaTgdIntermediate(

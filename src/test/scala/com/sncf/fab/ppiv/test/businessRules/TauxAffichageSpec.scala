@@ -40,7 +40,7 @@ This is a specification for the "getTauxAffichage"
 
 
     def e1 =  BusinessConversion.getTauxAffichage(dureeAffichage1)  must beEqualTo(0)
-    def e2 =  BusinessConversion.getTauxAffichage(dureeAffichage2)  must beEqualTo(1)
+    def e2 =  BusinessConversion.getTauxAffichage(dureeAffichage2)  must beEqualTo(0)
 
 
 
