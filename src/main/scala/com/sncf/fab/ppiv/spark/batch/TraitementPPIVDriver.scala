@@ -169,7 +169,7 @@ object TraitementPPIVDriver extends Serializable {
 
       LOGGER.warn(" Taille du fichier de sortie en Byte : " +  SizeEstimator.estimate(ivTgaTgd.rdd))
 
-      LOGGER.warn("temps d'execution en secondes: " + ((Conversion.nowToDateTime().getMillis - startTimePipeline.getMillis) / 1000 ))
+      LOGGER.warn("Durée d'execution en secondes: " + ((Conversion.nowToDateTime().getMillis - startTimePipeline.getMillis) / 1000 ))
 
 
     }
