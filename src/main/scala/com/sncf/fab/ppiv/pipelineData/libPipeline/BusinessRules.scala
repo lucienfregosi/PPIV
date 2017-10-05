@@ -331,60 +331,68 @@ object BusinessRules {
   //Fonction qui renvoie la date de l'affichage du retard por la première fois
   def getAffichageRetard(seqTgaTgd: Seq[TgaTgdInput]): Long = {
 
-    try{
-      // Tri sur les horaires d'évènements en croissant puis filtre sur la colonne retard
-      val seqFiltered = seqTgaTgd
-        .sortBy(x => x.maj)
-        .filter(x => (x.retard != null) && (x.retard != "") && (x.retard != "0"))
-        .sortBy(x => x.maj)
+    // si pas de retrad au moment du depart du train alors pas de retard
+    val retardMomentDepart = seqTgaTgd.sortBy(x => x.maj).filter(x=> x.maj  <=x.heure).last.retard
+    if (retardMomentDepart == null  || retardMomentDepart == "" || retardMomentDepart == "0"){
+      0} else {
+      try{
+        // Tri sur les horaires d'évènements en croissant puis filtre sur la colonne retard
+        val seqFiltered = seqTgaTgd
+          .sortBy(x => x.maj)
+          .filter(x => (x.retard != null) && (x.retard != "") && (x.retard != "0"))
+          .sortBy(x => x.maj)
 
-      // Si pas de lignes retournée => pas de retard on revoie 0
-      if (seqFiltered.isEmpty) {
-        0
-      } else {
-        // On veut récupérer la date d'évènement à laquel on a affiché le retard
+        // Si pas de lignes retournée => pas de retard on revoie 0
+        if (seqFiltered.isEmpty) {
+          0
+        } else {
+          // On veut récupérer la date d'évènement à laquel on a affiché le retard
 
-        val groupByRetardTmp = seqFiltered
-          .sortBy(_.maj)
-          .map(x => (x.retard, x.maj))
-          .groupBy(_._1)
-
-
-        // On ne traite pas pareil le retard si on a un ou plusieurs retards au cours du cycle
-        if(groupByRetardTmp.size == 1){
-          seqFiltered.groupBy(_.retard).map(x => (x._1.toLong, x._2))
-            .map(x => (x._1, x._2.minBy(_.maj).maj)).toSeq
-            .sortBy(_._1).reverse(0)._2
-        }
-        else{
-
-          // On a le format de données (retard, max(maj), min(maj), Seq(maj))
-          val groupByRetard = groupByRetardTmp.map(x => (x._1, x._2.maxBy(_._2)._2, x._2.minBy(_._2)._2, x._2.map(y => y._2)))
-            .toSeq
-            .sortBy(_._2)
-            .reverse
-
-          // On extrait les deux premier retards
-          val retardMax        = groupByRetard.take(1).last
-          val retardMaxMoinsUn = groupByRetard.take(2).last
-
-          // On récupère le maj max pour le retard n - 1
-          val majMaxRetardMoinsUn = retardMaxMoinsUn._2
-
-          // On filtre les évènements qui se passe après cette data
-          val retardMaxFiltered = retardMax._4.toList.filter(_ >= majMaxRetardMoinsUn)
+          val groupByRetardTmp = seqFiltered
+            .sortBy(_.maj)
+            .map(x => (x.retard, x.maj))
+            .groupBy(_._1)
 
 
-          retardMaxFiltered.min
+          // On ne traite pas pareil le retard si on a un ou plusieurs retards au cours du cycle
+          if(groupByRetardTmp.size == 1){
+            seqFiltered.groupBy(_.retard).map(x => (x._1.toLong, x._2))
+              .map(x => (x._1, x._2.minBy(_.maj).maj)).toSeq
+              .sortBy(_._1).reverse(0)._2
+          }
+          else{
+
+            // On a le format de données (retard, max(maj), min(maj), Seq(maj))
+            val groupByRetard = groupByRetardTmp.map(x => (x._1, x._2.maxBy(_._2)._2, x._2.minBy(_._2)._2, x._2.map(y => y._2)))
+              .toSeq
+              .sortBy(_._2)
+              .reverse
+
+            // On extrait les deux premier retards
+            val retardMax        = groupByRetard.take(1).last
+            val retardMaxMoinsUn = groupByRetard.take(2).last
+
+            // On récupère le maj max pour le retard n - 1
+            val majMaxRetardMoinsUn = retardMaxMoinsUn._2
+
+            // On filtre les évènements qui se passe après cette data
+            val retardMaxFiltered = retardMax._4.toList.filter(_ >= majMaxRetardMoinsUn)
+
+
+            retardMaxFiltered.min
+          }
         }
       }
-    }
-    catch {
-      case e: Throwable => {
-        // Retour d'une valeur par défaut
-        0
+      catch {
+        case e: Throwable => {
+          // Retour d'une valeur par défaut
+          0
+        }
       }
+
     }
+
+
   }
   // Fonction qui renvoie la durée de l'affichage du retrad (si pas de retard  elle renvoie 0)
   def getAffichageDureeRetard(seqTgaTgd: Seq[TgaTgdInput]): Long = {
