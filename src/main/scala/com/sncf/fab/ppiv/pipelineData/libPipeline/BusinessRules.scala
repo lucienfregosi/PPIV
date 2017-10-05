@@ -143,60 +143,68 @@ object BusinessRules {
   // Retourne 0 si pas de retard ou le retard dans le cas échéant en secondes
   def getCycleRetard(dsTgaTgd: Seq[TgaTgdInput]): Long = {
 
-    // Tri sur les horaires d'évènements en croissant puis filtre sur la colonne retard
-    val seqFiltered = dsTgaTgd
-      .sortBy(x => x.maj)
-      .filter(x => (x.retard != null) && (x.retard != "") && (x.retard != "0"))
-
-    // Si pas de lignes retournée => pas de retard on revoie 0
-    if (seqFiltered.isEmpty) {
+    // si pas de retrad au moment du depart du train alors pas de retard
+    val retardMomentDepart = dsTgaTgd.sortBy(x => x.maj).filter(x=> x.maj  <=x.heure).last.retard
+        if (retardMomentDepart == null  || retardMomentDepart == "" || retardMomentDepart == "0"){
       0
     } else {
+          // Tri sur les horaires d'évènements en croissant puis filtre sur la colonne retard
+          val seqFiltered = dsTgaTgd
+            .sortBy(x => x.maj)
+            .filter(x => (x.retard != null) && (x.retard != "") && (x.retard != "0"))
+
+          // Si pas de lignes retournée => pas de retard on revoie 0
+          if (seqFiltered.isEmpty) {
+            0
+          } else {
 
 
-      // La structure de données en input en enlevant les colonnes ou le retard est nul est la suivante
-      // 5, 5, 5, 5, 10, 10, 15, 15
+            // La structure de données en input en enlevant les colonnes ou le retard est nul est la suivante
+            // 5, 5, 5, 5, 10, 10, 15, 15
 
 
-      /*
-      // On groupe les retards ensemble et on sélectionne le plus grand (on part de l'hypothèse que les retards sont croissants)
-      // Pour le retard le plus grand on sélectionne son maj (heure d'évènement le plus petit) pour avoir le moment
-      // précis ou le dernier retard a été affiché en gare
+            /*
+            // On groupe les retards ensemble et on sélectionne le plus grand (on part de l'hypothèse que les retards sont croissants)
+            // Pour le retard le plus grand on sélectionne son maj (heure d'évènement le plus petit) pour avoir le moment
+            // précis ou le dernier retard a été affiché en gare
 
 
-      val minuteRetard = seqFiltered
-        .groupBy(_.retard)
-        .map(x => (x._1.toLong, x._2))
-        .map(x => (x._1, x._2.minBy(_.maj).maj)).toSeq
-        .sortBy(_._1)
-        .reverse(0)
-        ._1
+            val minuteRetard = seqFiltered
+              .groupBy(_.retard)
+              .map(x => (x._1.toLong, x._2))
+              .map(x => (x._1, x._2.minBy(_.maj).maj)).toSeq
+              .sortBy(_._1)
+              .reverse(0)
+              ._1
 
 
-      */
+            */
 
-      // On prend maintenant en compte l'hypothèse que le retard peut augmenter à nouveau
-      // On doit donc modifier le fonctionnement de notre fonction
+            // On prend maintenant en compte l'hypothèse que le retard peut augmenter à nouveau
+            // On doit donc modifier le fonctionnement de notre fonction
 
-      val minutesRetard = seqFiltered
-        .sortBy(_.maj)
-        .map(x => (x.retard, x.maj))
-        .groupBy(_._1)
-        // On a le format de données (retard, max(maj), min(maj), Seq(maj))
-        .map(x => (x._1, x._2.maxBy(_._2)._2, x._2.minBy(_._2)._2, x._2.map(y => y._2)))
-        .toSeq
-        .sortBy(_._2)
-        .reverse
-        .map(x => x._1.toLong)
-        .take(1)
-        .last
+            val minutesRetard = seqFiltered
+              .sortBy(_.maj)
+              .map(x => (x.retard, x.maj))
+              .groupBy(_._1)
+              // On a le format de données (retard, max(maj), min(maj), Seq(maj))
+              .map(x => (x._1, x._2.maxBy(_._2)._2, x._2.minBy(_._2)._2, x._2.map(y => y._2)))
+              .toSeq
+              .sortBy(_._2)
+              .reverse
+              .map(x => x._1.toLong)
+              .take(1)
+              .last
 
 
 
-      // Multipliation par 60 pour renvoyer un résultat en secondes
-      minutesRetard * 60
+            // Multipliation par 60 pour renvoyer un résultat en secondes
+            minutesRetard * 60
 
-    }
+          }
+        }
+
+
   }
 
   // Fonction qui renvoie la date de premier affichage de la voie en timestamp pour un cycle donné
